@@ -1,0 +1,130 @@
+{
+  "category_slug": "reptile",
+  "disclaimer": "Mayoritas penyakit reptil berakar pada HUSBANDRY (suhu, UVB, kelembapan, diet). Reptil ektotermik — koreksi suhu/UVB adalah bagian terapi. Banyak reptil pembawa Salmonella (zoonosis).",
+  "diseases": [
+    {
+      "slug": "reptile-metabolic-bone-disease",
+      "name": "Metabolic Bone Disease (MBD)",
+      "name_id": "Metabolic Bone Disease (MBD)",
+      "etiology": "nutritional",
+      "body_system": "musculoskeletal",
+      "default_severity": "severe",
+      "overview": "Gangguan metabolisme kalsium akibat defisiensi kalsium/vit D3/UVB menyebabkan tulang lemah & deformitas.",
+      "causes": "Kurang UVB, rasio Ca:P salah, defisiensi vitamin D3, suhu tidak optimal.",
+      "prevention": "Lampu UVB tepat & rutin ganti, suplementasi kalsium, diet seimbang, suhu basking benar.",
+      "prognosis": "Kasus ringan reversibel dengan koreksi; deformitas berat permanen.",
+      "breed_susceptibility": [
+        {"breed_slug": "reptile-bearded-dragon", "risk": "very_high", "age_onset": "juvenil"},
+        {"breed_slug": "reptile-green-iguana", "risk": "very_high"},
+        {"breed_slug": "reptile-leopard-gecko", "risk": "high"},
+        {"breed_slug": "reptile-red-eared-slider", "risk": "high"}
+      ],
+      "symptoms": [
+        {"name": "Soft/rubbery jaw", "name_id": "Rahang lunak/bengkok (rubber jaw)", "body_system": "musculoskeletal", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Bowed or swollen limbs", "name_id": "Kaki bengkok/bengkak", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Tremors / twitching", "name_id": "Gemetar/kedutan otot (hipokalsemia)", "body_system": "nervous", "frequency": "moderate", "is_red_flag": true},
+        {"name": "Difficulty walking / lethargy", "name_id": "Sulit berjalan / lemas", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Pathological fractures", "name_id": "Tulang mudah patah", "body_system": "musculoskeletal", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Riwayat husbandry (UVB/diet/suhu)", "type": "history_taking", "is_gold_standard": false, "step_order": 1, "expected_finding": "Defisit UVB/kalsium"},
+        {"name": "Radiografi", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Densitas tulang menurun, fraktur, deformitas"},
+        {"name": "Kalsium darah ionik", "type": "blood_test", "step_order": 3, "expected_finding": "Hipokalsemia"}
+      ],
+      "treatments": [
+        {
+          "name": "Koreksi husbandry + terapi kalsium",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Pasang/koreksi UVB (UVB 10.0 untuk basker) & suhu basking. 2) Suplementasi kalsium (oral/injeksi pada akut). 3) Vitamin D3 sesuai. 4) Perbaiki diet & rasio Ca:P. 5) Kandang aman cegah fraktur. 6) Kasus akut hipokalsemia = darurat.",
+          "recommendation": "Tanpa koreksi UVB & diet, suplemen saja tidak cukup. Tremor = hipokalsemia akut, segera ke vet.",
+          "products": [
+            {"name": "Calcium glubionate (oral)", "kind": "supplement", "active_ingredient": "Kalsium", "route": "oral", "dosage_guide": "Sesuai BB harian", "cautions": "Akut bisa injeksi oleh vet."},
+            {"name": "Calcium gluconate (injeksi)", "kind": "medication", "active_ingredient": "Calcium gluconate", "route": "injeksi", "dosage_guide": "Untuk hipokalsemia akut/tremor", "cautions": "Oleh dokter hewan."},
+            {"name": "Bubuk kalsium + D3 dusting", "kind": "supplement", "active_ingredient": "Calcium carbonate + D3", "route": "taburkan pada pakan", "dosage_guide": "Sesuai jadwal spesies", "cautions": "Jangan overdosis D3."},
+            {"name": "Lampu UVB reptil", "kind": "medical_device", "active_ingredient": "UVB 5.0/10.0", "route": "kandang", "dosage_guide": "Ganti tiap 6-12 bulan", "cautions": "Jarak & durasi sesuai spesies."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "reptile-respiratory-infection",
+      "name": "Respiratory Infection",
+      "name_id": "Infeksi Saluran Napas (RI)",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "default_severity": "severe",
+      "overview": "Infeksi paru/saluran napas, umumnya akibat suhu terlalu rendah & kelembapan tidak tepat.",
+      "causes": "Bakteri (sering gram negatif), suhu di bawah optimal, ventilasi/kelembapan buruk.",
+      "prevention": "Pertahankan gradien suhu & kelembapan spesies-spesifik, kandang bersih.",
+      "prognosis": "Baik bila dini + koreksi suhu; berat bila pneumonia.",
+      "breed_susceptibility": [
+        {"breed_slug": "reptile-ball-python", "risk": "moderate"},
+        {"breed_slug": "reptile-bearded-dragon", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Open-mouth breathing", "name_id": "Bernapas dengan mulut terbuka", "body_system": "respiratory", "frequency": "high", "is_red_flag": true},
+        {"name": "Mucus/bubbles from nose/mouth", "name_id": "Lendir/gelembung dari hidung/mulut", "body_system": "respiratory", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Wheezing/clicking sounds", "name_id": "Suara mengi/berbunyi saat napas", "body_system": "respiratory", "frequency": "moderate"},
+        {"name": "Lethargy & loss of appetite", "name_id": "Lesu & tak mau makan", "body_system": "systemic", "frequency": "high"},
+        {"name": "Stargazing/elevated head", "name_id": "Mengangkat kepala untuk bernapas", "body_system": "respiratory", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Riwayat husbandry + klinis", "type": "history_taking", "step_order": 1, "expected_finding": "Suhu rendah, discharge"},
+        {"name": "Radiografi/CT toraks", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Konsolidasi paru"},
+        {"name": "Kultur & sensitivitas", "type": "culture_sensitivity", "step_order": 3, "expected_finding": "Bakteri penyebab + antibiogram"}
+      ],
+      "treatments": [
+        {
+          "name": "Antibiotik + naikkan suhu (optimal temperature zone)",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Naikkan suhu ke ujung atas zona spesies (boost imun). 2) Antibiotik sesuai kultur. 3) Cairan/nebulisasi. 4) Dukungan nutrisi. 5) Perbaiki ventilasi/kelembapan.",
+          "recommendation": "Suhu optimal wajib bersamaan antibiotik; tanpa itu antibiotik kurang efektif.",
+          "products": [
+            {"name": "Enrofloxacin", "kind": "medication", "active_ingredient": "Enrofloxacin", "route": "injeksi/oral", "dosage_guide": "5-10 mg/kg sesuai spesies", "cautions": "Iritasi jaringan bila injeksi pekat — rotasi lokasi."},
+            {"name": "Ceftazidime", "kind": "medication", "active_ingredient": "Ceftazidime", "route": "injeksi", "dosage_guide": "20 mg/kg tiap 72 jam", "cautions": "Pilihan untuk gram negatif."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "reptile-shell-rot",
+      "name": "Shell Rot (Ulcerative Shell Disease)",
+      "name_id": "Busuk Tempurung (Shell Rot)",
+      "etiology": "infectious_bacterial",
+      "body_system": "integumentary",
+      "default_severity": "moderate",
+      "overview": "Infeksi bakteri/jamur pada tempurung kura-kura akibat trauma & kondisi air/lembap kotor.",
+      "causes": "Air kotor, basking kurang, trauma karapas, kelembapan tinggi terus-menerus.",
+      "prevention": "Air bersih + filtrasi, area basking kering & UVB, hindari trauma.",
+      "prognosis": "Baik bila superfisial; serius bila menembus tulang tempurung.",
+      "breed_susceptibility": [
+        {"breed_slug": "reptile-red-eared-slider", "risk": "high"}
+      ],
+      "symptoms": [
+        {"name": "Soft/discolored shell patches", "name_id": "Tempurung lunak/berubah warna", "body_system": "integumentary", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Foul odor", "name_id": "Bau busuk", "body_system": "integumentary", "frequency": "moderate"},
+        {"name": "Pitting/lesions", "name_id": "Lubang/erosi pada tempurung", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Discharge/pus under scutes", "name_id": "Nanah di bawah sisik tempurung", "body_system": "integumentary", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Inspeksi tempurung", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Lesi ulseratif/pelunakan"},
+        {"name": "Kultur (kasus dalam)", "type": "culture_sensitivity", "step_order": 2, "expected_finding": "Patogen penyebab"}
+      ],
+      "treatments": [
+        {
+          "name": "Debridemen + antiseptik + perbaikan air",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Bersihkan & debridemen jaringan mati. 2) Antiseptik topikal (povidone-iodine/chlorhexidine). 3) Dry-docking (waktu di darat lebih lama). 4) Perbaiki kualitas air & basking/UVB. 5) Antibiotik sistemik bila dalam.",
+          "recommendation": "Perbaikan lingkungan air + basking adalah kunci; kasus dalam butuh antibiotik sistemik.",
+          "products": [
+            {"name": "Povidone-iodine / chlorhexidine", "kind": "disinfectant", "active_ingredient": "Povidone-iodine", "route": "topikal", "dosage_guide": "Encerkan, oles area lesi", "cautions": "Jangan kena mata."},
+            {"name": "Silver sulfadiazine cream", "kind": "medication", "active_ingredient": "Silver sulfadiazine", "route": "topikal", "dosage_guide": "Oles tipis setelah debridemen", "cautions": "Untuk lesi terbuka."}
+          ]
+        }
+      ]
+    }
+  ]
+}

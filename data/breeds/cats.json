@@ -1,0 +1,180 @@
+{
+  "category_slug": "cat",
+  "breeds": [
+    {
+      "slug": "cat-persian",
+      "name": "Persian",
+      "name_id": "Persia",
+      "origin_country": "Iran",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 6,
+      "height_cm_min": 25, "height_cm_max": 38,
+      "lifespan_years_min": 12, "lifespan_years_max": 17,
+      "temperament": "Tenang, manja, suka di dalam rumah.",
+      "coat_type": "Bulu panjang tebal",
+      "care_level": "high",
+      "variants": [
+        {"name": "Solid White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Calico", "variant_type": "pattern"},
+        {"name": "Tabby", "variant_type": "pattern"},
+        {"name": "Himalayan (Colorpoint)", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes"},
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "pkd_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "cat-maine-coon",
+      "name": "Maine Coon",
+      "name_id": "Maine Coon",
+      "origin_country": "United States",
+      "size_class": "large",
+      "weight_kg_min": 5, "weight_kg_max": 11,
+      "height_cm_min": 25, "height_cm_max": 41,
+      "lifespan_years_min": 10, "lifespan_years_max": 15,
+      "temperament": "Ramah, cerdas, 'gentle giant'.",
+      "coat_type": "Bulu panjang shaggy",
+      "care_level": "high",
+      "variants": [
+        {"name": "Brown Tabby", "variant_type": "pattern"},
+        {"name": "Silver Tabby", "variant_type": "pattern"},
+        {"name": "Solid Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "hcm_risk", "trait_value": "high"},
+        {"trait_key": "hip_dysplasia_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "cat-siamese",
+      "name": "Siamese",
+      "name_id": "Siam",
+      "origin_country": "Thailand",
+      "size_class": "small",
+      "weight_kg_min": 2.5, "weight_kg_max": 5,
+      "height_cm_min": 20, "height_cm_max": 25,
+      "lifespan_years_min": 12, "lifespan_years_max": 20,
+      "temperament": "Vokal, sosial, cerdas, butuh perhatian.",
+      "coat_type": "Bulu pendek colorpoint",
+      "care_level": "low",
+      "variants": [
+        {"name": "Seal Point", "variant_type": "pattern"},
+        {"name": "Blue Point", "variant_type": "pattern"},
+        {"name": "Chocolate Point", "variant_type": "pattern"},
+        {"name": "Lilac Point", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "vocalization", "trait_value": "very_high"},
+        {"trait_key": "asthma_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "cat-british-shorthair",
+      "name": "British Shorthair",
+      "name_id": "British Shorthair",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 4, "weight_kg_max": 8,
+      "height_cm_min": 30, "height_cm_max": 35,
+      "lifespan_years_min": 12, "lifespan_years_max": 17,
+      "temperament": "Tenang, mandiri, tidak terlalu manja.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "low",
+      "variants": [
+        {"name": "British Blue", "variant_type": "color", "hex_color": "#7C8AA0"},
+        {"name": "Lilac", "variant_type": "color"},
+        {"name": "Golden", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "hcm_risk", "trait_value": "moderate"},
+        {"trait_key": "obesity_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "cat-ragdoll",
+      "name": "Ragdoll",
+      "name_id": "Ragdoll",
+      "origin_country": "United States",
+      "size_class": "large",
+      "weight_kg_min": 4.5, "weight_kg_max": 9,
+      "height_cm_min": 23, "height_cm_max": 28,
+      "lifespan_years_min": 12, "lifespan_years_max": 17,
+      "temperament": "Sangat jinak, lembek saat digendong, penyayang.",
+      "coat_type": "Bulu semi-panjang halus",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Seal Colorpoint", "variant_type": "pattern"},
+        {"name": "Blue Bicolor", "variant_type": "pattern"},
+        {"name": "Mitted", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "hcm_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "cat-scottish-fold",
+      "name": "Scottish Fold",
+      "name_id": "Scottish Fold",
+      "origin_country": "Scotland",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 6,
+      "height_cm_min": 20, "height_cm_max": 25,
+      "lifespan_years_min": 11, "lifespan_years_max": 15,
+      "temperament": "Manis, tenang, telinga melipat khas.",
+      "coat_type": "Pendek/panjang",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Tabby", "variant_type": "pattern"},
+        {"name": "Solid", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "osteochondrodysplasia_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "cat-sphynx",
+      "name": "Sphynx",
+      "name_id": "Sphynx",
+      "origin_country": "Canada",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 5,
+      "height_cm_min": 20, "height_cm_max": 25,
+      "lifespan_years_min": 8, "lifespan_years_max": 14,
+      "temperament": "Energik, sosial, butuh kehangatan.",
+      "coat_type": "Tanpa bulu (hairless)",
+      "care_level": "high",
+      "variants": [
+        {"name": "Pink Skin", "variant_type": "color", "hex_color": "#F2C9B0"}
+      ],
+      "traits": [
+        {"trait_key": "skin_care_need", "trait_value": "very_high"},
+        {"trait_key": "hcm_risk", "trait_value": "high"},
+        {"trait_key": "cold_intolerance", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "cat-domestic-shorthair",
+      "name": "Domestic Shorthair",
+      "name_id": "Kucing Kampung / Domestik",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 6,
+      "height_cm_min": 23, "height_cm_max": 30,
+      "lifespan_years_min": 12, "lifespan_years_max": 18,
+      "temperament": "Bervariasi, umumnya sehat & adaptif.",
+      "coat_type": "Bulu pendek",
+      "care_level": "low",
+      "variants": [
+        {"name": "Tabby", "variant_type": "pattern"},
+        {"name": "Tuxedo", "variant_type": "pattern"},
+        {"name": "Calico", "variant_type": "pattern"},
+        {"name": "Orange", "variant_type": "color", "hex_color": "#E8853A"}
+      ],
+      "traits": [
+        {"trait_key": "hybrid_vigor", "trait_value": "yes"}
+      ]
+    }
+  ]
+}

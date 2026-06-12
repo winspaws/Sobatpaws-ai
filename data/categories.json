@@ -1,0 +1,106 @@
+{
+  "$schema": "../schemas/categories.schema.json",
+  "description": "Master kategori spesies hewan peliharaan untuk platform Sobatpaws.",
+  "categories": [
+    {
+      "slug": "dog",
+      "name": "Dog",
+      "name_id": "Anjing",
+      "species_class": "mammal",
+      "scientific_name": "Canis lupus familiaris",
+      "description": "Mamalia karnivora domestikasi paling umum sebagai hewan pendamping & penjaga.",
+      "avg_lifespan_years_min": 10,
+      "avg_lifespan_years_max": 16
+    },
+    {
+      "slug": "cat",
+      "name": "Cat",
+      "name_id": "Kucing",
+      "species_class": "mammal",
+      "scientific_name": "Felis catus",
+      "description": "Mamalia karnivora obligat, hewan pendamping populer dengan perilaku teritorial.",
+      "avg_lifespan_years_min": 12,
+      "avg_lifespan_years_max": 18
+    },
+    {
+      "slug": "rabbit",
+      "name": "Rabbit",
+      "name_id": "Kelinci",
+      "species_class": "mammal",
+      "scientific_name": "Oryctolagus cuniculus",
+      "description": "Mamalia herbivora lagomorpha, gigi tumbuh terus & saluran cerna sensitif.",
+      "avg_lifespan_years_min": 8,
+      "avg_lifespan_years_max": 12
+    },
+    {
+      "slug": "hamster",
+      "name": "Hamster",
+      "name_id": "Hamster",
+      "species_class": "mammal",
+      "scientific_name": "Cricetinae",
+      "description": "Rodensia kecil nokturnal dengan kantung pipi, rentan stres & penyakit metabolik.",
+      "avg_lifespan_years_min": 2,
+      "avg_lifespan_years_max": 3
+    },
+    {
+      "slug": "poultry",
+      "name": "Poultry / Bird",
+      "name_id": "Unggas",
+      "species_class": "bird",
+      "scientific_name": "Aves",
+      "description": "Unggas peliharaan & ternak (ayam, bebek, burung kicau, merpati) — rentan penyakit pernapasan menular.",
+      "avg_lifespan_years_min": 5,
+      "avg_lifespan_years_max": 15
+    },
+    {
+      "slug": "fish",
+      "name": "Fish",
+      "name_id": "Ikan",
+      "species_class": "fish",
+      "scientific_name": "Pisces",
+      "description": "Ikan akuarium air tawar & laut; kesehatan sangat terkait kualitas air.",
+      "avg_lifespan_years_min": 3,
+      "avg_lifespan_years_max": 20
+    },
+    {
+      "slug": "reptile",
+      "name": "Reptile",
+      "name_id": "Reptil",
+      "species_class": "reptile",
+      "scientific_name": "Reptilia",
+      "description": "Reptil ektotermik (kura-kura, kadal, ular, iguana); butuh husbandry suhu & UVB tepat.",
+      "avg_lifespan_years_min": 5,
+      "avg_lifespan_years_max": 50
+    },
+    {
+      "slug": "amphibian",
+      "name": "Amphibian",
+      "name_id": "Amfibi",
+      "species_class": "amphibian",
+      "scientific_name": "Amphibia",
+      "description": "Amfibi (katak, salamander, axolotl) — kulit permeabel, sangat sensitif kualitas air & toksin.",
+      "avg_lifespan_years_min": 5,
+      "avg_lifespan_years_max": 15
+    },
+    {
+      "slug": "ferret",
+      "name": "Ferret",
+      "name_id": "Musang Ferret",
+      "species_class": "mammal",
+      "scientific_name": "Mustela putorius furo",
+      "description": "Karnivora kecil aktif, rentan penyakit adrenal & insulinoma.",
+      "avg_lifespan_years_min": 6,
+      "avg_lifespan_years_max": 10
+    },
+    {
+      "slug": "guinea_pig",
+      "name": "Guinea Pig",
+      "name_id": "Marmut",
+      "species_class": "mammal",
+      "scientific_name": "Cavia porcellus",
+      "description": "Rodensia herbivora yang tidak bisa sintesis vitamin C — rentan scurvy.",
+      "avg_lifespan_years_min": 5,
+      "avg_lifespan_years_max": 8
+    }
+  ]
+}

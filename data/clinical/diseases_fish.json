@@ -1,0 +1,127 @@
+{
+  "category_slug": "fish",
+  "disclaimer": "Sebagian besar penyakit ikan berakar pada KUALITAS AIR. Selalu uji parameter air (amonia, nitrit, nitrat, pH, suhu) sebelum & selama pengobatan. Dosis obat per volume air.",
+  "diseases": [
+    {
+      "slug": "fish-ich-white-spot",
+      "name": "Ich / White Spot Disease",
+      "name_id": "White Spot (Ich / Bintik Putih)",
+      "etiology": "parasitic_external",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "default_severity": "moderate",
+      "overview": "Parasit protozoa membentuk bintik putih seperti garam pada tubuh & sirip; penyakit ikan paling umum.",
+      "causes": "Ichthyophthirius multifiliis; dipicu stres & penurunan suhu/kualitas air.",
+      "prevention": "Karantina ikan baru, jaga suhu stabil, kualitas air optimal.",
+      "prognosis": "Baik bila diobati dini; fatal bila menyerang insang masif.",
+      "breed_susceptibility": [
+        {"breed_slug": "fish-goldfish", "risk": "high"},
+        {"breed_slug": "fish-guppy", "risk": "moderate"},
+        {"breed_slug": "fish-betta", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "White salt-like spots", "name_id": "Bintik putih seperti garam", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
+        {"name": "Flashing/rubbing on objects", "name_id": "Menggosok tubuh ke benda", "body_system": "behavioral", "frequency": "high"},
+        {"name": "Clamped fins", "name_id": "Sirip mengatup", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Rapid gill movement", "name_id": "Insang bergerak cepat (megap)", "body_system": "respiratory", "frequency": "moderate", "is_red_flag": true},
+        {"name": "Lethargy / loss of appetite", "name_id": "Lesu & tidak nafsu makan", "body_system": "systemic", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Inspeksi visual", "type": "physical_exam", "step_order": 1, "expected_finding": "Bintik putih khas"},
+        {"name": "Mikroskopi kerokan lendir", "type": "skin_scraping", "is_gold_standard": true, "step_order": 2, "expected_finding": "Trofozoit bersilia (ciliata) berputar"},
+        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 3, "expected_finding": "Pemicu stres (suhu/amonia)"}
+      ],
+      "treatments": [
+        {
+          "name": "Naikkan suhu + obat anti-ich + garam",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Naikkan suhu bertahap (28-30C) untuk percepat siklus parasit. 2) Obat anti-ich (malachite green/formalin) sesuai volume. 3) Garam akuarium (spesies toleran). 4) Aerasi ekstra. 5) Ganti air parsial rutin & ulang dosis sesuai siklus.",
+          "recommendation": "Obati seluruh akuarium (parasit di air); parasit hanya rentan obat saat fase berenang bebas.",
+          "products": [
+            {"name": "Malachite green + formalin", "kind": "medication", "active_ingredient": "Malachite green, formaldehyde", "route": "air akuarium", "dosage_guide": "Sesuai label per liter, ulang tiap 2-3 hari", "cautions": "Toksik untuk beberapa ikan tanpa sisik & invertebrata; kurangi dosis."},
+            {"name": "Garam ikan (aquarium salt)", "kind": "medication", "active_ingredient": "NaCl non-iodium", "route": "air akuarium", "dosage_guide": "1-3 g/L (spesies toleran)", "cautions": "Hati-hati ikan sensitif garam & tanaman."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "fish-fin-rot",
+      "name": "Fin Rot",
+      "name_id": "Busuk Sirip (Fin Rot)",
+      "etiology": "infectious_bacterial",
+      "body_system": "integumentary",
+      "default_severity": "moderate",
+      "overview": "Infeksi bakteri yang mengikis sirip & ekor, hampir selalu sekunder kualitas air buruk/stres.",
+      "causes": "Aeromonas/Pseudomonas; air kotor, amonia tinggi, luka, suhu tidak sesuai.",
+      "prevention": "Jaga kualitas air, hindari overcrowding & agresi, ganti air rutin.",
+      "prognosis": "Baik bila perbaiki air + antibakteri; berat bila sampai ke tubuh.",
+      "breed_susceptibility": [
+        {"breed_slug": "fish-betta", "risk": "high", "notes": "Sirip panjang mudah rusak & infeksi."},
+        {"breed_slug": "fish-goldfish", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Frayed/ragged fins", "name_id": "Sirip robek/compang-camping", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
+        {"name": "Red inflamed fin edges", "name_id": "Tepi sirip memerah", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Fins shrinking", "name_id": "Sirip menyusut/memendek", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Lethargy", "name_id": "Lesu", "body_system": "systemic", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Inspeksi visual sirip", "type": "physical_exam", "is_gold_standard": false, "step_order": 1, "expected_finding": "Tepi sirip nekrotik"},
+        {"name": "Uji parameter air", "type": "physical_exam", "is_gold_standard": true, "step_order": 2, "expected_finding": "Amonia/nitrit terdeteksi"}
+      ],
+      "treatments": [
+        {
+          "name": "Perbaikan air + antibakteri",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Ganti air parsial + perbaiki filtrasi (turunkan amonia/nitrit ke 0). 2) Garam akuarium (spesies toleran). 3) Antibakteri/antiseptik air. 4) Antibiotik bila berat. 5) Pisahkan bila ada agresi.",
+          "recommendation": "Kualitas air adalah obat utama; antibiotik hanya bila tidak membaik.",
+          "products": [
+            {"name": "Methylene blue / acriflavine", "kind": "medication", "active_ingredient": "Methylene blue", "route": "air/perendaman", "dosage_guide": "Sesuai label", "cautions": "Mewarnai air & dapat mengganggu bakteri filter."},
+            {"name": "Antibiotik akuatik (kanamycin/oxytetracycline)", "kind": "medication", "active_ingredient": "Oxytetracycline", "route": "air/pakan", "dosage_guide": "Sesuai label", "cautions": "Gunakan bijak, hindari resistensi."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "fish-dropsy",
+      "name": "Dropsy (Ascites)",
+      "name_id": "Dropsy (Sisik Nanas / Asites)",
+      "etiology": "infectious_bacterial",
+      "body_system": "systemic",
+      "default_severity": "critical",
+      "overview": "Penumpukan cairan tubuh menyebabkan perut bengkak & sisik berdiri (pinecone); tanda gagal organ/infeksi sistemik.",
+      "causes": "Infeksi bakteri sistemik (Aeromonas), gagal ginjal, kualitas air buruk, imunitas turun.",
+      "prevention": "Kualitas air prima, pakan berkualitas, hindari stres kronik.",
+      "prognosis": "Buruk (sering terlambat); pengobatan dini meningkatkan peluang.",
+      "breed_susceptibility": [
+        {"breed_slug": "fish-goldfish", "risk": "high"},
+        {"breed_slug": "fish-betta", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Pinecone scales", "name_id": "Sisik berdiri seperti nanas", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true, "is_red_flag": true},
+        {"name": "Swollen abdomen", "name_id": "Perut menggembung", "body_system": "systemic", "frequency": "very_high"},
+        {"name": "Bulging eyes", "name_id": "Mata menonjol", "body_system": "ophthalmic", "frequency": "moderate"},
+        {"name": "Lethargy & not eating", "name_id": "Lesu & tidak makan", "body_system": "systemic", "frequency": "high"}
+      ],
+      "diagnostics": [
+        {"name": "Inspeksi visual (pinecone)", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Sisik berdiri + asites"},
+        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 2, "expected_finding": "Faktor pemicu lingkungan"}
+      ],
+      "treatments": [
+        {
+          "name": "Isolasi + antibakteri + Epsom salt",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Isolasi ke karantina. 2) Epsom salt bath untuk tarik cairan. 3) Antibiotik akuatik (kanamycin + antibiotik gram negatif). 4) Optimalkan kualitas air & suhu. 5) Pakan bergizi/medicated.",
+          "recommendation": "Prognosis hati-hati; mulai sedini mungkin & isolasi untuk cegah penularan.",
+          "products": [
+            {"name": "Epsom salt (MgSO4)", "kind": "medication", "active_ingredient": "Magnesium sulfate", "route": "perendaman", "dosage_guide": "1-2 sdt per 4 L (bath)", "cautions": "Berbeda dari garam akuarium."},
+            {"name": "Kanamycin", "kind": "medication", "active_ingredient": "Kanamycin", "route": "air/pakan", "dosage_guide": "Sesuai label", "cautions": "Untuk infeksi gram negatif sistemik."}
+          ]
+        }
+      ]
+    }
+  ]
+}

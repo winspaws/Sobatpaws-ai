@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobatpaws — Panel Verifikasi Sistem</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+  <style>
+    :root {
+      --bg: #0f1420;
+      --panel: #181f2e;
+      --panel-2: #1f2838;
+      --border: #2a3445;
+      --text: #e7ecf3;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --err: #f87171;
+      --danger-bg: #3a1620;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: radial-gradient(1200px 600px at 80% -10%, #1b2740 0, var(--bg) 60%);
+      color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5; min-height: 100vh;
+    }
+    header {
+      padding: 22px 28px; display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0;
+      backdrop-filter: blur(8px); background: rgba(15,20,32,.72); z-index: 10;
+    }
+    header .logo { font-size: 30px; }
+    header h1 { font-size: 18px; margin: 0; font-weight: 650; }
+    header p { margin: 0; color: var(--muted); font-size: 13px; }
+    .grow { flex: 1; }
+    .btn {
+      border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+      padding: 9px 16px; border-radius: 10px; cursor: pointer; font-size: 14px;
+      font-weight: 550; transition: .15s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #06121f; }
+    .btn:disabled { opacity: .5; cursor: progress; transform: none; }
+    main { max-width: 1180px; margin: 0 auto; padding: 26px 22px 80px; }
+    h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 34px 0 14px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .card .head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .card .head .ttl { font-weight: 600; font-size: 15px; }
+    .card .icon { font-size: 20px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--muted); flex-shrink: 0; box-shadow: 0 0 0 4px rgba(255,255,255,.04); }
+    .dot.ok { background: var(--ok); box-shadow: 0 0 0 4px rgba(52,211,153,.18); }
+    .dot.warn { background: var(--warn); box-shadow: 0 0 0 4px rgba(251,191,36,.18); }
+    .dot.err { background: var(--err); box-shadow: 0 0 0 4px rgba(248,113,113,.18); }
+    .dot.loading { background: var(--accent); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .3 } }
+    .card .status-text { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .kv { font-size: 13px; display: flex; justify-content: space-between; padding: 3px 0; border-top: 1px dashed var(--border); }
+    .kv:first-of-type { border-top: none; }
+    .kv span:last-child { color: var(--text); font-variant-numeric: tabular-nums; font-weight: 550; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); color: var(--muted); }
+    .badge.ok { color: var(--ok); border-color: rgba(52,211,153,.4); }
+    .badge.warn { color: var(--warn); border-color: rgba(251,191,36,.4); }
+
+    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .panel h3 { margin: 0 0 4px; font-size: 16px; }
+    .panel .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 5px; font-weight: 550; }
+    select, input, textarea {
+      width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 9px; padding: 9px 11px; font-size: 14px; font-family: inherit;
+    }
+    select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 64px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; max-height: 168px; overflow-y: auto; padding: 4px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel-2); }
+    .chip { font-size: 12.5px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); cursor: pointer; user-select: none; transition: .12s; }
+    .chip:hover { border-color: var(--accent); }
+    .chip.on { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #06121f; border: none; font-weight: 600; }
+    .chip.red { border-color: rgba(248,113,113,.5); }
+    .chip.on.red { background: linear-gradient(135deg, #f87171, #fb7185); }
+    .muted { color: var(--muted); font-size: 12.5px; }
+
+    #result { margin-top: 18px; }
+    .result-block { margin-bottom: 16px; }
+    .result-block h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin: 0 0 8px; }
+    .item { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; font-size: 13.5px; }
+    .item .item-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .item .name { font-weight: 600; }
+    .item .meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .conf { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); }
+    .bar { height: 6px; border-radius: 4px; background: var(--border); margin-top: 6px; overflow: hidden; }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .emergency-banner { background: var(--danger-bg); border: 1px solid var(--err); color: #fecaca; padding: 12px 14px; border-radius: 10px; font-weight: 600; margin-bottom: 14px; }
+    .summary-box { background: var(--panel-2); border-left: 3px solid var(--accent); padding: 12px 14px; border-radius: 8px; margin-bottom: 14px; font-size: 14px; }
+    .warn-box { background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.4); padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; }
+    .disclaimer { font-size: 11.5px; color: var(--muted); margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border); }
+    .tag { font-size: 10.5px; padding: 1px 7px; border-radius: 6px; background: var(--border); color: var(--muted); }
+    .tag.em { background: rgba(248,113,113,.18); color: #fca5a5; }
+    .empty { color: var(--muted); font-size: 13px; padding: 20px; text-align: center; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 9px; margin-bottom: 16px; }
+    .tile { background: var(--panel-2); border: 1px solid var(--border); border-radius: 11px; padding: 11px 8px; text-align: center; }
+    .tile .num { font-size: 22px; font-weight: 750; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .tile .lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+    .cat-row { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+    .cat-head { display: flex; align-items: center; gap: 10px; padding: 11px 13px; cursor: pointer; user-select: none; transition: .12s; }
+    .cat-head:hover { background: rgba(56,189,248,.06); }
+    .cat-head .caret { color: var(--muted); transition: transform .15s; font-size: 11px; }
+    .cat-row.open .cat-head .caret { transform: rotate(90deg); }
+    .cat-head .cname { font-weight: 600; flex: 1; }
+    .pill { font-size: 11px; padding: 2px 9px; border-radius: 999px; background: var(--panel); border: 1px solid var(--border); color: var(--muted); white-space: nowrap; }
+    .pill b { color: var(--text); font-weight: 700; }
+    .cat-body { display: none; padding: 4px 13px 12px; border-top: 1px dashed var(--border); }
+    .cat-row.open .cat-body { display: block; }
+    .breed-line { padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+    .breed-line:last-child { border-bottom: none; }
+    .breed-line .bname { font-weight: 600; }
+    .variant-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+    .vchip { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(129,140,248,.12); border: 1px solid rgba(129,140,248,.35); color: #c7d2fe; }
+    .vchip .vt { color: var(--muted); font-size: 9.5px; text-transform: uppercase; margin-left: 4px; }
+    .no-variant { color: var(--muted); font-size: 11.5px; font-style: italic; }
+    .panel-wide { margin-top: 0; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+    .toolbar input, .toolbar select { width: auto; min-width: 140px; flex: 1; }
+    .toolbar .btn { flex-shrink: 0; }
+    .chart-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 18px; }
+    @media (max-width: 780px) { .chart-grid { grid-template-columns: 1fr; } }
+    .chart-box { background: var(--panel-2); border: 1px solid var(--border); border-radius: 11px; padding: 14px; }
+    .chart-box h4 { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .hbar { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 12.5px; }
+    .hbar .lbl { width: 72px; text-align: right; color: var(--muted); flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hbar .track { flex: 1; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
+    .hbar .fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); min-width: 2px; }
+    .hbar .val { width: 36px; font-variant-numeric: tabular-nums; font-weight: 650; color: var(--text); }
+    .type-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .type-chip { font-size: 12px; padding: 6px 10px; border-radius: 8px; background: var(--panel); border: 1px solid var(--border); }
+    .type-chip b { color: var(--accent); margin-left: 4px; }
+    .type-color { border-color: rgba(251,191,36,.45); }
+    .type-morph { border-color: rgba(129,140,248,.45); }
+    .type-pattern { border-color: rgba(52,211,153,.45); }
+    .type-size { border-color: rgba(248,113,113,.45); }
+    .leaderboard { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 18px; }
+    .lb-item { background: var(--panel-2); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; font-size: 12.5px; }
+    .lb-item .rank { color: var(--accent); font-weight: 750; margin-right: 6px; }
+    .lb-item .cat { color: var(--muted); font-size: 11px; display: block; margin-top: 2px; }
+    .data-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 11px; max-height: 420px; overflow-y: auto; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    table.data-table th { position: sticky; top: 0; background: var(--panel-2); text-align: left; padding: 9px 11px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--border); z-index: 1; }
+    table.data-table td { padding: 8px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    table.data-table tr:hover td { background: rgba(56,189,248,.04); }
+    table.data-table tr:last-child td { border-bottom: none; }
+    .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; border: 1px solid rgba(255,255,255,.25); margin-right: 4px; vertical-align: middle; }
+    .trait-mini { font-size: 10.5px; color: var(--muted); margin-top: 4px; }
+    .section-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .tab { padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel-2); cursor: pointer; font-size: 13px; color: var(--muted); }
+    .tab.on { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #06121f; border: none; font-weight: 600; }
+    .view-pane { display: none; }
+    .view-pane.on { display: block; }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: #06121f; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg) } }
+    footer { text-align: center; color: var(--muted); font-size: 12px; padding: 30px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="logo">🐾</span>
+    <div>
+      <h1>Sobatpaws — Panel Verifikasi Sistem</h1>
+      <p>Pastikan backend, data, AI, ML, & database berjalan dengan baik.</p>
+    </div>
+    <div class="grow"></div>
+    <button class="btn primary" id="refreshBtn" onclick="loadStatus()">↻ Jalankan Semua Cek</button>
+    <a href="/admin.html" class="btn">🛡 Admin</a>
+  </header>
+
+  <main>
+    <h2>Status Komponen</h2>
+    <div class="cards" id="statusCards">
+      <!-- diisi JS -->
+    </div>
+
+    <h2>Uji Coba Langsung</h2>
+    <div class="layout">
+      <!-- AI consult -->
+      <div class="panel">
+        <h3>🧠 Konsultasi AI</h3>
+        <p class="sub">Verifikasi pipeline AI (ML + Knowledge Base + LLM) end-to-end.</p>
+
+        <label for="catSelect">Spesies</label>
+        <select id="catSelect" onchange="onCategoryChange()"></select>
+
+        <div class="row">
+          <div>
+            <label for="breedSelect">Ras (opsional)</label>
+            <select id="breedSelect"><option value="">—</option></select>
+          </div>
+          <div>
+            <label for="ageInput">Umur (tahun)</label>
+            <input id="ageInput" type="number" step="0.1" placeholder="mis. 2" />
+          </div>
+        </div>
+
+        <label for="complaintInput">Keluhan (teks bebas)</label>
+        <textarea id="complaintInput" placeholder="mis. Anjing saya muntah hebat, diare berdarah, lemas sejak kemarin"></textarea>
+
+        <label>Atau pilih gejala <span class="muted" id="symCount"></span></label>
+        <div class="chips" id="symChips"><span class="empty">Pilih spesies dulu…</span></div>
+
+        <div style="margin-top:16px; display:flex; gap:10px;">
+          <button class="btn primary" id="consultBtn" onclick="runConsult()">Jalankan Saran AI</button>
+          <button class="btn" id="predictBtn" onclick="runPredict()">Uji Model ML</button>
+        </div>
+
+        <div id="result"><div class="empty">Hasil saran akan muncul di sini.</div></div>
+      </div>
+
+      <!-- Data breakdown (ringkas) -->
+      <div class="panel">
+        <h3>📚 Ringkasan Data</h3>
+        <p class="sub">Total kategori, ras, varian, & traits. Detail lengkap di bawah ↓</p>
+        <div class="tiles" id="dataTiles"></div>
+        <div id="dataBrowser"><div class="empty">Memuat…</div></div>
+        <div style="margin-top:16px; border-top:1px dashed var(--border); padding-top:12px;">
+          <h4 style="margin:0 0 8px; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;">📥 Export Excel</h4>
+          <div id="excelExports"><div class="empty">Memuat daftar file…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Explorer Taxonomy — Kategori, Ras &amp; Varian</h2>
+    <div class="panel panel-wide">
+      <div class="section-tabs">
+        <span class="tab on" data-view="overview" onclick="switchDataView('overview')">📊 Overview</span>
+        <span class="tab" data-view="categories" onclick="switchDataView('categories')">🗂️ Per Kategori</span>
+        <span class="tab" data-view="breeds" onclick="switchDataView('breeds')">🐕 Semua Ras</span>
+      </div>
+
+      <div id="view-overview" class="view-pane on">
+        <div class="chart-grid">
+          <div class="chart-box">
+            <h4>Ras per Kategori</h4>
+            <div id="chartBreeds"></div>
+          </div>
+          <div class="chart-box">
+            <h4>Varian per Kategori</h4>
+            <div id="chartVariants"></div>
+          </div>
+        </div>
+        <div class="chart-box" style="margin-bottom:18px">
+          <h4>Jenis Varian (global)</h4>
+          <div class="type-grid" id="variantTypes"></div>
+        </div>
+        <div class="chart-box">
+          <h4>Top 15 Ras — Varian Terbanyak</h4>
+          <div class="leaderboard" id="topBreeds"></div>
+        </div>
+      </div>
+
+      <div id="view-categories" class="view-pane">
+        <div class="toolbar">
+          <input id="catSearch" type="search" placeholder="Cari kategori…" oninput="filterCategories()" />
+          <button class="btn" onclick="expandAllCategories(true)">Buka Semua</button>
+          <button class="btn" onclick="expandAllCategories(false)">Tutup Semua</button>
+        </div>
+        <div id="categoryExplorer"></div>
+      </div>
+
+      <div id="view-breeds" class="view-pane">
+        <div class="toolbar">
+          <input id="breedSearch" type="search" placeholder="Cari ras…" oninput="debounceBreedSearch()" />
+          <select id="breedCatFilter" onchange="loadBreedTable()">
+            <option value="">Semua kategori</option>
+          </select>
+          <select id="breedSort" onchange="loadBreedTable()">
+            <option value="variants">Urut: varian ↓</option>
+            <option value="traits">Urut: traits ↓</option>
+            <option value="name">Urut: nama A-Z</option>
+            <option value="category">Urut: kategori</option>
+          </select>
+          <span class="badge" id="breedCountBadge">—</span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ras</th><th>Kategori</th><th>Varian</th><th>Traits</th><th>Ukuran</th><th>Asal</th><th>Detail Varian</th>
+              </tr>
+            </thead>
+            <tbody id="breedTableBody"><tr><td colspan="7" class="empty">Memuat…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h2>Konsultasi Live &amp; Pembelajaran</h2>
+    <div class="layout">
+      <!-- Live consultation: mic/kamera/teks -->
+      <div class="panel">
+        <h3>🎙️ Sesi Konsultasi (Mic / Kamera / Teks)</h3>
+        <p class="sub">Tangkapan tools aplikasi diproses real-time; saran AI diperbarui kumulatif tiap giliran.</p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button class="btn primary" id="startSessionBtn" onclick="startSession()">▶ Mulai Konsultasi</button>
+          <span class="badge" id="sessionBadge">belum aktif</span>
+        </div>
+
+        <div id="liveControls" style="display:none; margin-top:14px;">
+          <label for="liveText">Pesan / keluhan (teks)</label>
+          <textarea id="liveText" placeholder="Ketik keluhan tambahan lalu kirim…"></textarea>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <button class="btn" id="sendTextBtn" onclick="sendText()">✉️ Kirim Teks</button>
+            <button class="btn" id="micBtn" onclick="toggleMic()">🎤 Rekam Mic</button>
+            <button class="btn" id="camBtn" onclick="toggleCam()">📷 Kamera</button>
+            <button class="btn" id="snapBtn" onclick="snapFrame()" style="display:none;">📸 Tangkap Frame</button>
+          </div>
+          <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start;">
+            <video id="camVideo" autoplay muted playsinline
+              style="display:none; width:200px; border-radius:10px; border:1px solid var(--border);"></video>
+            <canvas id="camCanvas" style="display:none;"></canvas>
+          </div>
+          <p class="muted" id="captureNote" style="margin-top:8px;"></p>
+        </div>
+
+        <div id="liveResult"><div class="empty">Mulai konsultasi untuk melihat saran AI.</div></div>
+      </div>
+
+      <!-- Doctor learning loop -->
+      <div class="panel">
+        <h3>🩺 Keputusan Dokter &amp; Pembelajaran</h3>
+        <p class="sub">Input dokter disimpan ke backend sebagai bahan pembelajaran (gold label) lalu dipakai retraining.</p>
+
+        <label for="dxSelect">Diagnosa final (terkonfirmasi)</label>
+        <select id="dxSelect"><option value="">— pilih dari saran / setelah konsultasi —</option></select>
+
+        <label for="dxNotes">Catatan klinis</label>
+        <textarea id="dxNotes" placeholder="mis. Obstruksi uretra parsial, dipasang kateter…"></textarea>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn primary" id="saveDxBtn" onclick="saveDoctorInput()" disabled>💾 Simpan Keputusan</button>
+          <button class="btn" id="fbCorrect" onclick="sendFeedback('correct')" disabled>👍 Saran Tepat</button>
+          <button class="btn" id="fbWrong" onclick="sendFeedback('incorrect')" disabled>👎 Kurang Tepat</button>
+        </div>
+
+        <label for="vetSymptoms">Gejala dikonfirmasi (pisah koma)</label>
+        <input id="vetSymptoms" type="text" placeholder="Muntah, Diare, Lesu…" />
+
+        <label for="vetTreatments">Tindakan / pengobatan</label>
+        <input id="vetTreatments" type="text" placeholder="Fluid therapy, Antibiotik…" />
+
+        <label for="vetProducts">Produk / resep</label>
+        <input id="vetProducts" type="text" placeholder="Enrofloxacin, Diet RX…" />
+
+        <label for="vetOutcome">Outcome</label>
+        <select id="vetOutcome">
+          <option value="">—</option>
+          <option value="recovered">Sembuh</option>
+          <option value="improved">Membaik</option>
+          <option value="stable">Stabil</option>
+          <option value="referred">Dirujuk</option>
+          <option value="died">Meninggal</option>
+        </select>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+          <button class="btn" id="fbPartial" onclick="sendFeedback('partially_correct')" disabled>≈ Sebagian Benar</button>
+        </div>
+
+        <div style="margin-top:20px; border-top:1px dashed var(--border); padding-top:16px;">
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <button class="btn primary" id="retrainBtn" onclick="runRetrain()">🔁 Latih Ulang dari Data Dokter</button>
+            <button class="btn" id="syncDbBtn" onclick="syncToDb()">🐘 Sync ke PostgreSQL</button>
+            <span class="badge" id="goldBadge">— gold rows</span>
+          </div>
+          <div id="retrainResult" style="margin-top:12px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Agent AI — Interaksi &amp; Pengelolaan</h2>
+    <div class="layout">
+      <div class="panel">
+        <h3>💬 Chat Agent (hemat token)</h3>
+        <p class="sub">Tanya agent dalam sesi aktif; konteks gejala &amp; diagnosa teratas disertakan otomatis.</p>
+        <label for="agentProvider">Provider (opsional)</label>
+        <select id="agentProvider"><option value="">— auto / primary —</option></select>
+        <label for="agentChatInput">Pesan ke agent</label>
+        <textarea id="agentChatInput" placeholder="Mis. Apa pemeriksaan lanjutan yang paling penting?"></textarea>
+        <button class="btn primary" id="agentChatBtn" onclick="sendAgentChat()" disabled>➤ Kirim ke Agent</button>
+        <div id="agentChatLog" class="summary-box" style="margin-top:12px; max-height:220px; overflow:auto;">
+          <span class="muted">Log chat agent…</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>📋 Saran Tersimpan &amp; Provider</h3>
+        <p class="sub">Riwayat saran AI per sesi + penggunaan token.</p>
+        <button class="btn" onclick="loadAgentUsage()">🔄 Refresh Usage</button>
+        <button class="btn" onclick="loadSavedSuggestions()">📂 Muat Saran Sesi</button>
+        <div id="agentUsage" style="margin-top:12px;"></div>
+        <div id="savedSuggestions" style="margin-top:12px;"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Sobatpaws Veterinary ML &amp; AI · <a href="/docs" target="_blank">API Docs</a> ·
+    <span class="muted">Saran AI bersifat pendukung keputusan — keputusan final oleh dokter hewan berlisensi.</span>
+  </footer>
+
+  <script>
+    const API = ""; // same-origin
+    let CATEGORIES = [];
+    let SELECTED_SYMPTOMS = new Set();
+
+    async function api(path, opts) {
+      const res = await fetch(API + path, opts);
+      if (!res.ok) {
+        let msg = res.statusText;
+        try { const j = await res.json(); msg = j.detail || msg; } catch (e) {}
+        throw new Error(msg);
+      }
+      return res.json();
+    }
+
+    function dotClass(ok, optional) {
+      if (ok) return "ok";
+      return optional ? "warn" : "err";
+    }
+
+    // ---------- STATUS ----------
+    async function loadStatus() {
+      const btn = document.getElementById("refreshBtn");
+      btn.disabled = true;
+      const cards = document.getElementById("statusCards");
+      cards.innerHTML = cardSkeletons();
+      try {
+        const s = await api("/api/status");
+        cards.innerHTML = [
+          statusCard("⚙️", "Backend (API)", s.backend.ok, false,
+            `FastAPI v${s.backend.version}`, {
+              "Layanan": s.backend.name.split("—")[0] || "OK",
+            }),
+          statusCard("🗄️", "Data / Knowledge Base", s.data.ok, false,
+            "Sumber kebenaran data termuat", {
+              "Kategori": s.data.categories,
+              "Ras": s.data.breeds,
+              "Penyakit": s.data.diseases,
+              "Gejala unik": s.data.unique_symptoms,
+            }),
+          statusCard("🧠", "AI Engine", s.ai.ok, false,
+            s.ai.mode === "llm_augmented" ? "LLM aktif" : "Mode rule-based (tanpa kunci API)", {
+              "Provider": s.ai.provider,
+              "Mode": s.ai.mode,
+              "Model": s.ai.model,
+            }),
+          statusCard("🤖", "Model ML", s.ml.ok, false,
+            s.ml.ok ? `${s.ml.model_count} model terlatih` : "Belum ada model terlatih", {
+              "Jumlah model": s.ml.model_count,
+              "Kategori": (s.ml.trained_categories || []).join(", ") || "—",
+            }),
+          statusCard("🐘", "Database (PostgreSQL)", s.database.ok, true,
+            s.database.detail || "", {
+              "URL": s.database.url,
+              "Tabel": s.database.tables == null ? "—" : s.database.tables,
+            }),
+        ].join("");
+      } catch (e) {
+        cards.innerHTML = `<div class="card"><div class="head"><span class="dot err"></span>
+          <span class="ttl">Backend tidak terjangkau</span></div>
+          <div class="status-text">${e.message}. Pastikan server berjalan.</div></div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function cardSkeletons() {
+      return Array(5).fill(0).map(() =>
+        `<div class="card"><div class="head"><span class="dot loading"></span>
+         <span class="ttl">Memeriksa…</span></div></div>`).join("");
+    }
+
+    function statusCard(icon, title, ok, optional, statusText, kv) {
+      const rows = Object.entries(kv).map(([k, v]) =>
+        `<div class="kv"><span>${k}</span><span>${v}</span></div>`).join("");
+      const label = ok ? "OK" : (optional ? "Opsional" : "Gagal");
+      const badgeCls = ok ? "ok" : (optional ? "warn" : "");
+      return `<div class="card">
+        <div class="head">
+          <span class="icon">${icon}</span>
+          <span class="dot ${dotClass(ok, optional)}"></span>
+          <span class="ttl">${title}</span>
+          <span class="grow"></span>
+          <span class="badge ${badgeCls}">${label}</span>
+        </div>
+        <div class="status-text">${statusText}</div>
+        ${rows}
+      </div>`;
+    }
+
+    // ---------- DATA / FORM ----------
+    async function loadCategories() {
+      CATEGORIES = await api("/categories");
+      const sel = document.getElementById("catSelect");
+      sel.innerHTML = CATEGORIES.map(c =>
+        `<option value="${c.slug}">${c.name_id || c.name || c.slug}</option>`).join("");
+      loadBreakdown();
+      onCategoryChange();
+    }
+
+    const BREED_CACHE = {};
+    let BREAKDOWN_DATA = null;
+    let breedSearchTimer = null;
+
+    async function loadBreakdown() {
+      const tiles = document.getElementById("dataTiles");
+      const el = document.getElementById("dataBrowser");
+      try {
+        const d = await api("/api/stats/breakdown");
+        BREAKDOWN_DATA = d;
+        const t = d.totals;
+        tiles.innerHTML = [
+          ["Kategori", t.categories], ["Ras", t.breeds], ["Varian", t.variants],
+          ["Traits", t.traits], ["Penyakit", t.diseases], ["Gejala", t.symptoms],
+        ].map(([lbl, num]) => `<div class="tile"><div class="num">${num}</div><div class="lbl">${lbl}</div></div>`).join("");
+
+        el.innerHTML = `<div class="summary-box" style="margin:0">
+          Rata-rata <b>${t.avg_variants_per_breed}</b> varian/ras ·
+          <b>${t.breeds_without_variants}</b> ras tanpa varian ·
+          ${Object.keys(d.variant_types || {}).length} jenis varian
+        </div>`;
+
+        renderCharts(d);
+        renderVariantTypes(d.variant_types);
+        renderTopBreeds(d.top_breeds);
+        renderCategoryExplorer(d.by_category);
+        populateBreedCatFilter(d.by_category);
+        loadBreedTable();
+      } catch (e) {
+        el.innerHTML = `<div class="empty">Gagal memuat: ${e.message}</div>`;
+      }
+    }
+
+    async function loadExcelExports() {
+      const el = document.getElementById("excelExports");
+      if (!el) return;
+      try {
+        const r = await api("/exports/excel");
+        if (!r.files.length) {
+          el.innerHTML = `<div class="muted" style="font-size:12px">Belum ada file. Jalankan <code>python3 scripts/export_excel.py --learning-only</code></div>`;
+          return;
+        }
+        el.innerHTML = r.files.map(f => `
+          <div class="item" style="padding:8px 10px; margin-bottom:6px">
+            <div class="item-top">
+              <a href="${f.url}" download style="color:var(--accent); font-size:13px; font-weight:600">${f.filename}</a>
+              <span class="tag">${f.size_mb} MB</span>
+            </div>
+          </div>`).join("");
+      } catch (e) {
+        el.innerHTML = `<div class="muted" style="font-size:12px">${e.message}</div>`;
+      }
+    }
+
+    function renderCharts(d) {
+      const maxB = Math.max(...d.by_category.map(c => c.breeds), 1);
+      const maxV = Math.max(...d.by_category.map(c => c.variants), 1);
+      document.getElementById("chartBreeds").innerHTML = d.by_category.map(c =>
+        hbar(c.name_id, c.breeds, maxB)).join("");
+      document.getElementById("chartVariants").innerHTML = d.by_category.map(c =>
+        hbar(c.name_id, c.variants, maxV)).join("");
+    }
+
+    function hbar(label, val, max) {
+      const pct = Math.round((val / max) * 100);
+      return `<div class="hbar"><span class="lbl" title="${label}">${label}</span>
+        <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+        <span class="val">${val}</span></div>`;
+    }
+
+    function renderVariantTypes(types) {
+      const el = document.getElementById("variantTypes");
+      const entries = Object.entries(types || {});
+      if (!entries.length) { el.innerHTML = `<span class="empty">—</span>`; return; }
+      el.innerHTML = entries.map(([t, n]) =>
+        `<span class="type-chip type-${t}">${t}<b>${n}</b></span>`).join("");
+    }
+
+    function renderTopBreeds(list) {
+      document.getElementById("topBreeds").innerHTML = (list || []).map((b, i) =>
+        `<div class="lb-item"><span class="rank">#${i + 1}</span>${b.name_id}
+         <span class="cat">${b.category_name_id} · ${b.variants} varian · ${b.traits} traits</span></div>`).join("");
+    }
+
+    function renderCategoryExplorer(cats) {
+      document.getElementById("categoryExplorer").innerHTML = (cats || []).map(c => {
+        const vtypes = Object.entries(c.variant_types || {})
+          .map(([t, n]) => `<span class="type-chip type-${t}">${t}<b>${n}</b></span>`).join("");
+        return `<div class="cat-row" data-slug="${c.slug}" data-name="${c.name_id.toLowerCase()}">
+          <div class="cat-head" onclick="toggleCategory('${c.slug}')">
+            <span class="caret">▶</span>
+            <span class="cname">${c.name_id}</span>
+            <span class="pill"><b>${c.breeds}</b> ras</span>
+            <span class="pill"><b>${c.variants}</b> varian</span>
+            <span class="pill"><b>${c.traits}</b> traits</span>
+            <span class="pill"><b>${c.diseases}</b> penyakit</span>
+          </div>
+          <div class="cat-meta" style="padding:0 13px 8px; font-size:12px; color:var(--muted)">
+            ${c.species_class || ""} · avg ${c.avg_variants_per_breed} var/ras · ${c.symptoms} gejala
+            ${c.breeds_without_variants ? ` · ${c.breeds_without_variants} ras tanpa varian` : ""}
+          </div>
+          ${vtypes ? `<div style="padding:0 13px 8px" class="type-grid">${vtypes}</div>` : ""}
+          <div class="cat-body" id="body-${c.slug}"><div class="empty">Memuat…</div></div>
+        </div>`;
+      }).join("");
+    }
+
+    function populateBreedCatFilter(cats) {
+      const sel = document.getElementById("breedCatFilter");
+      sel.innerHTML = `<option value="">Semua kategori</option>` +
+        (cats || []).map(c => `<option value="${c.slug}">${c.name_id}</option>`).join("");
+    }
+
+    function switchDataView(view) {
+      document.querySelectorAll(".section-tabs .tab").forEach(t =>
+        t.classList.toggle("on", t.dataset.view === view));
+      document.querySelectorAll(".view-pane").forEach(p =>
+        p.classList.toggle("on", p.id === `view-${view}`));
+      if (view === "breeds") loadBreedTable();
+    }
+
+    function filterCategories() {
+      const q = document.getElementById("catSearch").value.trim().toLowerCase();
+      document.querySelectorAll("#categoryExplorer .cat-row").forEach(row => {
+        const name = row.dataset.name || "";
+        row.style.display = !q || name.includes(q) ? "" : "none";
+      });
+    }
+
+    async function expandAllCategories(open) {
+      const rows = document.querySelectorAll("#categoryExplorer .cat-row");
+      for (const row of rows) {
+        const slug = row.dataset.slug;
+        if (open && !row.classList.contains("open")) {
+          row.classList.add("open");
+          await loadCategoryBreeds(slug);
+        } else if (!open) {
+          row.classList.remove("open");
+        }
+      }
+    }
+
+    function debounceBreedSearch() {
+      clearTimeout(breedSearchTimer);
+      breedSearchTimer = setTimeout(loadBreedTable, 280);
+    }
+
+    async function loadBreedTable() {
+      const q = document.getElementById("breedSearch").value.trim();
+      const cat = document.getElementById("breedCatFilter").value;
+      const sort = document.getElementById("breedSort").value;
+      const tbody = document.getElementById("breedTableBody");
+      tbody.innerHTML = `<tr><td colspan="7" class="empty">Memuat…</td></tr>`;
+      try {
+        const params = new URLSearchParams({ sort, limit: "300" });
+        if (cat) params.set("category", cat);
+        if (q) params.set("q", q);
+        const r = await api(`/api/stats/breeds?${params}`);
+        document.getElementById("breedCountBadge").textContent = `${r.count} ras`;
+        if (!r.breeds.length) {
+          tbody.innerHTML = `<tr><td colspan="7" class="empty">Tidak ada ras ditemukan.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = r.breeds.map(b => {
+          const variants = (b.variant_list || []).map(v => {
+            const sw = v.hex_color ? `<span class="swatch" style="background:${v.hex_color}"></span>` : "";
+            return `${sw}${v.name}<span class="vt">${v.variant_type || ""}</span>`;
+          }).join(", ") || `<span class="no-variant">—</span>`;
+          const traits = (b.trait_keys || []).slice(0, 4).join(", ");
+          return `<tr>
+            <td><b>${b.name_id}</b><div class="trait-mini">${traits}${(b.trait_keys||[]).length > 4 ? "…" : ""}</div></td>
+            <td>${b.category_name_id}</td>
+            <td><b>${b.variants}</b></td>
+            <td>${b.traits}</td>
+            <td>${b.size_class || "—"}</td>
+            <td>${b.origin_country || "—"}</td>
+            <td><div class="variant-chips">${(b.variant_list||[]).map(v =>
+              `<span class="vchip">${v.hex_color ? `<span class="swatch" style="background:${v.hex_color}"></span>` : ""}${v.name}<span class="vt">${v.variant_type||""}</span></span>`).join("") || "—"}</div></td>
+          </tr>`;
+        }).join("");
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty">Gagal: ${e.message}</td></tr>`;
+      }
+    }
+
+    async function loadCategoryBreeds(slug) {
+      const body = document.getElementById(`body-${slug}`);
+      if (!body || body.dataset.loaded === "1") return;
+      try {
+        let breeds = BREED_CACHE[slug];
+        if (!breeds) { breeds = await api(`/categories/${slug}/breeds`); BREED_CACHE[slug] = breeds; }
+        if (!breeds.length) { body.innerHTML = `<div class="no-variant">Belum ada data ras.</div>`; return; }
+        body.innerHTML = breeds.map(b => breedLineHtml(b)).join("");
+        body.dataset.loaded = "1";
+      } catch (e) {
+        body.innerHTML = `<div class="empty">Gagal: ${e.message}</div>`;
+      }
+    }
+
+    function breedLineHtml(b) {
+      const variants = b.variants || [];
+      const traits = b.traits || [];
+      const meta = [b.size_class, b.origin_country, b.care_level ? `care:${b.care_level}` : ""]
+        .filter(Boolean).join(" · ");
+      const vhtml = variants.length
+        ? `<div class="variant-chips">${variants.map(v =>
+            `<span class="vchip">${v.hex_color ? `<span class="swatch" style="background:${v.hex_color}"></span>` : ""}${v.name || v}${v.variant_type ? `<span class="vt">${v.variant_type}</span>` : ""}</span>`).join("")}</div>`
+        : `<div class="no-variant">tanpa varian terdaftar</div>`;
+      const thtml = traits.length
+        ? `<div class="trait-mini">${traits.slice(0, 5).map(t => `${t.trait_key}: ${t.trait_value}`).join(" · ")}</div>`
+        : "";
+      return `<div class="breed-line">
+        <span class="bname">${b.name_id || b.name || b.slug}</span>
+        <span class="pill" style="float:right"><b>${variants.length}</b> var · <b>${traits.length}</b> trait</span>
+        ${meta ? `<div class="meta">${meta}</div>` : ""}
+        ${vhtml}${thtml}</div>`;
+    }
+
+    async function toggleCategory(slug) {
+      const row = document.querySelector(`.cat-row[data-slug="${slug}"]`);
+      if (!row) return;
+      const open = row.classList.toggle("open");
+      if (open) await loadCategoryBreeds(slug);
+    }
+
+    async function onCategoryChange() {
+      const cat = document.getElementById("catSelect").value;
+      SELECTED_SYMPTOMS = new Set();
+      // breeds
+      const breedSel = document.getElementById("breedSelect");
+      breedSel.innerHTML = `<option value="">—</option>`;
+      try {
+        const breeds = await api(`/categories/${cat}/breeds`);
+        breedSel.innerHTML += breeds.map(b =>
+          `<option value="${b.slug}">${b.name_id || b.name || b.slug}</option>`).join("");
+      } catch (e) { /* sebagian kategori tanpa ras */ }
+      // symptoms
+      const chips = document.getElementById("symChips");
+      chips.innerHTML = `<span class="empty">Memuat gejala…</span>`;
+      try {
+        const syms = await api(`/api/symptoms?category=${cat}`);
+        document.getElementById("symCount").textContent = `(${syms.length})`;
+        chips.innerHTML = syms.map(s => `
+          <span class="chip ${s.is_red_flag ? "red" : ""}" data-id="${encodeURIComponent(s.name_id)}"
+            onclick="toggleSym(this)">${s.name_id}${s.is_red_flag ? " ⚠" : ""}</span>`).join("")
+          || `<span class="empty">Tidak ada gejala.</span>`;
+      } catch (e) {
+        chips.innerHTML = `<span class="empty">Gagal memuat gejala.</span>`;
+      }
+    }
+
+    function toggleSym(el) {
+      const id = decodeURIComponent(el.dataset.id);
+      if (SELECTED_SYMPTOMS.has(id)) { SELECTED_SYMPTOMS.delete(id); el.classList.remove("on"); }
+      else { SELECTED_SYMPTOMS.add(id); el.classList.add("on"); }
+    }
+
+    function buildPayload() {
+      return {
+        category_slug: document.getElementById("catSelect").value,
+        breed_slug: document.getElementById("breedSelect").value || null,
+        age_years: parseFloat(document.getElementById("ageInput").value) || null,
+        complaint_text: document.getElementById("complaintInput").value.trim() || null,
+        symptoms: [...SELECTED_SYMPTOMS],
+        top_k: 5,
+      };
+    }
+
+    // ---------- CONSULT ----------
+    async function runConsult() {
+      const payload = buildPayload();
+      if (!payload.complaint_text && payload.symptoms.length === 0) {
+        return setResult(`<div class="warn-box">Isi keluhan atau pilih minimal satu gejala.</div>`);
+      }
+      const btn = document.getElementById("consultBtn");
+      btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> Menganalisa…`;
+      try {
+        const r = await api("/api/consult", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        renderSuggestion(r, "result");
+      } catch (e) {
+        setResult(`<div class="warn-box">Gagal: ${e.message}</div>`);
+      } finally {
+        btn.disabled = false; btn.textContent = "Jalankan Saran AI";
+      }
+    }
+
+    function renderSuggestion(r, targetId, intake) {
+      let html = "";
+      if (intake && intake.symptoms && intake.symptoms.length) {
+        const chips = intake.symptoms.map(s =>
+          `<span class="chip ${s.is_red_flag ? "red on" : "on"}">${s.name_id}</span>`).join("");
+        html += `<div class="result-block"><h4>Gejala Terdeteksi (${intake.symptoms.length})</h4>
+                 <div class="chips" style="max-height:120px">${chips}</div></div>`;
+      }
+      if (r.is_emergency) html += `<div class="emergency-banner">🚨 INDIKASI DARURAT — prioritaskan stabilisasi & rujukan.</div>`;
+      html += `<div class="summary-box">${r.summary || "—"} <span class="tag">${r.generated_by}</span></div>`;
+
+      if (r.suggested_diseases?.length) {
+        html += `<div class="result-block"><h4>Kemungkinan Penyakit</h4>`;
+        for (const d of r.suggested_diseases) {
+          const pct = Math.round((d.confidence || 0) * 100);
+          html += `<div class="item">
+            <div class="item-top">
+              <span class="name">${d.name_id || d.disease_slug} ${d.is_emergency ? '<span class="tag em">darurat</span>' : ''}</span>
+              <span class="conf">${pct}%</span>
+            </div>
+            <div class="bar"><i style="width:${pct}%"></i></div>
+            ${d.rationale ? `<div class="meta">${d.rationale} · sumber: ${d.source}</div>` : `<div class="meta">sumber: ${d.source}</div>`}
+          </div>`;
+        }
+        html += `</div>`;
+      }
+
+      html += listBlock("Pemeriksaan Disarankan", r.suggested_diagnostics, d =>
+        `<span class="name">${d.name}</span> ${d.is_gold_standard ? '<span class="tag">gold standard</span>' : ''}
+         <div class="meta">${[d.type, d.expected_finding].filter(Boolean).join(" · ") || ""}</div>`);
+
+      html += listBlock("Tindakan", r.suggested_treatments, t =>
+        `<span class="name">${t.name}</span>
+         <div class="meta">${[t.type, t.recommendation].filter(Boolean).join(" · ") || ""}</div>`);
+
+      html += listBlock("Produk / Obat", r.suggested_products, p =>
+        `<span class="name">${p.name}</span> ${p.safety_flag ? `<span class="tag em">${p.safety_flag}</span>` : ''}
+         <div class="meta">${[p.active_ingredient, p.dosage_guide, p.route].filter(Boolean).join(" · ") || ""}</div>`);
+
+      if (r.red_flags?.length) html += `<div class="warn-box">⚠ Red flags: ${r.red_flags.join(", ")}</div>`;
+      if (r.safety_warnings?.length)
+        html += r.safety_warnings.map(w => `<div class="warn-box">🛡 ${w}</div>`).join("");
+
+      if (r.follow_up_questions?.length) {
+        html += `<div class="result-block"><h4>Pertanyaan Lanjutan</h4>`;
+        html += r.follow_up_questions.map(q => `<div class="item">${q}</div>`).join("");
+        html += `</div>`;
+      }
+
+      html += `<div class="disclaimer">${r.disclaimer || ""}</div>`;
+      document.getElementById(targetId || "result").innerHTML = html;
+    }
+
+    function listBlock(title, arr, fmt) {
+      if (!arr || !arr.length) return "";
+      return `<div class="result-block"><h4>${title}</h4>` +
+        arr.map(x => `<div class="item">${fmt(x)}</div>`).join("") + `</div>`;
+    }
+
+    // ---------- ML PREDICT ----------
+    async function runPredict() {
+      const payload = buildPayload();
+      if (payload.symptoms.length === 0)
+        return setResult(`<div class="warn-box">Pilih minimal satu gejala (chip) untuk uji model ML.</div>`);
+      const btn = document.getElementById("predictBtn");
+      btn.disabled = true; btn.textContent = "Memprediksi…";
+      try {
+        const r = await api("/ml/predict", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ category_slug: payload.category_slug, symptoms: payload.symptoms, top_k: 5 }),
+        });
+        let html = `<div class="result-block"><h4>Prediksi Model ML — ${r.category_slug}</h4>`;
+        if (!r.predictions.length) html += `<div class="empty">Tidak ada prediksi.</div>`;
+        for (const p of r.predictions) {
+          const pct = Math.round((p.confidence || 0) * 100);
+          html += `<div class="item">
+            <div class="item-top">
+              <span class="name">${p.name_id || p.disease_slug} ${p.is_emergency ? '<span class="tag em">darurat</span>' : ''}</span>
+              <span class="conf">${pct}%</span>
+            </div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+        }
+        html += `</div><div class="disclaimer">Output mentah model RandomForest (symptom → disease).</div>`;
+        setResult(html);
+      } catch (e) {
+        setResult(`<div class="warn-box">Model ML: ${e.message}</div>`);
+      } finally {
+        btn.disabled = false; btn.textContent = "Uji Model ML";
+      }
+    }
+
+    function setResult(html) { document.getElementById("result").innerHTML = html; }
+
+    // ---------- LIVE CONSULTATION (mic / kamera / teks) ----------
+    let SESSION_ID = null;
+    let mediaRecorder = null, micChunks = [], micStream = null;
+    let camStream = null;
+    let LAST_SUGGESTION = null;
+    let LAST_SUGGESTION_ID = null;
+
+    function liveResult(html) { document.getElementById("liveResult").innerHTML = html; }
+
+    async function startSession() {
+      const btn = document.getElementById("startSessionBtn");
+      btn.disabled = true;
+      const ctx = {
+        category_slug: document.getElementById("catSelect").value,
+        breed_slug: document.getElementById("breedSelect").value || null,
+        age_years: parseFloat(document.getElementById("ageInput").value) || null,
+      };
+      const intake = {
+        channel: "chat", is_first_contact: true,
+        text: document.getElementById("complaintInput").value.trim() || null,
+      };
+      if (!intake.text && SELECTED_SYMPTOMS.size) {
+        intake.text = [...SELECTED_SYMPTOMS].join(", ");
+      }
+      try {
+        const r = await api("/consultations", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ context: ctx, intake }),
+        });
+        SESSION_ID = r.consultation_id;
+        LAST_SUGGESTION = r.suggestion;
+        LAST_SUGGESTION_ID = r.suggestion_id || r.suggestion_ref;
+        document.getElementById("liveControls").style.display = "block";
+        document.getElementById("agentChatBtn").disabled = false;
+        document.getElementById("sessionBadge").textContent = "aktif · " + SESSION_ID.slice(0, 8);
+        document.getElementById("sessionBadge").className = "badge ok";
+        renderSuggestion(r.suggestion, "liveResult", r.intake);
+        populateDx(r.suggestion);
+        enableDoctorActions(true);
+      } catch (e) {
+        liveResult(`<div class="warn-box">Gagal mulai sesi: ${e.message}</div>`);
+      } finally { btn.disabled = false; }
+    }
+
+    async function sendText() {
+      const ta = document.getElementById("liveText");
+      const text = ta.value.trim();
+      if (!SESSION_ID || !text) return;
+      await sendTurn({ channel: "chat", text });
+      ta.value = "";
+    }
+
+    async function sendTurn(intake) {
+      try {
+        const r = await api(`/consultations/${SESSION_ID}/turns`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ intake }),
+        });
+        LAST_SUGGESTION = r.suggestion;
+        LAST_SUGGESTION_ID = r.suggestion_id || r.suggestion_ref;
+        renderSuggestion(r.suggestion, "liveResult", r.intake);
+        populateDx(r.suggestion);
+      } catch (e) {
+        liveResult(`<div class="warn-box">Gagal kirim: ${e.message}</div>`);
+      }
+    }
+
+    async function sendMedia(blob, modality, channel) {
+      const note = document.getElementById("captureNote");
+      note.textContent = "Mengunggah & memproses media…";
+      const fd = new FormData();
+      const ext = modality === "audio" ? "webm" : "jpg";
+      fd.append("file", blob, `capture.${ext}`);
+      fd.append("modality", modality);
+      fd.append("channel", channel);
+      try {
+        const res = await fetch(`/consultations/${SESSION_ID}/media`, { method: "POST", body: fd });
+        const r = await res.json();
+        if (!res.ok) throw new Error(r.detail || res.statusText);
+        LAST_SUGGESTION = r.suggestion;
+        const obs = (r.intake.observations || []).map(o => o.source).join(", ");
+        note.textContent = obs
+          ? `Media diproses (${obs}). Gejala kumulatif: ${r.intake.symptoms.length}.`
+          : "Media diterima. Catatan: transkripsi/vision butuh kunci API LLM (mode offline melewati langkah ini).";
+        renderSuggestion(r.suggestion, "liveResult", r.intake);
+        populateDx(r.suggestion);
+      } catch (e) {
+        note.textContent = "Gagal memproses media: " + e.message;
+      }
+    }
+
+    // --- mic ---
+    async function toggleMic() {
+      const btn = document.getElementById("micBtn");
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        return;
+      }
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(micStream);
+        micChunks = [];
+        mediaRecorder.ondataavailable = e => { if (e.data.size) micChunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          micStream.getTracks().forEach(t => t.stop());
+          btn.textContent = "🎤 Rekam Mic"; btn.classList.remove("primary");
+          const blob = new Blob(micChunks, { type: "audio/webm" });
+          sendMedia(blob, "audio", "voice");
+        };
+        mediaRecorder.start();
+        btn.textContent = "⏹ Stop Rekam"; btn.classList.add("primary");
+        document.getElementById("captureNote").textContent = "Merekam… klik Stop untuk kirim.";
+      } catch (e) {
+        document.getElementById("captureNote").textContent = "Mic tidak tersedia: " + e.message;
+      }
+    }
+
+    // --- kamera ---
+    async function toggleCam() {
+      const video = document.getElementById("camVideo");
+      const snap = document.getElementById("snapBtn");
+      if (camStream) {
+        camStream.getTracks().forEach(t => t.stop()); camStream = null;
+        video.style.display = "none"; snap.style.display = "none";
+        document.getElementById("camBtn").textContent = "📷 Kamera"; return;
+      }
+      try {
+        camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        video.srcObject = camStream; video.style.display = "block"; snap.style.display = "inline-flex";
+        document.getElementById("camBtn").textContent = "🚫 Matikan Kamera";
+      } catch (e) {
+        document.getElementById("captureNote").textContent = "Kamera tidak tersedia: " + e.message;
+      }
+    }
+
+    function snapFrame() {
+      const video = document.getElementById("camVideo");
+      const canvas = document.getElementById("camCanvas");
+      canvas.width = video.videoWidth || 640; canvas.height = video.videoHeight || 480;
+      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(b => sendMedia(b, "image", "video"), "image/jpeg", 0.85);
+    }
+
+    // ---------- DOCTOR INPUT / LEARNING ----------
+    function populateDx(suggestion) {
+      const sel = document.getElementById("dxSelect");
+      const current = sel.value;
+      const opts = ['<option value="">— pilih diagnosa final —</option>'];
+      for (const d of (suggestion.suggested_diseases || [])) {
+        opts.push(`<option value="${d.disease_slug}">${d.name_id || d.disease_slug}</option>`);
+      }
+      sel.innerHTML = opts.join("");
+      if (current) sel.value = current;
+    }
+
+    function enableDoctorActions(on) {
+      ["saveDxBtn", "fbCorrect", "fbWrong", "fbPartial"].forEach(id =>
+        document.getElementById(id).disabled = !on);
+    }
+
+    function splitList(val) {
+      return val ? val.split(/[,;]+/).map(s => s.trim()).filter(Boolean) : [];
+    }
+
+    async function saveDoctorInput() {
+      if (!SESSION_ID) return;
+      const dx = document.getElementById("dxSelect").value || null;
+      const notes = document.getElementById("dxNotes").value.trim() || null;
+      const body = {
+        vet_id: null,
+        confirmed_disease_slug: dx,
+        confirmed_symptoms: splitList(document.getElementById("vetSymptoms").value),
+        treatments_given: splitList(document.getElementById("vetTreatments").value),
+        products_prescribed: splitList(document.getElementById("vetProducts").value),
+        clinical_notes: notes,
+        outcome: document.getElementById("vetOutcome").value || null,
+        suggestion_ref: LAST_SUGGESTION_ID,
+      };
+      try {
+        const r = await api(`/api/agent/conversations/${SESSION_ID}/vet-record`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const rid = (r.agent_id || r.learning_id || "").slice(0, 8);
+        document.getElementById("retrainResult").innerHTML =
+          `<div class="summary-box">✅ Keputusan dokter tersimpan (id: ${rid}).</div>`;
+        refreshGoldBadge();
+      } catch (e) {
+        document.getElementById("retrainResult").innerHTML = `<div class="warn-box">Gagal simpan: ${e.message}</div>`;
+      }
+    }
+
+    async function sendFeedback(verdict) {
+      if (!SESSION_ID) return;
+      try {
+        await api(`/consultations/${SESSION_ID}/feedback`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            consultation_id: SESSION_ID, verdict,
+            suggestion_ref: LAST_SUGGESTION_ID,
+          }),
+        });
+        document.getElementById("retrainResult").innerHTML =
+          `<div class="summary-box">📝 Feedback "${verdict}" tersimpan.</div>`;
+      } catch (e) {
+        document.getElementById("retrainResult").innerHTML = `<div class="warn-box">Gagal: ${e.message}</div>`;
+      }
+    }
+
+    async function refreshGoldBadge() {
+      try {
+        const r = await api("/learning/export");
+        document.getElementById("goldBadge").textContent = `${r.count} gold rows`;
+      } catch (e) { /* ignore */ }
+    }
+
+    async function syncToDb() {
+      const btn = document.getElementById("syncDbBtn");
+      btn.disabled = true;
+      const out = document.getElementById("retrainResult");
+      try {
+        const r = await api("/learning/sync-db", { method: "POST" });
+        const total = Object.values(r.counts || {}).reduce((a, b) => a + b, 0);
+        out.innerHTML = `<div class="summary-box">🐘 Sync PostgreSQL selesai · ${total} event · mode: ${r.backend?.mode || "—"}</div>`;
+      } catch (e) {
+        out.innerHTML = `<div class="warn-box">Sync DB: ${e.message}. Pastikan PostgreSQL jalan & SOBATPAWS_LEARNING_BACKEND=both/postgres.</div>`;
+      } finally { btn.disabled = false; }
+    }
+
+    async function runRetrain() {
+      const btn = document.getElementById("retrainBtn");
+      btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> Melatih…`;
+      const out = document.getElementById("retrainResult");
+      try {
+        const cat = document.getElementById("catSelect").value || null;
+        const r = await api("/learning/retrain", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ category: cat }),
+        });
+        if (r.status === "no_data") {
+          out.innerHTML = `<div class="warn-box">${r.message}</div>`;
+        } else {
+          const rows = (r.results || []).map(m =>
+            `<div class="item"><div class="item-top"><span class="name">${m.category}</span>
+             <span class="conf">${m.accuracy != null ? Math.round(m.accuracy*100)+"%" : m.status}</span></div>
+             <div class="meta">${m.real_case_rows||0} kasus dokter digabung · ${m.n_samples||0} sampel · top3 ${m.top3_accuracy ?? "—"}</div></div>`).join("");
+          out.innerHTML = `<div class="summary-box">🔁 Retraining selesai · ${r.gold_rows} gold rows · kategori: ${r.categories.join(", ")}</div>${rows}`;
+          loadStatus();
+        }
+      } catch (e) {
+        out.innerHTML = `<div class="warn-box">Retraining gagal: ${e.message}</div>`;
+      } finally {
+        btn.disabled = false; btn.textContent = "🔁 Latih Ulang dari Data Dokter";
+      }
+    }
+
+    // ---------- AGENT AI ----------
+    async function loadProviders() {
+      try {
+        const r = await api("/api/agent/providers");
+        const sel = document.getElementById("agentProvider");
+        const opts = ['<option value="">— auto / primary —</option>'];
+        for (const p of (r.providers || [])) {
+          const tag = p.is_primary ? " ★" : "";
+          opts.push(`<option value="${p.id}">${p.name}${tag} (${p.available ? "ok" : "off"})</option>`);
+        }
+        sel.innerHTML = opts.join("");
+      } catch (e) { /* ignore */ }
+    }
+
+    async function sendAgentChat() {
+      if (!SESSION_ID) return;
+      const msg = document.getElementById("agentChatInput").value.trim();
+      if (!msg) return;
+      const prov = document.getElementById("agentProvider").value || null;
+      const log = document.getElementById("agentChatLog");
+      try {
+        const r = await api(`/api/agent/conversations/${SESSION_ID}/chat`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg, provider_id: prov }),
+        });
+        log.innerHTML = `<div><strong>Anda:</strong> ${msg}</div>
+          <div style="margin-top:6px"><strong>Agent:</strong> ${r.reply}</div>
+          ${r.follow_up_questions?.length ? `<div class="muted">Tanya lanjut: ${r.follow_up_questions.join(" · ")}</div>` : ""}
+          <div class="muted" style="margin-top:8px;border-top:1px dashed var(--border);padding-top:6px">provider: ${r.provider_used || "—"}</div>`;
+        document.getElementById("agentChatInput").value = "";
+      } catch (e) {
+        log.innerHTML = `<div class="warn-box">Agent: ${e.message}</div>`;
+      }
+    }
+
+    async function loadAgentUsage() {
+      const el = document.getElementById("agentUsage");
+      try {
+        const r = await api("/api/agent/usage");
+        const t = r.telemetry || {};
+        el.innerHTML = `<div class="kv"><span>Token hari ini</span><span>${t.today_tokens ?? "—"}</span></div>
+          <div class="kv"><span>Biaya USD</span><span>${t.today_cost_usd ?? "—"}</span></div>
+          <div class="kv"><span>Cache hit rate</span><span>${t.cache_hit_rate ?? "—"}</span></div>
+          <div class="kv"><span>Saran tersimpan</span><span>${r.store?.suggestion ?? 0}</span></div>
+          <div class="kv"><span>Backend</span><span>${r.backend?.backend ?? "jsonl"}</span></div>`;
+      } catch (e) {
+        el.innerHTML = `<div class="warn-box">${e.message}</div>`;
+      }
+    }
+
+    async function loadSavedSuggestions() {
+      if (!SESSION_ID) {
+        document.getElementById("savedSuggestions").innerHTML = '<span class="muted">Mulai sesi konsultasi dulu.</span>';
+        return;
+      }
+      const el = document.getElementById("savedSuggestions");
+      try {
+        const r = await api(`/api/agent/suggestions?consultation_id=${SESSION_ID}&limit=10`);
+        if (!r.suggestions?.length) {
+          el.innerHTML = '<span class="muted">Belum ada saran tersimpan.</span>';
+          return;
+        }
+        el.innerHTML = r.suggestions.map(s =>
+          `<div class="item"><div class="item-top"><span class="name">${(s.summary||"").slice(0,80)}</span>
+           <span class="badge ${s.is_reviewed ? "ok" : ""}">${s.is_reviewed ? "reviewed" : "new"}</span></div>
+           <div class="meta">${s.generated_by || "—"} · ${(s.created_at||"").slice(0,19)} · id ${(s.id||"").slice(0,8)}</div></div>`
+        ).join("");
+      } catch (e) {
+        el.innerHTML = `<div class="warn-box">${e.message}</div>`;
+      }
+    }
+
+    // ---------- INIT ----------
+    loadStatus();
+    refreshGoldBadge();
+    loadExcelExports();
+    loadProviders();
+    loadCategories().catch(e =>
+      document.getElementById("dataBrowser").innerHTML =
+        `<div class="empty">Gagal memuat data: ${e.message}</div>`);
+  </script>
+</body>
+</html>

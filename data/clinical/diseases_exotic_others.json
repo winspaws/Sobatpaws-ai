@@ -1,0 +1,164 @@
+{
+  "note": "Penyakit hewan eksotik lain: marmut (guinea_pig) & ferret. Setiap penyakit menyertakan category_slug.",
+  "diseases": [
+    {
+      "category_slug": "guinea_pig",
+      "slug": "guineapig-scurvy",
+      "name": "Scurvy (Vitamin C Deficiency)",
+      "name_id": "Scurvy (Defisiensi Vitamin C)",
+      "etiology": "nutritional",
+      "body_system": "musculoskeletal",
+      "default_severity": "moderate",
+      "overview": "Marmut tidak bisa sintesis vitamin C, sehingga defisiensi menyebabkan gangguan kolagen, sendi & gusi.",
+      "causes": "Diet kurang vitamin C, pelet kadaluwarsa (vit C terdegradasi).",
+      "prevention": "Suplementasi vitamin C harian, sayuran segar (paprika), pelet khusus marmut segar.",
+      "prognosis": "Baik dengan suplementasi dini.",
+      "breed_susceptibility": [
+        {"breed_slug": "guineapig-american", "risk": "high"},
+        {"breed_slug": "guineapig-abyssinian", "risk": "high"}
+      ],
+      "symptoms": [
+        {"name": "Reluctance to move / lameness", "name_id": "Enggan bergerak / pincang", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Swollen painful joints", "name_id": "Sendi bengkak & nyeri", "body_system": "musculoskeletal", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Bleeding gums / poor appetite", "name_id": "Gusi berdarah / tak nafsu makan", "body_system": "dental", "frequency": "moderate"},
+        {"name": "Rough coat", "name_id": "Bulu kasar/kusam", "body_system": "integumentary", "frequency": "moderate"},
+        {"name": "Poor wound healing", "name_id": "Luka lambat sembuh", "body_system": "integumentary", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Riwayat diet + klinis", "type": "history_taking", "is_gold_standard": true, "step_order": 1, "expected_finding": "Diet rendah vitamin C + tanda sendi"},
+        {"name": "Radiografi", "type": "imaging_xray", "step_order": 2, "expected_finding": "Perubahan epifisis/perdarahan subperiosteal"}
+      ],
+      "treatments": [
+        {
+          "name": "Suplementasi vitamin C",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Vitamin C terapeutik (oral/injeksi). 2) Perbaiki diet (sayuran kaya vit C + pelet segar). 3) Analgesik bila nyeri sendi. 4) Dukung makan.",
+          "recommendation": "Jangan andalkan vitamin C di air minum (cepat terurai); berikan langsung/oral.",
+          "products": [
+            {"name": "Vitamin C (ascorbic acid)", "kind": "supplement", "active_ingredient": "Ascorbic acid", "route": "oral/injeksi", "dosage_guide": "10-30 mg/kg/hari (terapi 50 mg/kg)", "cautions": "Dosis terapeutik lebih tinggi saat sakit."},
+            {"name": "Meloxicam", "kind": "medication", "active_ingredient": "Meloxicam", "route": "oral", "dosage_guide": "0.1-0.3 mg/kg", "cautions": "Untuk nyeri sendi."}
+          ]
+        }
+      ]
+    },
+    {
+      "category_slug": "guinea_pig",
+      "slug": "guineapig-bumblefoot-pododermatitis",
+      "name": "Pododermatitis (Bumblefoot)",
+      "name_id": "Bumblefoot (Pododermatitis)",
+      "etiology": "infectious_bacterial",
+      "body_system": "integumentary",
+      "default_severity": "moderate",
+      "overview": "Radang/infeksi telapak kaki akibat alas kandang kasar/kotor & obesitas.",
+      "causes": "Kandang kawat/kasar, alas kotor lembap, obesitas, kurang gerak.",
+      "prevention": "Alas lembut & kering, kontrol berat badan, kebersihan kandang.",
+      "prognosis": "Baik bila ringan; kronik bila sampai tulang.",
+      "breed_susceptibility": [
+        {"breed_slug": "guineapig-american", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Swollen red footpads", "name_id": "Telapak kaki merah & bengkak", "body_system": "integumentary", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Limping", "name_id": "Pincang", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Scabs/ulcers on feet", "name_id": "Keropeng/luka di kaki", "body_system": "integumentary", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Inspeksi kaki", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Lesi telapak"},
+        {"name": "Radiografi (kasus dalam)", "type": "imaging_xray", "step_order": 2, "expected_finding": "Osteomielitis"}
+      ],
+      "treatments": [
+        {
+          "name": "Perawatan luka + perbaikan kandang",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Bersihkan & balut luka. 2) Antiseptik topikal. 3) Alas lembut & kering. 4) Turunkan berat badan. 5) Antibiotik + analgesik bila perlu.",
+          "recommendation": "Tanpa perbaikan alas kandang, kasus akan kambuh.",
+          "products": [
+            {"name": "Chlorhexidine", "kind": "disinfectant", "active_ingredient": "Chlorhexidine", "route": "topikal", "dosage_guide": "Bersihkan luka", "cautions": "—"},
+            {"name": "Meloxicam", "kind": "medication", "active_ingredient": "Meloxicam", "route": "oral", "dosage_guide": "0.1-0.3 mg/kg", "cautions": "Analgesik."}
+          ]
+        }
+      ]
+    },
+    {
+      "category_slug": "ferret",
+      "slug": "ferret-insulinoma",
+      "name": "Insulinoma",
+      "name_id": "Insulinoma (Tumor Pankreas)",
+      "etiology": "neoplastic",
+      "body_system": "endocrine",
+      "default_severity": "severe",
+      "overview": "Tumor sel beta pankreas memproduksi insulin berlebih -> hipoglikemia; sangat umum pada ferret paruh baya.",
+      "causes": "Neoplasia sel beta pankreas (etiologi pasti belum jelas; mungkin terkait diet & genetik).",
+      "prevention": "Diet tinggi protein hewani, hindari karbohidrat/gula; deteksi dini cek gula berkala.",
+      "prognosis": "Tidak sembuh total; manajemen memperpanjang kualitas hidup berbulan-tahun.",
+      "breed_susceptibility": [
+        {"breed_slug": "ferret-standard", "risk": "very_high", "age_onset": "3-5 tahun"}
+      ],
+      "symptoms": [
+        {"name": "Episodic weakness / collapse", "name_id": "Lemas/kolaps episodik", "body_system": "nervous", "frequency": "high", "is_red_flag": true},
+        {"name": "Hypersalivation & pawing mouth", "name_id": "Ngeces & menggaruk mulut", "body_system": "nervous", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Glazed staring / disorientation", "name_id": "Pandangan kosong/bingung", "body_system": "nervous", "frequency": "moderate"},
+        {"name": "Seizures (severe hypoglycemia)", "name_id": "Kejang (hipoglikemia berat)", "body_system": "nervous", "frequency": "moderate", "is_red_flag": true},
+        {"name": "Weight loss & lethargy", "name_id": "Berat badan turun & lesu", "body_system": "systemic", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Glukosa darah puasa", "type": "blood_test", "is_gold_standard": true, "step_order": 1, "expected_finding": "Hipoglikemia (<60-70 mg/dL)"},
+        {"name": "Insulin serum + USG abdomen", "type": "imaging_ultrasound", "step_order": 2, "expected_finding": "Insulin tinggi relatif; nodul pankreas"}
+      ],
+      "treatments": [
+        {
+          "name": "Manajemen medis hipoglikemia + opsi bedah",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Stabilkan hipoglikemia akut (madu di gusi lalu makan). 2) Prednisolon untuk naikkan gula. 3) Diazoxide bila perlu. 4) Diet sering, tinggi protein, tanpa gula. 5) Opsi bedah nodulektomi/pankreatektomi parsial.",
+          "recommendation": "Saat krisis hipoglikemik beri madu/sirup di gusi & segera ke vet. JANGAN puasakan ferret lama.",
+          "products": [
+            {"name": "Prednisolone", "kind": "medication", "active_ingredient": "Prednisolone", "route": "oral", "dosage_guide": "0.5-2 mg/kg/hari terbagi", "cautions": "Naikkan bertahap; efek samping steroid."},
+            {"name": "Diazoxide", "kind": "medication", "active_ingredient": "Diazoxide", "route": "oral", "dosage_guide": "5-30 mg/kg/hari terbagi", "cautions": "Mahal; bila prednisolon tak cukup."},
+            {"name": "Madu / sirup glukosa (darurat)", "kind": "supplement", "active_ingredient": "Glukosa", "route": "oles gusi", "dosage_guide": "Saat krisis", "cautions": "Lanjutkan dengan makanan protein."}
+          ]
+        }
+      ]
+    },
+    {
+      "category_slug": "ferret",
+      "slug": "ferret-adrenal-disease",
+      "name": "Adrenal Gland Disease",
+      "name_id": "Penyakit Kelenjar Adrenal",
+      "etiology": "neoplastic",
+      "body_system": "endocrine",
+      "default_severity": "moderate",
+      "overview": "Hiperplasia/tumor adrenal memicu hormon seks berlebih; sangat umum pada ferret.",
+      "causes": "Terkait kastrasi/sterilisasi dini & paparan cahaya buatan berlebihan.",
+      "prevention": "Implan deslorelin sebagai alternatif kastrasi dini, manajemen siklus cahaya.",
+      "prognosis": "Manajemen baik; bisa bedah atau implan hormonal.",
+      "breed_susceptibility": [
+        {"breed_slug": "ferret-standard", "risk": "very_high", "age_onset": "3-7 tahun"}
+      ],
+      "symptoms": [
+        {"name": "Symmetrical hair loss", "name_id": "Kerontokan bulu simetris (ekor-punggung)", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
+        {"name": "Vulvar swelling (female)", "name_id": "Pembengkakan vulva (betina steril)", "body_system": "reproductive", "frequency": "high"},
+        {"name": "Itchiness", "name_id": "Gatal", "body_system": "integumentary", "frequency": "moderate"},
+        {"name": "Difficulty urinating (male, prostate)", "name_id": "Sulit pipis (jantan, prostat membesar)", "body_system": "urinary", "frequency": "moderate", "is_red_flag": true},
+        {"name": "Muscle wasting", "name_id": "Otot menyusut", "body_system": "musculoskeletal", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "USG abdomen (adrenal)", "type": "imaging_ultrasound", "is_gold_standard": true, "step_order": 1, "expected_finding": "Pembesaran kelenjar adrenal"},
+        {"name": "Panel hormon adrenal", "type": "blood_test", "step_order": 2, "expected_finding": "Estradiol/androstenedione/17-OHP meningkat"}
+      ],
+      "treatments": [
+        {
+          "name": "Implan deslorelin atau adrenalektomi",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Implan GnRH agonist (deslorelin) menekan hormon. 2) Atau bedah pengangkatan adrenal terdampak. 3) Atasi obstruksi prostat (darurat). 4) Monitor berkala.",
+          "recommendation": "Implan deslorelin pilihan non-bedah populer; obstruksi urin jantan = darurat.",
+          "products": [
+            {"name": "Deslorelin implant (Suprelorin)", "kind": "medication", "active_ingredient": "Deslorelin", "route": "implan SC", "dosage_guide": "4.7 mg implan, efek bulanan-tahunan", "cautions": "Mengatasi gejala, bukan menghilangkan tumor."}
+          ]
+        }
+      ]
+    }
+  ]
+}

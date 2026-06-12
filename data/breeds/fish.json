@@ -1,0 +1,109 @@
+{
+  "category_slug": "fish",
+  "breeds": [
+    {
+      "slug": "fish-betta",
+      "name": "Betta / Siamese Fighting Fish",
+      "name_id": "Ikan Cupang",
+      "origin_country": "Southeast Asia",
+      "size_class": "toy",
+      "weight_kg_min": 0.002, "weight_kg_max": 0.004,
+      "lifespan_years_min": 2, "lifespan_years_max": 4,
+      "temperament": "Teritorial, jantan agresif sesama jantan.",
+      "coat_type": "Sirip lebar warna-warni",
+      "care_level": "low",
+      "variants": [
+        {"name": "Halfmoon", "variant_type": "morph"},
+        {"name": "Crowntail", "variant_type": "morph"},
+        {"name": "Plakat", "variant_type": "morph"},
+        {"name": "Koi / Nemo", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "labyrinth_breather", "trait_value": "yes"},
+        {"trait_key": "fin_rot_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "fish-goldfish",
+      "name": "Goldfish",
+      "name_id": "Ikan Mas Koki",
+      "origin_country": "China",
+      "size_class": "small",
+      "weight_kg_min": 0.05, "weight_kg_max": 0.5,
+      "lifespan_years_min": 10, "lifespan_years_max": 20,
+      "temperament": "Damai, rakus makan, penghasil limbah tinggi.",
+      "coat_type": "Sisik metalik/nacreous",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Oranda", "variant_type": "morph"},
+        {"name": "Ranchu", "variant_type": "morph"},
+        {"name": "Ryukin", "variant_type": "morph"},
+        {"name": "Comet", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "swim_bladder_risk", "trait_value": "high"},
+        {"trait_key": "ammonia_sensitivity", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "fish-koi",
+      "name": "Koi Carp",
+      "name_id": "Ikan Koi",
+      "origin_country": "Japan",
+      "size_class": "large",
+      "weight_kg_min": 1, "weight_kg_max": 15,
+      "lifespan_years_min": 25, "lifespan_years_max": 60,
+      "temperament": "Damai, jinak, ikan kolam.",
+      "coat_type": "Pola warna khas",
+      "care_level": "high",
+      "variants": [
+        {"name": "Kohaku", "variant_type": "pattern"},
+        {"name": "Sanke", "variant_type": "pattern"},
+        {"name": "Showa", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "khv_risk", "trait_value": "high"},
+        {"trait_key": "parasite_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "fish-guppy",
+      "name": "Guppy",
+      "name_id": "Ikan Guppy",
+      "origin_country": "South America",
+      "size_class": "toy",
+      "weight_kg_min": 0.0005, "weight_kg_max": 0.002,
+      "lifespan_years_min": 1, "lifespan_years_max": 3,
+      "temperament": "Damai, mudah berkembang biak.",
+      "coat_type": "Sirip & tubuh warna-warni",
+      "care_level": "low",
+      "variants": [
+        {"name": "Half Black", "variant_type": "pattern"},
+        {"name": "Albino Full Red", "variant_type": "color"},
+        {"name": "Blue Grass", "variant_type": "pattern"}
+      ],
+      "traits": [{"trait_key": "ich_risk", "trait_value": "moderate"}]
+    },
+    {
+      "slug": "fish-arowana",
+      "name": "Arowana",
+      "name_id": "Ikan Arwana",
+      "origin_country": "Southeast Asia",
+      "size_class": "large",
+      "weight_kg_min": 1, "weight_kg_max": 6,
+      "lifespan_years_min": 10, "lifespan_years_max": 20,
+      "temperament": "Predator, teritorial, ikan premium.",
+      "coat_type": "Sisik besar mengkilap",
+      "care_level": "high",
+      "variants": [
+        {"name": "Super Red", "variant_type": "color"},
+        {"name": "Golden Crossback", "variant_type": "color"},
+        {"name": "Silver", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "drop_eye_risk", "trait_value": "moderate"},
+        {"trait_key": "water_quality_sensitivity", "trait_value": "high"}
+      ]
+    }
+  ]
+}

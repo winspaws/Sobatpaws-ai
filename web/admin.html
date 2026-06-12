@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobatpaws Admin — Integrasi &amp; AI Monitor</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>" />
+  <style>
+    :root {
+      --bg:#0a0e17; --panel:#121826; --panel2:#1a2233; --border:#2a3445;
+      --text:#e7ecf3; --muted:#94a3b8; --accent:#38bdf8; --ok:#34d399; --warn:#fbbf24; --err:#f87171;
+    }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+    header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    header h1{margin:0;font-size:17px} header p{margin:0;color:var(--muted);font-size:12px}
+    .grow{flex:1}
+    main{max-width:1200px;margin:0 auto;padding:22px}
+    h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:28px 0 12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+    .card h3{margin:0 0 8px;font-size:14px}
+    .num{font-size:26px;font-weight:750;color:var(--accent)}
+    .lbl{font-size:11px;color:var(--muted);text-transform:uppercase}
+    .kv{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-top:1px dashed var(--border)}
+    .badge{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+    .badge.ok{color:var(--ok);border-color:rgba(52,211,153,.4)}
+    .badge.warn{color:var(--warn)}
+    input,select{background:var(--panel2);border:1px solid var(--border);color:var(--text);
+      border-radius:8px;padding:8px 10px;font-size:13px}
+    .btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:8px 14px;
+      border-radius:8px;cursor:pointer;font-size:13px;font-weight:550}
+    .btn.primary{background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;color:#06121f}
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+    th{color:var(--muted);font-size:11px;text-transform:uppercase}
+    .wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;max-height:360px;overflow-y:auto}
+    .flow{font-size:13px;background:var(--panel2);padding:12px;border-radius:8px;border-left:3px solid var(--accent)}
+    .flow ol{margin:8px 0 0 18px;padding:0}
+    a{color:var(--accent)}
+  </style>
+</head>
+<body>
+<header>
+  <span style="font-size:28px">🛡</span>
+  <div><h1>Sobatpaws Admin Dashboard</h1><p>Integrasi app vet · pengelolaan data · efisiensi token AI</p></div>
+  <div class="grow"></div>
+  <input id="adminKey" type="password" placeholder="Admin API Key" style="min-width:180px" />
+  <button class="btn primary" onclick="refreshAll()">↻ Refresh</button>
+  <a href="/" class="btn">← Verifikasi</a>
+  <a href="/docs" class="btn" target="_blank">API Docs</a>
+</header>
+
+<main>
+  <div class="grid" id="kpiCards"><div class="card">Memuat…</div></div>
+
+  <h2>🤖 Efisiensi AI Agent</h2>
+  <div class="grid" id="aiCards"></div>
+
+  <h2>🌐 Provider AI Eksternal (Anthropic / Claude / OpenAI)</h2>
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="btn primary" onclick="testProviders()">🔌 Tes Koneksi Semua</button>
+      <button class="btn" onclick="testAnthropic()">Test Anthropic Claude</button>
+      <button class="btn" onclick="loadProviders()">↻ Refresh Status</button>
+    </div>
+    <div id="providerBox">Memuat provider…</div>
+  </div>
+
+  <h2>🔗 Integrasi App Vet</h2>
+  <div class="card" id="integrationBox">Memuat manifest…</div>
+
+  <h2>📋 Event AI Terbaru</h2>
+  <div class="wrap"><table><thead><tr>
+    <th>Waktu</th><th>Operasi</th><th>Token</th><th>Biaya</th><th>Status</th><th>Catatan</th>
+  </tr></thead><tbody id="aiLog"></tbody></table></div>
+
+  <h2>📚 Learning Events</h2>
+  <div class="wrap"><table><thead><tr>
+    <th>Waktu</th><th>Jenis</th><th>ID</th><th>Ringkas</th>
+  </tr></thead><tbody id="learnLog"></tbody></table></div>
+</main>
+
+<script>
+const KEY_STORAGE = "sobatpaws_admin_key";
+document.getElementById("adminKey").value = localStorage.getItem(KEY_STORAGE) || "";
+
+function headers() {
+  const k = document.getElementById("adminKey").value.trim();
+  if (k) localStorage.setItem(KEY_STORAGE, k);
+  const h = {};
+  if (k) h["X-Sobatpaws-Key"] = k;
+  return h;
+}
+
+async function api(path) {
+  const r = await fetch(path, { headers: headers() });
+  if (!r.ok) {
+    const j = await r.json().catch(() => ({}));
+    throw new Error(j.detail || r.statusText);
+  }
+  return r.json();
+}
+
+function card(title, num, sub, badge) {
+  return `<div class="card"><div class="lbl">${title}</div>
+    <div class="num">${num}</div><div style="font-size:12px;color:var(--muted)">${sub||""}</div>
+    ${badge ? `<span class="badge ${badge.cls||""}">${badge.text}</span>` : ""}</div>`;
+}
+
+async function loadProviders() {
+  const box = document.getElementById("providerBox");
+  try {
+    const st = await api("/api/agent/providers/status");
+    const rows = (st.providers || []).map(p => {
+      const cls = p.available ? (p.is_primary ? "ok" : "") : "warn";
+      const tag = p.is_primary ? " ★ primary" : "";
+      return `<div class="kv"><span><b>${p.name}</b> (${p.id})${tag}<br>
+        <span style="font-size:11px;color:var(--muted)">${p.kind} · ${p.default_model||"-"}</span></span>
+        <span class="badge ${cls}">${p.available ? "configured" : "no key"}</span></div>`;
+    }).join("");
+    box.innerHTML = `<div style="font-size:13px;margin-bottom:8px">
+      Primary: <b>${st.primary_id||"—"}</b> · Fallback: ${(st.fallback_chain||[]).join(" → ")}
+      · Anthropic: ${st.anthropic_configured?"✓":"✗"} · OpenAI: ${st.openai_configured?"✓":"✗"}
+    </div>${rows || "Tidak ada provider."}`;
+  } catch (e) {
+    box.innerHTML = `<span style="color:var(--err)">${e.message}</span>`;
+  }
+}
+
+async function testProviders() {
+  const box = document.getElementById("providerBox");
+  box.innerHTML = "Menguji koneksi…";
+  try {
+    const r = await fetch("/api/agent/providers/test", { method: "POST", headers: headers() });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || r.statusText);
+    box.innerHTML = `<div style="margin-bottom:8px;font-size:13px">
+      Terhubung: <b>${j.connected_count}/${j.total}</b> · Primary: ${j.primary_id||"—"}
+      ${j.primary_connected ? " ✅" : " ⚠️"}</div>` +
+      (j.results||[]).map(x => `<div class="kv">
+        <span>${x.name} (${x.model})</span>
+        <span class="badge ${x.connected?"ok":"warn"}">${x.connected?"OK "+x.latency_ms+"ms":"GAGAL"}</span>
+      </div>${x.error?`<div style="font-size:11px;color:var(--err);padding-left:8px">${x.error}</div>`:""}
+      ${x.response_preview?`<div style="font-size:11px;color:var(--muted);padding-left:8px">${x.response_preview}</div>`:""}`).join("");
+  } catch (e) {
+    box.innerHTML = `<span style="color:var(--err)">Test gagal: ${e.message}</span>`;
+  }
+}
+
+async function testAnthropic() {
+  const box = document.getElementById("providerBox");
+  box.innerHTML = "Menguji Anthropic Claude…";
+  try {
+    const r = await fetch("/api/agent/providers/anthropic/test", { method: "POST", headers: headers() });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || r.statusText);
+    box.innerHTML = `<div class="kv"><span>Anthropic Claude · ${j.model}</span>
+      <span class="badge ${j.connected?"ok":"warn"}">${j.connected?"TERHUBUNG "+j.latency_ms+"ms":"GAGAL"}</span></div>
+      ${j.response_preview?`<div style="font-size:12px;margin-top:8px">${j.response_preview}</div>`:""}
+      ${j.error?`<div style="color:var(--err);font-size:12px">${j.error}</div>`:""}`;
+  } catch (e) {
+    box.innerHTML = `<span style="color:var(--err)">Anthropic test: ${e.message}</span>`;
+  }
+}
+
+async function refreshAll() {
+  try {
+    await loadProviders();
+    const o = await api("/admin/overview");
+    const u = o.ai_usage || {};
+    const kb = o.knowledge_base || {};
+    const lr = o.learning || {};
+
+    document.getElementById("kpiCards").innerHTML = [
+      card("Kategori", kb.categories, "spesies hewan"),
+      card("Ras / Varian", `${kb.breeds}`, "knowledge base"),
+      card("Gold Labels", lr.gold_rows, "input dokter"),
+      card("Konsultasi", lr.stats?.consultation||0, "sesi tercatat"),
+      card("Model ML", o.ml?.model_count||0, (o.ml?.trained_categories||[]).join(", ")),
+      card("DB", o.database?.ok ? "Terhubung" : "Opsional", o.database?.detail||""),
+    ].join("");
+
+    document.getElementById("aiCards").innerHTML = [
+      card("Token Hari Ini", u.today_tokens||0, `budget: ${u.daily_budget||"∞"}`),
+      card("Biaya Hari Ini", `$${u.today_cost_usd||0}`, `total: $${u.total_cost_usd||0}`),
+      card("Cache Hit", `${Math.round((u.cache_hit_rate||0)*100)}%`, `${u.cache_hits||0} hit`),
+      card("LLM Dilewati", u.skipped||0, "hemat token (mode smart)"),
+      card("Mode AI", o.settings?.augmentation_mode||"smart", `max ${o.settings?.max_tokens} tok`),
+      card("Provider", o.ai?.provider||"-", o.ai?.llm_available ? "LLM aktif" : "rule-based"),
+    ].join("");
+
+    const m = await fetch("/api/integration/manifest", { headers: headers() }).then(r=>r.json());
+    document.getElementById("integrationBox").innerHTML = `
+      <div class="flow"><b>Kontrak integrasi vet app</b> · auth: ${m.auth?.enabled ? "WAJIB X-Sobatpaws-Key" : "dev (tanpa key)"}
+      <ol>${(m.recommended_flow||[]).map(s=>`<li>${s}</li>`).join("")}</ol>
+      <p style="margin:10px 0 0;font-size:12px;color:var(--muted)">
+        💡 Hemat token: kirim gejala terstruktur + <code>pretranscribed_text</code> dari device;
+        mode <b>smart</b> melewati LLM bila ML+KB yakin (≥${o.settings?.skip_llm_confidence||0.82}).
+      </p></div>`;
+
+    const tbody = document.getElementById("aiLog");
+    tbody.innerHTML = (u.recent||[]).map(r => `<tr>
+      <td>${(r.recorded_at||"").slice(11,19)}</td>
+      <td>${r.operation||"-"}</td>
+      <td>${r.total_tokens||0}</td>
+      <td>$${r.cost_usd||0}</td>
+      <td>${r.cached?"cache":r.skipped?"skip":r.status}</td>
+      <td>${r.skip_reason||r.model||""}</td>
+    </tr>`).join("") || `<tr><td colspan="6">Belum ada log AI.</td></tr>`;
+
+    const ev = await api("/admin/learning/events?limit=30");
+    document.getElementById("learnLog").innerHTML = (ev.events||[]).map(e => `<tr>
+      <td>${(e.recorded_at||"").slice(0,19)}</td>
+      <td>${e._kind||e.kind||"-"}</td>
+      <td>${(e.id||e.consultation_id||"").slice(0,8)}</td>
+      <td>${JSON.stringify(e).slice(0,80)}…</td>
+    </tr>`).join("") || `<tr><td colspan="4">Belum ada event.</td></tr>`;
+
+  } catch (e) {
+    document.getElementById("kpiCards").innerHTML =
+      `<div class="card" style="color:var(--err)">Gagal: ${e.message}. Isi Admin API Key jika auth aktif.</div>`;
+  }
+}
+refreshAll();
+</script>
+</body>
+</html>

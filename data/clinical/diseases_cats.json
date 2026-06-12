@@ -1,0 +1,243 @@
+{
+  "category_slug": "cat",
+  "disclaimer": "Data edukatif. Diagnosa & resep final wajib oleh dokter hewan. PERHATIAN: kucing sangat sensitif terhadap banyak obat (paracetamol, permethrin, NSAID dosis anjing = FATAL).",
+  "diseases": [
+    {
+      "slug": "cat-flutd",
+      "name": "Feline Lower Urinary Tract Disease (FLUTD)",
+      "name_id": "Gangguan Saluran Kemih Bawah (FLUTD)",
+      "etiology": "idiopathic",
+      "body_system": "urinary",
+      "default_severity": "severe",
+      "is_emergency": true,
+      "overview": "Kumpulan kondisi saluran kemih bawah; sumbatan uretra pada jantan adalah DARURAT mematikan.",
+      "causes": "Idiopathic cystitis (stres), kristal/batu struvit, penyumbatan uretra, infeksi (jarang pada muda).",
+      "prevention": "Diet basah, asupan air cukup, kurangi stres, litter box bersih & cukup jumlah.",
+      "prognosis": "Baik bila tidak tersumbat; obstruksi butuh penanganan segera.",
+      "breed_susceptibility": [
+        {"breed_slug": "cat-persian", "risk": "moderate"},
+        {"breed_slug": "cat-british-shorthair", "risk": "moderate", "notes": "Terkait obesitas & gaya hidup indoor."},
+        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "notes": "Jantan kastrasi indoor lebih berisiko obstruksi."}
+      ],
+      "symptoms": [
+        {"name": "Straining to urinate", "name_id": "Mengejan saat pipis", "body_system": "urinary", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Blood in urine", "name_id": "Kencing berdarah", "body_system": "urinary", "frequency": "high"},
+        {"name": "Frequent small urination", "name_id": "Sering pipis sedikit-sedikit", "body_system": "urinary", "frequency": "high"},
+        {"name": "Urinating outside litter box", "name_id": "Pipis di luar litter box", "body_system": "behavioral", "frequency": "high"},
+        {"name": "Crying when urinating", "name_id": "Mengeong kesakitan saat pipis", "body_system": "urinary", "frequency": "high"},
+        {"name": "Unable to urinate (blockage)", "name_id": "Tidak bisa pipis sama sekali", "body_system": "urinary", "frequency": "moderate", "is_red_flag": true, "is_pathognomonic": true}
+      ],
+      "diagnostics": [
+        {"name": "Palpasi kandung kemih", "type": "physical_exam", "step_order": 1, "expected_finding": "Kandung kemih besar & keras (obstruksi)"},
+        {"name": "Urinalisis + sedimen", "type": "urinalysis", "is_gold_standard": true, "step_order": 2, "expected_finding": "Kristal struvit/oksalat, darah, pH"},
+        {"name": "USG / Radiografi", "type": "imaging_ultrasound", "step_order": 3, "expected_finding": "Batu/urolith, dinding menebal"},
+        {"name": "Panel ginjal + elektrolit", "type": "blood_test", "step_order": 4, "expected_finding": "Hiperkalemia & azotemia bila obstruksi"}
+      ],
+      "treatments": [
+        {
+          "name": "Penanganan obstruksi uretra (darurat)",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "severity_target": "critical",
+          "procedure_steps": "1) Stabilkan: cairan IV, koreksi hiperkalemia. 2) Sedasi + pasang kateter uretra untuk dekompresi. 3) Bilas kandung kemih. 4) Rawat inap, pantau elektrolit & produksi urin. 5) Analgesik.",
+          "recommendation": "Obstruksi = DARURAT; hiperkalemia bisa henti jantung. Segera ke klinik.",
+          "products": [
+            {"name": "Cairan IV (NaCl 0.9%)", "kind": "medication", "active_ingredient": "Saline", "route": "IV", "dosage_guide": "Koreksi dehidrasi + diuresis", "cautions": "Pantau status jantung."},
+            {"name": "Calcium gluconate", "kind": "medication", "active_ingredient": "Calcium gluconate", "route": "IV", "dosage_guide": "Proteksi jantung saat hiperkalemia", "cautions": "Monitor EKG."},
+            {"name": "Buprenorphine", "kind": "medication", "active_ingredient": "Buprenorphine", "route": "oral transmucosal/IV", "dosage_guide": "0.02 mg/kg", "cautions": "Analgesik aman kucing."}
+          ]
+        },
+        {
+          "name": "Manajemen FIC non-obstruktif",
+          "type": "dietary",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Diet urinary (lar­ut struvit / kontrol mineral). 2) Tingkatkan asupan air (makanan basah, fountain). 3) Kurangi stres (pheromone, environmental enrichment). 4) Analgesik jangka pendek.",
+          "recommendation": "Fokus hidrasi & manajemen stres untuk cegah kekambuhan.",
+          "products": [
+            {"name": "Diet resep urinary (s/o)", "kind": "food_prescription", "active_ingredient": "Diet kontrol mineral/pH", "route": "oral", "dosage_guide": "Sesuai kebutuhan kalori", "cautions": "Diet jangka panjang sesuai tipe kristal."},
+            {"name": "Feliway (feline pheromone)", "kind": "supplement", "active_ingredient": "Synthetic pheromone", "route": "lingkungan", "dosage_guide": "Diffuser ruangan", "cautions": "Pendukung, bukan obat."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-ckd",
+      "name": "Chronic Kidney Disease",
+      "name_id": "Penyakit Ginjal Kronis (CKD)",
+      "etiology": "degenerative",
+      "body_system": "urinary",
+      "default_severity": "severe",
+      "overview": "Penurunan fungsi ginjal progresif, sangat umum pada kucing senior.",
+      "causes": "Penuaan, nefritis kronik, hipertensi, penyakit ginjal polikistik (PKD), toksin.",
+      "prevention": "Deteksi dini (cek darah senior rutin), hidrasi, hindari nefrotoksin.",
+      "prognosis": "Tidak bisa sembuh tapi bisa dikelola; staging IRIS menentukan harapan hidup.",
+      "breed_susceptibility": [
+        {"breed_slug": "cat-persian", "risk": "high", "prevalence_pct": 38, "is_hereditary": true, "age_onset": "muda-dewasa", "notes": "Berkaitan dengan Polycystic Kidney Disease (PKD1)."},
+        {"breed_slug": "cat-maine-coon", "risk": "moderate"},
+        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "age_onset": "senior 7+ thn"}
+      ],
+      "symptoms": [
+        {"name": "Increased thirst", "name_id": "Banyak minum (polidipsia)", "body_system": "urinary", "frequency": "very_high"},
+        {"name": "Increased urination", "name_id": "Banyak pipis (poliuria)", "body_system": "urinary", "frequency": "very_high"},
+        {"name": "Weight loss", "name_id": "Berat badan turun", "body_system": "systemic", "frequency": "high"},
+        {"name": "Poor appetite", "name_id": "Nafsu makan menurun", "body_system": "digestive", "frequency": "high"},
+        {"name": "Vomiting", "name_id": "Muntah", "body_system": "digestive", "frequency": "moderate"},
+        {"name": "Poor coat / lethargy", "name_id": "Bulu kusam & lemas", "body_system": "systemic", "frequency": "high"}
+      ],
+      "diagnostics": [
+        {"name": "Panel ginjal (BUN, Creatinine, SDMA)", "type": "blood_test", "is_gold_standard": true, "step_order": 1, "expected_finding": "SDMA & kreatinin meningkat"},
+        {"name": "Urinalisis (USG, UPC)", "type": "urinalysis", "step_order": 2, "expected_finding": "Urin encer (isostenuria), proteinuria"},
+        {"name": "Tekanan darah", "type": "physical_exam", "step_order": 3, "expected_finding": "Hipertensi sistemik"},
+        {"name": "USG ginjal", "type": "imaging_ultrasound", "step_order": 4, "expected_finding": "Ginjal mengecil/irregular atau kista (PKD)"}
+      ],
+      "treatments": [
+        {
+          "name": "Manajemen CKD bertahap (IRIS)",
+          "type": "dietary",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Diet renal (protein berkualitas terbatas, fosfor rendah). 2) Phosphate binder bila perlu. 3) Kontrol tekanan darah. 4) Terapi cairan subkutan di rumah. 5) Atasi mual & anemia. 6) Monitor berkala.",
+          "recommendation": "Diet renal adalah intervensi paling berdampak; mulai sedini mungkin & pantau tiap 3-6 bulan.",
+          "products": [
+            {"name": "Diet resep renal", "kind": "food_prescription", "active_ingredient": "Diet rendah fosfor & protein terkontrol", "route": "oral", "dosage_guide": "Sesuai kalori", "cautions": "Transisi bertahap agar mau makan."},
+            {"name": "Telmisartan / Amlodipine", "kind": "medication", "active_ingredient": "Telmisartan (proteinuria) / Amlodipine (hipertensi)", "route": "oral", "dosage_guide": "Sesuai resep & tekanan darah", "cautions": "Pantau tekanan darah & ginjal."},
+            {"name": "Phosphate binder", "kind": "supplement", "active_ingredient": "Aluminium hidroksida / chitosan", "route": "oral (dengan makan)", "dosage_guide": "Sesuai kadar fosfat", "cautions": "Diberikan bersama makanan."},
+            {"name": "Maropitant / Mirtazapine", "kind": "medication", "active_ingredient": "Maropitant (mual), Mirtazapine (perangsang nafsu makan)", "route": "oral/SC", "dosage_guide": "Sesuai BB", "cautions": "Mirtazapine dosis kecil pada kucing."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-fpv-panleukopenia",
+      "name": "Feline Panleukopenia",
+      "name_id": "Panleukopenia (Distemper Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "digestive",
+      "is_contagious": true,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Parvovirus kucing menyerang sumsum tulang & usus; sangat fatal pada anak kucing.",
+      "causes": "Feline Panleukopenia Virus (FPV) via feses/lingkungan, sangat tahan lama.",
+      "prevention": "Vaksin tricat (FPV/FHV/FCV), disinfeksi, isolasi.",
+      "prognosis": "Mortalitas tinggi pada kitten; survival membaik dengan rawat intensif.",
+      "breed_susceptibility": [
+        {"breed_slug": "cat-domestic-shorthair", "risk": "high", "age_onset": "kitten belum vaksin"}
+      ],
+      "symptoms": [
+        {"name": "Severe vomiting", "name_id": "Muntah hebat", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Profuse diarrhea", "name_id": "Diare hebat", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
+        {"name": "High fever", "name_id": "Demam tinggi", "body_system": "systemic", "frequency": "high"},
+        {"name": "Severe dehydration", "name_id": "Dehidrasi berat", "body_system": "systemic", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Sudden death (kitten)", "name_id": "Kematian mendadak (anak kucing)", "body_system": "systemic", "frequency": "moderate", "is_red_flag": true}
+      ],
+      "diagnostics": [
+        {"name": "SNAP parvo (cross-reaktif FPV)", "type": "serology", "step_order": 1, "expected_finding": "Antigen positif pada feses"},
+        {"name": "PCR feses", "type": "pcr_molecular", "is_gold_standard": true, "step_order": 2, "expected_finding": "DNA FPV"},
+        {"name": "CBC", "type": "blood_test", "step_order": 3, "expected_finding": "Panleukopenia (semua sel darah putih turun)"}
+      ],
+      "treatments": [
+        {
+          "name": "Terapi suportif panleukopenia",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Isolasi & barrier nursing. 2) Cairan IV + elektrolit + glukosa. 3) Antiemetik. 4) Antibiotik cegah sepsis. 5) Nutrisi dini. 6) Monitor jumlah sel darah.",
+          "recommendation": "Tidak ada antivirus spesifik; suportif agresif menentukan survival.",
+          "products": [
+            {"name": "Cairan IV + elektrolit", "kind": "medication", "active_ingredient": "Ringer Lactate + KCl", "route": "IV", "dosage_guide": "Koreksi defisit + maintenance", "cautions": "Pantau kalium."},
+            {"name": "Maropitant", "kind": "medication", "active_ingredient": "Maropitant", "route": "SC", "dosage_guide": "1 mg/kg SID", "cautions": "Antiemetik."},
+            {"name": "Antibiotik beta-lactam", "kind": "medication", "active_ingredient": "Ampicillin", "route": "IV", "dosage_guide": "20 mg/kg q8h", "cautions": "Cegah translokasi bakteri."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-hcm",
+      "name": "Hypertrophic Cardiomyopathy",
+      "name_id": "Kardiomiopati Hipertrofik (HCM)",
+      "etiology": "genetic_congenital",
+      "body_system": "cardiovascular",
+      "default_severity": "severe",
+      "is_emergency": false,
+      "overview": "Penebalan otot ventrikel kiri, penyakit jantung paling umum pada kucing; risiko gagal jantung & tromboemboli.",
+      "causes": "Genetik (mutasi MYBPC3 pada Maine Coon/Ragdoll), idiopatik, sekunder hipertiroid/hipertensi.",
+      "prevention": "Skrining genetik & ekokardiografi pada ras berisiko sebelum dibiakkan.",
+      "prognosis": "Bervariasi; asimptomatik bisa stabil lama, gagal jantung/ATE memburuk prognosis.",
+      "breed_susceptibility": [
+        {"breed_slug": "cat-maine-coon", "risk": "high", "is_hereditary": true, "notes": "Mutasi MYBPC3 A31P."},
+        {"breed_slug": "cat-ragdoll", "risk": "high", "is_hereditary": true, "notes": "Mutasi MYBPC3 R820W."},
+        {"breed_slug": "cat-sphynx", "risk": "high", "is_hereditary": true},
+        {"breed_slug": "cat-british-shorthair", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Rapid or labored breathing", "name_id": "Napas cepat/sesak", "body_system": "respiratory", "frequency": "high", "is_red_flag": true},
+        {"name": "Lethargy", "name_id": "Lemas", "body_system": "systemic", "frequency": "moderate"},
+        {"name": "Sudden hindlimb paralysis (ATE)", "name_id": "Kelumpuhan kaki belakang mendadak (tromboemboli)", "body_system": "cardiovascular", "frequency": "moderate", "is_red_flag": true, "is_pathognomonic": true},
+        {"name": "Heart murmur / gallop", "name_id": "Bising jantung/gallop", "body_system": "cardiovascular", "frequency": "high"},
+        {"name": "Fainting (syncope)", "name_id": "Pingsan", "body_system": "cardiovascular", "frequency": "low"}
+      ],
+      "diagnostics": [
+        {"name": "Ekokardiografi", "type": "imaging_ultrasound", "is_gold_standard": true, "step_order": 1, "expected_finding": "Hipertrofi dinding ventrikel kiri >6mm"},
+        {"name": "NT-proBNP test", "type": "blood_test", "step_order": 2, "expected_finding": "Meningkat (skrining)"},
+        {"name": "Radiografi toraks", "type": "imaging_xray", "step_order": 3, "expected_finding": "Edema paru/efusi bila gagal jantung"},
+        {"name": "Tekanan darah & T4", "type": "blood_test", "step_order": 4, "expected_finding": "Singkirkan hipertiroid/hipertensi"}
+      ],
+      "treatments": [
+        {
+          "name": "Manajemen HCM & gagal jantung",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Diuretik bila kongesti paru. 2) Pengelolaan ritme/beta-blocker bila indikasi. 3) Antitrombotik cegah ATE. 4) Batasi stres & aktivitas berat. 5) Monitor ekokardiografi berkala.",
+          "recommendation": "Cegah pembekuan (ATE) pada atrium kiri membesar; tangani edema paru sebagai darurat.",
+          "products": [
+            {"name": "Furosemide", "kind": "medication", "active_ingredient": "Furosemide", "route": "oral/IV", "dosage_guide": "Sesuai derajat kongesti", "cautions": "Pantau ginjal & elektrolit."},
+            {"name": "Clopidogrel", "kind": "medication", "active_ingredient": "Clopidogrel", "route": "oral", "dosage_guide": "18.75 mg/kucing SID", "cautions": "Antiplatelet cegah tromboemboli."},
+            {"name": "Atenolol", "kind": "medication", "active_ingredient": "Atenolol", "route": "oral", "dosage_guide": "Sesuai resep", "cautions": "Hati-hati bila gagal jantung dekompensasi."},
+            {"name": "Pimobendan (kasus tertentu)", "kind": "medication", "active_ingredient": "Pimobendan", "route": "oral", "dosage_guide": "Sesuai resep kardiolog", "cautions": "Tidak rutin untuk HCM obstruktif."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-dermatophytosis-ringworm",
+      "name": "Dermatophytosis (Ringworm)",
+      "name_id": "Ringworm (Jamur Kulit)",
+      "etiology": "infectious_fungal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": true,
+      "default_severity": "mild",
+      "overview": "Infeksi jamur dermatofita pada kulit/bulu; menular ke hewan lain & manusia.",
+      "causes": "Microsporum canis (paling umum), kontak langsung/spora lingkungan.",
+      "prevention": "Karantina hewan baru, disinfeksi lingkungan, hindari kontak hewan terinfeksi.",
+      "prognosis": "Baik; bisa sembuh sendiri tapi pengobatan mempercepat & cegah penularan.",
+      "breed_susceptibility": [
+        {"breed_slug": "cat-persian", "risk": "high", "notes": "Bulu panjang & sering carrier asimptomatik."},
+        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "age_onset": "kitten & imunosupresi"}
+      ],
+      "symptoms": [
+        {"name": "Circular hair loss", "name_id": "Kebotakan melingkar", "body_system": "integumentary", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Scaly / crusty skin", "name_id": "Kulit bersisik/berkerak", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Broken hairs", "name_id": "Bulu patah", "body_system": "integumentary", "frequency": "moderate"},
+        {"name": "Mild itching", "name_id": "Gatal ringan", "body_system": "integumentary", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Lampu Wood", "type": "physical_exam", "step_order": 1, "expected_finding": "Fluoresensi hijau apel (M. canis sebagian)"},
+        {"name": "Trichogram (mikroskop bulu)", "type": "cytology", "step_order": 2, "expected_finding": "Artrospora pada batang rambut"},
+        {"name": "Kultur jamur (DTM) / PCR", "type": "culture_sensitivity", "is_gold_standard": true, "step_order": 3, "expected_finding": "Pertumbuhan dermatofit"}
+      ],
+      "treatments": [
+        {
+          "name": "Antijamur topikal + sistemik",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Antijamur topikal (lime sulfur/miconazole) seluruh tubuh. 2) Antijamur sistemik (itraconazole) untuk kasus luas. 3) Dekontaminasi lingkungan rutin. 4) Recheck dengan kultur sampai negatif 2x.",
+          "recommendation": "Tangani semua hewan kontak + lingkungan; gunakan sarung tangan (zoonosis).",
+          "products": [
+            {"name": "Itraconazole", "kind": "medication", "active_ingredient": "Itraconazole", "route": "oral", "dosage_guide": "5 mg/kg SID (pulse 1 minggu on/off)", "cautions": "Monitor hati."},
+            {"name": "Lime sulfur dip", "kind": "medication", "active_ingredient": "Sulfurated lime", "route": "topikal", "dosage_guide": "2x/minggu", "cautions": "Bau menyengat, hindari mata."},
+            {"name": "Miconazole/chlorhexidine shampoo", "kind": "grooming", "active_ingredient": "Miconazole + chlorhexidine", "route": "topikal", "dosage_guide": "2x/minggu", "cautions": "Bilas bersih."}
+          ]
+        }
+      ]
+    }
+  ]
+}

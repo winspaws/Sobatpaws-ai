@@ -1,0 +1,132 @@
+{
+  "category_slug": "poultry",
+  "disclaimer": "Untuk unggas ternak perhatikan withdrawal period obat sebelum konsumsi telur/daging. Penyakit menular (ND/AI) wajib lapor dinas peternakan.",
+  "diseases": [
+    {
+      "slug": "poultry-newcastle-disease",
+      "name": "Newcastle Disease (ND)",
+      "name_id": "Tetelo (Newcastle Disease / ND)",
+      "etiology": "infectious_viral",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penyakit viral sangat menular & mematikan pada unggas, menyerang napas, cerna, dan saraf.",
+      "causes": "Avian paramyxovirus-1 (APMV-1) via aerosol, feses, peralatan tercemar.",
+      "prevention": "Vaksinasi ND terjadwal, biosekuriti ketat, isolasi & desinfeksi.",
+      "prognosis": "Strain velogenik mortalitas hingga 100%; tidak ada terapi spesifik.",
+      "breed_susceptibility": [
+        {"breed_slug": "poultry-chicken-broiler", "risk": "very_high"},
+        {"breed_slug": "poultry-chicken-layer", "risk": "very_high"},
+        {"breed_slug": "poultry-chicken-kampung", "risk": "high"}
+      ],
+      "symptoms": [
+        {"name": "Twisted neck (torticollis)", "name_id": "Leher terpuntir/kepala miring", "body_system": "nervous", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Greenish diarrhea", "name_id": "Diare kehijauan", "body_system": "digestive", "frequency": "high"},
+        {"name": "Respiratory distress / gasping", "name_id": "Megap-megap/sesak", "body_system": "respiratory", "frequency": "high", "is_red_flag": true},
+        {"name": "Drop in egg production", "name_id": "Produksi telur anjlok", "body_system": "reproductive", "frequency": "high"},
+        {"name": "Sudden high mortality", "name_id": "Kematian mendadak massal", "body_system": "systemic", "frequency": "high", "is_red_flag": true}
+      ],
+      "diagnostics": [
+        {"name": "Gejala klinis + nekropsi", "type": "necropsy", "step_order": 1, "expected_finding": "Perdarahan proventrikulus, lesi usus"},
+        {"name": "PCR / isolasi virus (lab resmi)", "type": "pcr_molecular", "is_gold_standard": true, "step_order": 2, "expected_finding": "APMV-1 terdeteksi"},
+        {"name": "Serologi HI test", "type": "serology", "step_order": 3, "expected_finding": "Titer antibodi"}
+      ],
+      "treatments": [
+        {
+          "name": "Pengendalian wabah & biosekuriti",
+          "type": "isolation_quarantine",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Isolasi/depopulasi sesuai regulasi. 2) Desinfeksi kandang & peralatan. 3) Vaksinasi unggas sehat di sekitar (ring vaccination). 4) Lapor dinas peternakan. 5) Suportif (vitamin/elektrolit) pada nilai ekonomis.",
+          "recommendation": "Tidak ada obat antivirus; fokus pencegahan via vaksinasi & biosekuriti. WAJIB LAPOR.",
+          "products": [
+            {"name": "Vaksin ND (La Sota/Komarov)", "kind": "vaccine", "active_ingredient": "Virus ND avirulen/inaktif", "route": "tetes mata/air minum/injeksi", "dosage_guide": "Sesuai program vaksinasi", "cautions": "Rantai dingin terjaga."},
+            {"name": "Vitamin + elektrolit", "kind": "supplement", "active_ingredient": "Multivitamin", "route": "air minum", "dosage_guide": "Sesuai label", "cautions": "Suportif saja."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "poultry-coccidiosis",
+      "name": "Coccidiosis",
+      "name_id": "Koksidiosis (Berak Darah)",
+      "etiology": "parasitic_internal",
+      "body_system": "digestive",
+      "is_contagious": true,
+      "default_severity": "severe",
+      "overview": "Infeksi protozoa Eimeria pada usus, umum pada ayam muda di litter lembap.",
+      "causes": "Eimeria spp.; litter basah, kepadatan tinggi, sanitasi buruk.",
+      "prevention": "Litter kering, kepadatan tepat, koksidiostat dalam pakan, vaksin coccidia.",
+      "prognosis": "Baik bila diobati dini; kerugian berat bila terlambat.",
+      "breed_susceptibility": [
+        {"breed_slug": "poultry-chicken-broiler", "risk": "high", "age_onset": "3-6 minggu"},
+        {"breed_slug": "poultry-chicken-kampung", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Bloody droppings", "name_id": "Berak/feses berdarah", "body_system": "digestive", "frequency": "very_high", "is_pathognomonic": true},
+        {"name": "Ruffled feathers", "name_id": "Bulu berdiri/kusut", "body_system": "systemic", "frequency": "high"},
+        {"name": "Lethargy & huddling", "name_id": "Lesu & bergerombol kedinginan", "body_system": "systemic", "frequency": "high"},
+        {"name": "Reduced feed intake", "name_id": "Nafsu makan turun", "body_system": "digestive", "frequency": "high"},
+        {"name": "Pale comb", "name_id": "Jengger pucat (anemia)", "body_system": "hematologic", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Pemeriksaan feses (oocyst count)", "type": "fecal_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Ookista Eimeria tinggi"},
+        {"name": "Nekropsi usus", "type": "necropsy", "step_order": 2, "expected_finding": "Perdarahan/lesi sekum/usus"}
+      ],
+      "treatments": [
+        {
+          "name": "Antikoksidia via air minum",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Antikoksidia (amprolium/toltrazuril) dalam air minum. 2) Perbaiki litter (keringkan). 3) Vitamin A & K untuk pemulihan. 4) Kurangi kepadatan.",
+          "recommendation": "Obati seluruh flock; perbaiki manajemen litter untuk cegah kambuh.",
+          "products": [
+            {"name": "Amprolium", "kind": "medication", "active_ingredient": "Amprolium", "route": "air minum", "dosage_guide": "Sesuai label 5-7 hari", "cautions": "Perhatikan withdrawal."},
+            {"name": "Toltrazuril", "kind": "medication", "active_ingredient": "Toltrazuril", "route": "air minum", "dosage_guide": "Sesuai label", "cautions": "Withdrawal period."},
+            {"name": "Vitamin A & K", "kind": "supplement", "active_ingredient": "Vitamin A, K3", "route": "air minum", "dosage_guide": "Sesuai label", "cautions": "Pemulihan mukosa & pembekuan."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "poultry-egg-binding",
+      "name": "Egg Binding (Dystocia)",
+      "name_id": "Telur Tersangkut (Egg Binding)",
+      "etiology": "metabolic",
+      "body_system": "reproductive",
+      "default_severity": "severe",
+      "is_emergency": true,
+      "overview": "Telur tersangkut di saluran reproduksi, darurat terutama pada burung kecil & ayam petelur.",
+      "causes": "Defisiensi kalsium, telur besar/abnormal, otot lemah, obesitas, usia.",
+      "prevention": "Suplementasi kalsium adekuat, pencahayaan & nutrisi tepat.",
+      "prognosis": "Baik bila cepat ditangani; fatal bila syok/prolaps.",
+      "breed_susceptibility": [
+        {"breed_slug": "poultry-chicken-layer", "risk": "high"},
+        {"breed_slug": "poultry-lovebird", "risk": "high", "notes": "Burung betina bertelur kronis."}
+      ],
+      "symptoms": [
+        {"name": "Straining / abdominal effort", "name_id": "Mengejan terus-menerus", "body_system": "reproductive", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Fluffed and lethargic", "name_id": "Mengembang & lesu di dasar kandang", "body_system": "systemic", "frequency": "high"},
+        {"name": "Tail bobbing / labored breathing", "name_id": "Ekor naik-turun / napas berat", "body_system": "respiratory", "frequency": "moderate", "is_red_flag": true},
+        {"name": "Palpable egg in abdomen", "name_id": "Teraba telur di perut", "body_system": "reproductive", "frequency": "high", "is_pathognomonic": true}
+      ],
+      "diagnostics": [
+        {"name": "Palpasi abdomen", "type": "physical_exam", "step_order": 1, "expected_finding": "Telur teraba"},
+        {"name": "Radiografi", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Posisi & jumlah telur, kalsifikasi"}
+      ],
+      "treatments": [
+        {
+          "name": "Stabilisasi + bantuan pengeluaran telur",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Hangatkan & lembapkan (kandang hangat lembap). 2) Kalsium + cairan. 3) Lubrikasi kloaka. 4) Bantuan manual hati-hati / ovocentesis oleh vet bila gagal. 5) Atasi syok.",
+          "recommendation": "Kalsium injeksi sering memicu kontraksi pengeluaran; jangan tarik telur paksa (risiko prolaps/ruptur).",
+          "products": [
+            {"name": "Calcium gluconate / borogluconate", "kind": "medication", "active_ingredient": "Kalsium", "route": "injeksi/oral", "dosage_guide": "Sesuai BB", "cautions": "Penting untuk kontraksi otot."},
+            {"name": "Lubrikan steril", "kind": "medical_device", "active_ingredient": "Pelumas water-based", "route": "topikal kloaka", "dosage_guide": "Secukupnya", "cautions": "—"}
+          ]
+        }
+      ]
+    }
+  ]
+}

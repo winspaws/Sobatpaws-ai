@@ -1,0 +1,131 @@
+{
+  "category_slug": "rabbit",
+  "disclaimer": "Kelinci herbivora dengan saluran cerna sensitif. HINDARI antibiotik oral golongan tertentu (penicillin/amoxicillin oral, clindamycin, lincomycin) yang dapat menyebabkan enterotoxemia fatal.",
+  "diseases": [
+    {
+      "slug": "rabbit-gi-stasis",
+      "name": "Gastrointestinal Stasis",
+      "name_id": "Stasis Saluran Cerna (GI Stasis)",
+      "etiology": "metabolic",
+      "body_system": "digestive",
+      "default_severity": "severe",
+      "is_emergency": true,
+      "overview": "Perlambatan/penghentian motilitas usus — kondisi darurat umum & mematikan pada kelinci.",
+      "causes": "Diet rendah serat, nyeri, stres, dehidrasi, kurang gerak, gigi bermasalah.",
+      "prevention": "Diet utama hay/rumput tak terbatas, air cukup, kurangi stres, cek gigi rutin.",
+      "prognosis": "Baik bila ditangani dini; fatal bila terlambat.",
+      "breed_susceptibility": [
+        {"breed_slug": "rabbit-netherland-dwarf", "risk": "high"},
+        {"breed_slug": "rabbit-lionhead", "risk": "high", "notes": "Risiko wool block dari menjilat bulu."}
+      ],
+      "symptoms": [
+        {"name": "Not eating", "name_id": "Berhenti makan (anoreksia)", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true, "is_pathognomonic": true},
+        {"name": "No or small fecal pellets", "name_id": "Feses kecil/tidak ada", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Lethargy", "name_id": "Lemas", "body_system": "systemic", "frequency": "high"},
+        {"name": "Hunched posture", "name_id": "Membungkuk kesakitan", "body_system": "digestive", "frequency": "high"},
+        {"name": "Bloated abdomen", "name_id": "Perut kembung", "body_system": "digestive", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Pemeriksaan fisik & auskultasi usus", "type": "physical_exam", "step_order": 1, "expected_finding": "Suara usus berkurang, massa lambung"},
+        {"name": "Radiografi abdomen", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Gas lambung/sekum, isi padat"},
+        {"name": "Cek gigi (oral exam)", "type": "physical_exam", "step_order": 3, "expected_finding": "Maloklusi sebagai pemicu"}
+      ],
+      "treatments": [
+        {
+          "name": "Stabilisasi & stimulasi motilitas",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Rehidrasi (cairan SC/IV). 2) Analgesik (meloxicam/buprenorphine). 3) Pemberian makan paksa critical care (serat tinggi). 4) Prokinetik bila tidak ada obstruksi total. 5) Hangatkan & dorong gerak.",
+          "recommendation": "Nyeri & dehidrasi harus diatasi dulu; JANGAN beri prokinetik bila ada obstruksi mekanik.",
+          "products": [
+            {"name": "Critical Care herbivore (Oxbow)", "kind": "food_prescription", "active_ingredient": "Pakan serat tinggi", "route": "oral (syringe)", "dosage_guide": "10-15 ml/kg tiap 6-8 jam", "cautions": "Jangan paksa bila kembung berat."},
+            {"name": "Meloxicam", "kind": "medication", "active_ingredient": "Meloxicam", "route": "oral/SC", "dosage_guide": "0.3-0.6 mg/kg SID", "cautions": "Pastikan hidrasi cukup."},
+            {"name": "Metoclopramide / Cisapride", "kind": "medication", "active_ingredient": "Prokinetik", "route": "oral/SC", "dosage_guide": "0.5 mg/kg", "cautions": "Kontraindikasi bila obstruksi."},
+            {"name": "Cairan Ringer Lactate", "kind": "medication", "active_ingredient": "Elektrolit", "route": "SC/IV", "dosage_guide": "Sesuai dehidrasi", "cautions": "—"}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "rabbit-dental-malocclusion",
+      "name": "Dental Malocclusion",
+      "name_id": "Maloklusi Gigi",
+      "etiology": "genetic_congenital",
+      "body_system": "dental",
+      "default_severity": "moderate",
+      "overview": "Gigi tumbuh terus tidak terkikis normal sehingga overgrowth & spurs melukai mulut.",
+      "causes": "Genetik (rahang pendek), diet kurang serat kasar, trauma.",
+      "prevention": "Diet hay tinggi serat untuk mengikis gigi, pemeriksaan gigi rutin.",
+      "prognosis": "Perlu manajemen seumur hidup (kikir gigi berkala).",
+      "breed_susceptibility": [
+        {"breed_slug": "rabbit-netherland-dwarf", "risk": "high", "is_hereditary": true, "notes": "Rahang pendek (brachycephalic)."},
+        {"breed_slug": "rabbit-holland-lop", "risk": "high", "is_hereditary": true}
+      ],
+      "symptoms": [
+        {"name": "Drooling / wet chin", "name_id": "Ngiler, dagu basah", "body_system": "dental", "frequency": "high"},
+        {"name": "Reduced appetite", "name_id": "Nafsu makan turun / pilih makanan lunak", "body_system": "digestive", "frequency": "high"},
+        {"name": "Weight loss", "name_id": "Berat badan turun", "body_system": "systemic", "frequency": "moderate"},
+        {"name": "Overgrown incisors", "name_id": "Gigi seri terlalu panjang", "body_system": "dental", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Facial swelling (abscess)", "name_id": "Bengkak wajah (abses akar gigi)", "body_system": "dental", "frequency": "low"}
+      ],
+      "diagnostics": [
+        {"name": "Oral exam dengan otoscope/speculum", "type": "physical_exam", "is_gold_standard": false, "step_order": 1, "expected_finding": "Spurs gigi geraham"},
+        {"name": "Radiografi/CT kepala", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Pertumbuhan akar abnormal, abses"}
+      ],
+      "treatments": [
+        {
+          "name": "Koreksi gigi (dental burring)",
+          "type": "surgical",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Sedasi/anestesi. 2) Kikir/potong gigi overgrown & spurs dengan burr. 3) Atasi luka mukosa. 4) Pengulangan berkala (tiap 4-8 minggu). 5) Optimalkan diet serat.",
+          "recommendation": "Jangan potong gigi seri dengan tang kuku (risiko fraktur akar) — gunakan burr.",
+          "products": [
+            {"name": "Meloxicam", "kind": "medication", "active_ingredient": "Meloxicam", "route": "oral", "dosage_guide": "0.3-0.6 mg/kg SID", "cautions": "Analgesik pasca prosedur."},
+            {"name": "Hay timothy/rumput", "kind": "food_regular", "active_ingredient": "Serat kasar", "route": "oral", "dosage_guide": "Ad libitum", "cautions": "Komponen utama diet."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "rabbit-snuffles-pasteurellosis",
+      "name": "Pasteurellosis (Snuffles)",
+      "name_id": "Snuffles (Pasteurellosis)",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "default_severity": "moderate",
+      "overview": "Infeksi saluran napas atas oleh Pasteurella multocida, sering kronik.",
+      "causes": "Pasteurella multocida; dipicu stres, ventilasi buruk, amonia kandang.",
+      "prevention": "Kandang bersih & berventilasi baik, kurangi stres, isolasi penderita.",
+      "prognosis": "Sulit eradikasi total; manajemen jangka panjang.",
+      "breed_susceptibility": [
+        {"breed_slug": "rabbit-holland-lop", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Nasal discharge", "name_id": "Ingus (sering bernanah)", "body_system": "respiratory", "frequency": "very_high"},
+        {"name": "Sneezing", "name_id": "Bersin-bersin", "body_system": "respiratory", "frequency": "high"},
+        {"name": "Crusty front paws", "name_id": "Kaki depan berkerak (mengelap hidung)", "body_system": "respiratory", "frequency": "moderate", "is_pathognomonic": true},
+        {"name": "Eye discharge", "name_id": "Mata berair/belekan", "body_system": "ophthalmic", "frequency": "moderate"},
+        {"name": "Labored breathing", "name_id": "Napas berat (bila ke paru)", "body_system": "respiratory", "frequency": "low", "is_red_flag": true}
+      ],
+      "diagnostics": [
+        {"name": "Pemeriksaan klinis", "type": "physical_exam", "step_order": 1, "expected_finding": "Discharge nasal purulen"},
+        {"name": "Kultur & sensitivitas swab nasal", "type": "culture_sensitivity", "is_gold_standard": true, "step_order": 2, "expected_finding": "Pasteurella multocida"},
+        {"name": "Radiografi toraks", "type": "imaging_xray", "step_order": 3, "expected_finding": "Pneumonia/abses bila lanjut"}
+      ],
+      "treatments": [
+        {
+          "name": "Antibiotik aman kelinci + suportif",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Antibiotik berdasarkan kultur (enrofloxacin/trimethoprim-sulfa). 2) Perbaiki husbandry & ventilasi. 3) Nebulisasi. 4) Dukungan nutrisi.",
+          "recommendation": "Pilih antibiotik AMAN kelinci; hindari penicillin/amoxicillin/clindamycin oral.",
+          "products": [
+            {"name": "Enrofloxacin", "kind": "medication", "active_ingredient": "Enrofloxacin", "route": "oral/SC", "dosage_guide": "5-10 mg/kg BID", "cautions": "Aman untuk kelinci; hindari pada juvenil pertumbuhan tulang."},
+            {"name": "Trimethoprim-sulfamethoxazole", "kind": "medication", "active_ingredient": "TMP-SMX", "route": "oral", "dosage_guide": "30 mg/kg BID", "cautions": "Jaga hidrasi."}
+          ]
+        }
+      ]
+    }
+  ]
+}
