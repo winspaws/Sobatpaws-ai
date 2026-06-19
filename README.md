@@ -1,7 +1,12 @@
-# 🐾 Sobatpaws — Veterinary ML & AI Data Platform
+# 🐾 Sobatpaws — Veterinary Backend AI Services
 
-Platform **sumber data + pembelajaran mesin (ML) + AI wrapping** untuk mendukung
-**dokter hewan (vets), klinik hewan, dan petshop** dalam mengolah & menganalisa
+**Backend AI Services** untuk dokter hewan — menyediakan REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+
+> ⚠️ Sobatpaws **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
+> Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
+> endpoint Sobatpaws untuk menerima input customer dan menampilkan saran AI ke dokter.
+
+Mendukung **dokter hewan (vets), klinik hewan, dan petshop** dalam mengolah & menganalisa
 data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 
 > ⚠️ **Disclaimer medis:** Seluruh data & output bersifat **pendukung keputusan**
@@ -33,27 +38,52 @@ Cakupan data saat ini (dapat terus diperluas):
 ## 2. Arsitektur
 
 ```
-                ┌──────────────────────────────────────────────┐
-   data/*.json  │   data_loader.py  →  KnowledgeBase (in-mem)   │
- (single source │      (kategori, ras, varian, penyakit)        │
-   of truth)    └───────────────┬──────────────┬───────────────┘
-                                │              │
-                  ┌─────────────▼───┐    ┌─────▼───────────────┐
-                  │ seed_generator  │    │     ML pipeline     │
-                  │  → seed.sql     │    │ dataset → train →   │
-                  │  (PostgreSQL)   │    │ model (RandomForest)│
-                  └─────────────────┘    └─────────┬───────────┘
-                                                   │ predict (symptom→disease)
-   dbml/schema.dbml ──(dbml2sql)──► schema.sql     │
-                                                   ▼
-                          ┌────────────────────────────────────┐
-                          │       AI Suggestion Engine          │
-   AI provider (LLM) ◄────┤  retrieve (ML + KB + breed risk)    │
-   openai/anthropic/mock  │  → ground (KB) → safety guardrail   │
-                          │  → LLM synthesis → structured JSON  │
-                          └─────────────────┬──────────────────┘
-                                            ▼
-                                  FastAPI  /ai/suggest
+┌──────────────────────────────────────────────────────────┐
+│  APLIKASI EKSTERNAL (Android / iOS / Web / App Vet 3rd)  │
+│  - Input: teks, mic, kamera                              │
+│  - UI/UX: tampilkan saran AI ke dokter                   │
+│  - Kelola data customer, pet, appointment                │
+└────────────────────────┬─────────────────────────────────┘
+                         │ REST API / JSON
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  SOBATPAWS BACKEND API (FastAPI)                         │
+│                                                          │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │              KNOWLEDGE BASE (JSON)               │    │
+│  │  data_loader.py → KnowledgeBase (in-mem)         │    │
+│  │  (kategori, ras, varian, penyakit)               │    │
+│  └────────────────────┬─────────────────────────────┘    │
+│                       │                                  │
+│         ┌─────────────▼─────────────┐                    │
+│         │    ML Pipeline            │                    │
+│         │  dataset → train → model  │                    │
+│         │  (RandomForest per sp.)   │                    │
+│         └─────────────┬─────────────┘                    │
+│                       │ predict (symptom→disease)        │
+│                       ▼                                  │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         AI Suggestion Engine (RAG)               │    │
+│  │  retrieve (ML + KB + breed risk)                 │    │
+│  │  → ground (KB) → safety guardrail                │    │
+│  │  → LLM synthesis (opsional) → structured JSON    │    │
+│  └────────────────────┬─────────────────────────────┘    │
+│                       │                                  │
+│  ┌────────────────────┴─────────────────────────────┐    │
+│  │              REST API ENDPOINTS                   │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌────────────────┐    │    │
+│  │  │Input API │ │ AI/ML   │ │ Integration    │    │    │
+│  │  │(keluhan, │ │(suggest,│ │(manifest,      │    │    │
+│  │  │ symptom, │ │ predict,│ │ id-schema,     │    │    │
+│  │  │ data pet)│ │ consult)│ │ lookup, sync)  │    │    │
+│  │  └──────────┘ └──────────┘ └────────────────┘    │    │
+│  └──────────────────────────────────────────────────┘    │
+│                                                          │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  Learning Loop (human-in-the-loop)               │    │
+│  │  doctor feedback → gold labels → retrain ML      │    │
+│  └──────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────┘
 ```
 
 Prinsip kunci: **Retrieval-Augmented Generation (RAG)** — AI tidak mengarang;
@@ -328,3 +358,87 @@ Data kurasi bersifat edukatif. Saat menambah data klinis nyata, lakukan
 **anonimisasi** (`clinical_cases.is_anonymized`) dan patuhi regulasi privasi.
 Penyakit unggas menular tertentu (mis. ND/AI) **wajib dilaporkan** ke dinas
 peternakan setempat.
+
+---
+
+## 11. Deployment (Production)
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     Docker Host                          │
+│                                                          │
+│  ┌──────────────┐    ┌──────────────┐    ┌────────────┐ │
+│  │  sobatpaws-  │    │  sobatpaws-  │    │ sobatpaws- │ │
+│  │  api         │───▶│  db          │    │ pgadmin    │ │
+│  │  (port 8080) │    │  (port 5432) │    │ (port 5050)│ │
+│  │              │    │              │    │ (debug)    │ │
+│  └──────────────┘    └──────────────┘    └────────────┘ │
+│         │                                                │
+│         ▼                                                │
+│  ┌──────────────┐                                        │
+│  │  host.docker │  (Ollama / vLLM for local inference)   │
+│  │  .internal   │                                        │
+│  └──────────────┘                                        │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `Dockerfile` | Multi-stage build (builder + runtime slim image) |
+| `docker-compose.prod.yml` | Production stack: API + PostgreSQL + pgAdmin (debug) |
+| `.env.production` | Environment variable template (copy to `.env`) |
+| `docs/deployment.md` | Full deployment guide (build, seed, backup, rollback) |
+
+### Quick Start
+
+```bash
+# 1. Copy env template and fill secrets
+cp .env.production .env
+# Edit .env — set API keys, passwords, etc.
+
+# 2. Build and start
+docker compose -f docker-compose.prod.yml up -d
+
+# 3. Verify health
+curl http://localhost:8080/health
+
+# 4. Check logs
+docker compose -f docker-compose.prod.yml logs -f api
+```
+
+### Resource Limits
+
+| Service | CPU Limit | Memory Limit |
+|---------|-----------|-------------|
+| API | 2.0 cores | 2 GB |
+| PostgreSQL | 1.0 core | 1 GB |
+| pgAdmin (debug) | — | 256 MB |
+
+ML inference (RandomForest) is CPU-bound. Expect ~100-500ms per prediction.
+
+### Health Check
+
+```bash
+curl http://localhost:8080/health
+# → {"status":"ok","llm_available":true,"knowledge_base":{...}}
+```
+
+Container-level HEALTHCHECK runs every 30s:
+```bash
+docker inspect --format='{{.State.Health.Status}}' sobatpaws-api
+```
+
+### Full Guide
+
+See `docs/deployment.md` for detailed instructions covering:
+- Build & deploy steps
+- Database seeding (first deploy)
+- ML model training
+- Backup & restore (DB + artifacts)
+- Rollback procedure
+- Troubleshooting
+- Security notes

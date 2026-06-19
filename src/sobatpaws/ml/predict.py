@@ -19,7 +19,9 @@ def _load(category_slug: str):
             f"python -m sobatpaws.ml.train --category {category_slug}"
         )
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
-    model = joblib.load(meta["model_path"])
+    # Construct model path from ARTIFACTS_DIR (portable across machines)
+    model_path = ARTIFACTS_DIR / "models" / f"symptom_disease_{category_slug}.joblib"
+    model = joblib.load(model_path)
     return model, meta
 
 

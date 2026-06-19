@@ -25,6 +25,7 @@ anthropic==0.28.0
 # DB (opsional, untuk memuat seed ke PostgreSQL)
 SQLAlchemy==2.0.30
 psycopg2-binary==2.9.9
+alembic==1.13.2
 
 # Data generation & ML export (opsional)
 # Generator inti (scripts/generate_*.py, validate_dataset.py) HANYA butuh stdlib.

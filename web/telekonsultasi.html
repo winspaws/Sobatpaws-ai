@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobatpaws — Telekonsultasi</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+  <style>
+    :root {
+      --bg: #0f1420;
+      --panel: #181f2e;
+      --panel-2: #1f2838;
+      --border: #2a3445;
+      --text: #e7ecf3;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --err: #f87171;
+      --danger-bg: #3a1620;
+      --success-bg: #0f2a1f;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: radial-gradient(1200px 600px at 80% -10%, #1b2740 0, var(--bg) 60%);
+      color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5; min-height: 100vh;
+    }
+
+    /* Layout */
+    .app-container { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 320px; background: var(--panel); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+    }
+    .main-content { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    @media (max-width: 900px) {
+      .app-container { flex-direction: column; }
+      .sidebar { width: 100%; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    /* Header */
+    header {
+      padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border); background: rgba(15,20,32,.85);
+      backdrop-filter: blur(8px);
+    }
+    header .logo { font-size: 24px; }
+    header h1 { font-size: 16px; margin: 0; font-weight: 650; }
+    header p { margin: 0; color: var(--muted); font-size: 12px; }
+    .grow { flex: 1; }
+    .btn {
+      border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+      padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 13px;
+      font-weight: 550; transition: .15s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #06121f; }
+    .btn:disabled { opacity: .5; cursor: progress; transform: none; }
+    .btn.icon { padding: 8px; }
+
+    /* Sidebar - Intake Form */
+    .sidebar-header {
+      padding: 16px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sidebar-header h2 { margin: 0; font-size: 14px; font-weight: 600; }
+    .sidebar-content { padding: 16px 18px; overflow-y: auto; flex: 1; }
+    .form-section { margin-bottom: 18px; }
+    .form-section h3 {
+      margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--muted); font-weight: 600;
+    }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 5px; font-weight: 550; }
+    select, input, textarea {
+      width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+      border-radius: 9px; padding: 9px 11px; font-size: 14px; font-family: inherit;
+    }
+    select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 80px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); color: var(--muted); }
+    .badge.ok { color: var(--ok); border-color: rgba(52,211,153,.4); background: rgba(52,211,153,.08); }
+    .badge.warn { color: var(--warn); border-color: rgba(251,191,36,.4); background: rgba(251,191,36,.08); }
+    .badge.danger { color: var(--err); border-color: rgba(248,113,113,.4); background: var(--danger-bg); }
+    .muted { color: var(--muted); font-size: 12.5px; }
+
+    /* Chat Area */
+    .chat-header {
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px; background: var(--panel);
+    }
+    .chat-header .pet-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .chat-header .pet-info h3 { margin: 0; font-size: 15px; font-weight: 600; }
+    .chat-header .pet-info p { margin: 0; font-size: 12px; color: var(--muted); }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    /* Message Bubbles */
+    .message { display: flex; gap: 10px; max-width: 85%; }
+    .message.user { align-self: flex-end; flex-direction: row-reverse; }
+    .message.ai { align-self: flex-start; }
+    .message.system { align-self: center; max-width: 100%; }
+    .msg-avatar {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .message.user .msg-avatar { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+    .message.ai .msg-avatar { background: var(--panel-2); border: 1px solid var(--border); }
+    .msg-bubble {
+      padding: 12px 14px; border-radius: 14px; font-size: 14px;
+    }
+    .message.user .msg-bubble {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06121f; border-bottom-right-radius: 4px;
+    }
+    .message.ai .msg-bubble {
+      background: var(--panel); border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+    .message.system .msg-bubble {
+      background: transparent; text-align: center; color: var(--muted);
+      font-size: 12px; padding: 6px;
+    }
+    .msg-time { font-size: 11px; color: var(--muted); margin-top: 4px; opacity: .7; }
+    .message.user .msg-time { text-align: right; }
+
+    /* AI Suggestion Cards */
+    .suggestion-card {
+      background: var(--panel-2); border: 1px solid var(--border);
+      border-radius: 12px; margin-top: 10px; overflow: hidden;
+    }
+    .suggestion-header {
+      padding: 10px 12px; background: var(--panel); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .suggestion-header .title { font-weight: 600; font-size: 13px; }
+    .suggestion-body { padding: 12px; }
+    .summary-box {
+      background: rgba(56,189,248,.08); border-left: 3px solid var(--accent);
+      padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; font-size: 13.5px;
+    }
+    .disease-item {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 9px;
+      padding: 10px 12px; margin-bottom: 8px;
+    }
+    .disease-item .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .disease-item .name { font-weight: 600; font-size: 13.5px; }
+    .disease-item .conf {
+      font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); font-size: 13px;
+    }
+    .disease-item .meta { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .bar { height: 5px; border-radius: 3px; background: var(--border); margin-top: 6px; overflow: hidden; }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .emergency-banner {
+      background: var(--danger-bg); border: 1px solid var(--err); color: #fecaca;
+      padding: 10px 12px; border-radius: 8px; font-weight: 600; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px; font-size: 13px;
+    }
+    .disclaimer {
+      font-size: 11px; color: var(--muted); margin-top: 10px; padding-top: 8px;
+      border-top: 1px dashed var(--border);
+    }
+    .tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: var(--border); color: var(--muted); }
+    .tag.em { background: rgba(248,113,113,.18); color: #fca5a5; }
+
+    /* Chat Input */
+    .chat-input-area {
+      padding: 14px 20px; border-top: 1px solid var(--border); background: var(--panel);
+    }
+    .input-row { display: flex; gap: 10px; align-items: flex-end; }
+    .input-row textarea {
+      flex: 1; min-height: 44px; max-height: 120px; resize: none;
+      padding: 10px 12px;
+    }
+
+    /* Video Call Placeholder */
+    .video-placeholder {
+      background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px;
+      margin: 0 20px 12px; padding: 20px; text-align: center;
+    }
+    .video-placeholder .icon { font-size: 48px; margin-bottom: 10px; opacity: .5; }
+    .video-placeholder h4 { margin: 0 0 6px; font-size: 14px; }
+    .video-placeholder p { margin: 0; font-size: 12px; color: var(--muted); }
+    .video-controls { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
+
+    /* Session State */
+    .session-status {
+      display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+      background: var(--panel-2); border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .dot.active { background: var(--ok); box-shadow: 0 0 0 3px rgba(52,211,153,.2); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .4 } }
+
+    /* Step indicators for intake */
+    .step-indicator { display: flex; gap: 6px; margin-bottom: 16px; }
+    .step {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--panel-2);
+      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: var(--muted);
+    }
+    .step.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #06121f; }
+    .step.done { background: var(--success-bg); border-color: var(--ok); color: var(--ok); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 60px 20px; color: var(--muted);
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 14px; opacity: .5; }
+    .empty-state h3 { margin: 0 0 6px; font-size: 16px; color: var(--text); }
+    .empty-state p { margin: 0; font-size: 13px; }
+
+    /* Toast */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+    .toast {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 16px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px;
+      animation: slideIn .2s ease;
+    }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .toast.err { border-color: var(--err); background: var(--danger-bg); }
+    .toast.ok { border-color: var(--ok); background: var(--success-bg); }
+
+    /* Loading */
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.2);
+      border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .typing-indicator { display: flex; gap: 4px; padding: 8px 0; }
+    .typing-indicator span {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--muted);
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .typing-indicator span:nth-child(1) { animation-delay: -.32s; }
+    .typing-indicator span:nth-child(2) { animation-delay: -.16s; }
+    @keyframes bounce {
+      0%,80%,100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Symptom chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .chip {
+      font-size: 12px; padding: 4px 9px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--panel);
+      cursor: pointer; user-select: none; transition: .12s;
+    }
+    .chip:hover { border-color: var(--accent); }
+    .chip.on { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #06121f; border: none; font-weight: 600; }
+    .chip.red { border-color: rgba(248,113,113,.5); }
+    .chip.on.red { background: linear-gradient(135deg, #f87171, #fb7185); }
+
+    /* Section toggle */
+    .toggle-section { cursor: pointer; user-select: none; }
+    .toggle-section:hover { background: rgba(56,189,248,.04); }
+    .toggle-content { display: none; }
+    .toggle-content.open { display: block; }
+    .caret { transition: transform .15s; display: inline-block; }
+    .open .caret { transform: rotate(90deg); }
+
+    /* Diagnostic/treatment lists */
+    .list-group { margin-top: 10px; }
+    .list-item {
+      padding: 8px 10px; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 7px; margin-bottom: 6px; font-size: 13px;
+    }
+    .list-item .label { font-weight: 600; }
+    .list-item .detail { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    /* Footer */
+    footer {
+      padding: 12px 18px; border-top: 1px solid var(--border); text-align: center;
+      color: var(--muted); font-size: 11px;
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="app-container">
+    <!-- Sidebar: Intake Form -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span>📋</span>
+        <h2>Intake Konsultasi</h2>
+        <span class="grow"></span>
+        <span class="badge" id="sessionBadge">Belum dimulai</span>
+      </div>
+
+      <div class="session-status" id="sessionStatus" style="display:none;">
+        <span class="dot active"></span>
+        <span class="muted">Sesi aktif: <span id="activeSessionId">-</span></span>
+      </div>
+
+      <div class="sidebar-content" id="intakeForm">
+        <!-- Step 1: Pet Info -->
+        <div class="step-indicator">
+          <div class="step active" id="step1">1</div>
+          <div class="step" id="step2">2</div>
+          <div class="step" id="step3">3</div>
+        </div>
+
+        <div class="form-section" id="petInfoSection">
+          <h3>Informasi Hewan</h3>
+
+          <label for="speciesSelect">Spesies *</label>
+          <select id="speciesSelect" onchange="onSpeciesChange()">
+            <option value="">Pilih spesies...</option>
+          </select>
+
+          <label for="breedSelect">Ras</label>
+          <select id="breedSelect">
+            <option value="">Pilih spesies dulu...</option>
+          </select>
+
+          <div class="row">
+            <div>
+              <label for="ageInput">Umur (tahun)</label>
+              <input id="ageInput" type="number" step="0.1" placeholder="mis. 2.5" />
+            </div>
+            <div>
+              <label for="weightInput">Berat (kg)</label>
+              <input id="weightInput" type="number" step="0.1" placeholder="mis. 4.5" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="sexSelect">Jenis Kelamin</label>
+              <select id="sexSelect">
+                <option value="">-</option>
+                <option value="male">Jantan</option>
+                <option value="female">Betina</option>
+              </select>
+            </div>
+            <div>
+              <label for="neuteredCheck">Steril?</label>
+              <select id="neuteredCheck">
+                <option value="">-</option>
+                <option value="true">Ya</option>
+                <option value="false">Tidak</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Symptoms -->
+        <div class="form-section" id="symptomsSection" style="display:none;">
+          <h3>Gejala Utama</h3>
+
+          <label for="complaintInput">Keluhan / Riwayat *</label>
+          <textarea id="complaintInput" placeholder="Deskripsikan keluhan hewan secara detail..."></textarea>
+
+          <label>Gejala terdeteksi (klik untuk tambah)</label>
+          <div class="chips" id="symptomChips">
+            <span class="muted">Pilih spesies dan masukkan keluhan untuk melihat gejala...</span>
+          </div>
+        </div>
+
+        <!-- Step 3: Review -->
+        <div class="form-section" id="reviewSection" style="display:none;">
+          <h3>Ringkasan</h3>
+          <div id="reviewSummary" class="muted" style="font-size:13px; line-height:1.7;">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <div style="margin-top:20px; display:flex; gap:10px;">
+          <button class="btn" id="prevBtn" onclick="prevStep()" style="display:none;">← Sebelumnya</button>
+          <button class="btn primary grow" id="nextBtn" onclick="nextStep()">Lanjut →</button>
+        </div>
+
+        <div style="margin-top:16px;">
+          <button class="btn primary" id="startConsultBtn" onclick="startConsultation()" style="display:none; width:100%;">
+            ▶ Mulai Konsultasi
+          </button>
+        </div>
+      </div>
+
+      <footer>
+        <a href="/">← Kembali ke Dashboard</a>
+      </footer>
+    </aside>
+
+    <!-- Main Content: Chat / Video -->
+    <main class="main-content" id="mainContent">
+      <header>
+        <span class="logo">🐾</span>
+        <div>
+          <h1>Sobatpaws Telekonsultasi</h1>
+          <p>Konsultasi dokter hewan dengan dukungan AI</p>
+        </div>
+        <div class="grow"></div>
+        <button class="btn" onclick="toggleVideo()" id="videoToggleBtn">📹 Video</button>
+        <a href="/" class="btn">📊 Dashboard</a>
+      </header>
+
+      <!-- Video Placeholder (hidden by default) -->
+      <div class="video-placeholder" id="videoPlaceholder" style="display:none;">
+        <div class="icon">📹</div>
+        <h4>Video Call — Placeholder</h4>
+        <p>Integrasi WebRTC / video platform akan ditambahkan di sini.</p>
+        <div class="video-controls">
+          <button class="btn">🎤 Mic</button>
+          <button class="btn">📷 Kamera</button>
+          <button class="btn primary">📞 Hubungkan</button>
+          <button class="btn" onclick="toggleVideo()">✕ Tutup</button>
+        </div>
+      </div>
+
+      <!-- Chat Header -->
+      <div class="chat-header" id="chatHeader" style="display:none;">
+        <div class="pet-avatar" id="petAvatar">🐱</div>
+        <div class="pet-info">
+          <h3 id="petName">Pasien</h3>
+          <p id="petMeta">-</p>
+        </div>
+        <div class="grow"></div>
+        <span class="badge ok" id="aiStatusBadge">AI Ready</span>
+      </div>
+
+      <!-- Chat Messages -->
+      <div class="chat-messages" id="chatMessages">
+        <div class="empty-state" id="emptyState">
+          <div class="icon">💬</div>
+          <h3>Mulai Konsultasi</h3>
+          <p>Isi formulir intake di sebelah kiri untuk memulai sesi konsultasi.</p>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="chat-input-area" id="chatInputArea" style="display:none;">
+        <div class="input-row">
+          <textarea id="messageInput" placeholder="Ketik pesan atau keluhan tambahan..."
+            onkeydown="handleInputKeydown(event)"></textarea>
+          <button class="btn primary" id="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
+        <div style="margin-top:8px; display:flex; gap:8px;">
+          <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="uploadImage(this)">
+          <input type="file" id="audioInput" accept="audio/*" style="display:none;" onchange="uploadAudio(this)">
+          <button class="btn icon" id="imageBtn" title="Attach gambar" onclick="document.getElementById('imageInput').click()">📷</button>
+          <button class="btn icon" id="audioBtn" title="Rekam suara / upload audio" onclick="document.getElementById('audioInput').click()">🎤</button>
+          <span class="grow"></span>
+          <span class="muted" style="font-size:11px;">Enter untuk kirim, Shift+Enter untuk baris baru</span>
+        </div>
+        <div id="uploadStatus" style="display:none; margin-top:8px; padding:8px 12px; border-radius:8px; background:var(--panel-2); font-size:12px;">
+          <span id="uploadStatusText">Mengunggah...</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API = ""; // same-origin
+    let CATEGORIES = [];
+    let CURRENT_STEP = 1;
+    let SELECTED_SYMPTOMS = new Set();
+    let CONSULTATION_ID = null;
+    let SESSION_CONTEXT = null;
+
+    const SPECIES_EMOJIS = {
+      dog: "🐕", cat: "🐱", rabbit: "🐰", hamster: "🐹",
+      poultry: "🐔", fish: "🐟", reptile: "🦎", amphibian: "🐸",
+      ferret: "🦨", guinea_pig: "🐹"
+    };
+
+    // API Key config — can be set via localStorage.setItem('sobatpaws_api_key', 'sk-...')
+    function getApiKey() {
+      return localStorage.getItem('sobatpaws_api_key') || "";
+    }
+
+    // ---------- Utilities ----------
+    async function api(path, opts) {
+      const apiKey = getApiKey();
+      const headers = {
+        ...(opts?.headers || {})
+      };
+      // Only add Content-Type if not a FormData (browser handles multipart boundary automatically)
+      if (!(opts?.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+      }
+      if (apiKey) {
+        headers["X-Sobatpaws-Key"] = apiKey;
+      }
+      const res = await fetch(API + path, {
+        ...opts,
+        headers
+      });
+      if (!res.ok) {
+        let msg = res.statusText;
+        try { const j = await res.json(); msg = j.detail || msg; } catch (e) {}
+        throw new Error(msg);
+      }
+      return res.json();
+    }
+
+    // ---------- Media Upload ----------
+    function setUploadStatus(text, isError = false) {
+      const el = document.getElementById("uploadStatus");
+      const textEl = document.getElementById("uploadStatusText");
+      el.style.display = "block";
+      textEl.textContent = text;
+      if (isError) {
+        el.style.background = "var(--danger-bg)";
+        el.style.color = "#fecaca";
+      } else {
+        el.style.background = "var(--panel-2)";
+        el.style.color = "var(--text)";
+      }
+    }
+
+    function hideUploadStatus() {
+      document.getElementById("uploadStatus").style.display = "none";
+    }
+
+    async function uploadMedia(file, modality, channel) {
+      if (!CONSULTATION_ID) {
+        showToast("Mulai konsultasi terlebih dahulu", "error");
+        return;
+      }
+
+      setUploadStatus(`Mengunggah ${file.name}...`);
+
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("modality", modality);
+      fd.append("channel", channel);
+
+      // Add typing indicator
+      const typingId = addTypingIndicator();
+
+      try {
+        const apiKey = getApiKey();
+        const headers = {};
+        if (apiKey) {
+          headers["X-Sobatpaws-Key"] = apiKey;
+        }
+
+        const res = await fetch(`${API}/consultations/${CONSULTATION_ID}/media`, {
+          method: "POST",
+          headers,
+          body: fd
+        });
+
+        if (!res.ok) {
+          let msg = res.statusText;
+          try { const j = await res.json(); msg = j.detail || msg; } catch (e) {}
+          throw new Error(msg);
+        }
+
+        const r = await res.json();
+        removeTypingIndicator(typingId);
+
+        // Add system message about upload
+        const obs = (r.intake.observations || []).map(o => o.source).join(", ");
+        const statusText = obs
+          ? `Media diproses (${obs}). Gejala: ${r.intake.symptoms?.length || 0}`
+          : "Media diterima (mode offline: proses vision/STT membutuhkan API key LLM)";
+
+        addMessage("system", `📎 ${file.name} — ${statusText}`);
+        hideUploadStatus();
+
+        // Render the updated suggestion
+        renderSuggestion(r.suggestion, r.intake);
+
+      } catch (e) {
+        removeTypingIndicator(typingId);
+        setUploadStatus(`Gagal: ${e.message}`, true);
+        showToast("Gagal mengunggah media: " + e.message, "error");
+      }
+    }
+
+    function uploadImage(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      input.value = ""; // reset
+      uploadMedia(file, "image", "video");
+    }
+
+    function uploadAudio(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      input.value = ""; // reset
+      uploadMedia(file, "audio", "voice");
+    }
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${type === "error" ? "err" : type === "success" ? "ok" : ""}`;
+      toast.innerHTML = `<span>${type === "error" ? "❌" : type === "success" ? "✅" : "ℹ️"}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function formatTime(date) {
+      return date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    // ---------- Load Master Data ----------
+    async function loadCategories() {
+      try {
+        CATEGORIES = await api("/categories");
+        const select = document.getElementById("speciesSelect");
+        select.innerHTML = '<option value="">Pilih spesies...</option>' +
+          CATEGORIES.map(c => `<option value="${c.slug}">${c.name_id || c.name}</option>`).join("");
+      } catch (e) {
+        showToast("Gagal memuat data spesies: " + e.message, "error");
+      }
+    }
+
+    async function onSpeciesChange() {
+      const slug = document.getElementById("speciesSelect").value;
+      const breedSelect = document.getElementById("breedSelect");
+
+      if (!slug) {
+        breedSelect.innerHTML = '<option value="">Pilih spesies dulu...</option>';
+        return;
+      }
+
+      try {
+        const breeds = await api(`/categories/${slug}/breeds`);
+        breedSelect.innerHTML = '<option value="">— Pilih ras (opsional) —</option>' +
+          breeds.map(b => `<option value="${b.slug}">${b.name_id || b.name}</option>`).join("");
+
+        // Load symptoms for this category
+        loadSymptomsForCategory(slug);
+      } catch (e) {
+        showToast("Gagal memuat data ras: " + e.message, "error");
+      }
+    }
+
+    async function loadSymptomsForCategory(categorySlug) {
+      try {
+        // Use stats endpoint to get symptoms, or derive from diseases
+        const stats = await api("/api/stats/breakdown");
+        const cat = stats.by_category?.find(c => c.slug === categorySlug);
+
+        const chipsContainer = document.getElementById("symptomChips");
+        if (cat && cat.symptoms > 0) {
+          // For MVP, show a curated list based on common symptoms
+          // In production, this would come from a dedicated symptoms endpoint
+          chipsContainer.innerHTML = `
+            <span class="chip" onclick="toggleSymptom(this, 'Nafsu makan menurun')">Nafsu makan menurun</span>
+            <span class="chip" onclick="toggleSymptom(this, 'Muntah')">Muntah</span>
+            <span class="chip red" onclick="toggleSymptom(this, 'Diare berdarah')">Diare berdarah</span>
+            <span class="chip" onclick="toggleSymptom(this, 'Lemas')">Lemas</span>
+            <span class="chip" onclick="toggleSymptom(this, 'Batuk')">Batuk</span>
+            <span class="chip red" onclick="toggleSymptom(this, 'Sesak napas')">Sesak napas</span>
+            <span class="chip" onclick="toggleSymptom(this, 'Gatal-gatal')">Gatal-gatal</span>
+            <span class="chip" onclick="toggleSymptom(this, 'Keluar mata')">Keluar mata</span>
+          `;
+        } else {
+          chipsContainer.innerHTML = '<span class="muted">Masukkan keluhan di kolom teks...</span>';
+        }
+      } catch (e) {
+        console.log("Could not load symptoms stats", e);
+      }
+    }
+
+    function toggleSymptom(el, symptom) {
+      el.classList.toggle("on");
+      if (el.classList.contains("on")) {
+        SELECTED_SYMPTOMS.add(symptom);
+      } else {
+        SELECTED_SYMPTOMS.delete(symptom);
+      }
+    }
+
+    // ---------- Intake Form Steps ----------
+    function updateStepIndicators() {
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById(`step${i}`);
+        el.classList.remove("active", "done");
+        if (i < CURRENT_STEP) el.classList.add("done");
+        if (i === CURRENT_STEP) el.classList.add("active");
+      }
+
+      document.getElementById("petInfoSection").style.display = CURRENT_STEP === 1 ? "block" : "none";
+      document.getElementById("symptomsSection").style.display = CURRENT_STEP === 2 ? "block" : "none";
+      document.getElementById("reviewSection").style.display = CURRENT_STEP === 3 ? "block" : "none";
+
+      document.getElementById("prevBtn").style.display = CURRENT_STEP > 1 ? "inline-flex" : "none";
+      document.getElementById("nextBtn").style.display = CURRENT_STEP < 3 ? "inline-flex" : "none";
+      document.getElementById("startConsultBtn").style.display = CURRENT_STEP === 3 ? "block" : "none";
+
+      if (CURRENT_STEP === 3) {
+        updateReview();
+      }
+    }
+
+    function validateStep(step) {
+      if (step === 1) {
+        const species = document.getElementById("speciesSelect").value;
+        if (!species) {
+          showToast("Pilih spesies terlebih dahulu", "error");
+          return false;
+        }
+        return true;
+      }
+      if (step === 2) {
+        const complaint = document.getElementById("complaintInput").value.trim();
+        if (!complaint && SELECTED_SYMPTOMS.size === 0) {
+          showToast("Masukkan keluhan atau pilih gejala", "error");
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function nextStep() {
+      if (!validateStep(CURRENT_STEP)) return;
+      if (CURRENT_STEP < 3) {
+        CURRENT_STEP++;
+        updateStepIndicators();
+      }
+    }
+
+    function prevStep() {
+      if (CURRENT_STEP > 1) {
+        CURRENT_STEP--;
+        updateStepIndicators();
+      }
+    }
+
+    function updateReview() {
+      const species = document.getElementById("speciesSelect").value;
+      const breed = document.getElementById("breedSelect").value;
+      const age = document.getElementById("ageInput").value;
+      const weight = document.getElementById("weightInput").value;
+      const sex = document.getElementById("sexSelect").value;
+      const neutered = document.getElementById("neuteredCheck").value;
+      const complaint = document.getElementById("complaintInput").value.trim();
+
+      const speciesData = CATEGORIES.find(c => c.slug === species);
+      const speciesName = speciesData?.name_id || speciesData?.name || species;
+
+      let html = `<div style="margin-bottom:10px;"><strong>Spesies:</strong> ${speciesName}</div>`;
+      if (breed) html += `<div style="margin-bottom:8px;"><strong>Ras:</strong> ${breed}</div>`;
+      if (age) html += `<div style="margin-bottom:8px;"><strong>Umur:</strong> ${age} tahun</div>`;
+      if (weight) html += `<div style="margin-bottom:8px;"><strong>Berat:</strong> ${weight} kg</div>`;
+      if (sex) html += `<div style="margin-bottom:8px;"><strong>JK:</strong> ${sex === "male" ? "Jantan" : "Betina"}</div>`;
+      if (neutered) html += `<div style="margin-bottom:8px;"><strong>Steril:</strong> ${neutered === "true" ? "Ya" : "Tidak"}</div>`;
+
+      if (complaint) {
+        html += `<hr style="border-color:var(--border);margin:12px 0;">`;
+        html += `<div><strong>Keluhan:</strong><br><span style="color:var(--text);">${complaint}</span></div>`;
+      }
+      if (SELECTED_SYMPTOMS.size > 0) {
+        html += `<div style="margin-top:10px;"><strong>Gejala:</strong> ${Array.from(SELECTED_SYMPTOMS).join(", ")}</div>`;
+      }
+
+      document.getElementById("reviewSummary").innerHTML = html;
+    }
+
+    // ---------- Consultation Flow ----------
+    async function startConsultation() {
+      const species = document.getElementById("speciesSelect").value;
+      const breed = document.getElementById("breedSelect").value || null;
+      const age = document.getElementById("ageInput").value ? parseFloat(document.getElementById("ageInput").value) : null;
+      const weight = document.getElementById("weightInput").value ? parseFloat(document.getElementById("weightInput").value) : null;
+      const sex = document.getElementById("sexSelect").value || null;
+      const isNeutered = document.getElementById("neuteredCheck").value === "true" ? true :
+                         document.getElementById("neuteredCheck").value === "false" ? false : null;
+      const complaint = document.getElementById("complaintInput").value.trim();
+
+      const btn = document.getElementById("startConsultBtn");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Memulai...';
+
+      try {
+        // Build context and intake
+        SESSION_CONTEXT = {
+          category_slug: species,
+          breed_slug: breed,
+          age_years: age,
+          weight_kg: weight,
+          sex: sex,
+          is_neutered: isNeutered,
+          // Mock IDs for MVP - in production these would come from app context
+          vet_id: 1,
+          owner_id: 1,
+          pet_id: 1
+        };
+
+        const intakeText = complaint || Array.from(SELECTED_SYMPTOMS).join(". ");
+
+        const payload = {
+          context: SESSION_CONTEXT,
+          intake: {
+            channel: "chat",
+            text: intakeText,
+            is_first_contact: true
+          }
+        };
+
+        const result = await api("/consultations", {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        CONSULTATION_ID = result.consultation_id;
+
+        // Update UI
+        document.getElementById("sessionBadge").className = "badge ok";
+        document.getElementById("sessionBadge").textContent = "Aktif";
+        document.getElementById("sessionStatus").style.display = "flex";
+        document.getElementById("activeSessionId").textContent = CONSULTATION_ID.slice(0, 12) + "...";
+
+        // Update chat header
+        const speciesData = CATEGORIES.find(c => c.slug === species);
+        document.getElementById("petAvatar").textContent = SPECIES_EMOJIS[species] || "🐾";
+        document.getElementById("petName").textContent = speciesData?.name_id || speciesData?.name || "Pasien";
+        document.getElementById("petMeta").textContent = [
+          breed ? breed : null,
+          age ? `${age} thn` : null,
+          weight ? `${weight} kg` : null
+        ].filter(Boolean).join(" • ") || "Konsultasi baru";
+
+        document.getElementById("chatHeader").style.display = "flex";
+        document.getElementById("chatInputArea").style.display = "block";
+        document.getElementById("emptyState").style.display = "none";
+
+        // Add system message and AI response
+        addMessage("system", `Konsultasi dimulai — ID: ${CONSULTATION_ID}`);
+        addMessage("user", intakeText);
+        renderSuggestion(result.suggestion, result.intake);
+
+        showToast("Konsultasi berhasil dimulai!", "success");
+
+        // Disable intake form
+        disableIntakeForm();
+
+      } catch (e) {
+        showToast("Gagal memulai konsultasi: " + e.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = "▶ Mulai Konsultasi";
+      }
+    }
+
+    function disableIntakeForm() {
+      const inputs = document.querySelectorAll("#intakeForm select, #intakeForm input, #intakeForm textarea, #intakeForm button");
+      inputs.forEach(el => {
+        if (el.id !== "startConsultBtn") el.disabled = true;
+      });
+      document.getElementById("startConsultBtn").style.display = "none";
+      document.getElementById("prevBtn").style.display = "none";
+      document.getElementById("nextBtn").style.display = "none";
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+
+      if (!text || !CONSULTATION_ID) return;
+
+      const sendBtn = document.getElementById("sendBtn");
+      sendBtn.disabled = true;
+
+      // Add user message
+      addMessage("user", text);
+      input.value = "";
+
+      // Add typing indicator
+      const typingId = addTypingIndicator();
+
+      try {
+        const result = await api(`/consultations/${CONSULTATION_ID}/turns`, {
+          method: "POST",
+          body: JSON.stringify({
+            intake: {
+              channel: "chat",
+              text: text
+            }
+          })
+        });
+
+        removeTypingIndicator(typingId);
+        renderSuggestion(result.suggestion, result.intake);
+
+      } catch (e) {
+        removeTypingIndicator(typingId);
+        addMessage("ai", `⚠️ Maaf, terjadi kesalahan: ${e.message}`);
+        showToast("Gagal mengirim pesan: " + e.message, "error");
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
+
+    function handleInputKeydown(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // ---------- Chat Rendering ----------
+    function addMessage(role, text) {
+      const container = document.getElementById("chatMessages");
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${role}`;
+
+      let avatarIcon = "🤖";
+      if (role === "user") avatarIcon = "👤";
+      else if (role === "system") avatarIcon = "ℹ️";
+
+      if (role === "system") {
+        msgDiv.innerHTML = `<div class="msg-bubble">${text}</div>`;
+      } else {
+        msgDiv.innerHTML = `
+          <div class="msg-avatar">${avatarIcon}</div>
+          <div>
+            <div class="msg-bubble">${escapeHtml(text)}</div>
+            <div class="msg-time">${formatTime(new Date())}</div>
+          </div>
+        `;
+      }
+
+      container.appendChild(msgDiv);
+      scrollToBottom();
+      return msgDiv;
+    }
+
+    function addTypingIndicator() {
+      const container = document.getElementById("chatMessages");
+      const id = "typing-" + Date.now();
+      const div = document.createElement("div");
+      div.id = id;
+      div.className = "message ai";
+      div.innerHTML = `
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+      scrollToBottom();
+      return id;
+    }
+
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function renderSuggestion(suggestion, intake) {
+      const container = document.getElementById("chatMessages");
+      const wrapper = document.createElement("div");
+      wrapper.className = "message ai";
+
+      let emergencyHtml = "";
+      if (suggestion.is_emergency) {
+        emergencyHtml = `<div class="emergency-banner">🚨 DARURAT — Segera lakukan pemeriksaan lebih lanjut!</div>`;
+      }
+
+      let diseasesHtml = "";
+      if (suggestion.suggested_diseases && suggestion.suggested_diseases.length > 0) {
+        diseasesHtml = `<div style="margin-top:12px;"><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Diagnosa Potensial</strong>`;
+        suggestion.suggested_diseases.slice(0, 5).forEach(d => {
+          const confPct = Math.round(d.confidence * 100);
+          const name = d.name_id || d.disease_slug;
+          const sourceLabel = d.source === "ml" ? "ML" : d.source === "llm" ? "LLM" : d.source === "knowledge_base" ? "KB" : d.source;
+          diseasesHtml += `
+            <div class="disease-item">
+              <div class="top">
+                <span class="name">${name}</span>
+                <span class="conf">${confPct}%</span>
+              </div>
+              <div class="meta">
+                <span class="tag">${sourceLabel}</span>
+                ${d.is_emergency ? '<span class="tag em">Darurat</span>' : ''}
+                ${d.rationale ? `<span style="margin-left:6px;">${d.rationale}</span>` : ''}
+              </div>
+              <div class="bar"><i style="width:${confPct}%"></i></div>
+            </div>
+          `;
+        });
+        diseasesHtml += `</div>`;
+      }
+
+      let diagnosticsHtml = "";
+      if (suggestion.suggested_diagnostics && suggestion.suggested_diagnostics.length > 0) {
+        diagnosticsHtml = `<div class="list-group"><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Pemeriksaan Disarankan</strong>`;
+        suggestion.suggested_diagnostics.forEach(d => {
+          diagnosticsHtml += `
+            <div class="list-item">
+              <div class="label">${d.name}</div>
+              ${d.expected_finding ? `<div class="detail">Ekspektasi: ${d.expected_finding}</div>` : ''}
+              ${d.is_gold_standard ? '<span class="tag">Gold Standard</span>' : ''}
+            </div>
+          `;
+        });
+        diagnosticsHtml += `</div>`;
+      }
+
+      let treatmentsHtml = "";
+      if (suggestion.suggested_treatments && suggestion.suggested_treatments.length > 0) {
+        treatmentsHtml = `<div class="list-group" style="margin-top:12px;"><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Tindakan Disarankan</strong>`;
+        suggestion.suggested_treatments.forEach(t => {
+          treatmentsHtml += `
+            <div class="list-item">
+              <div class="label">${t.name}</div>
+              ${t.recommendation ? `<div class="detail">${t.recommendation}</div>` : ''}
+            </div>
+          `;
+        });
+        treatmentsHtml += `</div>`;
+      }
+
+      let productsHtml = "";
+      if (suggestion.suggested_products && suggestion.suggested_products.length > 0) {
+        productsHtml = `<div class="list-group" style="margin-top:12px;"><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Produk</strong>`;
+        suggestion.suggested_products.forEach(p => {
+          productsHtml += `
+            <div class="list-item">
+              <div class="label">${p.name}${p.kind ? ` <span class="tag">${p.kind}</span>` : ''}</div>
+              ${p.active_ingredient ? `<div class="detail">Zat aktif: ${p.active_ingredient}</div>` : ''}
+              ${p.dosage_guide ? `<div class="detail">Dosis: ${p.dosage_guide}</div>` : ''}
+              ${p.safety_flag ? `<div class="detail" style="color:var(--err);">⚠️ ${p.safety_flag}</div>` : ''}
+            </div>
+          `;
+        });
+        productsHtml += `</div>`;
+      }
+
+      let redFlagsHtml = "";
+      if (suggestion.red_flags && suggestion.red_flags.length > 0) {
+        redFlagsHtml = `<div class="warn-box" style="margin-top:12px;">
+          <strong>🚩 Red Flags:</strong> ${suggestion.red_flags.join(", ")}
+        </div>`;
+      }
+
+      let safetyWarningsHtml = "";
+      if (suggestion.safety_warnings && suggestion.safety_warnings.length > 0) {
+        safetyWarningsHtml = suggestion.safety_warnings.map(w =>
+          `<div class="warn-box" style="margin-top:8px;">
+            <strong>🛡 Safety Warning:</strong> ${w}
+          </div>`
+        ).join("");
+      }
+
+      let followUpHtml = "";
+      if (suggestion.follow_up_questions && suggestion.follow_up_questions.length > 0) {
+        followUpHtml = `<div style="margin-top:12px;">
+          <strong style="font-size:12px;color:var(--accent);">❓ Pertanyaan lanjutan:</strong>
+          <ul style="margin:6px 0 0; padding-left:18px; color:var(--muted); font-size:13px;">
+            ${suggestion.follow_up_questions.map(q => `<li>${q}</li>`).join("")}
+          </ul>
+        </div>`;
+      }
+
+      wrapper.innerHTML = `
+        <div class="msg-avatar">🤖</div>
+        <div>
+          <div class="msg-bubble" style="padding:0; overflow:hidden;">
+            <div class="suggestion-card" style="border:none; margin:0;">
+              <div class="suggestion-header">
+                <span>🧠</span>
+                <span class="title">Saran AI</span>
+                <span class="grow"></span>
+                <span class="tag">${suggestion.generated_by || "AI"}</span>
+              </div>
+              <div class="suggestion-body">
+                ${emergencyHtml}
+                <div class="summary-box">${suggestion.summary || "Analisis selesai."}</div>
+                ${redFlagsHtml}
+                ${safetyWarningsHtml}
+                ${diseasesHtml}
+                ${diagnosticsHtml}
+                ${treatmentsHtml}
+                ${productsHtml}
+                ${followUpHtml}
+                <div class="disclaimer">${suggestion.disclaimer || "Saran AI bersifat pendukung keputusan klinis."}</div>
+              </div>
+            </div>
+          </div>
+          <div class="msg-time">${formatTime(new Date())}</div>
+        </div>
+      `;
+
+      container.appendChild(wrapper);
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      const container = document.getElementById("chatMessages");
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 50);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---------- Video Toggle ----------
+    function toggleVideo() {
+      const placeholder = document.getElementById("videoPlaceholder");
+      const btn = document.getElementById("videoToggleBtn");
+      if (placeholder.style.display === "none") {
+        placeholder.style.display = "block";
+        btn.textContent = "📹 ✓ Video";
+      } else {
+        placeholder.style.display = "none";
+        btn.textContent = "📹 Video";
+      }
+    }
+
+    // ---------- Initialize ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCategories();
+      updateStepIndicators();
+    });
+  </script>
+</body>
+</html>

@@ -279,7 +279,7 @@ class DoctorInput(BaseModel):
     Dipetakan ke case_diagnoses / case_treatments / clinical_cases.
     """
 
-    consultation_id: str
+    consultation_id: str | None = None
     case_id: int | None = None
     vet_id: int | None = None
     org_id: int | None = None
@@ -304,7 +304,7 @@ class DoctorInput(BaseModel):
 class SuggestionFeedback(BaseModel):
     """Penilaian dokter atas saran AI (human-in-the-loop)."""
 
-    consultation_id: str
+    consultation_id: str | None = None
     suggestion_ref: str | None = None
     verdict: str = Field(description="correct | partially_correct | incorrect | not_applicable")
     corrected_disease_slug: str | None = None

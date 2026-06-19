@@ -60,5 +60,8 @@ AI_STORE_BACKEND = os.getenv("SOBATPAWS_AI_STORE_BACKEND", "jsonl")
 # Backend penyimpanan bahan pembelajaran: jsonl | postgres | both
 LEARNING_BACKEND = os.getenv("SOBATPAWS_LEARNING_BACKEND", "jsonl")
 
+# Backend penyimpanan session konsultasi: jsonl | postgres | both
+SESSION_STORE_BACKEND = os.getenv("SOBATPAWS_SESSION_BACKEND", "jsonl")
+
 VET_API_KEY = os.getenv("SOBATPAWS_VET_API_KEY", "")
 ADMIN_API_KEY = os.getenv("SOBATPAWS_ADMIN_API_KEY", "")

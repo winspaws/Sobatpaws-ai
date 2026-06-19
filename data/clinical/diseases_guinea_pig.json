@@ -1,0 +1,130 @@
+{
+  "category_slug": "guinea_pig",
+  "diseases": [
+    {
+      "slug": "scurvy-guinea-pig",
+      "common_name": "Scurvy (Defisiensi Vitamin C)",
+      "etiology": "Guinea pig tidak dapat mensintesis vitamin C sendiri, defisiensi <10 mg/hari",
+      "species": [
+        "guinea_pig"
+      ],
+      "prevalence": 0.35,
+      "mortality_rate": 0.2,
+      "contagious": false,
+      "clinical_signs": [
+        "Anoreksia",
+        "Kelemahan anggota gerak",
+        "Gangguan berjalan / enggan bergerak",
+        "Perdarahan gusi",
+        "Petechiae kulit",
+        "Nyeri sendi",
+        "Kematian dalam 2-3 minggu"
+      ],
+      "diagnostic_gold_standard": "Kadar vitamin C darah <0.4 mg/dL + riwayat pakan",
+      "treatment": [
+        "Vitamin C parenteral 25-50 mg/kg IM/SC setiap 24 jam selama 7 hari",
+        "Oral 10-30 mg/kg BID setelah fase akut",
+        "Suplementasi harian permanen 10 mg/hari"
+      ],
+      "prognosis": "Sangat baik jika ditangani sebelum komplikasi",
+      "references": [
+        "Meredith A. 2020. Guinea Pig Medicine and Surgery. BSAVA Manual",
+        "UC Davis Veterinary Medicine Exotic Pet Guidelines"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "pododermatitis",
+      "common_name": "Pododermatitis (Bumblefoot)",
+      "etiology": "Tekanan berulang pada alas kaki, lantai kawat, obesitas, kebersihan buruk, infeksi Staphylococcus aureus",
+      "species": [
+        "guinea_pig"
+      ],
+      "prevalence": 0.25,
+      "mortality_rate": 0.1,
+      "contagious": false,
+      "clinical_signs": [
+        "Kemerahan pada bantalan kaki",
+        "Pembengkakan",
+        "Ulserasi",
+        "Abses",
+        "Pincang",
+        "Enggan berjalan"
+      ],
+      "diagnostic_gold_standard": "Pemeriksaan fisik + kultur bakteri jika ulserasi",
+      "treatment": [
+        "Ganti alas lantai menjadi lembut (fleece / handuk)",
+        "Pembersihan luka harian dengan chlorhexidine",
+        "Antibiotik sistemik jika infeksi",
+        "Penurunan berat badan pada kasus obesitas"
+      ],
+      "prognosis": "Baik pada stadium 1-2, buruk pada stadium kronis dengan osteomielitis",
+      "references": [
+        "Harcourt-Brown F. 2013. Textbook of Rabbit Medicine and Surgery. Elsevier"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "pneumonia-guinea-pig",
+      "common_name": "Bacterial Pneumonia",
+      "etiology": "Bordetella bronchiseptica, Streptococcus pneumoniae, stress, kelembaban rendah, suhu ekstrem",
+      "species": [
+        "guinea_pig"
+      ],
+      "mortality_rate": 0.5,
+      "contagious": true,
+      "clinical_signs": [
+        "Sesak nafas",
+        "Nafsu makan hilang total",
+        "Keluar hidung purulen",
+        "Sneezing frekuen",
+        "Demam",
+        "Postur membungkuk",
+        "Kematian mendadak dalam 48 jam"
+      ],
+      "diagnostic_gold_standard": "Radiografi toraks + kultur bakteri dari tracheal wash",
+      "treatment": [
+        "Enrofloxacin 10 mg/kg PO BID selama 14 hari",
+        "Trimethoprim-sulfamethoxazole 30 mg/kg PO BID",
+        "Oksigen terapi, nebulisasi",
+        "Supportive fluid therapy"
+      ],
+      "prognosis": "Guarded, respon terapi lambat, sering ada komplikasi kronis",
+      "references": [
+        "Meredith A. 2020. Guinea Pig Medicine and Surgery. BSAVA Manual"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "urolithiasis-guinea-pig",
+      "common_name": "Urolithiasis (Batu Kandung Kemih)",
+      "etiology": "Metabolisme kalsium tinggi, diet tinggi kalsium oksalat, dehidrasi, genetik",
+      "species": [
+        "guinea_pig"
+      ],
+      "prevalence": 0.15,
+      "mortality_rate": 0.3,
+      "contagious": false,
+      "clinical_signs": [
+        "Hematuria",
+        "Sakit saat buang air kecil",
+        "Sering jongkok tapi tidak keluar urine",
+        "Pembesaran kandung kemih",
+        "Anoreksia",
+        "Kolik abdomen"
+      ],
+      "diagnostic_gold_standard": "Radiografi abdominal + urinalisis",
+      "treatment": [
+        "Cystotomy bedah untuk batu >5mm",
+        "Terapi cairan untuk flushing batu kecil",
+        "Diet rendah kalsium oksalat",
+        "Peningkatan asupan air"
+      ],
+      "prognosis": "Baik jika bedah dilakukan sebelum obstruksi ginjal, rekurensi 40% dalam 2 tahun",
+      "references": [
+        "Lichtenberger M. 2019. Urolithiasis in small mammals. Journal of Exotic Pet Medicine"
+      ],
+      "status": "curated"
+    }
+  ]
+}

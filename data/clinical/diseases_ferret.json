@@ -1,0 +1,129 @@
+{
+  "category_slug": "ferret",
+  "diseases": [
+    {
+      "slug": "adrenal-disease-ferret",
+      "common_name": "Adrenal Gland Disease",
+      "etiology": "Hiperplasia / adenoma / adenokarsinoma kelenjar adrenal, akibat neutering dini + siklus cahaya artifisial",
+      "species": [
+        "ferret"
+      ],
+      "prevalence": 0.7,
+      "mortality_rate": 0.3,
+      "contagious": false,
+      "age_onset": "3-7 tahun",
+      "clinical_signs": [
+        "Alopesia simetris bilateral (dari ekor ke depan)",
+        "Gatal kulit",
+        "Vulva membesar pada betina",
+        "Atrofi testis pada jantan",
+        "Anemia",
+        "Letargi",
+        "Berat badan turun"
+      ],
+      "diagnostic_gold_standard": "Ultrasonografi abdominal + kadar hormon estradiol / 17-hydroxyprogesteron",
+      "treatment": [
+        "Deslorelin implant 4.7mg setiap 12-18 bulan",
+        "Adrenalectomy bedah untuk kasus unilateral",
+        "Melatonin oral 1mg/hari"
+      ],
+      "prognosis": "Baik dengan terapi medis, 2-4 tahun survival; guarded jika karsinoma metastatik",
+      "references": [
+        "Fox JG. 2014. Ferret medicine and surgery. 3rd Edition. Wiley-Blackwell",
+        "AAFP Ferret Care Guidelines 2020"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "insulinoma-ferret",
+      "common_name": "Insulinoma",
+      "scientific_name": "Pancreatic beta cell neoplasia",
+      "etiology": "Tumor sel beta pankreas menghasilkan insulin berlebihan menyebabkan hipoglikemia kronis",
+      "species": [
+        "ferret"
+      ],
+      "prevalence": 0.4,
+      "mortality_rate": 0.6,
+      "contagious": false,
+      "age_onset": "4-6 tahun",
+      "clinical_signs": [
+        "Hipersalivasi",
+        "Kelemahan anggota gerak belakang",
+        "Kejang",
+        "Pingsan",
+        "Buka mata tapi tidak merespon",
+        "Sembunyi di tempat gelap",
+        "Gigit tanpa alasan"
+      ],
+      "diagnostic_gold_standard": "Glukosa darah puasa <60 mg/dL + kadar insulin tinggi",
+      "treatment": [
+        "Prednisolon 0.5-2 mg/kg PO BID",
+        "Diazoxide 10-30 mg/kg PO BID",
+        "Pembedahan partial pancreatectomy",
+        "Diet tinggi protein, rendah karbohidrat"
+      ],
+      "prognosis": "Medis: 6-18 bulan; bedah: 12-24 bulan",
+      "references": [
+        "Peterson ME. 2018. Insulinoma in ferrets: diagnosis and management. Journal of Exotic Pet Medicine"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "lymphoma-ferret",
+      "common_name": "Lymphoma",
+      "etiology": "Neoplasma limfosit, etiologi tidak diketahui, kemungkinan viral + genetik",
+      "species": [
+        "ferret"
+      ],
+      "prevalence": 0.15,
+      "mortality_rate": 0.9,
+      "contagious": false,
+      "clinical_signs": [
+        "Pembesaran kelenjar getah bening",
+        "Berat badan turun",
+        "Anoreksia",
+        "Splenomegali",
+        "Diare kronis",
+        "Sesak nafas",
+        "Demam intermiten"
+      ],
+      "diagnostic_gold_standard": "Fine Needle Aspiration (FNA) + sitologi / biopsy histopatologi",
+      "treatment": [
+        "Kemoterapi CHOP protocol (Cyclophosphamide, Doxorubicin, Vincristine, Prednisolone)",
+        "Paliatif prednisolon saja"
+      ],
+      "prognosis": "Guarded, rerata survival 2-8 bulan",
+      "references": [
+        "Kiupel M et al. 2011. Classification of lymphoma in ferrets. Veterinary Pathology"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "aleutian-disease",
+      "common_name": "Aleutian Disease Virus (ADV)",
+      "etiology": "Parvovirus infeksi kronis, autoimun kompleks imun",
+      "species": [
+        "ferret"
+      ],
+      "mortality_rate": 0.8,
+      "contagious": true,
+      "transmission": "Aerosol, kontak langsung, urine/feses, plasenta",
+      "clinical_signs": [
+        "Berat badan turun progresif",
+        "Anemia aplastik",
+        "Gagal ginjal kronis",
+        "Kelumpuhan",
+        "Kejang",
+        "Melenia",
+        "Kematian tanpa gejala"
+      ],
+      "diagnostic_gold_standard": "Serologi CEP (Counterimmunoelectrophoresis) atau PCR",
+      "treatment": "Tidak ada terapi spesifik, hanya suportif",
+      "prognosis": "Buruk, fatal dalam 2-24 bulan pasca infeksi",
+      "references": [
+        "Fox JG. 2014. Ferret medicine and surgery. 3rd Edition. Wiley-Blackwell"
+      ],
+      "status": "curated"
+    }
+  ]
+}

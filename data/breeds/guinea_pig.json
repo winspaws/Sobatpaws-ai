@@ -1,0 +1,127 @@
+{
+  "category_slug": "guinea_pig",
+  "breeds": [
+    {
+      "slug": "american-guinea-pig",
+      "common_name": "Marmut Amerika",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Amerika Selatan",
+      "lifespan_min": 5,
+      "lifespan_max": 7,
+      "adult_size_cm": 25,
+      "adult_weight_g": 1000,
+      "temperament": "Ramah, tenang, sosial",
+      "care_level": "Beginner",
+      "coat_type": "Pendek, halus",
+      "predisposed_diseases": [
+        "scurvy",
+        "pododermatitis",
+        "pneumonia",
+        "urolithiasis"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "abyssinian-guinea-pig",
+      "common_name": "Marmut Abyssinian",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Amerika Selatan",
+      "lifespan_min": 5,
+      "lifespan_max": 7,
+      "adult_size_cm": 27,
+      "adult_weight_g": 1100,
+      "temperament": "Aktif, energik, lebih vokal",
+      "care_level": "Intermediate",
+      "coat_type": "Rambut pendek dengan rosette (8-10 lingkaran rambut)",
+      "predisposed_diseases": [
+        "scurvy",
+        "skin-mites",
+        "malocclusion",
+        "diarrhea"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "peruvian-guinea-pig",
+      "common_name": "Marmut Peruvian",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Amerika Selatan",
+      "lifespan_min": 6,
+      "lifespan_max": 8,
+      "adult_size_cm": 28,
+      "adult_weight_g": 1200,
+      "temperament": "Tenang, lembut",
+      "care_level": "Advanced",
+      "coat_type": "Rambut panjang lurus sampai 30cm, butuh grooming harian",
+      "predisposed_diseases": [
+        "scurvy",
+        "skin-infection",
+        "matting",
+        "fly-strike"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "silkie-guinea-pig",
+      "common_name": "Marmut Silkie / Sheltie",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Inggris",
+      "lifespan_min": 5,
+      "lifespan_max": 7,
+      "adult_size_cm": 26,
+      "adult_weight_g": 1100,
+      "temperament": "Lembut, penurut",
+      "care_level": "Intermediate",
+      "coat_type": "Rambut panjang halus mengalir ke belakang, tanpa rosette",
+      "predisposed_diseases": [
+        "scurvy",
+        "matting",
+        "eye-irritation",
+        "urolithiasis"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "teddy-guinea-pig",
+      "common_name": "Marmut Teddy",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Amerika Serikat",
+      "lifespan_min": 4,
+      "lifespan_max": 6,
+      "adult_size_cm": 25,
+      "adult_weight_g": 1000,
+      "temperament": "Ramah, suka dipegang",
+      "care_level": "Beginner",
+      "coat_type": "Rambut pendek kasar, berdiri tegak seperti boneka teddy bear",
+      "predisposed_diseases": [
+        "scurvy",
+        "pododermatitis",
+        "malocclusion",
+        "respiratory-infection"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "skinny-pig",
+      "common_name": "Marmut Skinny Pig",
+      "scientific_name": "Cavia porcellus",
+      "origin": "Kanada",
+      "lifespan_min": 4,
+      "lifespan_max": 6,
+      "adult_size_cm": 25,
+      "adult_weight_g": 900,
+      "temperament": "Sosial, aktif",
+      "care_level": "Advanced",
+      "coat_type": "Tanpa rambut hampir seluruh tubuh, hanya memiliki rambut di hidung dan kaki",
+      "husbandry_notes": "Suhu 24-26C, butuh pemanas, kulit sensitif, pelindung matahari jika keluar ruangan",
+      "predisposed_diseases": [
+        "scurvy",
+        "skin-dryness",
+        "sunburn",
+        "hypothermia",
+        "fungal-skin-infection"
+      ],
+      "status": "curated"
+    }
+  ]
+}

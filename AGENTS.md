@@ -4,7 +4,35 @@ Dokumen ini adalah **titik masuk utama** bagi AI coding agent (Cursor, CI bot, i
 
 ## 1. Apa itu Sobatpaws?
 
-Platform **Smart Data + ML + AI** untuk dokter hewan:
+**Backend AI Services** untuk dokter hewan — menyediakan API, ML, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  APLIKASI EKSTERNAL (Android / iOS / Web / App Vet 3rd)  │
+│  - Input: teks, mic, kamera                              │
+│  - UI/UX: tampilkan saran AI ke dokter                   │
+│  - Kelola data customer, pet, appointment                │
+└────────────────────────┬─────────────────────────────────┘
+                         │ REST API / JSON
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  SOBATPAWS BACKEND API                                   │
+│  ┌────────────┐  ┌──────────────┐  ┌─────────────────┐  │
+│  │ Input API  │  │ AI Engine    │  │ Output/Suggest  │  │
+│  │ (keluhan,  │→ │ ML + KB +    │→ │ (structured     │  │
+│  │  symptom,  │  │ LLM RAG)     │  │  JSON ke app)   │  │
+│  │  data pet) │  │              │  │                 │  │
+│  └────────────┘  └──────────────┘  └─────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │ Integration Endpoints (sync ID, lookup, manifest) │   │
+│  └──────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │ Learning Loop (doctor feedback → retrain ML)     │   │
+│  └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
+```
+
+Komponen inti:
 - Knowledge base klinis (JSON) → grounding AI + training ML
 - Konsultasi multimodal (teks/mic/kamera) → saran klinis terstruktur
 - Learning loop (input dokter → gold labels → retrain)
@@ -99,6 +127,15 @@ python -m sobatpaws.ml.train --source hybrid --max-view-cases 2000
 2. Tampilkan `AISuggestion` ke dokter
 3. `POST /consultations/{id}/doctor-input` (gold label)
 4. `POST /learning/retrain` atau `python -m sobatpaws.ml.retrain`
+
+### E. Riset & jurnal perhewanan (agent `research` / Risa)
+1. Baca gap di `docs/jurnal/INDEX.md`
+2. Tulis/expand monograf di `docs/jurnal/{spesies,ras,penyakit,kesehatan}/`
+3. Log di `docs/jurnal/RESEARCH-LOG.md`
+4. Regenerate index: `python scripts/build_journal_index.py`
+5. Jika data klinis baru valid → edit `data/clinical/` → pipeline `agent_bootstrap`
+
+Chat: `research chat` dari workspace Naincode AI Dept.
 
 ### D. Agent AI interaktif (hemat token)
 - Gunakan `POST /api/agent/conversations/{id}/chat` (bukan raw LLM)

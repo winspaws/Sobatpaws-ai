@@ -2,107 +2,180 @@
   "category_slug": "fish",
   "breeds": [
     {
-      "slug": "fish-betta",
-      "name": "Betta / Siamese Fighting Fish",
-      "name_id": "Ikan Cupang",
-      "origin_country": "Southeast Asia",
-      "size_class": "toy",
-      "weight_kg_min": 0.002, "weight_kg_max": 0.004,
-      "lifespan_years_min": 2, "lifespan_years_max": 4,
-      "temperament": "Teritorial, jantan agresif sesama jantan.",
-      "coat_type": "Sirip lebar warna-warni",
-      "care_level": "low",
-      "variants": [
-        {"name": "Halfmoon", "variant_type": "morph"},
-        {"name": "Crowntail", "variant_type": "morph"},
-        {"name": "Plakat", "variant_type": "morph"},
-        {"name": "Koi / Nemo", "variant_type": "color"}
-      ],
-      "traits": [
-        {"trait_key": "labyrinth_breather", "trait_value": "yes"},
-        {"trait_key": "fin_rot_risk", "trait_value": "high"}
-      ]
-    },
-    {
       "slug": "fish-goldfish",
-      "name": "Goldfish",
-      "name_id": "Ikan Mas Koki",
-      "origin_country": "China",
-      "size_class": "small",
-      "weight_kg_min": 0.05, "weight_kg_max": 0.5,
-      "lifespan_years_min": 10, "lifespan_years_max": 20,
-      "temperament": "Damai, rakus makan, penghasil limbah tinggi.",
-      "coat_type": "Sisik metalik/nacreous",
-      "care_level": "medium",
-      "variants": [
-        {"name": "Oranda", "variant_type": "morph"},
-        {"name": "Ranchu", "variant_type": "morph"},
-        {"name": "Ryukin", "variant_type": "morph"},
-        {"name": "Comet", "variant_type": "morph"}
-      ],
-      "traits": [
-        {"trait_key": "swim_bladder_risk", "trait_value": "high"},
-        {"trait_key": "ammonia_sensitivity", "trait_value": "high"}
+      "name": "Goldfish / Mas Koki",
+      "name_common": "Mas Koki",
+      "origin": "China",
+      "avg_lifespan": "10-15 tahun",
+      "max_size": "20-30 cm",
+      "temperament": "Tenang, sosial",
+      "min_tank_size": "40 L / ekor",
+      "water_temp": "18-24 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-dropsy",
+        "fish-swim-bladder-disorder",
+        "fish-columnaris-saddleback"
       ]
     },
     {
-      "slug": "fish-koi",
-      "name": "Koi Carp",
-      "name_id": "Ikan Koi",
-      "origin_country": "Japan",
-      "size_class": "large",
-      "weight_kg_min": 1, "weight_kg_max": 15,
-      "lifespan_years_min": 25, "lifespan_years_max": 60,
-      "temperament": "Damai, jinak, ikan kolam.",
-      "coat_type": "Pola warna khas",
-      "care_level": "high",
-      "variants": [
-        {"name": "Kohaku", "variant_type": "pattern"},
-        {"name": "Sanke", "variant_type": "pattern"},
-        {"name": "Showa", "variant_type": "pattern"}
-      ],
-      "traits": [
-        {"trait_key": "khv_risk", "trait_value": "high"},
-        {"trait_key": "parasite_risk", "trait_value": "high"}
+      "slug": "fish-betta",
+      "name": "Betta / Ikan Cupang",
+      "name_common": "Ikan Cupang",
+      "origin": "Thailand, Malaysia",
+      "avg_lifespan": "2-3 tahun",
+      "max_size": "5-7 cm",
+      "temperament": "Agresif (jantan)",
+      "min_tank_size": "10 L / ekor",
+      "water_temp": "24-28 C",
+      "diet_type": "carnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-velvet-disease",
+        "fish-swim-bladder-disorder"
       ]
     },
     {
       "slug": "fish-guppy",
-      "name": "Guppy",
-      "name_id": "Ikan Guppy",
-      "origin_country": "South America",
-      "size_class": "toy",
-      "weight_kg_min": 0.0005, "weight_kg_max": 0.002,
-      "lifespan_years_min": 1, "lifespan_years_max": 3,
-      "temperament": "Damai, mudah berkembang biak.",
-      "coat_type": "Sirip & tubuh warna-warni",
-      "care_level": "low",
-      "variants": [
-        {"name": "Half Black", "variant_type": "pattern"},
-        {"name": "Albino Full Red", "variant_type": "color"},
-        {"name": "Blue Grass", "variant_type": "pattern"}
-      ],
-      "traits": [{"trait_key": "ich_risk", "trait_value": "moderate"}]
+      "name": "Guppy / Million Fish",
+      "name_common": "Guppy",
+      "origin": "Venezuela, Trinidad",
+      "avg_lifespan": "2-3 tahun",
+      "max_size": "3-5 cm",
+      "temperament": "Sosial, damai",
+      "min_tank_size": "10 L / kelompok",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot"
+      ]
     },
     {
-      "slug": "fish-arowana",
-      "name": "Arowana",
-      "name_id": "Ikan Arwana",
-      "origin_country": "Southeast Asia",
-      "size_class": "large",
-      "weight_kg_min": 1, "weight_kg_max": 6,
-      "lifespan_years_min": 10, "lifespan_years_max": 20,
-      "temperament": "Predator, teritorial, ikan premium.",
-      "coat_type": "Sisik besar mengkilap",
-      "care_level": "high",
-      "variants": [
-        {"name": "Super Red", "variant_type": "color"},
-        {"name": "Golden Crossback", "variant_type": "color"},
-        {"name": "Silver", "variant_type": "color"}
-      ],
-      "traits": [
-        {"trait_key": "drop_eye_risk", "trait_value": "moderate"},
-        {"trait_key": "water_quality_sensitivity", "trait_value": "high"}
+      "slug": "fish-neon-tetra",
+      "name": "Neon Tetra",
+      "name_common": "Neon Tetra",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "5-8 tahun",
+      "max_size": "3-4 cm",
+      "temperament": "Sangat sosial, schooling",
+      "min_tank_size": "30 L / kelompok minimal 6 ekor",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-columnaris-saddleback"
+      ]
+    },
+    {
+      "slug": "fish-angel-fish",
+      "name": "Angelfish / Manfish",
+      "name_common": "Manfish",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "8-10 tahun",
+      "max_size": "15-20 cm",
+      "temperament": "Damai (bisa agresif saat breeding)",
+      "min_tank_size": "100 L / pasangan",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "intermediate",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-columnaris-saddleback"
+      ]
+    },
+    {
+      "slug": "fish-corydoras",
+      "name": "Corydoras Catfish",
+      "name_common": "Corydoras",
+      "origin": "South America",
+      "avg_lifespan": "5-7 tahun",
+      "max_size": "5-7 cm",
+      "temperament": "Damai, sosial, bottom dweller",
+      "min_tank_size": "20 L / kelompok minimal 3 ekor",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-columnaris-saddleback",
+        "fish-fin-rot"
+      ]
+    },
+    {
+      "slug": "fish-molly",
+      "name": "Molly Fish",
+      "name_common": "Molly",
+      "origin": "Mexico, Central America",
+      "avg_lifespan": "3-5 tahun",
+      "max_size": "8-10 cm",
+      "temperament": "Damai, sosial",
+      "min_tank_size": "30 L / kelompok",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-swim-bladder-disorder",
+        "fish-ich-white-spot"
+      ]
+    },
+    {
+      "slug": "fish-gourami",
+      "name": "Gourami",
+      "name_common": "Gurami",
+      "origin": "Southeast Asia",
+      "avg_lifespan": "4-6 tahun",
+      "max_size": "10-15 cm",
+      "temperament": "Semi agresif",
+      "min_tank_size": "60 L / ekor",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "intermediate",
+      "predisposed_diseases": [
+        "fish-velvet-disease",
+        "fish-ich-white-spot"
+      ]
+    },
+    {
+      "slug": "fish-discus",
+      "name": "Discus Fish",
+      "name_common": "Discus",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "10-15 tahun",
+      "max_size": "15-20 cm",
+      "temperament": "Damai, sensitif",
+      "min_tank_size": "150 L / kelompok",
+      "water_temp": "28-30 C",
+      "diet_type": "carnivore",
+      "care_level": "expert",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-columnaris-saddleback",
+        "fish-velvet-disease"
+      ]
+    },
+    {
+      "slug": "fish-platy",
+      "name": "Platy Fish",
+      "name_common": "Platy",
+      "origin": "Mexico, Guatemala",
+      "avg_lifespan": "3-4 tahun",
+      "max_size": "4-6 cm",
+      "temperament": "Damai, sangat sosial",
+      "min_tank_size": "15 L / kelompok",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot"
       ]
     }
   ]

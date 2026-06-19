@@ -198,6 +198,7 @@ class timed_call:
 
     def __enter__(self):
         self.t0 = time.perf_counter()
+        self.latency_ms = 0  # init so it's safe to access before __exit__
         return self
 
     def __exit__(self, *args):
