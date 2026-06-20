@@ -1,0 +1,119 @@
+{
+  "category_slug": "rabbit",
+  "breeds": [
+    {
+      "slug": "rabbit-netherland-dwarf",
+      "name": "Netherland Dwarf",
+      "name_id": "Netherland Dwarf",
+      "origin_country": "Netherlands",
+      "size_class": "toy",
+      "weight_kg_min": 0.5, "weight_kg_max": 1.1,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Energik, kadang pemalu, badan mungil.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Ruby-Eyed White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Otter", "variant_type": "pattern"},
+        {"name": "Sable Point", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "malocclusion_risk", "trait_value": "high"},
+        {"trait_key": "gi_stasis_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "rabbit-holland-lop",
+      "name": "Holland Lop",
+      "name_id": "Holland Lop",
+      "origin_country": "Netherlands",
+      "size_class": "small",
+      "weight_kg_min": 1.1, "weight_kg_max": 1.8,
+      "lifespan_years_min": 7, "lifespan_years_max": 14,
+      "temperament": "Jinak, ramah, telinga jatuh (lop).",
+      "coat_type": "Bulu pendek lembut",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Broken", "variant_type": "pattern"},
+        {"name": "Tortoise", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "ear_infection_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "rabbit-lionhead",
+      "name": "Lionhead",
+      "name_id": "Lionhead",
+      "origin_country": "Belgium",
+      "size_class": "small",
+      "weight_kg_min": 1.0, "weight_kg_max": 1.7,
+      "lifespan_years_min": 7, "lifespan_years_max": 10,
+      "temperament": "Aktif, ramah, surai bulu di kepala.",
+      "coat_type": "Wool mane panjang",
+      "care_level": "high",
+      "variants": [
+        {"name": "Single Mane", "variant_type": "coat"},
+        {"name": "Double Mane", "variant_type": "coat"}
+      ],
+      "traits": [
+        {"trait_key": "wool_block_risk", "trait_value": "high"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "rabbit-rex",
+      "name": "Rex",
+      "name_id": "Rex",
+      "origin_country": "France",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 4.5,
+      "lifespan_years_min": 5, "lifespan_years_max": 8,
+      "temperament": "Tenang, cerdas, bulu seperti beludru.",
+      "coat_type": "Plush velvet coat",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Castor", "variant_type": "color"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "sore_hocks_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "rabbit-flemish-giant",
+      "name": "Flemish Giant",
+      "name_id": "Flemish Giant",
+      "origin_country": "Belgium",
+      "size_class": "giant",
+      "weight_kg_min": 6, "weight_kg_max": 10,
+      "lifespan_years_min": 5, "lifespan_years_max": 7,
+      "temperament": "Tenang, jinak, raksasa lembut.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Steel Grey", "variant_type": "color"},
+        {"name": "Fawn", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "sore_hocks_risk", "trait_value": "very_high"},
+        {"trait_key": "arthritis_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "rabbit-local-mixed",
+      "name": "Local / Mixed Rabbit",
+      "name_id": "Kelinci Lokal / Campuran",
+      "origin_country": "Indonesia",
+      "size_class": "medium",
+      "weight_kg_min": 1.5, "weight_kg_max": 3.5,
+      "lifespan_years_min": 6, "lifespan_years_max": 9,
+      "temperament": "Adaptif, tahan iklim tropis.",
+      "coat_type": "Bervariasi",
+      "care_level": "low",
+      "variants": [],
+      "traits": [{"trait_key": "hybrid_vigor", "trait_value": "yes"}]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "category_slug": "reptile",
+  "breeds": [
+    {
+      "slug": "reptile-leopard-gecko",
+      "name": "Leopard Gecko",
+      "name_id": "Leopard Gecko",
+      "origin_country": "South Asia",
+      "size_class": "small",
+      "weight_kg_min": 0.045, "weight_kg_max": 0.09,
+      "lifespan_years_min": 10, "lifespan_years_max": 20,
+      "temperament": "Jinak, nokturnal, pemula friendly.",
+      "coat_type": "Sisik bertotol",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Normal/Wild Type", "variant_type": "morph"},
+        {"name": "Albino", "variant_type": "morph"},
+        {"name": "Tangerine", "variant_type": "morph"},
+        {"name": "Mack Snow", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "mbd_risk", "trait_value": "high"},
+        {"trait_key": "impaction_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "reptile-bearded-dragon",
+      "name": "Bearded Dragon",
+      "name_id": "Bearded Dragon",
+      "origin_country": "Australia",
+      "size_class": "medium",
+      "weight_kg_min": 0.3, "weight_kg_max": 0.6,
+      "lifespan_years_min": 8, "lifespan_years_max": 14,
+      "temperament": "Jinak, diurnal, interaktif.",
+      "coat_type": "Sisik berduri",
+      "care_level": "high",
+      "variants": [
+        {"name": "Classic", "variant_type": "morph"},
+        {"name": "Hypo", "variant_type": "morph"},
+        {"name": "Leatherback", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "mbd_risk", "trait_value": "very_high"},
+        {"trait_key": "uvb_dependency", "trait_value": "very_high"},
+        {"trait_key": "atadenovirus_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "reptile-ball-python",
+      "name": "Ball Python",
+      "name_id": "Ular Sanca Bola",
+      "origin_country": "West Africa",
+      "size_class": "medium",
+      "weight_kg_min": 1, "weight_kg_max": 2.5,
+      "lifespan_years_min": 20, "lifespan_years_max": 30,
+      "temperament": "Tenang, jinak, menggulung saat takut.",
+      "coat_type": "Sisik halus",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Normal", "variant_type": "morph"},
+        {"name": "Pastel", "variant_type": "morph"},
+        {"name": "Piebald", "variant_type": "morph"},
+        {"name": "Albino", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "respiratory_infection_risk", "trait_value": "moderate"},
+        {"trait_key": "anorexia_tendency", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "reptile-red-eared-slider",
+      "name": "Red-Eared Slider",
+      "name_id": "Kura-kura Brazil",
+      "origin_country": "United States",
+      "size_class": "medium",
+      "weight_kg_min": 0.2, "weight_kg_max": 2.5,
+      "lifespan_years_min": 20, "lifespan_years_max": 40,
+      "temperament": "Akuatik, aktif berenang.",
+      "coat_type": "Karapas hijau-coklat",
+      "care_level": "high",
+      "variants": [
+        {"name": "Normal", "variant_type": "morph"},
+        {"name": "Albino", "variant_type": "morph"},
+        {"name": "Pastel", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "shell_rot_risk", "trait_value": "high"},
+        {"trait_key": "vitamin_a_deficiency_risk", "trait_value": "high"},
+        {"trait_key": "salmonella_carrier", "trait_value": "yes"}
+      ]
+    },
+    {
+      "slug": "reptile-green-iguana",
+      "name": "Green Iguana",
+      "name_id": "Iguana Hijau",
+      "origin_country": "Central/South America",
+      "size_class": "large",
+      "weight_kg_min": 1, "weight_kg_max": 8,
+      "lifespan_years_min": 12, "lifespan_years_max": 20,
+      "temperament": "Herbivora, bisa teritorial saat dewasa.",
+      "coat_type": "Sisik hijau berduri dorsal",
+      "care_level": "high",
+      "variants": [
+        {"name": "Green", "variant_type": "color"},
+        {"name": "Blue Axanthic", "variant_type": "morph"},
+        {"name": "Red", "variant_type": "morph"}
+      ],
+      "traits": [
+        {"trait_key": "mbd_risk", "trait_value": "very_high"},
+        {"trait_key": "kidney_disease_risk", "trait_value": "high"}
+      ]
+    }
+  ]
+}

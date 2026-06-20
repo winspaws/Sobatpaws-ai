@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Env & secrets
+.env
+
+# Artefak ML (model terlatih) & seed yang di-generate
+artifacts/
+seed/seed.sql
+seed/schema.sql
+
+# Logs & generated data (regenerate via scripts/)
+*.log
+data/generated/
+
+# OS
+.DS_Store

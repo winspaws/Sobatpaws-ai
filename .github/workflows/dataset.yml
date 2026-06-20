@@ -1,0 +1,68 @@
+name: dataset
+
+# Validates the synthetic data-generation pipeline on every push / PR.
+# Runs a fast ~2% sample end-to-end and gates on validate_dataset.py's exit code.
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - "src/sobatpaws/**"
+      - "dbml/**"
+      - ".github/workflows/dataset.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "src/sobatpaws/**"
+      - "dbml/**"
+  workflow_dispatch:
+    inputs:
+      scale:
+        description: "Generation scale factor"
+        default: "0.05"
+
+jobs:
+  generate-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies (ML + platform)
+        run: pip install --quiet -r requirements.txt
+
+      - name: Sync catalogs overlay from curated KB
+        env:
+          PYTHONPATH: src
+        run: python3 scripts/sync_catalogs_from_kb.py
+
+      - name: Generate sample + validate + ML views + registry
+        run: |
+          python3 scripts/generate_all.py --scale "${{ github.event.inputs.scale || '0.05' }}" --with-views --with-registry
+
+      - name: Platform doctor
+        env:
+          PYTHONPATH: src
+        run: python -m sobatpaws.platform.doctor
+
+      - name: ML train smoke (hybrid, subsampled views)
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m sobatpaws.ml.train --category cat --samples 10 --source hybrid --max-view-cases 500
+
+      - name: Upload generated artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sobatpaws-dataset-sample
+          path: |
+            data/generated/summary_full.json
+            data/generated/manifest.json
+            data/ml_views/
+            artifacts/models/
+            artifacts/platform_registry.json
+          retention-days: 7

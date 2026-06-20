@@ -1,0 +1,182 @@
+{
+  "category_slug": "fish",
+  "breeds": [
+    {
+      "slug": "fish-goldfish",
+      "name": "Goldfish / Mas Koki",
+      "name_common": "Mas Koki",
+      "origin": "China",
+      "avg_lifespan": "10-15 tahun",
+      "max_size": "20-30 cm",
+      "temperament": "Tenang, sosial",
+      "min_tank_size": "40 L / ekor",
+      "water_temp": "18-24 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-dropsy",
+        "fish-swim-bladder-disorder",
+        "fish-columnaris-saddleback"
+      ]
+    },
+    {
+      "slug": "fish-betta",
+      "name": "Betta / Ikan Cupang",
+      "name_common": "Ikan Cupang",
+      "origin": "Thailand, Malaysia",
+      "avg_lifespan": "2-3 tahun",
+      "max_size": "5-7 cm",
+      "temperament": "Agresif (jantan)",
+      "min_tank_size": "10 L / ekor",
+      "water_temp": "24-28 C",
+      "diet_type": "carnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-velvet-disease",
+        "fish-swim-bladder-disorder"
+      ]
+    },
+    {
+      "slug": "fish-guppy",
+      "name": "Guppy / Million Fish",
+      "name_common": "Guppy",
+      "origin": "Venezuela, Trinidad",
+      "avg_lifespan": "2-3 tahun",
+      "max_size": "3-5 cm",
+      "temperament": "Sosial, damai",
+      "min_tank_size": "10 L / kelompok",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot"
+      ]
+    },
+    {
+      "slug": "fish-neon-tetra",
+      "name": "Neon Tetra",
+      "name_common": "Neon Tetra",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "5-8 tahun",
+      "max_size": "3-4 cm",
+      "temperament": "Sangat sosial, schooling",
+      "min_tank_size": "30 L / kelompok minimal 6 ekor",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-columnaris-saddleback"
+      ]
+    },
+    {
+      "slug": "fish-angel-fish",
+      "name": "Angelfish / Manfish",
+      "name_common": "Manfish",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "8-10 tahun",
+      "max_size": "15-20 cm",
+      "temperament": "Damai (bisa agresif saat breeding)",
+      "min_tank_size": "100 L / pasangan",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "intermediate",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot",
+        "fish-columnaris-saddleback"
+      ]
+    },
+    {
+      "slug": "fish-corydoras",
+      "name": "Corydoras Catfish",
+      "name_common": "Corydoras",
+      "origin": "South America",
+      "avg_lifespan": "5-7 tahun",
+      "max_size": "5-7 cm",
+      "temperament": "Damai, sosial, bottom dweller",
+      "min_tank_size": "20 L / kelompok minimal 3 ekor",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-columnaris-saddleback",
+        "fish-fin-rot"
+      ]
+    },
+    {
+      "slug": "fish-molly",
+      "name": "Molly Fish",
+      "name_common": "Molly",
+      "origin": "Mexico, Central America",
+      "avg_lifespan": "3-5 tahun",
+      "max_size": "8-10 cm",
+      "temperament": "Damai, sosial",
+      "min_tank_size": "30 L / kelompok",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-swim-bladder-disorder",
+        "fish-ich-white-spot"
+      ]
+    },
+    {
+      "slug": "fish-gourami",
+      "name": "Gourami",
+      "name_common": "Gurami",
+      "origin": "Southeast Asia",
+      "avg_lifespan": "4-6 tahun",
+      "max_size": "10-15 cm",
+      "temperament": "Semi agresif",
+      "min_tank_size": "60 L / ekor",
+      "water_temp": "24-28 C",
+      "diet_type": "omnivore",
+      "care_level": "intermediate",
+      "predisposed_diseases": [
+        "fish-velvet-disease",
+        "fish-ich-white-spot"
+      ]
+    },
+    {
+      "slug": "fish-discus",
+      "name": "Discus Fish",
+      "name_common": "Discus",
+      "origin": "Amazon Basin",
+      "avg_lifespan": "10-15 tahun",
+      "max_size": "15-20 cm",
+      "temperament": "Damai, sensitif",
+      "min_tank_size": "150 L / kelompok",
+      "water_temp": "28-30 C",
+      "diet_type": "carnivore",
+      "care_level": "expert",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-columnaris-saddleback",
+        "fish-velvet-disease"
+      ]
+    },
+    {
+      "slug": "fish-platy",
+      "name": "Platy Fish",
+      "name_common": "Platy",
+      "origin": "Mexico, Guatemala",
+      "avg_lifespan": "3-4 tahun",
+      "max_size": "4-6 cm",
+      "temperament": "Damai, sangat sosial",
+      "min_tank_size": "15 L / kelompok",
+      "water_temp": "22-26 C",
+      "diet_type": "omnivore",
+      "care_level": "easy",
+      "predisposed_diseases": [
+        "fish-ich-white-spot",
+        "fish-fin-rot"
+      ]
+    }
+  ]
+}

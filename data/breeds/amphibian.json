@@ -1,0 +1,100 @@
+{
+  "category_slug": "amphibian",
+  "breeds": [
+    {
+      "slug": "pacman-frog",
+      "common_name": "Katak Pacman",
+      "scientific_name": "Ceratophrys ornata",
+      "origin": "Amerika Selatan",
+      "lifespan_min": 6,
+      "lifespan_max": 10,
+      "adult_size_cm": 8,
+      "adult_weight_g": 130,
+      "temperament": "Solitary, sedentary, defensive",
+      "care_level": "Intermediate",
+      "husbandry_notes": "Kelembaban 70-80%, suhu 24-28C, substrat tanah gambut, tidak boleh digabung dengan spesies lain.",
+      "predisposed_diseases": [
+        "chytridiomycosis",
+        "red-leg-syndrome",
+        "metabolic-bone-disease"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "axolotl",
+      "common_name": "Axolotl",
+      "scientific_name": "Ambystoma mexicanum",
+      "origin": "Meksiko",
+      "lifespan_min": 10,
+      "lifespan_max": 15,
+      "adult_size_cm": 25,
+      "adult_weight_g": 300,
+      "temperament": "Pasif, nocturnal",
+      "care_level": "Advanced",
+      "husbandry_notes": "Air tawar dingin 16-18C, pH 6.5-8.0, ammonia 0, tidak perlu lampu UVB, substrat halus atau tanpa substrat.",
+      "predisposed_diseases": [
+        "bacterial-gill-rot",
+        "metabolic-bone-disease",
+        "water-quality-stress"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "red-eyed-tree-frog",
+      "common_name": "Katak Pohon Mata Merah",
+      "scientific_name": "Agalychnis callidryas",
+      "origin": "Amerika Tengah",
+      "lifespan_min": 4,
+      "lifespan_max": 8,
+      "adult_size_cm": 7,
+      "adult_weight_g": 50,
+      "temperament": "Nocturnal, arboreal",
+      "care_level": "Advanced",
+      "husbandry_notes": "Terrarium vertikal, kelembaban 80-90%, suhu siang 26-28C, malam 22-24C, tanaman hidup wajib.",
+      "predisposed_diseases": [
+        "chytridiomycosis",
+        "dehydration",
+        "skin-bacterial-infection"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "tiger-salamander",
+      "common_name": "Salamander Harimau",
+      "scientific_name": "Ambystoma tigrinum",
+      "origin": "Amerika Utara",
+      "lifespan_min": 12,
+      "lifespan_max": 20,
+      "adult_size_cm": 20,
+      "adult_weight_g": 120,
+      "temperament": "Fosforial, terestrial",
+      "care_level": "Intermediate",
+      "husbandry_notes": "Substrat dalam 10-15cm, kelembaban 70%, suhu 18-22C, area basah dan kering terpisah.",
+      "predisposed_diseases": [
+        "chytridiomycosis",
+        "internal-parasites",
+        "skin-ulcers"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "fire-bellied-toad",
+      "common_name": "Kodok Perut Api",
+      "scientific_name": "Bombina orientalis",
+      "origin": "Asia Timur",
+      "lifespan_min": 10,
+      "lifespan_max": 15,
+      "adult_size_cm": 5,
+      "adult_weight_g": 30,
+      "temperament": "Aktif, semi-aquatik",
+      "care_level": "Beginner",
+      "husbandry_notes": "Setengah air setengah darat, suhu 20-25C, filter lembut, racun kulit ringan.",
+      "predisposed_diseases": [
+        "red-leg-syndrome",
+        "fungal-infection",
+        "water-quality-stress"
+      ],
+      "status": "curated"
+    }
+  ]
+}

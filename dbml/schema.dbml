@@ -1,0 +1,972 @@
+// =============================================================================
+//  SOBATPAWS — VETERINARY ML & AI DATA PLATFORM
+//  Database schema (DBML) untuk mendukung Vets, Pet Clinic, dan Pet Shop
+//  dalam mengolah & menganalisa data menjadi sumber pembelajaran (ML) + AI.
+//
+//  Render: https://dbdiagram.io  atau  `dbml2sql schema.dbml --postgres`
+//  Konvensi: snake_case, PK = id (bigint), soft-delete via deleted_at.
+// =============================================================================
+
+Project sobatpaws {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Sobatpaws Data Platform
+    Sumber data terstruktur + pipeline ML + AI wrapping untuk dukungan
+    diagnosa, rekomendasi tindakan, dan saran pengobatan hewan.
+
+    Domain utama:
+    1. Taxonomy  : kategori spesies -> ras (breed) -> varian
+    2. Clinical  : penyakit, gejala, diagnosa, tindakan, pengobatan, produk
+    3. Operational: organisasi (vet/klinik/petshop), pets, kasus klinis
+    4. ML        : data source, dataset, feature, model, prediction, feedback
+    5. AI        : provider, prompt, request, suggestion, conversation
+  '''
+}
+
+// =============================================================================
+//  ENUMS
+// =============================================================================
+
+Enum species_class {
+  mammal
+  bird
+  fish
+  reptile
+  amphibian
+  other
+}
+
+Enum size_class {
+  toy
+  small
+  medium
+  large
+  giant
+}
+
+Enum risk_level {
+  very_low
+  low
+  moderate
+  high
+  very_high
+}
+
+Enum severity_level {
+  mild
+  moderate
+  severe
+  critical
+}
+
+Enum body_system {
+  integumentary    // kulit & bulu
+  digestive
+  respiratory
+  cardiovascular
+  urinary
+  reproductive
+  musculoskeletal
+  nervous
+  endocrine
+  ophthalmic       // mata
+  auditory         // telinga
+  dental
+  hematologic
+  immune
+  behavioral
+  systemic
+}
+
+Enum disease_etiology {
+  infectious_viral
+  infectious_bacterial
+  infectious_fungal
+  parasitic_internal
+  parasitic_external
+  genetic_congenital
+  nutritional
+  metabolic
+  neoplastic       // tumor/kanker
+  traumatic
+  toxic
+  degenerative
+  idiopathic
+  behavioral
+  environmental
+}
+
+Enum diagnostic_type {
+  physical_exam
+  history_taking
+  blood_test
+  urinalysis
+  fecal_exam
+  imaging_xray
+  imaging_ultrasound
+  imaging_mri_ct
+  cytology
+  histopathology
+  pcr_molecular
+  serology
+  culture_sensitivity
+  skin_scraping
+  endoscopy
+  ophthalmic_exam
+  necropsy
+}
+
+Enum treatment_type {
+  pharmacological
+  surgical
+  supportive_care
+  dietary
+  behavioral_therapy
+  physical_therapy
+  preventive_vaccination
+  parasite_control
+  fluid_therapy
+  isolation_quarantine
+  euthanasia
+  environmental_management
+}
+
+Enum product_kind {
+  medication
+  supplement
+  vaccine
+  antiparasitic
+  food_prescription
+  food_regular
+  medical_device
+  grooming
+  accessory
+  diagnostic_kit
+  disinfectant
+}
+
+Enum org_type {
+  vet_clinic
+  vet_hospital
+  independent_vet
+  pet_shop
+  pet_grooming
+  shelter
+  breeder
+  laboratory
+}
+
+Enum case_status {
+  open
+  in_progress
+  diagnosed
+  treatment
+  recovered
+  referred
+  deceased
+  closed
+}
+
+Enum data_source_type {
+  clinical_case
+  manual_entry
+  imported_csv
+  external_api
+  iot_device
+  lab_result
+  literature
+  ai_generated
+  partner_clinic
+}
+
+Enum ml_task_type {
+  disease_classification
+  symptom_to_disease
+  risk_prediction
+  triage_severity
+  treatment_recommendation
+  breed_identification
+  anomaly_detection
+  demand_forecast       // untuk petshop inventory
+}
+
+Enum ml_model_status {
+  draft
+  training
+  trained
+  evaluating
+  deployed
+  deprecated
+  failed
+}
+
+Enum ai_provider_kind {
+  openai
+  anthropic
+  google_gemini
+  azure_openai
+  local_llm
+  custom
+}
+
+Enum ai_request_status {
+  pending
+  streaming
+  completed
+  failed
+  rate_limited
+  cancelled
+}
+
+Enum feedback_verdict {
+  correct
+  partially_correct
+  incorrect
+  not_applicable
+}
+
+// =============================================================================
+//  1. TAXONOMY  —  Kategori spesies, Ras (breed), Varian
+// =============================================================================
+
+Table animal_categories {
+  id            bigint        [pk, increment]
+  slug          varchar(80)   [unique, not null, note: 'dog, cat, rabbit, hamster, poultry, fish, reptile, ...']
+  name          varchar(120)  [not null]
+  name_id       varchar(120)  [not null, note: 'Nama Bahasa Indonesia']
+  species_class species_class [not null]
+  scientific_name varchar(160)
+  description   text
+  avg_lifespan_years_min decimal(4,1)
+  avg_lifespan_years_max decimal(4,1)
+  is_active     boolean       [not null, default: true]
+  created_at    timestamptz   [not null, default: `now()`]
+  updated_at    timestamptz   [not null, default: `now()`]
+  deleted_at    timestamptz
+
+  Note: 'Kategori spesies tingkat tertinggi (anjing, kucing, kelinci, dst).'
+}
+
+Table breeds {
+  id              bigint       [pk, increment]
+  category_id     bigint       [not null, ref: > animal_categories.id]
+  slug            varchar(120) [unique, not null]
+  name            varchar(160) [not null]
+  name_id         varchar(160)
+  origin_country  varchar(80)
+  size_class      size_class
+  weight_kg_min   decimal(6,2)
+  weight_kg_max   decimal(6,2)
+  height_cm_min   decimal(6,2)
+  height_cm_max   decimal(6,2)
+  lifespan_years_min decimal(4,1)
+  lifespan_years_max decimal(4,1)
+  temperament     text
+  coat_type       varchar(120)
+  care_level      varchar(40)  [note: 'low / medium / high']
+  description     text
+  is_active       boolean      [not null, default: true]
+  created_at      timestamptz  [not null, default: `now()`]
+  updated_at      timestamptz  [not null, default: `now()`]
+  deleted_at      timestamptz
+
+  Indexes {
+    category_id
+    (category_id, slug) [unique]
+  }
+  Note: 'Ras/breed dari masing-masing kategori spesies.'
+}
+
+Table breed_variants {
+  id            bigint        [pk, increment]
+  breed_id      bigint        [not null, ref: > breeds.id]
+  name          varchar(160)  [not null, note: 'Varian: warna, pola, ukuran, tipe bulu']
+  variant_type  varchar(60)   [note: 'color | pattern | size | coat | morph']
+  description   text
+  hex_color     varchar(7)    [note: 'opsional kode warna dominan']
+  is_recognized boolean       [default: true, note: 'diakui standar breed?']
+  created_at    timestamptz   [not null, default: `now()`]
+  updated_at    timestamptz   [not null, default: `now()`]
+
+  Indexes {
+    breed_id
+  }
+  Note: 'Varian dalam satu ras (mis. warna, morph reptil, pola bulu).'
+}
+
+Table breed_traits {
+  id            bigint       [pk, increment]
+  breed_id      bigint       [not null, ref: > breeds.id]
+  trait_key     varchar(80)  [not null, note: 'mis. energy_level, shedding, hypoallergenic']
+  trait_value   varchar(255) [not null]
+  numeric_value decimal(8,2)
+  unit          varchar(40)
+  created_at    timestamptz  [not null, default: `now()`]
+
+  Indexes {
+    (breed_id, trait_key) [unique]
+  }
+  Note: 'Atribut key-value fleksibel per ras untuk fitur ML.'
+}
+
+// =============================================================================
+//  2. CLINICAL  —  Penyakit, Gejala, Diagnosa, Tindakan, Pengobatan, Produk
+// =============================================================================
+
+Table diseases {
+  id              bigint           [pk, increment]
+  slug            varchar(160)     [unique, not null]
+  name            varchar(200)     [not null]
+  name_id         varchar(200)
+  etiology        disease_etiology [not null]
+  body_system     body_system      [not null]
+  icd_vet_code    varchar(40)      [note: 'kode referensi (mis. SNOMED-CT vet / Venom)']
+  is_contagious   boolean          [default: false]
+  is_zoonotic     boolean          [default: false, note: 'menular ke manusia?']
+  default_severity severity_level
+  overview        text
+  causes          text
+  prevention      text
+  prognosis       text
+  is_emergency    boolean          [default: false]
+  created_at      timestamptz      [not null, default: `now()`]
+  updated_at      timestamptz      [not null, default: `now()`]
+  deleted_at      timestamptz
+
+  Indexes {
+    etiology
+    body_system
+    is_emergency
+  }
+  Note: 'Master data penyakit/kondisi medis hewan.'
+}
+
+// Penyakit dapat berlaku untuk satu/lebih kategori spesies
+Table disease_species [headercolor: #b91c1c] {
+  id          bigint  [pk, increment]
+  disease_id  bigint  [not null, ref: > diseases.id]
+  category_id bigint  [not null, ref: > animal_categories.id]
+  note        text
+
+  Indexes {
+    (disease_id, category_id) [unique]
+  }
+  Note: 'Relasi mana penyakit relevan untuk kategori hewan apa.'
+}
+
+// Kerentanan ras terhadap penyakit (prevalensi & faktor risiko genetik)
+Table breed_disease_susceptibility {
+  id             bigint     [pk, increment]
+  breed_id       bigint     [not null, ref: > breeds.id]
+  disease_id     bigint     [not null, ref: > diseases.id]
+  risk           risk_level [not null]
+  prevalence_pct decimal(5,2) [note: 'estimasi prevalensi % pada ras tsb']
+  is_hereditary  boolean    [default: false]
+  age_onset      varchar(80) [note: 'mis. "puppy", "senior 7+ thn"']
+  notes          text
+  created_at     timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (breed_id, disease_id) [unique]
+    disease_id
+  }
+  Note: 'Penyakit paling umum & rentan per ras (inti untuk fitur risiko ML).'
+}
+
+Table symptoms {
+  id           bigint       [pk, increment]
+  slug         varchar(160) [unique, not null]
+  name         varchar(200) [not null]
+  name_id      varchar(200)
+  body_system  body_system
+  description  text
+  is_red_flag  boolean      [default: false, note: 'gejala darurat']
+  created_at   timestamptz  [not null, default: `now()`]
+  updated_at   timestamptz  [not null, default: `now()`]
+
+  Note: 'Master gejala klinis yang dapat diobservasi.'
+}
+
+Table disease_symptoms {
+  id          bigint         [pk, increment]
+  disease_id  bigint         [not null, ref: > diseases.id]
+  symptom_id  bigint         [not null, ref: > symptoms.id]
+  frequency   risk_level     [note: 'seberapa sering muncul pada penyakit ini']
+  typical_severity severity_level
+  is_pathognomonic boolean   [default: false, note: 'gejala khas/penentu']
+  notes       text
+
+  Indexes {
+    (disease_id, symptom_id) [unique]
+    symptom_id
+  }
+  Note: 'Pemetaan gejala -> penyakit (bobot untuk model symptom->disease).'
+}
+
+Table diagnostic_methods {
+  id           bigint          [pk, increment]
+  slug         varchar(160)    [unique, not null]
+  name         varchar(200)    [not null]
+  name_id      varchar(200)
+  type         diagnostic_type [not null]
+  description  text
+  est_cost_min decimal(12,2)
+  est_cost_max decimal(12,2)
+  turnaround   varchar(80)     [note: 'estimasi waktu hasil']
+  created_at   timestamptz     [not null, default: `now()`]
+
+  Note: 'Cara/metode vets mendiagnosa.'
+}
+
+Table disease_diagnostics {
+  id                  bigint  [pk, increment]
+  disease_id          bigint  [not null, ref: > diseases.id]
+  diagnostic_method_id bigint [not null, ref: > diagnostic_methods.id]
+  is_gold_standard    boolean [default: false]
+  step_order          int     [note: 'urutan rekomendasi pemeriksaan']
+  expected_finding    text    [note: 'temuan yang diharapkan/khas']
+
+  Indexes {
+    (disease_id, diagnostic_method_id) [unique]
+  }
+  Note: 'Langkah diagnosa yang direkomendasikan per penyakit.'
+}
+
+Table treatments {
+  id           bigint         [pk, increment]
+  slug         varchar(160)   [unique, not null]
+  name         varchar(200)   [not null]
+  name_id      varchar(200)
+  type         treatment_type [not null]
+  description  text
+  procedure_steps text        [note: 'langkah tindakan yang harus dilakukan']
+  duration     varchar(80)
+  requires_vet boolean        [default: true]
+  created_at   timestamptz    [not null, default: `now()`]
+
+  Note: 'Master tindakan/pengobatan.'
+}
+
+Table disease_treatments {
+  id             bigint         [pk, increment]
+  disease_id     bigint         [not null, ref: > diseases.id]
+  treatment_id   bigint         [not null, ref: > treatments.id]
+  line_of_therapy int           [note: '1 = lini pertama, 2 = lini kedua']
+  severity_target severity_level [note: 'untuk tingkat keparahan apa']
+  efficacy_note  text
+  recommendation text          [note: 'saran & langkah yang harus dilakukan vet/owner']
+
+  Indexes {
+    (disease_id, treatment_id) [unique]
+  }
+  Note: 'Saran tindakan & pengobatan per penyakit beserta urutannya.'
+}
+
+Table products {
+  id              bigint       [pk, increment]
+  sku             varchar(80)  [unique]
+  name            varchar(220) [not null]
+  brand           varchar(120)
+  kind            product_kind [not null]
+  active_ingredient varchar(220) [note: 'zat aktif obat']
+  form            varchar(80)  [note: 'tablet, sirup, injeksi, topikal, dll']
+  strength        varchar(80)  [note: 'mis. 50mg/ml']
+  requires_prescription boolean [default: false]
+  description     text
+  is_active       boolean      [not null, default: true]
+  created_at      timestamptz  [not null, default: `now()`]
+  updated_at      timestamptz  [not null, default: `now()`]
+
+  Indexes {
+    kind
+    brand
+  }
+  Note: 'Produk obat/suplemen/vaksin/pakan yang biasa digunakan.'
+}
+
+Table treatment_products {
+  id            bigint  [pk, increment]
+  treatment_id  bigint  [not null, ref: > treatments.id]
+  product_id    bigint  [not null, ref: > products.id]
+  dosage_guide  text    [note: 'panduan dosis umum (per kg BB), HATI-HATI per spesies']
+  route         varchar(80) [note: 'oral, IM, IV, SC, topikal']
+  frequency     varchar(80)
+  duration      varchar(80)
+  cautions      text    [note: 'kontraindikasi & spesies sensitif']
+
+  Indexes {
+    (treatment_id, product_id) [unique]
+    product_id
+  }
+  Note: 'Produk pengobatan yang biasa dipakai untuk tindakan tertentu.'
+}
+
+// Kontraindikasi produk pada spesies/ras tertentu (mis. permethrin -> kucing)
+Table product_species_safety {
+  id          bigint     [pk, increment]
+  product_id  bigint     [not null, ref: > products.id]
+  category_id bigint     [not null, ref: > animal_categories.id]
+  safety      risk_level [not null, note: 'risiko bila digunakan']
+  is_contraindicated boolean [default: false]
+  notes       text
+
+  Indexes {
+    (product_id, category_id) [unique]
+  }
+  Note: 'Keamanan produk per spesies (penting untuk safety guardrail AI).'
+}
+
+// =============================================================================
+//  3. OPERATIONAL  —  Organisasi (vet/klinik/petshop), Users, Pets, Kasus
+// =============================================================================
+
+Table organizations {
+  id          bigint    [pk, increment]
+  slug        varchar(120) [unique, not null]
+  name        varchar(200) [not null]
+  type        org_type  [not null]
+  email       varchar(160)
+  phone       varchar(60)
+  address     text
+  city        varchar(120)
+  province    varchar(120)
+  country     varchar(80)  [default: 'Indonesia']
+  latitude    decimal(10,7)
+  longitude   decimal(10,7)
+  is_active   boolean   [not null, default: true]
+  created_at  timestamptz [not null, default: `now()`]
+  updated_at  timestamptz [not null, default: `now()`]
+  deleted_at  timestamptz
+
+  Indexes {
+    type
+    city
+  }
+  Note: 'Tenant: klinik hewan, rumah sakit, vet mandiri, petshop, dll.'
+}
+
+Table users {
+  id           bigint   [pk, increment]
+  org_id       bigint   [ref: > organizations.id]
+  full_name    varchar(160) [not null]
+  email        varchar(160) [unique, not null]
+  phone        varchar(60)
+  role         varchar(60)  [not null, note: 'vet | vet_tech | groomer | cashier | admin | owner']
+  license_no   varchar(80)  [note: 'nomor izin praktik dokter hewan']
+  is_active    boolean  [not null, default: true]
+  created_at   timestamptz [not null, default: `now()`]
+  updated_at   timestamptz [not null, default: `now()`]
+  deleted_at   timestamptz
+
+  Indexes {
+    org_id
+    role
+  }
+}
+
+Table pet_owners {
+  id          bigint   [pk, increment]
+  org_id      bigint   [ref: > organizations.id]
+  full_name   varchar(160) [not null]
+  email       varchar(160)
+  phone       varchar(60)
+  address     text
+  created_at  timestamptz [not null, default: `now()`]
+  updated_at  timestamptz [not null, default: `now()`]
+
+  Indexes {
+    org_id
+  }
+}
+
+Table pets {
+  id            bigint     [pk, increment]
+  owner_id      bigint     [ref: > pet_owners.id]
+  org_id        bigint     [ref: > organizations.id]
+  name          varchar(120) [not null]
+  category_id   bigint     [not null, ref: > animal_categories.id]
+  breed_id      bigint     [ref: > breeds.id]
+  variant_id    bigint     [ref: > breed_variants.id]
+  sex           varchar(10) [note: 'male | female | unknown']
+  is_neutered   boolean
+  birth_date    date
+  weight_kg     decimal(6,2)
+  microchip_no  varchar(80)
+  color         varchar(120)
+  notes         text
+  created_at    timestamptz [not null, default: `now()`]
+  updated_at    timestamptz [not null, default: `now()`]
+  deleted_at    timestamptz
+
+  Indexes {
+    owner_id
+    category_id
+    breed_id
+  }
+  Note: 'Individu hewan (pasien) — sumber data klinis nyata.'
+}
+
+Table clinical_cases {
+  id              bigint      [pk, increment]
+  org_id          bigint      [not null, ref: > organizations.id]
+  pet_id          bigint      [not null, ref: > pets.id]
+  vet_id          bigint      [ref: > users.id]
+  visit_date      timestamptz [not null, default: `now()`]
+  chief_complaint text        [note: 'keluhan utama owner']
+  status          case_status [not null, default: 'open']
+  weight_kg       decimal(6,2)
+  temperature_c   decimal(4,1)
+  heart_rate      int
+  resp_rate       int
+  clinical_notes  text
+  outcome         text
+  is_anonymized   boolean     [default: false, note: 'siap dipakai dataset ML']
+  created_at      timestamptz [not null, default: `now()`]
+  updated_at      timestamptz [not null, default: `now()`]
+
+  Indexes {
+    org_id
+    pet_id
+    status
+    visit_date
+  }
+  Note: 'Rekam medis kunjungan — fondasi data pembelajaran ML.'
+}
+
+Table case_symptoms {
+  id          bigint   [pk, increment]
+  case_id     bigint   [not null, ref: > clinical_cases.id]
+  symptom_id  bigint   [not null, ref: > symptoms.id]
+  severity    severity_level
+  duration_days int
+  notes       text
+
+  Indexes {
+    (case_id, symptom_id) [unique]
+  }
+}
+
+Table case_diagnoses {
+  id            bigint   [pk, increment]
+  case_id       bigint   [not null, ref: > clinical_cases.id]
+  disease_id    bigint   [ref: > diseases.id]
+  is_confirmed  boolean  [default: false]
+  is_differential boolean [default: false, note: 'diagnosa banding']
+  confidence    decimal(5,2) [note: '0-100 keyakinan vet']
+  diagnosed_by  bigint   [ref: > users.id]
+  diagnosed_at  timestamptz [default: `now()`]
+  notes         text
+
+  Indexes {
+    case_id
+    disease_id
+  }
+}
+
+Table case_treatments {
+  id            bigint   [pk, increment]
+  case_id       bigint   [not null, ref: > clinical_cases.id]
+  treatment_id  bigint   [ref: > treatments.id]
+  product_id    bigint   [ref: > products.id]
+  dosage        varchar(120)
+  route         varchar(80)
+  start_date    date
+  end_date      date
+  response      text     [note: 'respon hewan terhadap pengobatan']
+  notes         text
+
+  Indexes {
+    case_id
+  }
+}
+
+// =============================================================================
+//  4. ML  —  Data source, Dataset, Feature, Model, Prediction, Feedback
+// =============================================================================
+
+Table data_sources {
+  id            bigint           [pk, increment]
+  name          varchar(200)     [not null]
+  type          data_source_type [not null]
+  org_id        bigint           [ref: > organizations.id]
+  description   text
+  uri           varchar(500)     [note: 'lokasi file/endpoint sumber']
+  schema_json   json             [note: 'deskripsi skema sumber']
+  record_count  bigint           [default: 0]
+  reliability   risk_level       [note: 'kualitas/kepercayaan sumber']
+  last_synced_at timestamptz
+  is_active     boolean          [not null, default: true]
+  created_at    timestamptz      [not null, default: `now()`]
+  updated_at    timestamptz      [not null, default: `now()`]
+
+  Indexes {
+    type
+    org_id
+  }
+  Note: 'Registry semua sumber data (clinical, csv, api, lab, literatur, dll).'
+}
+
+Table ml_datasets {
+  id            bigint      [pk, increment]
+  name          varchar(200) [not null]
+  task_type     ml_task_type [not null]
+  description   text
+  version       varchar(40)  [not null, default: 'v1']
+  row_count     bigint      [default: 0]
+  feature_count int         [default: 0]
+  split_ratio   varchar(40) [note: 'mis. 70/15/15']
+  storage_uri   varchar(500)
+  checksum      varchar(128)
+  status        varchar(40) [default: 'ready']
+  created_at    timestamptz [not null, default: `now()`]
+  updated_at    timestamptz [not null, default: `now()`]
+
+  Indexes {
+    task_type
+    (name, version) [unique]
+  }
+  Note: 'Snapshot dataset siap latih yang dibangun dari data_sources.'
+}
+
+Table dataset_sources {
+  id            bigint  [pk, increment]
+  dataset_id    bigint  [not null, ref: > ml_datasets.id]
+  data_source_id bigint [not null, ref: > data_sources.id]
+  weight        decimal(5,2) [default: 1.0]
+  filter_json   json    [note: 'kriteria seleksi data dari source']
+
+  Indexes {
+    (dataset_id, data_source_id) [unique]
+  }
+}
+
+Table feature_definitions {
+  id            bigint   [pk, increment]
+  key           varchar(120) [unique, not null]
+  name          varchar(200) [not null]
+  data_type     varchar(40)  [not null, note: 'numeric | categorical | boolean | text | embedding']
+  source_table  varchar(120) [note: 'asal kolom']
+  transform     text         [note: 'definisi transformasi/encoding']
+  description   text
+  is_active     boolean  [default: true]
+  created_at    timestamptz [not null, default: `now()`]
+
+  Note: 'Feature store: definisi fitur untuk model ML.'
+}
+
+Table dataset_features {
+  id          bigint  [pk, increment]
+  dataset_id  bigint  [not null, ref: > ml_datasets.id]
+  feature_id  bigint  [not null, ref: > feature_definitions.id]
+  is_target   boolean [default: false]
+  importance  decimal(6,4) [note: 'feature importance hasil training']
+
+  Indexes {
+    (dataset_id, feature_id) [unique]
+  }
+}
+
+Table ml_models {
+  id            bigint          [pk, increment]
+  name          varchar(200)    [not null]
+  task_type     ml_task_type    [not null]
+  algorithm     varchar(120)    [note: 'xgboost, random_forest, neural_net, transformer, ...']
+  dataset_id    bigint          [ref: > ml_datasets.id]
+  version       varchar(40)     [not null, default: 'v1']
+  status        ml_model_status [not null, default: 'draft']
+  artifact_uri  varchar(500)    [note: 'lokasi file model']
+  hyperparams   json
+  metrics       json            [note: 'accuracy, f1, auc, precision, recall']
+  trained_at    timestamptz
+  deployed_at   timestamptz
+  created_by    bigint          [ref: > users.id]
+  created_at    timestamptz     [not null, default: `now()`]
+  updated_at    timestamptz     [not null, default: `now()`]
+
+  Indexes {
+    task_type
+    status
+    (name, version) [unique]
+  }
+  Note: 'Registry model ML beserta versinya.'
+}
+
+Table ml_predictions {
+  id            bigint   [pk, increment]
+  model_id      bigint   [not null, ref: > ml_models.id]
+  case_id       bigint   [ref: > clinical_cases.id]
+  pet_id        bigint   [ref: > pets.id]
+  input_json    json     [not null, note: 'fitur input prediksi']
+  output_json   json     [not null, note: 'hasil prediksi + skor']
+  predicted_disease_id bigint [ref: > diseases.id]
+  confidence    decimal(5,2)
+  latency_ms    int
+  created_at    timestamptz [not null, default: `now()`]
+
+  Indexes {
+    model_id
+    case_id
+    predicted_disease_id
+  }
+  Note: 'Log setiap inferensi model untuk audit & retraining.'
+}
+
+Table ml_feedback {
+  id              bigint          [pk, increment]
+  prediction_id   bigint          [ref: > ml_predictions.id]
+  ai_suggestion_id bigint         [ref: > ai_suggestions.id]
+  case_id         bigint          [ref: > clinical_cases.id]
+  reviewer_id     bigint          [ref: > users.id, note: 'vet yang menilai']
+  verdict         feedback_verdict [not null]
+  corrected_disease_id bigint     [ref: > diseases.id]
+  comment         text
+  created_at      timestamptz     [not null, default: `now()`]
+
+  Indexes {
+    prediction_id
+    verdict
+  }
+  Note: 'Human-in-the-loop: koreksi vet -> data emas untuk retraining.'
+}
+
+// =============================================================================
+//  5. AI  —  Provider, Prompt, Request, Suggestion, Conversation (AI Wrapping)
+// =============================================================================
+
+Table ai_providers {
+  id            bigint           [pk, increment]
+  name          varchar(120)     [not null]
+  kind          ai_provider_kind [not null]
+  base_url      varchar(300)
+  default_model varchar(120)     [note: 'mis. gpt-4o, claude-sonnet, gemini-1.5-pro']
+  is_active     boolean          [not null, default: true]
+  config_json   json             [note: 'param non-rahasia (temperature default, dll)']
+  created_at    timestamptz      [not null, default: `now()`]
+  updated_at    timestamptz      [not null, default: `now()`]
+
+  Note: 'Konfigurasi provider LLM untuk AI wrapping (kunci API di secret store).'
+}
+
+Table ai_prompt_templates {
+  id            bigint   [pk, increment]
+  slug          varchar(120) [unique, not null]
+  name          varchar(200) [not null]
+  task_type     ml_task_type [note: 'kaitkan prompt dgn tujuan']
+  system_prompt text     [not null]
+  user_template text     [not null, note: 'template dgn placeholder {{var}}']
+  output_schema json     [note: 'JSON schema untuk structured output']
+  version       varchar(40) [not null, default: 'v1']
+  is_active     boolean  [default: true]
+  created_at    timestamptz [not null, default: `now()`]
+  updated_at    timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (slug, version) [unique]
+  }
+  Note: 'Template prompt terversi untuk konsistensi & evaluasi.'
+}
+
+Table ai_conversations {
+  id          bigint   [pk, increment]
+  org_id      bigint   [ref: > organizations.id]
+  user_id     bigint   [ref: > users.id]
+  case_id     bigint   [ref: > clinical_cases.id]
+  pet_id      bigint   [ref: > pets.id]
+  title       varchar(200)
+  created_at  timestamptz [not null, default: `now()`]
+  updated_at  timestamptz [not null, default: `now()`]
+
+  Indexes {
+    org_id
+    case_id
+  }
+  Note: 'Sesi percakapan asisten AI (dikaitkan ke kasus klinis).'
+}
+
+Table ai_requests {
+  id              bigint            [pk, increment]
+  conversation_id bigint            [ref: > ai_conversations.id]
+  provider_id     bigint            [not null, ref: > ai_providers.id]
+  prompt_template_id bigint         [ref: > ai_prompt_templates.id]
+  model           varchar(120)      [not null]
+  status          ai_request_status [not null, default: 'pending']
+  request_payload json              [not null, note: 'pesan yg dikirim (redacted)']
+  response_payload json             [note: 'raw response']
+  prompt_tokens   int
+  completion_tokens int
+  total_tokens    int
+  cost_usd        decimal(12,6)
+  latency_ms      int
+  error_message   text
+  created_at      timestamptz       [not null, default: `now()`]
+
+  Indexes {
+    provider_id
+    conversation_id
+    status
+  }
+  Note: 'Log tiap panggilan LLM (token, biaya, latensi) untuk observability.'
+}
+
+Table ai_suggestions {
+  id              bigint   [pk, increment]
+  request_id      bigint   [ref: > ai_requests.id]
+  case_id         bigint   [ref: > clinical_cases.id]
+  pet_id          bigint   [ref: > pets.id]
+  suggestion_type ml_task_type [note: 'jenis saran yg dihasilkan']
+  summary         text     [note: 'ringkasan saran']
+  suggested_diseases json  [note: '[{disease_id, confidence, rationale}]']
+  suggested_diagnostics json [note: 'pemeriksaan yg disarankan']
+  suggested_treatments  json [note: 'tindakan & pengobatan yg disarankan']
+  suggested_products    json [note: 'produk yg direkomendasikan']
+  references      json     [note: 'sumber/grounding']
+  disclaimer      text     [default: 'Saran AI bersifat pendukung, keputusan akhir ada pada dokter hewan.']
+  is_reviewed     boolean  [default: false]
+  created_at      timestamptz [not null, default: `now()`]
+
+  Indexes {
+    case_id
+    suggestion_type
+  }
+  Note: 'Output terstruktur AI: saran diagnosa/tindakan/produk untuk vet.'
+}
+
+// =============================================================================
+//  6. RELATIONAL MATRIX  —  DATABASE_UTAMA_RELASI (denormalisasi untuk ML)
+//      Tabel "ledakan baris": setiap taxon (ras/sub-ras/morph) dipasangkan
+//      ke matriks medis -> (penyakit x diagnosa x produk/obat).
+//      Target: ~29.000 taxon x 20 kombinasi = ~580.000 baris.
+//      Catatan: ini SENGAJA denormalisasi (flat) agar siap di-feed ke
+//      feature pipeline / training; integritas tetap dijaga via FK ke
+//      tabel master yang ternormalisasi di atas.
+// =============================================================================
+
+Table breed_clinical_matrix [headercolor: #0e7490] {
+  id                   bigint        [pk, increment]
+  category_id          bigint        [not null, ref: > animal_categories.id]
+  breed_id             bigint        [not null, ref: > breeds.id]
+  variant_id           bigint        [ref: > breed_variants.id, note: 'morph/warna spesifik bila ada']
+  disease_id           bigint        [not null, ref: > diseases.id]
+  diagnostic_method_id bigint        [not null, ref: > diagnostic_methods.id]
+  treatment_id         bigint        [not null, ref: > treatments.id]
+  product_id           bigint        [ref: > products.id, note: 'obat/produk yang direkomendasikan']
+  risk                 risk_level    [not null, note: 'kerentanan ras terhadap penyakit ini']
+  severity             severity_level
+  is_gold_standard_dx  boolean       [default: false, note: 'apakah diagnosa ini gold standard']
+  line_of_therapy      int           [note: '1 = lini pertama']
+  prevalence_pct       decimal(5,2)
+  is_hereditary        boolean       [default: false]
+  created_at           timestamptz   [not null, default: `now()`]
+
+  Indexes {
+    category_id
+    breed_id
+    disease_id
+    (breed_id, disease_id, diagnostic_method_id, product_id) [unique]
+  }
+  Note: 'Matriks relasi datar (taxon x penyakit x diagnosa x produk) untuk volume data ML berskala besar.'
+}
+
+// =============================================================================
+//  END OF SCHEMA
+// =============================================================================

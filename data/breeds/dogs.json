@@ -1,0 +1,2806 @@
+{
+  "category_slug": "dog",
+  "breeds": [
+    {
+      "slug": "dog-golden-retriever",
+      "name": "Golden Retriever",
+      "name_id": "Golden Retriever",
+      "origin_country": "Scotland",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 34,
+      "height_cm_min": 51, "height_cm_max": 61,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Ramah, cerdas, setia, mudah dilatih.",
+      "coat_type": "Double coat panjang, lurus/bergelombang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — gun dog / sporting group.",
+      "variants": [
+        {"name": "Golden", "variant_type": "color", "hex_color": "#E6BE8A"},
+        {"name": "Light Golden", "variant_type": "color", "hex_color": "#F2D8A7"},
+        {"name": "Dark Golden", "variant_type": "color", "hex_color": "#B8860B"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high", "numeric_value": 4, "unit": "1-5"},
+        {"trait_key": "shedding", "trait_value": "high"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "hypoallergenic", "trait_value": "no"}
+      ]
+    },
+    {
+      "slug": "dog-labrador-retriever",
+      "name": "Labrador Retriever",
+      "name_id": "Labrador Retriever",
+      "origin_country": "Canada",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 36,
+      "height_cm_min": 55, "height_cm_max": 62,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Aktif, ramah, rakus makan, sangat sosial.",
+      "coat_type": "Double coat pendek, tahan air",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — gun dog / sporting group.",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Yellow", "variant_type": "color", "hex_color": "#E8D8A0"},
+        {"name": "Chocolate", "variant_type": "color", "hex_color": "#5B3A1A"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high", "numeric_value": 5, "unit": "1-5"},
+        {"trait_key": "appetite", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-flat-coated-retriever",
+      "name": "Flat-Coated Retriever",
+      "name_id": "Flat-Coated Retriever",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 36,
+      "height_cm_min": 56, "height_cm_max": 61,
+      "lifespan_years_min": 8, "lifespan_years_max": 10,
+      "temperament": "Ceria, awet muda, ramah, penuh energi.",
+      "coat_type": "Bulu lurus rata sedang panjang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Solid Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Liver", "variant_type": "color", "hex_color": "#5B3A1A"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "cancer_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-chesapeake-bay-retriever",
+      "name": "Chesapeake Bay Retriever",
+      "name_id": "Chesapeake Bay Retriever",
+      "origin_country": "United States",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 36,
+      "height_cm_min": 53, "height_cm_max": 66,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Tangguh, protektif, pekerja air, mandiri.",
+      "coat_type": "Double coat berminyak tahan air bergelombang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Brown", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Sedge", "variant_type": "color", "hex_color": "#A0522D"},
+        {"name": "Deadgrass", "variant_type": "color", "hex_color": "#C9B07A"}
+      ],
+      "traits": [
+        {"trait_key": "water_affinity", "trait_value": "very_high"},
+        {"trait_key": "hip_dysplasia_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-nova-scotia-duck-tolling-retriever",
+      "name": "Nova Scotia Duck Tolling Retriever",
+      "name_id": "Toller",
+      "origin_country": "Canada",
+      "size_class": "medium",
+      "weight_kg_min": 17, "weight_kg_max": 23,
+      "height_cm_min": 45, "height_cm_max": 51,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Cerdas, energik, fokus, sedikit pemalu pada orang asing.",
+      "coat_type": "Double coat medium tahan air",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Orange", "variant_type": "color", "hex_color": "#D2691E"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-english-cocker-spaniel",
+      "name": "English Cocker Spaniel",
+      "name_id": "Cocker Spaniel Inggris",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 12, "weight_kg_max": 15,
+      "height_cm_min": 38, "height_cm_max": 43,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Ceria, lembut, suka menyenangkan, aktif.",
+      "coat_type": "Bulu sutra sedang panjang berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Solid Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Golden", "variant_type": "color", "hex_color": "#E6BE8A"},
+        {"name": "Blue Roan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "ear_infection_risk", "trait_value": "high"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-american-cocker-spaniel",
+      "name": "American Cocker Spaniel",
+      "name_id": "Cocker Spaniel Amerika",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 7, "weight_kg_max": 14,
+      "height_cm_min": 34, "height_cm_max": 39,
+      "lifespan_years_min": 10, "lifespan_years_max": 14,
+      "temperament": "Manis, manja, ramah, sensitif.",
+      "coat_type": "Bulu sutra panjang tebal berjumbai",
+      "care_level": "high",
+      "description": "Sub-ras / pengembangan dari Cocker Spaniel (parent: dog-english-cocker-spaniel).",
+      "variants": [
+        {"name": "Buff", "variant_type": "color", "hex_color": "#E8D8A0"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Parti-color", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "ear_infection_risk", "trait_value": "very_high"},
+        {"trait_key": "eye_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-english-springer-spaniel",
+      "name": "English Springer Spaniel",
+      "name_id": "Springer Spaniel Inggris",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 25,
+      "height_cm_min": 46, "height_cm_max": 51,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Antusias, ramah, energik, suka bekerja.",
+      "coat_type": "Double coat sedang berjumbai",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Liver & White", "variant_type": "pattern"},
+        {"name": "Black & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "ear_infection_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-brittany",
+      "name": "Brittany",
+      "name_id": "Brittany",
+      "origin_country": "France",
+      "size_class": "medium",
+      "weight_kg_min": 14, "weight_kg_max": 18,
+      "height_cm_min": 44, "height_cm_max": 52,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Lincah, cerdas, ramah, butuh banyak gerak.",
+      "coat_type": "Bulu sedang lurus/bergelombang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group (pointer/setter).",
+      "variants": [
+        {"name": "Orange & White", "variant_type": "pattern"},
+        {"name": "Liver & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-english-setter",
+      "name": "English Setter",
+      "name_id": "English Setter",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 36,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 11, "lifespan_years_max": 12,
+      "temperament": "Lembut, sosial, tenang di rumah, aktif di lapangan.",
+      "coat_type": "Bulu panjang berjumbai (belton)",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Blue Belton", "variant_type": "pattern"},
+        {"name": "Orange Belton", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-irish-setter",
+      "name": "Irish Setter",
+      "name_id": "Setter Irlandia",
+      "origin_country": "Ireland",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 32,
+      "height_cm_min": 61, "height_cm_max": 67,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Periang, energik, ramah, sedikit konyol.",
+      "coat_type": "Bulu panjang merah berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Mahogany", "variant_type": "color", "hex_color": "#8B2500"},
+        {"name": "Chestnut Red", "variant_type": "color", "hex_color": "#A52A2A"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "bloat_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-gordon-setter",
+      "name": "Gordon Setter",
+      "name_id": "Gordon Setter",
+      "origin_country": "Scotland",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 36,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Loyal, percaya diri, protektif, pekerja keras.",
+      "coat_type": "Bulu panjang hitam-tan berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "bloat_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-pointer",
+      "name": "Pointer",
+      "name_id": "Pointer Inggris",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 34,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 12, "lifespan_years_max": 17,
+      "temperament": "Energik, fokus berburu, ramah, butuh ruang.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Liver & White", "variant_type": "pattern"},
+        {"name": "Lemon & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "prey_drive", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-german-shorthaired-pointer",
+      "name": "German Shorthaired Pointer",
+      "name_id": "GSP",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 32,
+      "height_cm_min": 53, "height_cm_max": 64,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Versatil, cerdas, sangat energik, butuh pekerjaan.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Liver", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Liver Roan", "variant_type": "pattern"},
+        {"name": "Liver & White Ticked", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-german-wirehaired-pointer",
+      "name": "German Wirehaired Pointer",
+      "name_id": "GWP",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 23, "weight_kg_max": 32,
+      "height_cm_min": 56, "height_cm_max": 67,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Versatil, tegas, energik, setia pada keluarga.",
+      "coat_type": "Bulu kawat (wirehaired) tahan cuaca",
+      "care_level": "medium",
+      "description": "Sub-ras / kerabat dari German Pointer (parent: dog-german-shorthaired-pointer).",
+      "variants": [
+        {"name": "Liver & White", "variant_type": "pattern"},
+        {"name": "Solid Liver", "variant_type": "color", "hex_color": "#5B3A1A"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "weather_tolerance", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-weimaraner",
+      "name": "Weimaraner",
+      "name_id": "Weimaraner",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 40,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Energik, cerdas, sangat lengket (velcro dog), butuh pendamping.",
+      "coat_type": "Bulu pendek abu keperakan",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Silver Grey", "variant_type": "color", "hex_color": "#9DA3A8"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "separation_anxiety_risk", "trait_value": "high"},
+        {"trait_key": "bloat_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-vizsla",
+      "name": "Vizsla",
+      "name_id": "Vizsla",
+      "origin_country": "Hungary",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 30,
+      "height_cm_min": 53, "height_cm_max": 64,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Penyayang, energik, butuh interaksi, sangat lengket.",
+      "coat_type": "Bulu pendek emas-kemerahan",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sporting group.",
+      "variants": [
+        {"name": "Golden Rust", "variant_type": "color", "hex_color": "#B7642E"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "separation_anxiety_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-beagle",
+      "name": "Beagle",
+      "name_id": "Beagle",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 9, "weight_kg_max": 11,
+      "height_cm_min": 33, "height_cm_max": 41,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Ceria, penasaran, pengikut bau, suka melolong.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — scent hound group.",
+      "variants": [
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Lemon & White", "variant_type": "pattern"},
+        {"name": "Red & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "scent_drive", "trait_value": "very_high"},
+        {"trait_key": "vocalization", "trait_value": "high"},
+        {"trait_key": "obesity_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-basset-hound",
+      "name": "Basset Hound",
+      "name_id": "Basset Hound",
+      "origin_country": "France",
+      "size_class": "medium",
+      "weight_kg_min": 20, "weight_kg_max": 29,
+      "height_cm_min": 28, "height_cm_max": 38,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Santai, keras kepala, penyayang, suara dalam.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — scent hound group.",
+      "variants": [
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Lemon & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "ear_infection_risk", "trait_value": "very_high"},
+        {"trait_key": "back_problem_risk", "trait_value": "high"},
+        {"trait_key": "obesity_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bloodhound",
+      "name": "Bloodhound",
+      "name_id": "Bloodhound",
+      "origin_country": "Belgium",
+      "size_class": "large",
+      "weight_kg_min": 36, "weight_kg_max": 50,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Penyabar, gigih melacak, keras kepala, penyayang.",
+      "coat_type": "Bulu pendek dengan kulit longgar",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — scent hound group; penciuman terbaik.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Liver & Tan", "variant_type": "pattern"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"}
+      ],
+      "traits": [
+        {"trait_key": "scent_drive", "trait_value": "very_high"},
+        {"trait_key": "bloat_risk", "trait_value": "very_high"},
+        {"trait_key": "drooling", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-dachshund",
+      "name": "Dachshund",
+      "name_id": "Anjing Sosis",
+      "origin_country": "Germany",
+      "size_class": "small",
+      "weight_kg_min": 4, "weight_kg_max": 15,
+      "height_cm_min": 13, "height_cm_max": 23,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Pemberani, keras kepala, penggali.",
+      "coat_type": "Smooth / wirehaired / longhaired",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — scent hound group; punya sub-ras ukuran Standard & Miniature.",
+      "variants": [
+        {"name": "Smooth", "variant_type": "coat"},
+        {"name": "Wirehaired", "variant_type": "coat"},
+        {"name": "Longhaired", "variant_type": "coat"},
+        {"name": "Standard", "variant_type": "size"},
+        {"name": "Miniature", "variant_type": "size"},
+        {"name": "Dapple", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "ivdd_risk", "trait_value": "very_high", "numeric_value": 5, "unit": "1-5"},
+        {"trait_key": "back_problem_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-greyhound",
+      "name": "Greyhound",
+      "name_id": "Greyhound",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 27, "weight_kg_max": 40,
+      "height_cm_min": 68, "height_cm_max": 76,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Tenang, lembut, pelari super cepat, 'couch potato'.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — sighthound group.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "very_high"},
+        {"trait_key": "anesthesia_sensitivity", "trait_value": "high"},
+        {"trait_key": "cold_intolerance", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-whippet",
+      "name": "Whippet",
+      "name_id": "Whippet",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 7, "weight_kg_max": 14,
+      "height_cm_min": 44, "height_cm_max": 51,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Lembut, tenang, cepat, sensitif.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — sighthound group; mirip Greyhound versi kecil.",
+      "variants": [
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "very_high"},
+        {"trait_key": "cold_intolerance", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-italian-greyhound",
+      "name": "Italian Greyhound",
+      "name_id": "Greyhound Italia",
+      "origin_country": "Italy",
+      "size_class": "toy",
+      "weight_kg_min": 3, "weight_kg_max": 5,
+      "height_cm_min": 33, "height_cm_max": 38,
+      "lifespan_years_min": 14, "lifespan_years_max": 15,
+      "temperament": "Penyayang, peka, lincah, manja.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — toy / sighthound miniatur.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "leg_fracture_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-afghan-hound",
+      "name": "Afghan Hound",
+      "name_id": "Afghan Hound",
+      "origin_country": "Afghanistan",
+      "size_class": "large",
+      "weight_kg_min": 23, "weight_kg_max": 27,
+      "height_cm_min": 61, "height_cm_max": 74,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Anggun, mandiri, sedikit angkuh, setia diam-diam.",
+      "coat_type": "Bulu panjang sutra mengalir",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — sighthound group.",
+      "variants": [
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "prey_drive", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-saluki",
+      "name": "Saluki",
+      "name_id": "Saluki",
+      "origin_country": "Middle East",
+      "size_class": "large",
+      "weight_kg_min": 18, "weight_kg_max": 27,
+      "height_cm_min": 58, "height_cm_max": 71,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Tenang, anggun, mandiri, pelari jarak jauh.",
+      "coat_type": "Bulu halus dengan jumbai di telinga & ekor",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sighthound kuno.",
+      "variants": [
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Grizzle", "variant_type": "pattern"},
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "very_high"},
+        {"trait_key": "anesthesia_sensitivity", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-borzoi",
+      "name": "Borzoi",
+      "name_id": "Borzoi",
+      "origin_country": "Russia",
+      "size_class": "large",
+      "weight_kg_min": 27, "weight_kg_max": 48,
+      "height_cm_min": 68, "height_cm_max": 85,
+      "lifespan_years_min": 9, "lifespan_years_max": 14,
+      "temperament": "Anggun, kalem, mandiri, lembut.",
+      "coat_type": "Bulu panjang sutra bergelombang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sighthound (Russian Wolfhound).",
+      "variants": [
+        {"name": "White & Sable", "variant_type": "pattern"},
+        {"name": "Gold", "variant_type": "color", "hex_color": "#D4A24B"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "very_high"},
+        {"trait_key": "bloat_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-basenji",
+      "name": "Basenji",
+      "name_id": "Basenji",
+      "origin_country": "Democratic Republic of the Congo",
+      "size_class": "small",
+      "weight_kg_min": 9, "weight_kg_max": 12,
+      "height_cm_min": 40, "height_cm_max": 43,
+      "lifespan_years_min": 13, "lifespan_years_max": 14,
+      "temperament": "Mandiri, cerdas, bersih seperti kucing, jarang menggonggong.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — 'barkless dog' tertua dari Afrika.",
+      "variants": [
+        {"name": "Red & White", "variant_type": "pattern"},
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Tricolor", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "vocalization", "trait_value": "very_low"},
+        {"trait_key": "fanconi_syndrome_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-rhodesian-ridgeback",
+      "name": "Rhodesian Ridgeback",
+      "name_id": "Rhodesian Ridgeback",
+      "origin_country": "Zimbabwe",
+      "size_class": "large",
+      "weight_kg_min": 32, "weight_kg_max": 41,
+      "height_cm_min": 61, "height_cm_max": 69,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Tangguh, loyal, mandiri, protektif.",
+      "coat_type": "Bulu pendek dengan ridge punggung khas",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — hound group (lion dog).",
+      "variants": [
+        {"name": "Wheaten", "variant_type": "color", "hex_color": "#D4A24B"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "high"},
+        {"trait_key": "dermoid_sinus_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-irish-wolfhound",
+      "name": "Irish Wolfhound",
+      "name_id": "Irish Wolfhound",
+      "origin_country": "Ireland",
+      "size_class": "giant",
+      "weight_kg_min": 48, "weight_kg_max": 70,
+      "height_cm_min": 76, "height_cm_max": 90,
+      "lifespan_years_min": 6, "lifespan_years_max": 8,
+      "temperament": "Lembut, tenang, ramah, 'gentle giant'.",
+      "coat_type": "Bulu kawat kasar sedang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — sighthound terbesar.",
+      "variants": [
+        {"name": "Grey", "variant_type": "color", "hex_color": "#9DA3A8"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Wheaten", "variant_type": "color", "hex_color": "#D4A24B"}
+      ],
+      "traits": [
+        {"trait_key": "bloat_risk", "trait_value": "very_high"},
+        {"trait_key": "cardiac_risk", "trait_value": "high"},
+        {"trait_key": "lifespan", "trait_value": "short"}
+      ]
+    },
+    {
+      "slug": "dog-black-and-tan-coonhound",
+      "name": "Black and Tan Coonhound",
+      "name_id": "Coonhound Hitam-Tan",
+      "origin_country": "United States",
+      "size_class": "large",
+      "weight_kg_min": 29, "weight_kg_max": 50,
+      "height_cm_min": 58, "height_cm_max": 69,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Pelacak gigih, ramah, suara melolong khas.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — scent hound group.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "scent_drive", "trait_value": "very_high"},
+        {"trait_key": "ear_infection_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-boxer",
+      "name": "Boxer",
+      "name_id": "Boxer",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 32,
+      "height_cm_min": 53, "height_cm_max": 64,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Energik, lucu, setia, awet muda, protektif.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "moderate"},
+        {"trait_key": "cancer_risk", "trait_value": "high"},
+        {"trait_key": "cardiac_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-doberman-pinscher",
+      "name": "Doberman Pinscher",
+      "name_id": "Doberman",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 27, "weight_kg_max": 45,
+      "height_cm_min": 61, "height_cm_max": 72,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Cerdas, waspada, loyal, penjaga andal.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Black & Rust", "variant_type": "pattern"},
+        {"name": "Red & Rust", "variant_type": "pattern"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "dcm_risk", "trait_value": "very_high"},
+        {"trait_key": "von_willebrand_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-great-dane",
+      "name": "Great Dane",
+      "name_id": "Great Dane",
+      "origin_country": "Germany",
+      "size_class": "giant",
+      "weight_kg_min": 50, "weight_kg_max": 82,
+      "height_cm_min": 71, "height_cm_max": 86,
+      "lifespan_years_min": 7, "lifespan_years_max": 10,
+      "temperament": "Lembut, penyayang, sabar, 'gentle giant'.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Harlequin", "variant_type": "pattern"},
+        {"name": "Merle", "variant_type": "pattern"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "bloat_risk", "trait_value": "very_high"},
+        {"trait_key": "dcm_risk", "trait_value": "high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-rottweiler",
+      "name": "Rottweiler",
+      "name_id": "Rottweiler",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 35, "weight_kg_max": 60,
+      "height_cm_min": 56, "height_cm_max": 69,
+      "lifespan_years_min": 8, "lifespan_years_max": 10,
+      "temperament": "Penjaga, percaya diri, loyal.",
+      "coat_type": "Short double coat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Black & Mahogany", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bernese-mountain-dog",
+      "name": "Bernese Mountain Dog",
+      "name_id": "Bernese Mountain Dog",
+      "origin_country": "Switzerland",
+      "size_class": "large",
+      "weight_kg_min": 32, "weight_kg_max": 52,
+      "height_cm_min": 58, "height_cm_max": 70,
+      "lifespan_years_min": 7, "lifespan_years_max": 10,
+      "temperament": "Lembut, tenang, ramah keluarga, suka cuaca dingin.",
+      "coat_type": "Double coat panjang tricolor",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Tricolor (Black/White/Rust)", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "cancer_risk", "trait_value": "very_high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"},
+        {"trait_key": "heat_tolerance", "trait_value": "low"}
+      ]
+    },
+    {
+      "slug": "dog-saint-bernard",
+      "name": "Saint Bernard",
+      "name_id": "Saint Bernard",
+      "origin_country": "Switzerland",
+      "size_class": "giant",
+      "weight_kg_min": 54, "weight_kg_max": 82,
+      "height_cm_min": 65, "height_cm_max": 90,
+      "lifespan_years_min": 8, "lifespan_years_max": 10,
+      "temperament": "Lembut, sabar, ramah, penyelamat gunung.",
+      "coat_type": "Short / long double coat",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working group.",
+      "variants": [
+        {"name": "Red & White", "variant_type": "pattern"},
+        {"name": "Brindle & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "drooling", "trait_value": "very_high"},
+        {"trait_key": "bloat_risk", "trait_value": "high"},
+        {"trait_key": "heat_tolerance", "trait_value": "low"}
+      ]
+    },
+    {
+      "slug": "dog-mastiff",
+      "name": "Mastiff",
+      "name_id": "Mastiff Inggris",
+      "origin_country": "United Kingdom",
+      "size_class": "giant",
+      "weight_kg_min": 54, "weight_kg_max": 100,
+      "height_cm_min": 70, "height_cm_max": 91,
+      "lifespan_years_min": 6, "lifespan_years_max": 10,
+      "temperament": "Tenang, bermartabat, protektif, lembut pada keluarga.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group; salah satu ras terberat.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "bloat_risk", "trait_value": "high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"},
+        {"trait_key": "drooling", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bullmastiff",
+      "name": "Bullmastiff",
+      "name_id": "Bullmastiff",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 45, "weight_kg_max": 59,
+      "height_cm_min": 61, "height_cm_max": 69,
+      "lifespan_years_min": 7, "lifespan_years_max": 9,
+      "temperament": "Berani, tenang, setia, penjaga alami.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group (Bulldog x Mastiff yang sudah distandarisasi).",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "cancer_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-cane-corso",
+      "name": "Cane Corso",
+      "name_id": "Cane Corso",
+      "origin_country": "Italy",
+      "size_class": "large",
+      "weight_kg_min": 40, "weight_kg_max": 50,
+      "height_cm_min": 58, "height_cm_max": 70,
+      "lifespan_years_min": 9, "lifespan_years_max": 12,
+      "temperament": "Protektif, percaya diri, loyal, butuh pemilik berpengalaman.",
+      "coat_type": "Bulu pendek kaku",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group (Italian mastiff).",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Grey", "variant_type": "color", "hex_color": "#9DA3A8"},
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-dogo-argentino",
+      "name": "Dogo Argentino",
+      "name_id": "Dogo Argentino",
+      "origin_country": "Argentina",
+      "size_class": "large",
+      "weight_kg_min": 36, "weight_kg_max": 45,
+      "height_cm_min": 60, "height_cm_max": 68,
+      "lifespan_years_min": 9, "lifespan_years_max": 15,
+      "temperament": "Berani, atletis, loyal, butuh sosialisasi kuat.",
+      "coat_type": "Bulu pendek putih",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working group; anjing pemburu Argentina.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "very_high"},
+        {"trait_key": "deafness_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-great-pyrenees",
+      "name": "Great Pyrenees",
+      "name_id": "Great Pyrenees",
+      "origin_country": "France/Spain",
+      "size_class": "giant",
+      "weight_kg_min": 39, "weight_kg_max": 73,
+      "height_cm_min": 65, "height_cm_max": 82,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Tenang, mandiri, penjaga ternak, lembut.",
+      "coat_type": "Double coat tebal putih",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / livestock guardian.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "White & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "nocturnal_barking", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-newfoundland",
+      "name": "Newfoundland",
+      "name_id": "Newfoundland",
+      "origin_country": "Canada",
+      "size_class": "giant",
+      "weight_kg_min": 45, "weight_kg_max": 70,
+      "height_cm_min": 63, "height_cm_max": 74,
+      "lifespan_years_min": 9, "lifespan_years_max": 10,
+      "temperament": "Lembut, sabar, perenang & penyelamat air, ramah anak.",
+      "coat_type": "Double coat tebal tahan air",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / water rescue.",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Landseer (Black & White)", "variant_type": "pattern"},
+        {"name": "Brown", "variant_type": "color", "hex_color": "#5B3A1A"}
+      ],
+      "traits": [
+        {"trait_key": "water_affinity", "trait_value": "very_high"},
+        {"trait_key": "drooling", "trait_value": "high"},
+        {"trait_key": "heat_tolerance", "trait_value": "low"}
+      ]
+    },
+    {
+      "slug": "dog-siberian-husky",
+      "name": "Siberian Husky",
+      "name_id": "Siberian Husky",
+      "origin_country": "Russia",
+      "size_class": "medium",
+      "weight_kg_min": 16, "weight_kg_max": 27,
+      "height_cm_min": 50, "height_cm_max": 60,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Energik, sosial, suka melarikan diri, vokal, mandiri.",
+      "coat_type": "Double coat tebal",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / sled dog group.",
+      "variants": [
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Grey & White", "variant_type": "pattern"},
+        {"name": "Agouti", "variant_type": "pattern"},
+        {"name": "Copper", "variant_type": "color", "hex_color": "#B87333"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "escape_artist", "trait_value": "very_high"},
+        {"trait_key": "shedding", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-alaskan-malamute",
+      "name": "Alaskan Malamute",
+      "name_id": "Alaskan Malamute",
+      "origin_country": "United States",
+      "size_class": "large",
+      "weight_kg_min": 34, "weight_kg_max": 50,
+      "height_cm_min": 58, "height_cm_max": 64,
+      "lifespan_years_min": 10, "lifespan_years_max": 14,
+      "temperament": "Kuat, ramah, mandiri, suka menarik beban.",
+      "coat_type": "Double coat tebal",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / sled hauling dog.",
+      "variants": [
+        {"name": "Grey & White", "variant_type": "pattern"},
+        {"name": "Sable & White", "variant_type": "pattern"},
+        {"name": "Black & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "heat_tolerance", "trait_value": "low"}
+      ]
+    },
+    {
+      "slug": "dog-samoyed",
+      "name": "Samoyed",
+      "name_id": "Samoyed",
+      "origin_country": "Russia",
+      "size_class": "medium",
+      "weight_kg_min": 16, "weight_kg_max": 30,
+      "height_cm_min": 48, "height_cm_max": 60,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Ramah, ceria, 'Sammy smile', sosial, vokal.",
+      "coat_type": "Double coat tebal putih",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / spitz group.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Biscuit", "variant_type": "color", "hex_color": "#E3C08D"}
+      ],
+      "traits": [
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "vocalization", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-akita",
+      "name": "Akita",
+      "name_id": "Akita",
+      "origin_country": "Japan",
+      "size_class": "large",
+      "weight_kg_min": 32, "weight_kg_max": 59,
+      "height_cm_min": 61, "height_cm_max": 71,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Setia, bermartabat, protektif, mandiri.",
+      "coat_type": "Double coat tebal",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / spitz Jepang.",
+      "variants": [
+        {"name": "Red Fawn", "variant_type": "color", "hex_color": "#B7642E"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "dog_aggression_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-tibetan-mastiff",
+      "name": "Tibetan Mastiff",
+      "name_id": "Tibetan Mastiff",
+      "origin_country": "Tibet/China",
+      "size_class": "giant",
+      "weight_kg_min": 32, "weight_kg_max": 73,
+      "height_cm_min": 61, "height_cm_max": 76,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Mandiri, protektif, teritorial, tenang.",
+      "coat_type": "Double coat panjang tebal dengan surai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working / livestock guardian kuno.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Gold", "variant_type": "color", "hex_color": "#D4A24B"},
+        {"name": "Blue Grey", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "nocturnal_barking", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-boerboel",
+      "name": "Boerboel",
+      "name_id": "Boerboel",
+      "origin_country": "South Africa",
+      "size_class": "giant",
+      "weight_kg_min": 50, "weight_kg_max": 90,
+      "height_cm_min": 59, "height_cm_max": 70,
+      "lifespan_years_min": 9, "lifespan_years_max": 11,
+      "temperament": "Penjaga keluarga, percaya diri, dominan, loyal.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — working / mastiff Afrika.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "joint_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-german-shepherd",
+      "name": "German Shepherd",
+      "name_id": "Gembala Jerman",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 22, "weight_kg_max": 40,
+      "height_cm_min": 55, "height_cm_max": 65,
+      "lifespan_years_min": 9, "lifespan_years_max": 13,
+      "temperament": "Protektif, cerdas, pekerja keras, loyal.",
+      "coat_type": "Double coat medium",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Sable", "variant_type": "color"},
+        {"name": "Solid Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "hip_dysplasia_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-border-collie",
+      "name": "Border Collie",
+      "name_id": "Border Collie",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 12, "weight_kg_max": 20,
+      "height_cm_min": 46, "height_cm_max": 56,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Sangat cerdas, energik, fokus, butuh stimulasi tinggi.",
+      "coat_type": "Double coat (rough/smooth)",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group; dianggap anjing tercerdas.",
+      "variants": [
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Red & White", "variant_type": "pattern"},
+        {"name": "Blue Merle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "herding_instinct", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-australian-shepherd",
+      "name": "Australian Shepherd",
+      "name_id": "Aussie",
+      "origin_country": "United States",
+      "size_class": "medium",
+      "weight_kg_min": 16, "weight_kg_max": 32,
+      "height_cm_min": 46, "height_cm_max": 58,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Pekerja keras, cerdas, energik, setia.",
+      "coat_type": "Double coat medium",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Blue Merle", "variant_type": "pattern"},
+        {"name": "Red Merle", "variant_type": "pattern"},
+        {"name": "Black Tri", "variant_type": "pattern"},
+        {"name": "Red Tri", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "herding_instinct", "trait_value": "very_high"},
+        {"trait_key": "mdr1_sensitivity", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-australian-cattle-dog",
+      "name": "Australian Cattle Dog",
+      "name_id": "Blue Heeler",
+      "origin_country": "Australia",
+      "size_class": "medium",
+      "weight_kg_min": 15, "weight_kg_max": 22,
+      "height_cm_min": 43, "height_cm_max": 51,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Tangguh, cerdas, energik, sangat setia pada satu orang.",
+      "coat_type": "Double coat pendek padat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"},
+        {"name": "Blue Mottled", "variant_type": "pattern"},
+        {"name": "Red Speckled", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "herding_instinct", "trait_value": "very_high"},
+        {"trait_key": "deafness_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-pembroke-welsh-corgi",
+      "name": "Pembroke Welsh Corgi",
+      "name_id": "Corgi Pembroke",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 10, "weight_kg_max": 14,
+      "height_cm_min": 25, "height_cm_max": 30,
+      "lifespan_years_min": 12, "lifespan_years_max": 13,
+      "temperament": "Ceria, cerdas, berani, suka 'menggembala'.",
+      "coat_type": "Double coat medium",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — herding group; ekor pendek/tanpa ekor.",
+      "variants": [
+        {"name": "Red & White", "variant_type": "pattern"},
+        {"name": "Sable", "variant_type": "color"},
+        {"name": "Tricolor", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "back_problem_risk", "trait_value": "high"},
+        {"trait_key": "obesity_risk", "trait_value": "high"},
+        {"trait_key": "herding_instinct", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-cardigan-welsh-corgi",
+      "name": "Cardigan Welsh Corgi",
+      "name_id": "Corgi Cardigan",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 11, "weight_kg_max": 17,
+      "height_cm_min": 27, "height_cm_max": 33,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Cerdas, waspada, penyayang, sedikit lebih hati-hati.",
+      "coat_type": "Double coat medium",
+      "care_level": "medium",
+      "description": "Sub-ras / kerabat dekat Corgi (parent: dog-pembroke-welsh-corgi); berekor panjang.",
+      "variants": [
+        {"name": "Brindle & White", "variant_type": "pattern"},
+        {"name": "Blue Merle", "variant_type": "pattern"},
+        {"name": "Red & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "back_problem_risk", "trait_value": "high"},
+        {"trait_key": "herding_instinct", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-shetland-sheepdog",
+      "name": "Shetland Sheepdog",
+      "name_id": "Sheltie",
+      "origin_country": "Scotland",
+      "size_class": "small",
+      "weight_kg_min": 6, "weight_kg_max": 12,
+      "height_cm_min": 33, "height_cm_max": 41,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Cerdas, setia, sensitif, vokal, mudah dilatih.",
+      "coat_type": "Double coat panjang berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group; mirip Collie mini.",
+      "variants": [
+        {"name": "Sable", "variant_type": "color"},
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Blue Merle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "vocalization", "trait_value": "high"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "mdr1_sensitivity", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-rough-collie",
+      "name": "Rough Collie",
+      "name_id": "Collie Berbulu Panjang",
+      "origin_country": "Scotland",
+      "size_class": "large",
+      "weight_kg_min": 23, "weight_kg_max": 34,
+      "height_cm_min": 51, "height_cm_max": 61,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Lembut, setia, cerdas, ramah keluarga (tipe 'Lassie').",
+      "coat_type": "Double coat panjang berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Sable & White", "variant_type": "pattern"},
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Blue Merle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "mdr1_sensitivity", "trait_value": "very_high"},
+        {"trait_key": "eye_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-smooth-collie",
+      "name": "Smooth Collie",
+      "name_id": "Collie Berbulu Pendek",
+      "origin_country": "Scotland",
+      "size_class": "large",
+      "weight_kg_min": 23, "weight_kg_max": 34,
+      "height_cm_min": 51, "height_cm_max": 61,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Lembut, setia, cerdas, perawatan lebih ringan.",
+      "coat_type": "Double coat pendek",
+      "care_level": "medium",
+      "description": "Sub-ras dari Collie (parent: dog-rough-collie); varian bulu pendek.",
+      "variants": [
+        {"name": "Sable & White", "variant_type": "pattern"},
+        {"name": "Tricolor", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "mdr1_sensitivity", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-belgian-malinois",
+      "name": "Belgian Malinois",
+      "name_id": "Malinois",
+      "origin_country": "Belgium",
+      "size_class": "large",
+      "weight_kg_min": 18, "weight_kg_max": 36,
+      "height_cm_min": 56, "height_cm_max": 66,
+      "lifespan_years_min": 14, "lifespan_years_max": 16,
+      "temperament": "Sangat energik, fokus, pekerja (militer/polisi), butuh tugas.",
+      "coat_type": "Bulu pendek padat",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group; salah satu varietas Belgian Shepherd.",
+      "variants": [
+        {"name": "Fawn with Black Mask", "variant_type": "pattern"},
+        {"name": "Mahogany", "variant_type": "color", "hex_color": "#8B2500"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "work_drive", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-belgian-tervuren",
+      "name": "Belgian Tervuren",
+      "name_id": "Tervuren",
+      "origin_country": "Belgium",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 34,
+      "height_cm_min": 56, "height_cm_max": 66,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Cerdas, energik, waspada, setia.",
+      "coat_type": "Double coat panjang",
+      "care_level": "high",
+      "description": "Sub-ras / varietas Belgian Shepherd berbulu panjang (parent: dog-belgian-malinois).",
+      "variants": [
+        {"name": "Fawn & Black", "variant_type": "pattern"},
+        {"name": "Mahogany", "variant_type": "color", "hex_color": "#8B2500"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "herding_instinct", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-belgian-sheepdog-groenendael",
+      "name": "Belgian Sheepdog (Groenendael)",
+      "name_id": "Groenendael",
+      "origin_country": "Belgium",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 34,
+      "height_cm_min": 56, "height_cm_max": 66,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Cerdas, energik, protektif, elegan.",
+      "coat_type": "Double coat panjang hitam",
+      "care_level": "high",
+      "description": "Sub-ras / varietas Belgian Shepherd hitam panjang (parent: dog-belgian-malinois).",
+      "variants": [
+        {"name": "Solid Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "herding_instinct", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-old-english-sheepdog",
+      "name": "Old English Sheepdog",
+      "name_id": "Old English Sheepdog",
+      "origin_country": "United Kingdom",
+      "size_class": "large",
+      "weight_kg_min": 27, "weight_kg_max": 45,
+      "height_cm_min": 51, "height_cm_max": 61,
+      "lifespan_years_min": 10, "lifespan_years_max": 12,
+      "temperament": "Lembut, ceria, ramah, badut keluarga.",
+      "coat_type": "Double coat panjang lebat (shaggy)",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Grey & White", "variant_type": "pattern"},
+        {"name": "Blue & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "matting_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-bearded-collie",
+      "name": "Bearded Collie",
+      "name_id": "Bearded Collie",
+      "origin_country": "Scotland",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 27,
+      "height_cm_min": 51, "height_cm_max": 56,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Ceria, lincah, ramah, penuh energi.",
+      "coat_type": "Double coat panjang berjumbai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — herding group.",
+      "variants": [
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"},
+        {"name": "Brown", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "energy_level", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bull-terrier",
+      "name": "Bull Terrier",
+      "name_id": "Bull Terrier",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 22, "weight_kg_max": 38,
+      "height_cm_min": 45, "height_cm_max": 55,
+      "lifespan_years_min": 12, "lifespan_years_max": 13,
+      "temperament": "Lucu, keras kepala, penuh energi, penyayang.",
+      "coat_type": "Bulu pendek kaku",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — terrier group; kepala 'egg-shaped' khas.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Red & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "deafness_risk", "trait_value": "high"},
+        {"trait_key": "skin_allergy_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-miniature-bull-terrier",
+      "name": "Miniature Bull Terrier",
+      "name_id": "Bull Terrier Mini",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 8, "weight_kg_max": 16,
+      "height_cm_min": 25, "height_cm_max": 36,
+      "lifespan_years_min": 11, "lifespan_years_max": 13,
+      "temperament": "Berani, lucu, energik, penyayang.",
+      "coat_type": "Bulu pendek kaku",
+      "care_level": "medium",
+      "description": "Sub-ras ukuran kecil dari Bull Terrier (parent: dog-bull-terrier).",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "luxating_patella_risk", "trait_value": "high"},
+        {"trait_key": "deafness_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-staffordshire-bull-terrier",
+      "name": "Staffordshire Bull Terrier",
+      "name_id": "Staffy",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 11, "weight_kg_max": 17,
+      "height_cm_min": 36, "height_cm_max": 41,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Berani, penyayang, ramah anak ('nanny dog'), setia.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "moderate"},
+        {"trait_key": "skin_allergy_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-american-staffordshire-terrier",
+      "name": "American Staffordshire Terrier",
+      "name_id": "AmStaff",
+      "origin_country": "United States",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 32,
+      "height_cm_min": 43, "height_cm_max": 48,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Percaya diri, setia, penyayang, kuat.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — terrier group; kerabat dekat Pit Bull.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "high"},
+        {"trait_key": "skin_allergy_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-american-pit-bull-terrier",
+      "name": "American Pit Bull Terrier",
+      "name_id": "Pit Bull",
+      "origin_country": "United States",
+      "size_class": "medium",
+      "weight_kg_min": 14, "weight_kg_max": 30,
+      "height_cm_min": 43, "height_cm_max": 53,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Loyal, energik, penyayang pada manusia, butuh sosialisasi.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — terrier / molosser type.",
+      "variants": [
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Blue", "variant_type": "color", "hex_color": "#6E7B8B"},
+        {"name": "Red Nose", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "dog_aggression_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-jack-russell-terrier",
+      "name": "Jack Russell Terrier",
+      "name_id": "Jack Russell Terrier",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 6, "weight_kg_max": 8,
+      "height_cm_min": 25, "height_cm_max": 38,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Sangat energik, cerdas, berani, butuh banyak kegiatan.",
+      "coat_type": "Smooth / broken / rough",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "White & Tan", "variant_type": "pattern"},
+        {"name": "Tricolor", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "prey_drive", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-yorkshire-terrier",
+      "name": "Yorkshire Terrier",
+      "name_id": "Yorkie",
+      "origin_country": "United Kingdom",
+      "size_class": "toy",
+      "weight_kg_min": 2, "weight_kg_max": 3.2,
+      "height_cm_min": 18, "height_cm_max": 23,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Berani, energik, manja, percaya diri.",
+      "coat_type": "Bulu sutra panjang lurus",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy terrier.",
+      "variants": [
+        {"name": "Blue & Tan", "variant_type": "pattern"},
+        {"name": "Black & Gold", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "luxating_patella_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"},
+        {"trait_key": "hypoallergenic", "trait_value": "yes"}
+      ]
+    },
+    {
+      "slug": "dog-airedale-terrier",
+      "name": "Airedale Terrier",
+      "name_id": "Airedale Terrier",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 19, "weight_kg_max": 29,
+      "height_cm_min": 56, "height_cm_max": 61,
+      "lifespan_years_min": 11, "lifespan_years_max": 14,
+      "temperament": "Cerdas, percaya diri, energik, 'King of Terriers'.",
+      "coat_type": "Bulu kawat kasar",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — terrier terbesar.",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Grizzle & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-west-highland-white-terrier",
+      "name": "West Highland White Terrier",
+      "name_id": "Westie",
+      "origin_country": "Scotland",
+      "size_class": "small",
+      "weight_kg_min": 6, "weight_kg_max": 10,
+      "height_cm_min": 25, "height_cm_max": 28,
+      "lifespan_years_min": 13, "lifespan_years_max": 15,
+      "temperament": "Ceria, percaya diri, ramah, sedikit keras kepala.",
+      "coat_type": "Double coat putih kasar",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "skin_allergy_risk", "trait_value": "high"},
+        {"trait_key": "prey_drive", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-scottish-terrier",
+      "name": "Scottish Terrier",
+      "name_id": "Scottie",
+      "origin_country": "Scotland",
+      "size_class": "small",
+      "weight_kg_min": 8, "weight_kg_max": 10,
+      "height_cm_min": 25, "height_cm_max": 28,
+      "lifespan_years_min": 11, "lifespan_years_max": 13,
+      "temperament": "Mandiri, percaya diri, bermartabat, setia.",
+      "coat_type": "Bulu kawat kasar dengan janggut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Wheaten", "variant_type": "color", "hex_color": "#D4A24B"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "bladder_cancer_risk", "trait_value": "high"},
+        {"trait_key": "von_willebrand_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-cairn-terrier",
+      "name": "Cairn Terrier",
+      "name_id": "Cairn Terrier",
+      "origin_country": "Scotland",
+      "size_class": "small",
+      "weight_kg_min": 6, "weight_kg_max": 8,
+      "height_cm_min": 23, "height_cm_max": 33,
+      "lifespan_years_min": 13, "lifespan_years_max": 15,
+      "temperament": "Lincah, berani, ceria, penasaran (tipe 'Toto').",
+      "coat_type": "Double coat kasar tahan cuaca",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "Wheaten", "variant_type": "color", "hex_color": "#D4A24B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Grey", "variant_type": "color", "hex_color": "#9DA3A8"}
+      ],
+      "traits": [
+        {"trait_key": "prey_drive", "trait_value": "high"},
+        {"trait_key": "digging", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-smooth-fox-terrier",
+      "name": "Smooth Fox Terrier",
+      "name_id": "Fox Terrier Bulu Pendek",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 7, "weight_kg_max": 9,
+      "height_cm_min": 36, "height_cm_max": 39,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Energik, waspada, berani, penuh percaya diri.",
+      "coat_type": "Bulu pendek halus padat",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — terrier group.",
+      "variants": [
+        {"name": "White & Black", "variant_type": "pattern"},
+        {"name": "White & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "prey_drive", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-wire-fox-terrier",
+      "name": "Wire Fox Terrier",
+      "name_id": "Fox Terrier Bulu Kawat",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 7, "weight_kg_max": 9,
+      "height_cm_min": 36, "height_cm_max": 39,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Energik, ceria, berani, suka beraksi.",
+      "coat_type": "Bulu kawat kasar",
+      "care_level": "high",
+      "description": "Sub-ras / varian bulu kawat dari Fox Terrier (parent: dog-smooth-fox-terrier).",
+      "variants": [
+        {"name": "White & Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "high"},
+        {"trait_key": "prey_drive", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-miniature-schnauzer",
+      "name": "Miniature Schnauzer",
+      "name_id": "Schnauzer Mini",
+      "origin_country": "Germany",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 9,
+      "height_cm_min": 30, "height_cm_max": 36,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Cerdas, ramah, waspada, suka menggonggong.",
+      "coat_type": "Bulu kawat kasar dengan janggut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — terrier group; ukuran terkecil dari keluarga Schnauzer.",
+      "variants": [
+        {"name": "Salt & Pepper", "variant_type": "pattern"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Black & Silver", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "pancreatitis_risk", "trait_value": "high"},
+        {"trait_key": "hyperlipidemia_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-standard-schnauzer",
+      "name": "Standard Schnauzer",
+      "name_id": "Schnauzer Standar",
+      "origin_country": "Germany",
+      "size_class": "medium",
+      "weight_kg_min": 14, "weight_kg_max": 20,
+      "height_cm_min": 44, "height_cm_max": 51,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Cerdas, energik, protektif, versatil.",
+      "coat_type": "Bulu kawat kasar dengan janggut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working/terrier; ukuran asli keluarga Schnauzer.",
+      "variants": [
+        {"name": "Salt & Pepper", "variant_type": "pattern"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-giant-schnauzer",
+      "name": "Giant Schnauzer",
+      "name_id": "Schnauzer Raksasa",
+      "origin_country": "Germany",
+      "size_class": "large",
+      "weight_kg_min": 25, "weight_kg_max": 48,
+      "height_cm_min": 60, "height_cm_max": 70,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Kuat, cerdas, protektif, butuh pekerjaan & pelatihan.",
+      "coat_type": "Bulu kawat kasar dengan janggut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — working group; ukuran terbesar keluarga Schnauzer.",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Salt & Pepper", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "guarding_instinct", "trait_value": "very_high"},
+        {"trait_key": "energy_level", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-chihuahua",
+      "name": "Chihuahua",
+      "name_id": "Chihuahua",
+      "origin_country": "Mexico",
+      "size_class": "toy",
+      "weight_kg_min": 1.5, "weight_kg_max": 3,
+      "height_cm_min": 15, "height_cm_max": 23,
+      "lifespan_years_min": 12, "lifespan_years_max": 18,
+      "temperament": "Berani, waspada, loyal pada satu orang.",
+      "coat_type": "Smooth atau long coat",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — toy group; ras anjing terkecil.",
+      "variants": [
+        {"name": "Smooth Coat", "variant_type": "coat"},
+        {"name": "Long Coat", "variant_type": "coat"}
+      ],
+      "traits": [
+        {"trait_key": "hypoglycemia_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-pomeranian",
+      "name": "Pomeranian",
+      "name_id": "Pomeranian",
+      "origin_country": "Germany/Poland",
+      "size_class": "toy",
+      "weight_kg_min": 1.5, "weight_kg_max": 3.5,
+      "height_cm_min": 13, "height_cm_max": 28,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Ceria, percaya diri, lincah, vokal.",
+      "coat_type": "Double coat tebal mengembang",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy / spitz group.",
+      "variants": [
+        {"name": "Orange", "variant_type": "color", "hex_color": "#E8853A"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Sable", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "luxating_patella_risk", "trait_value": "high"},
+        {"trait_key": "tracheal_collapse_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-pug",
+      "name": "Pug",
+      "name_id": "Pug",
+      "origin_country": "China",
+      "size_class": "small",
+      "weight_kg_min": 6, "weight_kg_max": 8,
+      "height_cm_min": 25, "height_cm_max": 33,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Ceria, manja, suka makan.",
+      "coat_type": "Single coat pendek",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — toy group; brakisefalik.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes"},
+        {"trait_key": "obesity_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-maltese",
+      "name": "Maltese",
+      "name_id": "Maltese",
+      "origin_country": "Malta",
+      "size_class": "toy",
+      "weight_kg_min": 1.5, "weight_kg_max": 4,
+      "height_cm_min": 18, "height_cm_max": 25,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Manja, lembut, ceria, suka pangkuan.",
+      "coat_type": "Bulu sutra panjang putih",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy group.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "tear_staining", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-papillon",
+      "name": "Papillon",
+      "name_id": "Papillon",
+      "origin_country": "France/Belgium",
+      "size_class": "toy",
+      "weight_kg_min": 2.5, "weight_kg_max": 5,
+      "height_cm_min": 20, "height_cm_max": 28,
+      "lifespan_years_min": 14, "lifespan_years_max": 16,
+      "temperament": "Cerdas, lincah, ramah, mudah dilatih.",
+      "coat_type": "Bulu sutra panjang dengan telinga 'kupu-kupu'",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — toy group.",
+      "variants": [
+        {"name": "White & Black", "variant_type": "pattern"},
+        {"name": "White & Sable", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-pekingese",
+      "name": "Pekingese",
+      "name_id": "Pekingese",
+      "origin_country": "China",
+      "size_class": "toy",
+      "weight_kg_min": 3, "weight_kg_max": 6,
+      "height_cm_min": 15, "height_cm_max": 23,
+      "lifespan_years_min": 12, "lifespan_years_max": 14,
+      "temperament": "Bermartabat, mandiri, setia, sedikit keras kepala.",
+      "coat_type": "Double coat panjang lebat",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy group; brakisefalik kuno dari istana Tiongkok.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes"},
+        {"trait_key": "heat_tolerance", "trait_value": "very_low"},
+        {"trait_key": "eye_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-miniature-pinscher",
+      "name": "Miniature Pinscher",
+      "name_id": "Min Pin",
+      "origin_country": "Germany",
+      "size_class": "toy",
+      "weight_kg_min": 3.5, "weight_kg_max": 5,
+      "height_cm_min": 25, "height_cm_max": 32,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Energik, berani, percaya diri, 'King of Toys'.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — toy group (bukan Doberman mini).",
+      "variants": [
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Black & Rust", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "high"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-japanese-chin",
+      "name": "Japanese Chin",
+      "name_id": "Japanese Chin",
+      "origin_country": "Japan",
+      "size_class": "toy",
+      "weight_kg_min": 1.4, "weight_kg_max": 5,
+      "height_cm_min": 20, "height_cm_max": 28,
+      "lifespan_years_min": 10, "lifespan_years_max": 14,
+      "temperament": "Anggun, manis, seperti kucing, manja.",
+      "coat_type": "Bulu sutra sedang panjang",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — toy group; brakisefalik ringan.",
+      "variants": [
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Red & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "moderate"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-cavalier-king-charles-spaniel",
+      "name": "Cavalier King Charles Spaniel",
+      "name_id": "Cavalier King Charles Spaniel",
+      "origin_country": "United Kingdom",
+      "size_class": "small",
+      "weight_kg_min": 5.5, "weight_kg_max": 8,
+      "height_cm_min": 30, "height_cm_max": 33,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Penyayang, lembut, ramah, mudah bergaul.",
+      "coat_type": "Bulu sutra sedang berjumbai",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — toy group.",
+      "variants": [
+        {"name": "Blenheim", "variant_type": "pattern"},
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Ruby", "variant_type": "color", "hex_color": "#9B111E"},
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "mitral_valve_disease_risk", "trait_value": "very_high"},
+        {"trait_key": "syringomyelia_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-havanese",
+      "name": "Havanese",
+      "name_id": "Havanese",
+      "origin_country": "Cuba",
+      "size_class": "toy",
+      "weight_kg_min": 3, "weight_kg_max": 6,
+      "height_cm_min": 22, "height_cm_max": 29,
+      "lifespan_years_min": 14, "lifespan_years_max": 16,
+      "temperament": "Ceria, sosial, cerdas, suka menyenangkan.",
+      "coat_type": "Bulu panjang sutra bergelombang",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy group; anjing nasional Kuba.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Havana Brown", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Sable", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-brussels-griffon",
+      "name": "Brussels Griffon",
+      "name_id": "Brussels Griffon",
+      "origin_country": "Belgium",
+      "size_class": "toy",
+      "weight_kg_min": 3.5, "weight_kg_max": 6,
+      "height_cm_min": 18, "height_cm_max": 25,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Penuh kepribadian, sensitif, melekat pada pemilik.",
+      "coat_type": "Rough atau smooth coat",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — toy group; brakisefalik ringan.",
+      "variants": [
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "moderate"},
+        {"trait_key": "separation_anxiety_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-chinese-crested",
+      "name": "Chinese Crested",
+      "name_id": "Chinese Crested",
+      "origin_country": "China",
+      "size_class": "toy",
+      "weight_kg_min": 3.5, "weight_kg_max": 5.5,
+      "height_cm_min": 23, "height_cm_max": 33,
+      "lifespan_years_min": 13, "lifespan_years_max": 18,
+      "temperament": "Penyayang, lincah, melekat, ceria.",
+      "coat_type": "Hairless atau Powderpuff (berbulu)",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy group; ada varian Hairless & Powderpuff.",
+      "variants": [
+        {"name": "Hairless", "variant_type": "coat"},
+        {"name": "Powderpuff", "variant_type": "coat"}
+      ],
+      "traits": [
+        {"trait_key": "skin_care_need", "trait_value": "very_high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"},
+        {"trait_key": "sunburn_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bulldog",
+      "name": "Bulldog",
+      "name_id": "Bulldog Inggris",
+      "origin_country": "United Kingdom",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 25,
+      "height_cm_min": 31, "height_cm_max": 40,
+      "lifespan_years_min": 8, "lifespan_years_max": 10,
+      "temperament": "Tenang, berani, ramah, santai, keras kepala.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting group; brakisefalik.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Pied", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes"},
+        {"trait_key": "heat_tolerance", "trait_value": "very_low"},
+        {"trait_key": "skin_fold_dermatitis_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-french-bulldog",
+      "name": "French Bulldog",
+      "name_id": "Bulldog Prancis",
+      "origin_country": "France",
+      "size_class": "small",
+      "weight_kg_min": 8, "weight_kg_max": 14,
+      "height_cm_min": 28, "height_cm_max": 33,
+      "lifespan_years_min": 9, "lifespan_years_max": 12,
+      "temperament": "Penyayang, santai, suka perhatian.",
+      "coat_type": "Single coat pendek halus",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — non-sporting group; brakisefalik.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Brindle", "variant_type": "pattern"},
+        {"name": "Pied", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes", "numeric_value": 1, "unit": "bool"},
+        {"trait_key": "heat_tolerance", "trait_value": "very_low"}
+      ]
+    },
+    {
+      "slug": "dog-poodle",
+      "name": "Poodle",
+      "name_id": "Pudel",
+      "origin_country": "Germany/France",
+      "size_class": "medium",
+      "weight_kg_min": 3, "weight_kg_max": 32,
+      "height_cm_min": 24, "height_cm_max": 60,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Sangat cerdas, aktif, mudah dilatih.",
+      "coat_type": "Curly single coat, low-shedding",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting; punya sub-ras ukuran Toy/Miniature/Standard.",
+      "variants": [
+        {"name": "Toy", "variant_type": "size"},
+        {"name": "Miniature", "variant_type": "size"},
+        {"name": "Standard", "variant_type": "size"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "grooming_need", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-standard-poodle",
+      "name": "Standard Poodle",
+      "name_id": "Pudel Standar",
+      "origin_country": "Germany/France",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 32,
+      "height_cm_min": 45, "height_cm_max": 60,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Cerdas, atletis, elegan, mudah dilatih.",
+      "coat_type": "Curly single coat",
+      "care_level": "high",
+      "description": "Sub-ras ukuran besar dari Poodle (parent: dog-poodle).",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "bloat_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-miniature-poodle",
+      "name": "Miniature Poodle",
+      "name_id": "Pudel Mini",
+      "origin_country": "Germany/France",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 9,
+      "height_cm_min": 28, "height_cm_max": 38,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Cerdas, ceria, penyayang, mudah dilatih.",
+      "coat_type": "Curly single coat",
+      "care_level": "high",
+      "description": "Sub-ras ukuran sedang-kecil dari Poodle (parent: dog-poodle).",
+      "variants": [
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-toy-poodle",
+      "name": "Toy Poodle",
+      "name_id": "Pudel Toy",
+      "origin_country": "Germany/France",
+      "size_class": "toy",
+      "weight_kg_min": 3, "weight_kg_max": 4,
+      "height_cm_min": 24, "height_cm_max": 28,
+      "lifespan_years_min": 12, "lifespan_years_max": 18,
+      "temperament": "Sangat cerdas, manja, ceria, melekat.",
+      "coat_type": "Curly single coat",
+      "care_level": "high",
+      "description": "Sub-ras ukuran terkecil dari Poodle (parent: dog-poodle).",
+      "variants": [
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "high"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-dalmatian",
+      "name": "Dalmatian",
+      "name_id": "Dalmatian",
+      "origin_country": "Croatia",
+      "size_class": "large",
+      "weight_kg_min": 20, "weight_kg_max": 32,
+      "height_cm_min": 48, "height_cm_max": 61,
+      "lifespan_years_min": 11, "lifespan_years_max": 13,
+      "temperament": "Energik, setia, suka berlari, butuh aktivitas tinggi.",
+      "coat_type": "Bulu pendek padat berbintik",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — non-sporting group.",
+      "variants": [
+        {"name": "Black Spotted", "variant_type": "pattern"},
+        {"name": "Liver Spotted", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "deafness_risk", "trait_value": "very_high"},
+        {"trait_key": "urate_stone_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-boston-terrier",
+      "name": "Boston Terrier",
+      "name_id": "Boston Terrier",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 11,
+      "height_cm_min": 38, "height_cm_max": 43,
+      "lifespan_years_min": 11, "lifespan_years_max": 13,
+      "temperament": "Ramah, cerdas, lucu, 'American Gentleman'.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "low",
+      "description": "Ras asli (purebred) — non-sporting group; brakisefalik ringan.",
+      "variants": [
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Brindle & White", "variant_type": "pattern"},
+        {"name": "Seal & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "moderate"},
+        {"trait_key": "eye_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bichon-frise",
+      "name": "Bichon Frise",
+      "name_id": "Bichon Frise",
+      "origin_country": "France/Belgium",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 8,
+      "height_cm_min": 24, "height_cm_max": 29,
+      "lifespan_years_min": 14, "lifespan_years_max": 15,
+      "temperament": "Ceria, lembut, ramah, suka bermain.",
+      "coat_type": "Bulu keriting putih lembut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting group.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "yes"},
+        {"trait_key": "skin_allergy_risk", "trait_value": "high"},
+        {"trait_key": "grooming_need", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "dog-shiba-inu",
+      "name": "Shiba Inu",
+      "name_id": "Shiba Inu",
+      "origin_country": "Japan",
+      "size_class": "small",
+      "weight_kg_min": 8, "weight_kg_max": 11,
+      "height_cm_min": 34, "height_cm_max": 42,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Mandiri, waspada, bersih, sedikit keras kepala (seperti kucing).",
+      "coat_type": "Double coat pendek tebal",
+      "care_level": "medium",
+      "description": "Ras asli (purebred) — non-sporting / spitz Jepang.",
+      "variants": [
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Sesame", "variant_type": "pattern"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"}
+      ],
+      "traits": [
+        {"trait_key": "shedding", "trait_value": "high"},
+        {"trait_key": "prey_drive", "trait_value": "high"},
+        {"trait_key": "escape_artist", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-chow-chow",
+      "name": "Chow Chow",
+      "name_id": "Chow Chow",
+      "origin_country": "China",
+      "size_class": "medium",
+      "weight_kg_min": 20, "weight_kg_max": 32,
+      "height_cm_min": 43, "height_cm_max": 51,
+      "lifespan_years_min": 8, "lifespan_years_max": 12,
+      "temperament": "Mandiri, bermartabat, protektif, seperti kucing.",
+      "coat_type": "Double coat tebal (rough/smooth) dengan surai",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting; lidah biru-hitam khas.",
+      "variants": [
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Cinnamon", "variant_type": "color", "hex_color": "#9C5A2E"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"}
+      ],
+      "traits": [
+        {"trait_key": "entropion_risk", "trait_value": "high"},
+        {"trait_key": "heat_tolerance", "trait_value": "low"},
+        {"trait_key": "hip_dysplasia_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-shar-pei",
+      "name": "Chinese Shar-Pei",
+      "name_id": "Shar Pei",
+      "origin_country": "China",
+      "size_class": "medium",
+      "weight_kg_min": 18, "weight_kg_max": 27,
+      "height_cm_min": 46, "height_cm_max": 51,
+      "lifespan_years_min": 8, "lifespan_years_max": 12,
+      "temperament": "Tenang, mandiri, setia, teritorial.",
+      "coat_type": "Bulu sangat pendek kasar dengan kulit berkerut",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting; kulit berkerut khas.",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"}
+      ],
+      "traits": [
+        {"trait_key": "skin_fold_dermatitis_risk", "trait_value": "very_high"},
+        {"trait_key": "entropion_risk", "trait_value": "very_high"},
+        {"trait_key": "shar_pei_fever_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-lhasa-apso",
+      "name": "Lhasa Apso",
+      "name_id": "Lhasa Apso",
+      "origin_country": "Tibet",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 8,
+      "height_cm_min": 25, "height_cm_max": 28,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Percaya diri, waspada, mandiri, setia.",
+      "coat_type": "Bulu panjang lurus berat",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting; penjaga biara Tibet.",
+      "variants": [
+        {"name": "Gold", "variant_type": "color", "hex_color": "#D4A24B"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Grizzle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "kidney_issue_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-shih-tzu",
+      "name": "Shih Tzu",
+      "name_id": "Shih Tzu",
+      "origin_country": "China/Tibet",
+      "size_class": "small",
+      "weight_kg_min": 4, "weight_kg_max": 7.5,
+      "height_cm_min": 20, "height_cm_max": 28,
+      "lifespan_years_min": 10, "lifespan_years_max": 16,
+      "temperament": "Manja, ramah, cocok di apartemen.",
+      "coat_type": "Double coat panjang",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — toy / non-sporting; brakisefalik.",
+      "variants": [
+        {"name": "Gold & White", "variant_type": "pattern"},
+        {"name": "Brindle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "yes"},
+        {"trait_key": "eye_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-tibetan-terrier",
+      "name": "Tibetan Terrier",
+      "name_id": "Tibetan Terrier",
+      "origin_country": "Tibet",
+      "size_class": "medium",
+      "weight_kg_min": 8, "weight_kg_max": 14,
+      "height_cm_min": 36, "height_cm_max": 43,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Setia, cerdas, ramah, sedikit waspada.",
+      "coat_type": "Double coat panjang lebat",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting (bukan terrier sejati).",
+      "variants": [
+        {"name": "Gold", "variant_type": "color", "hex_color": "#D4A24B"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Black & White", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "grooming_need", "trait_value": "very_high"},
+        {"trait_key": "lens_luxation_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-american-eskimo-dog",
+      "name": "American Eskimo Dog",
+      "name_id": "American Eskimo Dog",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 2.7, "weight_kg_max": 16,
+      "height_cm_min": 23, "height_cm_max": 48,
+      "lifespan_years_min": 13, "lifespan_years_max": 15,
+      "temperament": "Cerdas, waspada, ceria, suka tampil.",
+      "coat_type": "Double coat putih tebal",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting / spitz; ada ukuran Toy, Miniature, Standard.",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Biscuit Cream", "variant_type": "color", "hex_color": "#E3C08D"},
+        {"name": "Toy", "variant_type": "size"},
+        {"name": "Miniature", "variant_type": "size"},
+        {"name": "Standard", "variant_type": "size"}
+      ],
+      "traits": [
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-keeshond",
+      "name": "Keeshond",
+      "name_id": "Keeshond",
+      "origin_country": "Netherlands",
+      "size_class": "medium",
+      "weight_kg_min": 16, "weight_kg_max": 20,
+      "height_cm_min": 41, "height_cm_max": 48,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Ramah, ceria, sosial, 'smiling Dutchman'.",
+      "coat_type": "Double coat tebal abu-abu dengan 'kacamata'",
+      "care_level": "high",
+      "description": "Ras asli (purebred) — non-sporting / spitz.",
+      "variants": [
+        {"name": "Grey, Black & Cream", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "hip_dysplasia_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-goldendoodle",
+      "name": "Goldendoodle",
+      "name_id": "Goldendoodle",
+      "origin_country": "United States/Australia",
+      "size_class": "large",
+      "weight_kg_min": 7, "weight_kg_max": 40,
+      "height_cm_min": 35, "height_cm_max": 60,
+      "lifespan_years_min": 10, "lifespan_years_max": 15,
+      "temperament": "Ramah, cerdas, sosial, mudah dilatih.",
+      "coat_type": "Bergelombang/keriting, cenderung low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Golden Retriever x Poodle).",
+      "variants": [
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Red", "variant_type": "color", "hex_color": "#A52A2A"},
+        {"name": "Mini", "variant_type": "size"},
+        {"name": "Standard", "variant_type": "size"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "grooming_need", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-labradoodle",
+      "name": "Labradoodle",
+      "name_id": "Labradoodle",
+      "origin_country": "Australia",
+      "size_class": "large",
+      "weight_kg_min": 7, "weight_kg_max": 30,
+      "height_cm_min": 35, "height_cm_max": 60,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Ramah, energik, cerdas, sosial.",
+      "coat_type": "Bergelombang/keriting, cenderung low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Labrador Retriever x Poodle).",
+      "variants": [
+        {"name": "Chocolate", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Mini", "variant_type": "size"},
+        {"name": "Standard", "variant_type": "size"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "energy_level", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-cockapoo",
+      "name": "Cockapoo",
+      "name_id": "Cockapoo",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 5, "weight_kg_max": 11,
+      "height_cm_min": 25, "height_cm_max": 38,
+      "lifespan_years_min": 13, "lifespan_years_max": 16,
+      "temperament": "Penyayang, ceria, cerdas, ramah keluarga.",
+      "coat_type": "Bergelombang/keriting, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Cocker Spaniel x Poodle).",
+      "variants": [
+        {"name": "Buff", "variant_type": "color", "hex_color": "#E8D8A0"},
+        {"name": "Chocolate", "variant_type": "color", "hex_color": "#5B3A1A"},
+        {"name": "Parti-color", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "ear_infection_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-maltipoo",
+      "name": "Maltipoo",
+      "name_id": "Maltipoo",
+      "origin_country": "United States",
+      "size_class": "toy",
+      "weight_kg_min": 2, "weight_kg_max": 6,
+      "height_cm_min": 20, "height_cm_max": 36,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Manja, ceria, lembut, melekat pada pemilik.",
+      "coat_type": "Bergelombang/keriting lembut, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Maltese x Toy/Miniature Poodle).",
+      "variants": [
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-cavapoo",
+      "name": "Cavapoo",
+      "name_id": "Cavapoo / Cavoodle",
+      "origin_country": "Australia",
+      "size_class": "small",
+      "weight_kg_min": 4, "weight_kg_max": 11,
+      "height_cm_min": 23, "height_cm_max": 36,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Penyayang, ramah, lembut, sosial.",
+      "coat_type": "Bergelombang lembut, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Cavalier King Charles Spaniel x Poodle).",
+      "variants": [
+        {"name": "Blenheim", "variant_type": "pattern"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Tricolor", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "mitral_valve_disease_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-puggle",
+      "name": "Puggle",
+      "name_id": "Puggle",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 7, "weight_kg_max": 14,
+      "height_cm_min": 25, "height_cm_max": 38,
+      "lifespan_years_min": 10, "lifespan_years_max": 15,
+      "temperament": "Ceria, ramah, penasaran, sosial.",
+      "coat_type": "Bulu pendek halus",
+      "care_level": "medium",
+      "description": "Ras campuran / designer (Pug x Beagle).",
+      "variants": [
+        {"name": "Fawn", "variant_type": "color", "hex_color": "#C19A6B"},
+        {"name": "Tan", "variant_type": "color", "hex_color": "#D2B48C"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"}
+      ],
+      "traits": [
+        {"trait_key": "brachycephalic", "trait_value": "moderate"},
+        {"trait_key": "scent_drive", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-pomsky",
+      "name": "Pomsky",
+      "name_id": "Pomsky",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 7, "weight_kg_max": 17,
+      "height_cm_min": 25, "height_cm_max": 43,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Energik, cerdas, vokal, penuh kepribadian.",
+      "coat_type": "Double coat tebal",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Pomeranian x Siberian Husky).",
+      "variants": [
+        {"name": "Grey & White", "variant_type": "pattern"},
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Merle", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "shedding", "trait_value": "very_high"},
+        {"trait_key": "energy_level", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-schnoodle",
+      "name": "Schnoodle",
+      "name_id": "Schnoodle",
+      "origin_country": "United States",
+      "size_class": "small",
+      "weight_kg_min": 3, "weight_kg_max": 34,
+      "height_cm_min": 25, "height_cm_max": 66,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Cerdas, ceria, setia, penuh energi.",
+      "coat_type": "Bergelombang/keriting, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Schnauzer x Poodle).",
+      "variants": [
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Salt & Pepper", "variant_type": "pattern"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-yorkipoo",
+      "name": "Yorkipoo",
+      "name_id": "Yorkipoo",
+      "origin_country": "United States",
+      "size_class": "toy",
+      "weight_kg_min": 1.5, "weight_kg_max": 6,
+      "height_cm_min": 18, "height_cm_max": 38,
+      "lifespan_years_min": 12, "lifespan_years_max": 15,
+      "temperament": "Lincah, penyayang, cerdas, percaya diri.",
+      "coat_type": "Bergelombang lembut, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Yorkshire Terrier x Toy Poodle).",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Apricot", "variant_type": "color", "hex_color": "#FBCEB1"},
+        {"name": "Cream", "variant_type": "color", "hex_color": "#F2E2C4"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "luxating_patella_risk", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-chiweenie",
+      "name": "Chiweenie",
+      "name_id": "Chiweenie",
+      "origin_country": "United States",
+      "size_class": "toy",
+      "weight_kg_min": 2, "weight_kg_max": 5,
+      "height_cm_min": 15, "height_cm_max": 25,
+      "lifespan_years_min": 12, "lifespan_years_max": 16,
+      "temperament": "Berani, lincah, penyayang, sedikit keras kepala.",
+      "coat_type": "Pendek/medium",
+      "care_level": "low",
+      "description": "Ras campuran / designer (Chihuahua x Dachshund).",
+      "variants": [
+        {"name": "Tan", "variant_type": "color", "hex_color": "#D2B48C"},
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "Brown", "variant_type": "color", "hex_color": "#5B3A1A"}
+      ],
+      "traits": [
+        {"trait_key": "back_problem_risk", "trait_value": "moderate"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-morkie",
+      "name": "Morkie",
+      "name_id": "Morkie",
+      "origin_country": "United States",
+      "size_class": "toy",
+      "weight_kg_min": 2, "weight_kg_max": 5,
+      "height_cm_min": 15, "height_cm_max": 25,
+      "lifespan_years_min": 10, "lifespan_years_max": 16,
+      "temperament": "Manja, ceria, percaya diri, melekat pada pemilik.",
+      "coat_type": "Bulu panjang sutra, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Maltese x Yorkshire Terrier).",
+      "variants": [
+        {"name": "Black & Tan", "variant_type": "pattern"},
+        {"name": "White", "variant_type": "color", "hex_color": "#FFFFFF"},
+        {"name": "Gold", "variant_type": "color", "hex_color": "#D4A24B"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "dental_issue_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-bernedoodle",
+      "name": "Bernedoodle",
+      "name_id": "Bernedoodle",
+      "origin_country": "Canada",
+      "size_class": "large",
+      "weight_kg_min": 4, "weight_kg_max": 41,
+      "height_cm_min": 30, "height_cm_max": 74,
+      "lifespan_years_min": 12, "lifespan_years_max": 18,
+      "temperament": "Setia, cerdas, ceria, ramah keluarga.",
+      "coat_type": "Bergelombang/keriting, cenderung low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Bernese Mountain Dog x Poodle).",
+      "variants": [
+        {"name": "Tricolor", "variant_type": "pattern"},
+        {"name": "Black & White", "variant_type": "pattern"},
+        {"name": "Sable", "variant_type": "color"},
+        {"name": "Mini", "variant_type": "size"}
+      ],
+      "traits": [
+        {"trait_key": "hypoallergenic", "trait_value": "varies"},
+        {"trait_key": "trainability", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "dog-aussiedoodle",
+      "name": "Aussiedoodle",
+      "name_id": "Aussiedoodle",
+      "origin_country": "United States",
+      "size_class": "medium",
+      "weight_kg_min": 11, "weight_kg_max": 32,
+      "height_cm_min": 25, "height_cm_max": 58,
+      "lifespan_years_min": 10, "lifespan_years_max": 13,
+      "temperament": "Sangat cerdas, energik, setia, butuh stimulasi.",
+      "coat_type": "Bergelombang/keriting, low-shedding",
+      "care_level": "high",
+      "description": "Ras campuran / designer (Australian Shepherd x Poodle).",
+      "variants": [
+        {"name": "Blue Merle", "variant_type": "pattern"},
+        {"name": "Red Merle", "variant_type": "pattern"},
+        {"name": "Black & Tan", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "energy_level", "trait_value": "very_high"},
+        {"trait_key": "trainability", "trait_value": "very_high"},
+        {"trait_key": "mdr1_sensitivity", "trait_value": "moderate"}
+      ]
+    },
+    {
+      "slug": "dog-mixed-breed",
+      "name": "Mixed Breed / Mongrel",
+      "name_id": "Anjing Kampung / Campuran",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 5, "weight_kg_max": 30,
+      "height_cm_min": 25, "height_cm_max": 60,
+      "lifespan_years_min": 10, "lifespan_years_max": 16,
+      "temperament": "Bervariasi; umumnya tahan banting & sehat (hybrid vigor).",
+      "coat_type": "Bervariasi",
+      "care_level": "low",
+      "description": "Ras campuran tak terdefinisi (mongrel / anjing kampung).",
+      "variants": [],
+      "traits": [
+        {"trait_key": "hybrid_vigor", "trait_value": "yes"}
+      ]
+    }
+  ]
+}

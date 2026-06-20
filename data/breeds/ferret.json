@@ -1,0 +1,35 @@
+{
+  "category_slug": "ferret",
+  "breeds": [
+    {
+      "slug": "standard-ferret",
+      "common_name": "Ferret Standar",
+      "scientific_name": "Mustela furo",
+      "origin": "Domestikasi dari Eropa",
+      "lifespan_min": 5,
+      "lifespan_max": 8,
+      "adult_size_cm": 50,
+      "adult_weight_g": 1200,
+      "temperament": "Aktif, sosial, penasaran, tidur 14-18 jam/hari",
+      "care_level": "Advanced",
+      "husbandry_notes": "Sosial: wajib dipelihara berpasangan, kandang besar multi level, suhu 15-21C, sangat tidak tahan panas >24C.",
+      "color_variants": [
+        "sable",
+        "albino",
+        "silver",
+        "champagne",
+        "black",
+        "cinnamon",
+        "panda",
+        "blaze"
+      ],
+      "predisposed_diseases": [
+        "adrenal-disease",
+        "insulinoma",
+        "lymphoma",
+        "aleutian-disease"
+      ],
+      "status": "curated"
+    }
+  ]
+}

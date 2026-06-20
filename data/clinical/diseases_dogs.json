@@ -1,0 +1,273 @@
+{
+  "category_slug": "dog",
+  "disclaimer": "Data edukatif untuk mendukung keputusan klinis. Diagnosa & resep final wajib oleh dokter hewan berlisensi. Dosis adalah panduan umum, sesuaikan dengan kondisi pasien.",
+  "diseases": [
+    {
+      "slug": "dog-parvovirus",
+      "name": "Canine Parvovirus Enteritis",
+      "name_id": "Parvovirus (Parvo)",
+      "etiology": "infectious_viral",
+      "body_system": "digestive",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi virus sangat menular menyerang sel usus dan sumsum tulang, umum pada anak anjing belum divaksin.",
+      "causes": "Virus CPV-2 menyebar via feses, kontak langsung, lingkungan terkontaminasi (sangat tahan lama).",
+      "prevention": "Vaksinasi DHPP lengkap, sanitasi disinfektan (sodium hypochlorite), isolasi anjing sakit.",
+      "prognosis": "Tanpa terapi mortalitas tinggi; dengan rawat inap intensif survival 70-90%.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-rottweiler", "risk": "high", "prevalence_pct": 12, "is_hereditary": false, "age_onset": "6 minggu - 6 bulan", "notes": "Ras tertentu (Rottweiler, Doberman) dilaporkan lebih rentan/berat."},
+        {"breed_slug": "dog-german-shepherd", "risk": "high", "age_onset": "puppy"},
+        {"breed_slug": "dog-mixed-breed", "risk": "high", "age_onset": "puppy", "notes": "Tinggi pada anjing jalanan belum vaksin."}
+      ],
+      "symptoms": [
+        {"name": "Bloody diarrhea", "name_id": "Diare berdarah", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true, "is_pathognomonic": true},
+        {"name": "Severe vomiting", "name_id": "Muntah hebat", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Lethargy", "name_id": "Lemas/lesu", "body_system": "systemic", "frequency": "very_high"},
+        {"name": "Anorexia", "name_id": "Tidak mau makan", "body_system": "digestive", "frequency": "very_high"},
+        {"name": "Dehydration", "name_id": "Dehidrasi", "body_system": "systemic", "frequency": "very_high", "is_red_flag": true},
+        {"name": "Fever or hypothermia", "name_id": "Demam atau suhu turun", "body_system": "systemic", "frequency": "high"}
+      ],
+      "diagnostics": [
+        {"name": "Parvo SNAP antigen test (feses)", "type": "serology", "is_gold_standard": false, "step_order": 1, "expected_finding": "Antigen CPV positif"},
+        {"name": "PCR feses", "type": "pcr_molecular", "is_gold_standard": true, "step_order": 2, "expected_finding": "DNA CPV-2 terdeteksi"},
+        {"name": "Complete Blood Count", "type": "blood_test", "is_gold_standard": false, "step_order": 3, "expected_finding": "Leukopenia berat (neutropenia)"}
+      ],
+      "treatments": [
+        {
+          "name": "Terapi suportif rawat inap parvo",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Rawat inap & isolasi. 2) Terapi cairan IV (koreksi dehidrasi + elektrolit). 3) Antiemetik. 4) Antibiotik spektrum luas cegah sepsis sekunder. 5) Gula darah dipantau, koreksi hipoglikemia. 6) Nutrisi enteral dini bila muntah terkontrol.",
+          "recommendation": "Mulai cairan IV agresif secepatnya; isolasi ketat; pantau elektrolit & glukosa tiap 12 jam.",
+          "products": [
+            {"name": "Ringer Lactate / NaCl 0.9%", "kind": "medication", "active_ingredient": "Larutan elektrolit", "route": "IV", "dosage_guide": "Maintenance + defisit, koreksi syok 10-20 ml/kg bolus", "cautions": "Pantau overhydration pada anjing kecil."},
+            {"name": "Maropitant (Cerenia)", "kind": "medication", "active_ingredient": "Maropitant citrate", "route": "SC/IV", "dosage_guide": "1 mg/kg SID", "cautions": "Hati-hati pada <8 minggu."},
+            {"name": "Ampicillin / Cefazolin", "kind": "medication", "active_ingredient": "Beta-lactam", "route": "IV", "dosage_guide": "20 mg/kg tiap 8 jam", "cautions": "Sesuaikan fungsi ginjal."},
+            {"name": "Dextrose 5%", "kind": "medication", "active_ingredient": "Glukosa", "route": "IV", "dosage_guide": "Tambahkan ke cairan bila hipoglikemia", "cautions": "Monitor glukosa."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dog-hip-dysplasia",
+      "name": "Canine Hip Dysplasia",
+      "name_id": "Displasia Pinggul",
+      "etiology": "genetic_congenital",
+      "body_system": "musculoskeletal",
+      "is_contagious": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Kelainan perkembangan sendi panggul (acetabulum-femur tidak pas) menyebabkan osteoarthritis & nyeri.",
+      "causes": "Multifaktorial: genetik (poligenik), pertumbuhan cepat, kelebihan berat, nutrisi tidak seimbang.",
+      "prevention": "Seleksi indukan ber-skoring sendi baik, kontrol berat badan, hindari overexercise saat puppy.",
+      "prognosis": "Manajemen baik memungkinkan kualitas hidup baik; kasus berat butuh operasi.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-german-shepherd", "risk": "very_high", "prevalence_pct": 19, "is_hereditary": true, "age_onset": "4 bulan - dewasa"},
+        {"breed_slug": "dog-golden-retriever", "risk": "high", "prevalence_pct": 20, "is_hereditary": true},
+        {"breed_slug": "dog-labrador-retriever", "risk": "high", "prevalence_pct": 12, "is_hereditary": true},
+        {"breed_slug": "dog-rottweiler", "risk": "high", "is_hereditary": true}
+      ],
+      "symptoms": [
+        {"name": "Bunny hopping gait", "name_id": "Berjalan melompat seperti kelinci", "body_system": "musculoskeletal", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Hindlimb lameness", "name_id": "Pincang kaki belakang", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Difficulty rising", "name_id": "Sulit bangun/berdiri", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Reluctance to jump or climb stairs", "name_id": "Enggan melompat/naik tangga", "body_system": "musculoskeletal", "frequency": "high"},
+        {"name": "Muscle atrophy hindquarters", "name_id": "Otot paha belakang mengecil", "body_system": "musculoskeletal", "frequency": "moderate"}
+      ],
+      "diagnostics": [
+        {"name": "Pemeriksaan ortopedi (Ortolani sign)", "type": "physical_exam", "is_gold_standard": false, "step_order": 1, "expected_finding": "Laxity sendi, nyeri ekstensi"},
+        {"name": "Radiografi panggul (ventrodorsal/PennHIP)", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Subluksasi, remodeling, osteofit"}
+      ],
+      "treatments": [
+        {
+          "name": "Manajemen konservatif osteoarthritis",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Kontrol berat badan. 2) NSAID untuk nyeri/inflamasi. 3) Suplemen sendi. 4) Fisioterapi & latihan low-impact (renang). 5) Manajemen lingkungan (alas empuk, hindari lantai licin).",
+          "recommendation": "Prioritaskan penurunan berat badan + NSAID jangka terkontrol; evaluasi fungsi hati/ginjal sebelum NSAID panjang.",
+          "products": [
+            {"name": "Carprofen (Rimadyl)", "kind": "medication", "active_ingredient": "Carprofen", "route": "oral", "dosage_guide": "4.4 mg/kg/hari (terbagi)", "cautions": "Monitor GI & hati; jangan kombinasi dengan steroid."},
+            {"name": "Glucosamine + Chondroitin", "kind": "supplement", "active_ingredient": "Glucosamine HCl, Chondroitin sulfate", "route": "oral", "dosage_guide": "Sesuai berat badan", "cautions": "Onset lambat (minggu)."},
+            {"name": "Omega-3 (EPA/DHA)", "kind": "supplement", "active_ingredient": "Fish oil", "route": "oral", "dosage_guide": "Dosis anti-inflamasi sesuai BB", "cautions": "Hati-hati pankreatitis."}
+          ]
+        },
+        {
+          "name": "Koreksi bedah (FHO / Total Hip Replacement)",
+          "type": "surgical",
+          "line_of_therapy": 2,
+          "severity_target": "severe",
+          "procedure_steps": "FHO (femoral head ostectomy) pada anjing kecil/menengah; THR (total hip replacement) untuk kasus berat anjing besar.",
+          "recommendation": "Rujuk ke spesialis bedah ortopedi bila nyeri tidak terkontrol konservatif.",
+          "products": []
+        }
+      ]
+    },
+    {
+      "slug": "dog-gastric-dilatation-volvulus",
+      "name": "Gastric Dilatation-Volvulus (Bloat)",
+      "name_id": "Kembung Lambung Terpuntir (GDV/Bloat)",
+      "etiology": "idiopathic",
+      "body_system": "digestive",
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Lambung terisi gas dan terpuntir, memutus aliran darah — kondisi darurat mematikan dalam jam.",
+      "causes": "Faktor risiko: dada dalam-sempit, makan cepat porsi besar, olahraga setelah makan, stres.",
+      "prevention": "Beri makan porsi kecil-sering, hindari aktivitas berat pasca makan, gastropexy preventif pada ras berisiko.",
+      "prognosis": "Sangat baik bila ditangani <6 jam; memburuk drastis dengan keterlambatan.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-german-shepherd", "risk": "high", "is_hereditary": false, "age_onset": "dewasa-senior"},
+        {"breed_slug": "dog-rottweiler", "risk": "high"}
+      ],
+      "symptoms": [
+        {"name": "Distended abdomen", "name_id": "Perut membesar/kembung keras", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true, "is_pathognomonic": true},
+        {"name": "Unproductive retching", "name_id": "Berusaha muntah tapi tidak keluar", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true, "is_pathognomonic": true},
+        {"name": "Restlessness", "name_id": "Gelisah", "body_system": "behavioral", "frequency": "high"},
+        {"name": "Excessive drooling", "name_id": "Ngeces berlebihan", "body_system": "digestive", "frequency": "high"},
+        {"name": "Collapse / shock", "name_id": "Kolaps/syok", "body_system": "cardiovascular", "frequency": "high", "is_red_flag": true}
+      ],
+      "diagnostics": [
+        {"name": "Pemeriksaan fisik darurat", "type": "physical_exam", "step_order": 1, "expected_finding": "Abdomen tympanik, takikardia, syok"},
+        {"name": "Radiografi abdomen lateral kanan", "type": "imaging_xray", "is_gold_standard": true, "step_order": 2, "expected_finding": "Gambaran 'double bubble' / compartmentalization"}
+      ],
+      "treatments": [
+        {
+          "name": "Dekompresi & bedah darurat GDV",
+          "type": "surgical",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Stabilisasi syok dengan cairan IV cepat. 2) Dekompresi lambung (orogastric tube/trocar). 3) Bedah: derotasi lambung + gastropexy + nilai viabilitas dinding lambung/limpa. 4) Pantau aritmia pasca-op.",
+          "recommendation": "DARURAT — bawa segera ke klinik. Setiap menit berpengaruh pada survival.",
+          "products": [
+            {"name": "Cairan kristaloid IV", "kind": "medication", "active_ingredient": "Ringer Lactate", "route": "IV", "dosage_guide": "Resusitasi syok 20-30 ml/kg bolus", "cautions": "Pasang 2 kateter vena besar."},
+            {"name": "Lidocaine", "kind": "medication", "active_ingredient": "Lidocaine", "route": "IV", "dosage_guide": "CRI untuk aritmia ventrikel", "cautions": "Monitor EKG."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dog-otitis-externa",
+      "name": "Otitis Externa",
+      "name_id": "Radang Telinga Luar",
+      "etiology": "infectious_bacterial",
+      "body_system": "auditory",
+      "default_severity": "mild",
+      "overview": "Peradangan kanal telinga luar akibat bakteri/jamur/tungau, sering sekunder alergi.",
+      "causes": "Malassezia, bakteri (Staph/Pseudomonas), Otodectes (tungau), alergi, telinga lembap (ras lop/floppy).",
+      "prevention": "Bersihkan telinga rutin, keringkan setelah mandi/berenang, kelola alergi dasar.",
+      "prognosis": "Baik bila penyebab dasar ditangani; bisa kronik bila alergi tak terkontrol.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-golden-retriever", "risk": "high", "notes": "Telinga menggantung + suka air."},
+        {"breed_slug": "dog-labrador-retriever", "risk": "high"},
+        {"breed_slug": "dog-poodle", "risk": "moderate", "notes": "Bulu dalam kanal telinga."}
+      ],
+      "symptoms": [
+        {"name": "Head shaking", "name_id": "Sering menggeleng kepala", "body_system": "auditory", "frequency": "very_high"},
+        {"name": "Ear scratching", "name_id": "Menggaruk telinga", "body_system": "auditory", "frequency": "very_high"},
+        {"name": "Foul ear odor", "name_id": "Bau busuk dari telinga", "body_system": "auditory", "frequency": "high"},
+        {"name": "Ear discharge", "name_id": "Cairan/kotoran telinga berlebih", "body_system": "auditory", "frequency": "high"},
+        {"name": "Ear redness and swelling", "name_id": "Telinga merah & bengkak", "body_system": "auditory", "frequency": "high"}
+      ],
+      "diagnostics": [
+        {"name": "Otoskopi", "type": "physical_exam", "step_order": 1, "expected_finding": "Eritema, eksudat, status membran timpani"},
+        {"name": "Sitologi swab telinga", "type": "cytology", "is_gold_standard": true, "step_order": 2, "expected_finding": "Ragi/bakteri/tungau teridentifikasi"},
+        {"name": "Kultur & sensitivitas (kasus kronik)", "type": "culture_sensitivity", "step_order": 3, "expected_finding": "Pseudomonas resisten dll"}
+      ],
+      "treatments": [
+        {
+          "name": "Pembersihan + obat tetes telinga topikal",
+          "type": "pharmacological",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Bersihkan kanal dengan ear cleaner. 2) Tetes telinga kombinasi (antibiotik+antijamur+steroid) sesuai sitologi. 3) Atasi penyebab dasar (alergi/tungau). 4) Recheck 1-2 minggu.",
+          "recommendation": "Jangan pakai tetes ototoksik bila membran timpani pecah; selalu cek sitologi dulu.",
+          "products": [
+            {"name": "Ear cleaner (asam laktat/salisilat)", "kind": "grooming", "active_ingredient": "Pembersih telinga", "route": "topikal", "dosage_guide": "Bersihkan 1-2x/hari", "cautions": "Hentikan bila iritasi."},
+            {"name": "Otic gel (Gentamicin+Betamethasone+Clotrimazole)", "kind": "medication", "active_ingredient": "Gentamicin, betamethasone, clotrimazole", "route": "topikal", "dosage_guide": "Sesuai label, 7-14 hari", "cautions": "Kontraindikasi bila gendang telinga rusak."},
+            {"name": "Selamectin/Moxidectin (bila tungau)", "kind": "antiparasitic", "active_ingredient": "Selamectin", "route": "topikal", "dosage_guide": "Spot-on sesuai BB", "cautions": "Untuk Otodectes."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dog-canine-distemper",
+      "name": "Canine Distemper",
+      "name_id": "Distemper (Carre)",
+      "etiology": "infectious_viral",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "default_severity": "severe",
+      "is_emergency": true,
+      "overview": "Virus multisistem menyerang saluran napas, cerna, dan saraf; sering fatal pada anak anjing.",
+      "causes": "Canine Distemper Virus (paramyxovirus) via aerosol & sekret.",
+      "prevention": "Vaksinasi DHPP, isolasi penderita.",
+      "prognosis": "Variabel; gejala neurologis menandakan prognosis buruk.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-mixed-breed", "risk": "high", "age_onset": "puppy belum vaksin"}
+      ],
+      "symptoms": [
+        {"name": "Nasal and ocular discharge", "name_id": "Ingus & belekan", "body_system": "respiratory", "frequency": "very_high"},
+        {"name": "Coughing", "name_id": "Batuk", "body_system": "respiratory", "frequency": "high"},
+        {"name": "Fever", "name_id": "Demam", "body_system": "systemic", "frequency": "high"},
+        {"name": "Hyperkeratosis (hard pad)", "name_id": "Bantalan kaki & hidung mengeras", "body_system": "integumentary", "frequency": "moderate", "is_pathognomonic": true},
+        {"name": "Myoclonus / seizures", "name_id": "Kejang/kedutan otot ritmis", "body_system": "nervous", "frequency": "moderate", "is_red_flag": true}
+      ],
+      "diagnostics": [
+        {"name": "PCR (swab/urin/darah)", "type": "pcr_molecular", "is_gold_standard": true, "step_order": 1, "expected_finding": "RNA CDV positif"},
+        {"name": "Pemeriksaan klinis + riwayat vaksin", "type": "history_taking", "step_order": 2, "expected_finding": "Tanda multisistem pada belum vaksin"}
+      ],
+      "treatments": [
+        {
+          "name": "Terapi suportif distemper",
+          "type": "supportive_care",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Cairan & nutrisi. 2) Antibiotik cegah infeksi sekunder. 3) Antikonvulsan bila kejang. 4) Nebulisasi & fisioterapi dada. 5) Isolasi.",
+          "recommendation": "Tidak ada antivirus spesifik; fokus suportif + cegah komplikasi sekunder.",
+          "products": [
+            {"name": "Antibiotik spektrum luas (Doxycycline/Amoxiclav)", "kind": "medication", "active_ingredient": "Doxycycline", "route": "oral", "dosage_guide": "5-10 mg/kg", "cautions": "Untuk infeksi sekunder."},
+            {"name": "Phenobarbital / Diazepam", "kind": "medication", "active_ingredient": "Phenobarbital", "route": "oral/IV", "dosage_guide": "Untuk kontrol kejang", "cautions": "Monitor sedasi & hati."}
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "dog-flea-allergy-dermatitis",
+      "name": "Flea Allergy Dermatitis",
+      "name_id": "Dermatitis Alergi Kutu",
+      "etiology": "parasitic_external",
+      "body_system": "integumentary",
+      "default_severity": "mild",
+      "overview": "Reaksi hipersensitivitas terhadap air liur kutu menyebabkan gatal hebat & dermatitis.",
+      "causes": "Gigitan kutu (Ctenocephalides) memicu alergi; satu gigitan cukup pada hewan sensitif.",
+      "prevention": "Kontrol kutu rutin pada hewan & lingkungan, perlakuan semua hewan di rumah.",
+      "prognosis": "Sangat baik dengan kontrol kutu konsisten.",
+      "breed_susceptibility": [
+        {"breed_slug": "dog-golden-retriever", "risk": "moderate"},
+        {"breed_slug": "dog-mixed-breed", "risk": "moderate"}
+      ],
+      "symptoms": [
+        {"name": "Intense itching", "name_id": "Gatal hebat", "body_system": "integumentary", "frequency": "very_high"},
+        {"name": "Hair loss (tail base)", "name_id": "Kerontokan bulu pangkal ekor", "body_system": "integumentary", "frequency": "high", "is_pathognomonic": true},
+        {"name": "Red papules / scabs", "name_id": "Bintik merah & keropeng", "body_system": "integumentary", "frequency": "high"},
+        {"name": "Flea dirt presence", "name_id": "Kotoran kutu (titik hitam)", "body_system": "integumentary", "frequency": "high"}
+      ],
+      "diagnostics": [
+        {"name": "Flea combing", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Kutu/flea dirt ditemukan"},
+        {"name": "Sitologi kulit (infeksi sekunder)", "type": "cytology", "step_order": 2, "expected_finding": "Bakteri/ragi pada pioderma sekunder"}
+      ],
+      "treatments": [
+        {
+          "name": "Kontrol kutu + manajemen gatal",
+          "type": "parasite_control",
+          "line_of_therapy": 1,
+          "procedure_steps": "1) Antiparasit cepat-bunuh + pencegahan bulanan. 2) Perlakukan lingkungan (vakum, cuci alas). 3) Kontrol gatal (kortikosteroid jangka pendek / oclacitinib). 4) Antibiotik bila pioderma sekunder.",
+          "recommendation": "Treat semua hewan di rumah & lingkungan; konsistensi pencegahan adalah kunci.",
+          "products": [
+            {"name": "Isoxazoline (Afoxolaner/Fluralaner)", "kind": "antiparasitic", "active_ingredient": "Fluralaner", "route": "oral", "dosage_guide": "Sesuai BB, tiap 1-3 bulan", "cautions": "Hati-hati riwayat kejang."},
+            {"name": "Oclacitinib (Apoquel)", "kind": "medication", "active_ingredient": "Oclacitinib", "route": "oral", "dosage_guide": "0.4-0.6 mg/kg BID lalu SID", "cautions": "Tidak untuk <12 bulan."},
+            {"name": "Spot-on lingkungan / IGR", "kind": "antiparasitic", "active_ingredient": "Insect growth regulator", "route": "lingkungan", "dosage_guide": "Sesuai label", "cautions": "Jauhkan dari ikan/kucing saat aplikasi."}
+          ]
+        }
+      ]
+    }
+  ]
+}

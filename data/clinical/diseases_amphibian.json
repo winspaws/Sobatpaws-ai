@@ -1,0 +1,98 @@
+{
+  "category_slug": "amphibian",
+  "diseases": [
+    {
+      "slug": "chytridiomycosis",
+      "common_name": "Chytridiomycosis",
+      "scientific_name": "Batrachochytrium dendrobatidis",
+      "etiology": "Infeksi jamur kulit yang menyerang keratinosit, menyebabkan gangguan osmoregulasi",
+      "species": [
+        "amphibian"
+      ],
+      "mortality_rate": 0.8,
+      "contagious": true,
+      "clinical_signs": [
+        "Anoreksia",
+        "Lesi kulit seperti kapas",
+        "Kulit mengelupas",
+        "Kekakuan otot",
+        "Postur membungkuk",
+        "Kematian mendadak tanpa gejala"
+      ],
+      "diagnostic_gold_standard": "Quantitative PCR (qPCR) dari swab kulit",
+      "treatment": [
+        "Itraconazole bath 0.01% 10 menit/hari selama 11 hari",
+        "Terbinafine topikal",
+        "Thermal therapy 28-30C",
+        "Supportive fluid therapy"
+      ],
+      "prognosis": "Buruk pada stadium lanjut, baik jika ditangani awal",
+      "references": [
+        "Berger et al. 1998. Emerging infectious diseases and amphibian population declines. PNAS",
+        "WVMA Amphibian Disease Guideline 2022"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "red-leg-syndrome",
+      "common_name": "Red Leg Syndrome",
+      "scientific_name": "Aeromonas hydrophila, Pseudomonas spp.",
+      "etiology": "Infeksi bakteri sekunder akibat stress kualitas air buruk, imunosupresi",
+      "species": [
+        "amphibian"
+      ],
+      "mortality_rate": 0.6,
+      "contagious": true,
+      "clinical_signs": [
+        "Kemerahan pada paha dan perut",
+        "Petechiae perdarahan",
+        "Anoreksia",
+        "Letargi",
+        "Edema tubuh",
+        "Kematian dalam 24-48 jam"
+      ],
+      "diagnostic_gold_standard": "Kultur bakteri dari darah atau cairan tubuh",
+      "treatment": [
+        "Enrofloxacin 10mg/kg IM setiap 72 jam",
+        "Oxytetracycline bath",
+        "Perbaikan kualitas air 100% water change",
+        "Supportive care"
+      ],
+      "prognosis": "Terbatas, respon bervariasi tergantung stadium",
+      "references": [
+        "Wright KM. 2006. Amphibian medicine and surgery. Saunders"
+      ],
+      "status": "curated"
+    },
+    {
+      "slug": "metabolic-bone-disease-amphibian",
+      "common_name": "Metabolic Bone Disease (MBD)",
+      "etiology": "Defisiensi kalsium, fosfor tidak seimbang, kurang paparan UVB 290-320nm",
+      "species": [
+        "amphibian"
+      ],
+      "mortality_rate": 0.2,
+      "contagious": false,
+      "clinical_signs": [
+        "Kelenturan tulang rahang",
+        "Kelainan bentuk tulang belakang",
+        "Gagal merekat lidah",
+        "Kelumpuhan anggota gerak belakang",
+        "Kejang",
+        "Anoreksia"
+      ],
+      "diagnostic_gold_standard": "Radiografi + analisis darah kalsium/fosfor",
+      "treatment": [
+        "Kalsium glukonat 100mg/kg IM setiap 24 jam",
+        "Supplemen vitamin D3",
+        "Lampu UVB T5 HO 10%",
+        "Koreksi rasio Ca:P pakan"
+      ],
+      "prognosis": "Baik jika ditangani sebelum deformitas permanen",
+      "references": [
+        "Oonincx et al. 2015. Nutrition of captive amphibians. Journal of Herpetological Medicine and Surgery"
+      ],
+      "status": "curated"
+    }
+  ]
+}

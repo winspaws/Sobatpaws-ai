@@ -1,0 +1,102 @@
+{
+  "category_slug": "poultry",
+  "breeds": [
+    {
+      "slug": "poultry-chicken-broiler",
+      "name": "Broiler Chicken",
+      "name_id": "Ayam Broiler / Pedaging",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 1.5, "weight_kg_max": 4,
+      "lifespan_years_min": 1, "lifespan_years_max": 7,
+      "temperament": "Pertumbuhan cepat, kurang aktif.",
+      "coat_type": "Bulu pendek putih",
+      "care_level": "medium",
+      "variants": [{"name": "Cobb", "variant_type": "morph"}, {"name": "Ross", "variant_type": "morph"}],
+      "traits": [
+        {"trait_key": "ascites_risk", "trait_value": "high"},
+        {"trait_key": "leg_problem_risk", "trait_value": "high"}
+      ]
+    },
+    {
+      "slug": "poultry-chicken-layer",
+      "name": "Layer Chicken",
+      "name_id": "Ayam Petelur",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 1.5, "weight_kg_max": 2.5,
+      "lifespan_years_min": 3, "lifespan_years_max": 8,
+      "temperament": "Produktif bertelur, aktif.",
+      "coat_type": "Bulu coklat/putih",
+      "care_level": "medium",
+      "variants": [{"name": "ISA Brown", "variant_type": "morph"}, {"name": "Leghorn", "variant_type": "morph"}],
+      "traits": [
+        {"trait_key": "egg_binding_risk", "trait_value": "high"},
+        {"trait_key": "calcium_demand", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "poultry-chicken-kampung",
+      "name": "Free-range Local Chicken",
+      "name_id": "Ayam Kampung",
+      "origin_country": "Indonesia",
+      "size_class": "small",
+      "weight_kg_min": 1, "weight_kg_max": 2.5,
+      "lifespan_years_min": 5, "lifespan_years_max": 10,
+      "temperament": "Tahan banting, foraging aktif.",
+      "coat_type": "Bulu bervariasi",
+      "care_level": "low",
+      "variants": [],
+      "traits": [{"trait_key": "disease_resistance", "trait_value": "high"}]
+    },
+    {
+      "slug": "poultry-duck",
+      "name": "Domestic Duck",
+      "name_id": "Bebek / Itik",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 1, "weight_kg_max": 4,
+      "lifespan_years_min": 8, "lifespan_years_max": 12,
+      "temperament": "Suka air, sosial.",
+      "coat_type": "Bulu tahan air",
+      "care_level": "medium",
+      "variants": [{"name": "Pekin", "variant_type": "morph"}, {"name": "Mojosari", "variant_type": "morph"}],
+      "traits": [{"trait_key": "water_dependency", "trait_value": "high"}]
+    },
+    {
+      "slug": "poultry-lovebird",
+      "name": "Lovebird",
+      "name_id": "Lovebird",
+      "origin_country": "Africa",
+      "size_class": "toy",
+      "weight_kg_min": 0.04, "weight_kg_max": 0.06,
+      "lifespan_years_min": 10, "lifespan_years_max": 15,
+      "temperament": "Aktif, sosial, vokal, populer kontes kicau.",
+      "coat_type": "Bulu warna cerah",
+      "care_level": "medium",
+      "variants": [
+        {"name": "Lutino", "variant_type": "color"},
+        {"name": "Biru Mangsi", "variant_type": "color"},
+        {"name": "Pastel", "variant_type": "color"}
+      ],
+      "traits": [{"trait_key": "feather_plucking_risk", "trait_value": "moderate"}]
+    },
+    {
+      "slug": "poultry-parrot",
+      "name": "Parrot",
+      "name_id": "Burung Beo / Kakatua",
+      "origin_country": "Various",
+      "size_class": "medium",
+      "weight_kg_min": 0.1, "weight_kg_max": 1.5,
+      "lifespan_years_min": 20, "lifespan_years_max": 60,
+      "temperament": "Sangat cerdas, butuh stimulasi mental, bisa meniru suara.",
+      "coat_type": "Bulu warna-warni",
+      "care_level": "high",
+      "variants": [{"name": "African Grey", "variant_type": "morph"}, {"name": "Macaw", "variant_type": "morph"}],
+      "traits": [
+        {"trait_key": "feather_plucking_risk", "trait_value": "high"},
+        {"trait_key": "intelligence", "trait_value": "very_high"}
+      ]
+    }
+  ]
+}

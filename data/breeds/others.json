@@ -1,0 +1,97 @@
+{
+  "note": "Kategori hewan lain: ferret, marmut (guinea pig), amfibi.",
+  "groups": [
+    {
+      "category_slug": "guinea_pig",
+      "breeds": [
+        {
+          "slug": "guineapig-american",
+          "name": "American Guinea Pig",
+          "name_id": "Marmut Amerika",
+          "origin_country": "South America",
+          "size_class": "small",
+          "weight_kg_min": 0.7, "weight_kg_max": 1.2,
+          "lifespan_years_min": 5, "lifespan_years_max": 8,
+          "temperament": "Sosial, jinak, vokal.",
+          "coat_type": "Bulu pendek halus",
+          "care_level": "medium",
+          "variants": [
+            {"name": "Self Black", "variant_type": "color"},
+            {"name": "Agouti", "variant_type": "color"},
+            {"name": "Dutch", "variant_type": "pattern"}
+          ],
+          "traits": [
+            {"trait_key": "vitamin_c_dependency", "trait_value": "very_high"},
+            {"trait_key": "scurvy_risk", "trait_value": "high"}
+          ]
+        },
+        {
+          "slug": "guineapig-abyssinian",
+          "name": "Abyssinian Guinea Pig",
+          "name_id": "Marmut Abyssinian",
+          "origin_country": "South America",
+          "size_class": "small",
+          "weight_kg_min": 0.7, "weight_kg_max": 1.2,
+          "lifespan_years_min": 5, "lifespan_years_max": 7,
+          "temperament": "Aktif, ramah, bulu berputar (rosettes).",
+          "coat_type": "Rosette/whorl coat",
+          "care_level": "medium",
+          "variants": [{"name": "Roan", "variant_type": "pattern"}],
+          "traits": [{"trait_key": "scurvy_risk", "trait_value": "high"}]
+        }
+      ]
+    },
+    {
+      "category_slug": "ferret",
+      "breeds": [
+        {
+          "slug": "ferret-standard",
+          "name": "Standard Ferret",
+          "name_id": "Ferret Standar",
+          "origin_country": "Europe",
+          "size_class": "small",
+          "weight_kg_min": 0.7, "weight_kg_max": 2,
+          "lifespan_years_min": 6, "lifespan_years_max": 10,
+          "temperament": "Sangat aktif, penasaran, suka tidur lama.",
+          "coat_type": "Bulu pendek",
+          "care_level": "high",
+          "variants": [
+            {"name": "Sable", "variant_type": "color"},
+            {"name": "Albino", "variant_type": "color", "hex_color": "#FFFFFF"},
+            {"name": "Cinnamon", "variant_type": "color"}
+          ],
+          "traits": [
+            {"trait_key": "insulinoma_risk", "trait_value": "very_high"},
+            {"trait_key": "adrenal_disease_risk", "trait_value": "very_high"}
+          ]
+        }
+      ]
+    },
+    {
+      "category_slug": "amphibian",
+      "breeds": [
+        {
+          "slug": "amphibian-axolotl",
+          "name": "Axolotl",
+          "name_id": "Axolotl",
+          "origin_country": "Mexico",
+          "size_class": "small",
+          "weight_kg_min": 0.06, "weight_kg_max": 0.3,
+          "lifespan_years_min": 10, "lifespan_years_max": 15,
+          "temperament": "Akuatik, neotenik, tenang.",
+          "coat_type": "Kulit halus permeabel",
+          "care_level": "high",
+          "variants": [
+            {"name": "Wild Type", "variant_type": "morph"},
+            {"name": "Leucistic", "variant_type": "morph"},
+            {"name": "Golden Albino", "variant_type": "morph"}
+          ],
+          "traits": [
+            {"trait_key": "water_temp_sensitivity", "trait_value": "very_high"},
+            {"trait_key": "impaction_risk", "trait_value": "high"}
+          ]
+        }
+      ]
+    }
+  ]
+}

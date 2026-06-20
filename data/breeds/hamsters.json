@@ -1,0 +1,83 @@
+{
+  "category_slug": "hamster",
+  "breeds": [
+    {
+      "slug": "hamster-syrian",
+      "name": "Syrian Hamster",
+      "name_id": "Hamster Syrian",
+      "origin_country": "Syria",
+      "size_class": "small",
+      "weight_kg_min": 0.1, "weight_kg_max": 0.2,
+      "lifespan_years_min": 2, "lifespan_years_max": 3,
+      "temperament": "Soliter, jinak bila terbiasa, harus dipelihara sendiri.",
+      "coat_type": "Short / long (teddy bear)",
+      "care_level": "low",
+      "variants": [
+        {"name": "Golden", "variant_type": "color", "hex_color": "#D9A45B"},
+        {"name": "Black", "variant_type": "color", "hex_color": "#1C1C1C"},
+        {"name": "Long-haired (Teddy Bear)", "variant_type": "coat"}
+      ],
+      "traits": [
+        {"trait_key": "wet_tail_risk", "trait_value": "high"},
+        {"trait_key": "solitary", "trait_value": "yes"}
+      ]
+    },
+    {
+      "slug": "hamster-roborovski",
+      "name": "Roborovski Dwarf Hamster",
+      "name_id": "Hamster Roborovski",
+      "origin_country": "Mongolia/China",
+      "size_class": "toy",
+      "weight_kg_min": 0.02, "weight_kg_max": 0.03,
+      "lifespan_years_min": 3, "lifespan_years_max": 3.5,
+      "temperament": "Sangat cepat, gesit, sulit dipegang.",
+      "coat_type": "Short coat",
+      "care_level": "low",
+      "variants": [
+        {"name": "Agouti", "variant_type": "color"},
+        {"name": "White-faced", "variant_type": "pattern"}
+      ],
+      "traits": [
+        {"trait_key": "activity_level", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "hamster-winter-white",
+      "name": "Winter White Dwarf Hamster",
+      "name_id": "Hamster Winter White",
+      "origin_country": "Siberia",
+      "size_class": "toy",
+      "weight_kg_min": 0.03, "weight_kg_max": 0.05,
+      "lifespan_years_min": 1.5, "lifespan_years_max": 2,
+      "temperament": "Sosial, bisa berkelompok, jinak.",
+      "coat_type": "Short coat",
+      "care_level": "low",
+      "variants": [
+        {"name": "Sapphire", "variant_type": "color"},
+        {"name": "Pearl", "variant_type": "color"}
+      ],
+      "traits": [
+        {"trait_key": "diabetes_risk", "trait_value": "very_high"}
+      ]
+    },
+    {
+      "slug": "hamster-campbell",
+      "name": "Campbell's Dwarf Hamster",
+      "name_id": "Hamster Campbell",
+      "origin_country": "Central Asia",
+      "size_class": "toy",
+      "weight_kg_min": 0.03, "weight_kg_max": 0.05,
+      "lifespan_years_min": 2, "lifespan_years_max": 2.5,
+      "temperament": "Aktif, kadang teritorial.",
+      "coat_type": "Short coat",
+      "care_level": "low",
+      "variants": [
+        {"name": "Agouti", "variant_type": "color"},
+        {"name": "Albino", "variant_type": "color", "hex_color": "#FFFFFF"}
+      ],
+      "traits": [
+        {"trait_key": "diabetes_risk", "trait_value": "very_high"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (not needed in production image)
+artifacts/
+seed/seed.sql
+seed/schema.sql
+data/generated/
+data/ml_views/
+data/excel/
+
+# Tests (not needed in production)
+tests/
+.pytest_cache/
+
+# Docs
+docs/
+dbml/
+scripts/
+*.md
+*.log
