@@ -1,0 +1,1024 @@
+{
+  "info": {
+    "name": "Sobatpaws API",
+    "description": "Sobatpaws Veterinary ML & AI API — Backend AI Services untuk dokter hewan. \n\nBase URL: http://43.129.56.221:8080\nSwagger UI: /docs\nReDoc: /redoc\n\nDokumentasi lengkap: docs/API_DOCUMENTATION.md",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "sobatpaws"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://43.129.56.221:8080",
+      "type": "string"
+    },
+    {
+      "key": "consultation_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "suggestion_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. System & Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Cek status sistem secara cepat."
+          }
+        },
+        {
+          "name": "System Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "status"]
+            },
+            "description": "Status terpadu seluruh komponen (data, AI, ML, DB, token usage)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Master Data (Knowledge Base)",
+      "item": [
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            },
+            "description": "Daftar semua kategori spesies."
+          }
+        },
+        {
+          "name": "Breeds by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/dog/breeds",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "dog", "breeds"]
+            },
+            "description": "Daftar ras untuk satu spesies. Ganti 'dog' dengan slug kategori lain."
+          }
+        },
+        {
+          "name": "Breed Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/breeds/dog-golden-retriever",
+              "host": ["{{base_url}}"],
+              "path": ["breeds", "dog-golden-retriever"]
+            },
+            "description": "Detail satu ras."
+          }
+        },
+        {
+          "name": "Disease Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/diseases/cat-fpv-panleukopenia",
+              "host": ["{{base_url}}"],
+              "path": ["diseases", "cat-fpv-panleukopenia"]
+            },
+            "description": "Detail satu penyakit."
+          }
+        },
+        {
+          "name": "List Symptoms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/symptoms?category=cat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "symptoms"],
+              "query": [
+                {"key": "category", "value": "cat", "description": "Filter per kategori (opsional)"}
+              ]
+            },
+            "description": "Daftar gejala unik, opsional difilter per kategori."
+          }
+        },
+        {
+          "name": "Stats Breakdown",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats/breakdown",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats", "breakdown"]
+            },
+            "description": "Rincian jumlah data: ras, varian, traits, penyakit."
+          }
+        },
+        {
+          "name": "Stats Breeds",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats/breeds?category=dog&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats", "breeds"],
+              "query": [
+                {"key": "category", "value": "dog"},
+                {"key": "q", "value": "", "disabled": true},
+                {"key": "sort", "value": "", "disabled": true},
+                {"key": "limit", "value": "10"}
+              ]
+            },
+            "description": "Daftar ras dengan ringkasan varian/traits."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Konsultasi (Multimodal)",
+      "item": [
+        {
+          "name": "Start Consultation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": {\n    \"vet_id\": 1,\n    \"owner_id\": 100,\n    \"pet_id\": 200,\n    \"category_slug\": \"cat\",\n    \"breed_slug\": \"cat-persian\",\n    \"age_years\": 3,\n    \"sex\": \"male\",\n    \"weight_kg\": 4.5,\n    \"external_consultation_id\": \"ext-20250619-001\"\n  },\n  \"intake\": {\n    \"channel\": \"chat\",\n    \"text\": \"Kucing saya muntah hebat dan tidak mau makan sejak kemarin\",\n    \"is_first_contact\": true,\n    \"author_role\": \"owner\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/consultations",
+              "host": ["{{base_url}}"],
+              "path": ["consultations"]
+            },
+            "description": "Mulai sesi konsultasi baru. Response mengandung consultation_id dan AISuggestion."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.consultation_id) {",
+                  "  pm.collectionVariables.set('consultation_id', jsonData.consultation_id);",
+                  "  pm.collectionVariables.set('suggestion_id', jsonData.suggestion_id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Consultation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/consultations/{{consultation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["consultations", "{{consultation_id}}"]
+            },
+            "description": "Detail sesi konsultasi."
+          }
+        },
+        {
+          "name": "Add Turn",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"intake\": {\n    \"channel\": \"chat\",\n    \"text\": \"Sekarang kucing saya juga diare berdarah\",\n    \"is_first_contact\": false,\n    \"author_role\": \"owner\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/consultations/{{consultation_id}}/turns",
+              "host": ["{{base_url}}"],
+              "path": ["consultations", "{{consultation_id}}", "turns"]
+            },
+            "description": "Giliran lanjutan dalam sesi — saran diperbarui kumulatif."
+          }
+        },
+        {
+          "name": "Upload Media",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "file", "type": "file", "src": "", "description": "File audio/gambar"},
+                {"key": "modality", "value": "audio", "description": "audio | image | video_frame"},
+                {"key": "channel", "value": "voice", "description": "chat | video | voice | in_person"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/consultations/{{consultation_id}}/media",
+              "host": ["{{base_url}}"],
+              "path": ["consultations", "{{consultation_id}}", "media"]
+            },
+            "description": "Upload media mentah (mic/kamera) sebagai multipart."
+          }
+        },
+        {
+          "name": "Doctor Input (Gold Label)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmed_disease_slug\": \"cat-fpv-panleukopenia\",\n  \"differential_disease_slugs\": [\"cat-ckd\"],\n  \"confirmed_symptoms\": [\"Muntah\", \"Diare hebat\", \"Nafsu makan menurun\"],\n  \"diagnostics_ordered\": [\"PCR feses\", \"CBC\"],\n  \"treatments_given\": [\"Terapi suportif rawat inap parvo\"],\n  \"products_prescribed\": [\"Maropitant (Cerenia)\"],\n  \"clinical_notes\": \"Pasien menunjukkan gejala klasik FPV. PCR positif.\",\n  \"outcome\": \"recovering\",\n  \"confidence\": 95\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/consultations/{{consultation_id}}/doctor-input",
+              "host": ["{{base_url}}"],
+              "path": ["consultations", "{{consultation_id}}", "doctor-input"]
+            },
+            "description": "Simpan keputusan dokter sebagai gold label untuk retraining."
+          }
+        },
+        {
+          "name": "Feedback Saran AI",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"suggestion_ref\": \"{{suggestion_id}}\",\n  \"verdict\": \"correct\",\n  \"corrected_disease_slug\": \"cat-fpv-panleukopenia\",\n  \"comment\": \"Saran sangat membantu, diagnosa sesuai\",\n  \"reviewer_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/consultations/{{consultation_id}}/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["consultations", "{{consultation_id}}", "feedback"]
+            },
+            "description": "Penilaian dokter atas saran AI (human-in-the-loop)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. AI Agent",
+      "item": [
+        {
+          "name": "Agent Chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Apa tindakan pertama untuk kucing dengan gejala muntah dan diare?\",\n  \"provider_id\": \"anthropic\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/agent/conversations/{{consultation_id}}/chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "conversations", "{{consultation_id}}", "chat"]
+            },
+            "description": "Chat interaktif dengan agent AI (konteks klinis ringkas, hemat token)."
+          }
+        },
+        {
+          "name": "List Conversations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/conversations?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "conversations"],
+              "query": [
+                {"key": "limit", "value": "10"}
+              ]
+            },
+            "description": "Daftar sesi percakapan agent."
+          }
+        },
+        {
+          "name": "Get Conversation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/conversations/{{consultation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "conversations", "{{consultation_id}}"]
+            },
+            "description": "Detail satu percakapan agent."
+          }
+        },
+        {
+          "name": "List Suggestions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/suggestions?limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "suggestions"],
+              "query": [
+                {"key": "limit", "value": "10"},
+                {"key": "consultation_id", "value": "", "disabled": true},
+                {"key": "reviewed", "value": "", "disabled": true}
+              ]
+            },
+            "description": "Daftar saran AI."
+          }
+        },
+        {
+          "name": "Review Suggestion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewed\": true,\n  \"note\": \"Saran sudah diverifikasi\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/agent/suggestions/{{suggestion_id}}/review",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "suggestions", "{{suggestion_id}}", "review"]
+            },
+            "description": "Review saran AI."
+          }
+        },
+        {
+          "name": "Vet Full Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vet_id\": 1,\n  \"confirmed_disease_slug\": \"cat-fpv-panleukopenia\",\n  \"differential_disease_slugs\": [\"cat-ckd\"],\n  \"confirmed_symptoms\": [\"Muntah\", \"Diare hebat\"],\n  \"diagnostics_ordered\": [\"PCR feses\"],\n  \"treatments_given\": [\"Terapi suportif\"],\n  \"clinical_notes\": \"Respons positif terhadap terapi\",\n  \"outcome\": \"recovering\",\n  \"confidence\": 90\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/agent/conversations/{{consultation_id}}/vet-record",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "conversations", "{{consultation_id}}", "vet-record"]
+            },
+            "description": "Satu endpoint: input klinis dokter + feedback opsional."
+          }
+        },
+        {
+          "name": "List Providers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/providers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "providers"]
+            },
+            "description": "Daftar provider LLM yang terdaftar."
+          }
+        },
+        {
+          "name": "Providers Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/providers/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "providers", "status"]
+            },
+            "description": "Status konfigurasi provider eksternal."
+          }
+        },
+        {
+          "name": "Agent Usage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/agent/usage",
+              "host": ["{{base_url}}"],
+              "path": ["api", "agent", "usage"]
+            },
+            "description": "Penggunaan token & biaya agent."
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. ML Prediction",
+      "item": [
+        {
+          "name": "ML Predict",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_slug\": \"dog\",\n  \"symptoms\": [\"Muntah hebat\", \"Diare berdarah\", \"Lemas/lesu\"],\n  \"top_k\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/ml/predict",
+              "host": ["{{base_url}}"],
+              "path": ["ml", "predict"]
+            },
+            "description": "Prediksi symptom → disease langsung dari model ML (tanpa LLM)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Single-Shot Consult",
+      "item": [
+        {
+          "name": "Consult (Single-Shot)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_slug\": \"dog\",\n  \"breed_slug\": \"dog-golden-retriever\",\n  \"age_years\": 2,\n  \"weight_kg\": 30,\n  \"sex\": \"male\",\n  \"complaint_text\": \"Anjing saya lemas, muntah, dan diare berdarah\",\n  \"symptoms\": [\"Muntah hebat\", \"Diare berdarah\", \"Lemas/lesu\"],\n  \"top_k\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/consult",
+              "host": ["{{base_url}}"],
+              "path": ["api", "consult"]
+            },
+            "description": "Saran klinis terstruktur single-shot (RAG: ML + KB + LLM opsional). Tanpa sesi."
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Learning Loop",
+      "item": [
+        {
+          "name": "Export Learning",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/learning/export",
+              "host": ["{{base_url}}"],
+              "path": ["learning", "export"]
+            },
+            "description": "Ekspor baris siap-latih (gold labels) dari input dokter."
+          }
+        },
+        {
+          "name": "Learning Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/learning/stats",
+              "host": ["{{base_url}}"],
+              "path": ["learning", "stats"]
+            },
+            "description": "Statistik event pembelajaran + info backend."
+          }
+        },
+        {
+          "name": "Retrain ML",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"cat\",\n  \"samples_per_disease\": 100\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/learning/retrain",
+              "host": ["{{base_url}}"],
+              "path": ["learning", "retrain"]
+            },
+            "description": "Eksekusi retraining: latih ulang model dari input dokter (gold rows)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Integrasi Vet App",
+      "item": [
+        {
+          "name": "ID Schema",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/id-schema",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "id-schema"]
+            },
+            "description": "Kontrak ID entitas untuk tim developer."
+          }
+        },
+        {
+          "name": "Integration Manifest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/manifest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "manifest"]
+            },
+            "description": "Kontrak integrasi lengkap — dipakai app vet saat onboarding."
+          }
+        },
+        {
+          "name": "Integration Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "health"]
+            },
+            "description": "Health check autentikasi vet app."
+          }
+        },
+        {
+          "name": "Capabilities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/capabilities",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "capabilities"]
+            },
+            "description": "Kemampuan AI yang tersedia untuk app vet."
+          }
+        },
+        {
+          "name": "Get Entities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/entities/{{consultation_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "entities", "{{consultation_id}}"]
+            },
+            "description": "Ambil bundle ID entitas untuk satu sesi konsultasi."
+          }
+        },
+        {
+          "name": "Lookup by External ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/consultations/by-external/ext-20250619-001",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "consultations", "by-external", "ext-20250619-001"]
+            },
+            "description": "Lookup sesi AI dari ID konsultasi app utama."
+          }
+        },
+        {
+          "name": "List Consultations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/integration/consultations?vet_id=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "integration", "consultations"],
+              "query": [
+                {"key": "vet_id", "value": "1"},
+                {"key": "pet_id", "value": "", "disabled": true},
+                {"key": "owner_id", "value": "", "disabled": true},
+                {"key": "limit", "value": "10"}
+              ]
+            },
+            "description": "Daftar sesi AI terfilter by ID entitas."
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Smart Data Platform",
+      "item": [
+        {
+          "name": "Platform Manifest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/platform/manifest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "platform", "manifest"]
+            },
+            "description": "Kontrak platform lengkap untuk AI agent."
+          }
+        },
+        {
+          "name": "Platform Doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/platform/doctor",
+              "host": ["{{base_url}}"],
+              "path": ["api", "platform", "doctor"]
+            },
+            "description": "Diagnostik kesehatan sistem — JSON terstruktur untuk agent."
+          }
+        },
+        {
+          "name": "Platform Registry",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/platform/registry",
+              "host": ["{{base_url}}"],
+              "path": ["api", "platform", "registry"]
+            },
+            "description": "Registry lineage data + model ML."
+          }
+        },
+        {
+          "name": "Pipeline Catalog",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/platform/pipeline",
+              "host": ["{{base_url}}"],
+              "path": ["api", "platform", "pipeline"]
+            },
+            "description": "Daftar langkah & preset pipeline."
+          }
+        },
+        {
+          "name": "Pipeline Run",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preset\": \"ml_ready\",\n  \"continue_on_error\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/platform/pipeline/run",
+              "host": ["{{base_url}}"],
+              "path": ["api", "platform", "pipeline", "run"]
+            },
+            "description": "Jalankan langkah/preset pipeline (admin)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Data Analysis & Simulation",
+      "item": [
+        {
+          "name": "Analysis Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analysis/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "status"]
+            }
+          }
+        },
+        {
+          "name": "Analyze Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Kucing saya muntah dan diare sejak 2 hari lalu\",\n  \"category_slug\": \"cat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analysis/text",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "text"]
+            },
+            "description": "Analisis teks lengkap: NLP + keyword + symptom extraction + LLM."
+          }
+        },
+        {
+          "name": "Tokenize",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Kucing saya muntah dan diare\",\n  \"category_slug\": \"cat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analysis/tokenize",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "tokenize"]
+            },
+            "description": "Tokenisasi dan POS tagging teks."
+          }
+        },
+        {
+          "name": "Keywords",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Kucing saya muntah dan diare berdarah\",\n  \"category_slug\": \"cat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analysis/keywords",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "keywords"]
+            },
+            "description": "Ekstrak keywords dari teks."
+          }
+        },
+        {
+          "name": "List Tables",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analysis/tables",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "tables"]
+            },
+            "description": "Daftar semua tabel dataset sintetik."
+          }
+        },
+        {
+          "name": "Disease Distribution",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analysis/diseases/distribution",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "diseases", "distribution"]
+            },
+            "description": "Distribusi penyakit dari dataset."
+          }
+        },
+        {
+          "name": "Symptom Analysis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analysis/symptoms/analysis",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "symptoms", "analysis"]
+            },
+            "description": "Analisis gejala dari dataset."
+          }
+        },
+        {
+          "name": "Simulate Cases",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_slug\": \"dog\",\n  \"disease_slug\": \"dog-parvovirus\",\n  \"n_cases\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analysis/simulate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "simulate"]
+            },
+            "description": "Simulasi kasus klinis dari knowledge base."
+          }
+        },
+        {
+          "name": "LLM Analyze",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Kucing muntah 3 hari, tidak mau makan, lesu\",\n  \"category_slug\": \"cat\",\n  \"analysis_type\": \"differential\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analysis/llm/analyze",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "llm", "analyze"]
+            },
+            "description": "Analisis dengan LLM — complaint / differential / treatment."
+          }
+        },
+        {
+          "name": "LLM Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analysis/llm/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analysis", "llm", "status"]
+            },
+            "description": "Status ketersediaan LLM."
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Upload & Dataset",
+      "item": [
+        {
+          "name": "Upload File (Ingest)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "file", "type": "file", "src": ""},
+                {"key": "description", "value": "Dataset analisis"},
+                {"key": "category", "value": "clinical"},
+                {"key": "auto_analyze", "value": "true"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ingest/upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "upload"]
+            },
+            "description": "Upload file — auto-detect, analyze, classify."
+          }
+        },
+        {
+          "name": "List Uploads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/uploads",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "uploads"]
+            }
+          }
+        },
+        {
+          "name": "List Formats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ingest/formats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ingest", "formats"]
+            }
+          }
+        },
+        {
+          "name": "List Datasets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dataset/list",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dataset", "list"]
+            }
+          }
+        },
+        {
+          "name": "List Excel Exports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/exports/excel",
+              "host": ["{{base_url}}"],
+              "path": ["exports", "excel"]
+            },
+            "description": "Daftar file Excel yang tersedia."
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. Admin Dashboard",
+      "item": [
+        {
+          "name": "Admin Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/overview",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "overview"]
+            },
+            "description": "Ringkasan sistem untuk dashboard admin."
+          }
+        },
+        {
+          "name": "Admin AI Usage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/ai/usage?limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "ai", "usage"],
+              "query": [
+                {"key": "limit", "value": "20"}
+              ]
+            },
+            "description": "Detail penggunaan token & biaya LLM."
+          }
+        },
+        {
+          "name": "Admin Learning Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/learning/events?limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "learning", "events"],
+              "query": [
+                {"key": "limit", "value": "20"}
+              ]
+            },
+            "description": "Event pembelajaran terbaru (audit trail)."
+          }
+        },
+        {
+          "name": "Admin Integration Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/integration/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "integration", "status"]
+            },
+            "description": "Status integrasi untuk app vet & layanan eksternal."
+          }
+        }
+      ]
+    }
+  ]
+}

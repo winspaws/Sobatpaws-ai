@@ -14,7 +14,10 @@ Dokumentasi interaktif: http://localhost:8000/docs
 from __future__ import annotations
 
 import base64
+import json
+import os
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
@@ -309,9 +312,25 @@ def sync_models_db() -> dict:
 def system_status() -> dict:
     """Status terpadu seluruh komponen (data, AI, ML, DB, token usage)."""
     svc = get_service()
+    # Hitung dataset terupload
+    upload_count = 0
+    upload_total_mb = 0.0
+    try:
+        for p in _UPLOAD_DIR.iterdir():
+            if p.is_file():
+                upload_count += 1
+                upload_total_mb += p.stat().st_size / (1024 * 1024)
+    except Exception:
+        pass
+
     components = {
         "backend": {"ok": True, "version": app.version, "name": app.title},
         "data": {"ok": True, **svc.kb.stats()},
+        "datasets": {
+            "ok": True,
+            "upload_count": upload_count,
+            "total_size_mb": round(upload_total_mb, 2),
+        },
         "ai": ai_status(),
         "ml": ml_status(),
         "database": db_status(),
@@ -433,6 +452,20 @@ def stats_breakdown() -> dict:
     all_breed_summaries.sort(key=lambda b: (b["variants"], b["traits"]), reverse=True)
     total_breeds = len(kb.breeds)
 
+    # Hitung dataset terupload
+    upload_count = 0
+    upload_total_mb = 0.0
+    upload_formats = {}
+    try:
+        for p in _UPLOAD_DIR.iterdir():
+            if p.is_file():
+                upload_count += 1
+                upload_total_mb += p.stat().st_size / (1024 * 1024)
+                ext = p.suffix.lower()
+                upload_formats[ext] = upload_formats.get(ext, 0) + 1
+    except Exception:
+        pass
+
     return {
         "totals": {
             "categories": len(kb.categories),
@@ -443,6 +476,9 @@ def stats_breakdown() -> dict:
             "symptoms": len(kb.all_symptoms()),
             "breeds_without_variants": breeds_without_variants,
             "avg_variants_per_breed": round(total_variants / total_breeds, 2) if total_breeds else 0,
+            "datasets_uploaded": upload_count,
+            "datasets_size_mb": round(upload_total_mb, 2),
+            "dataset_formats": upload_formats,
         },
         "variant_types": dict(sorted(variant_type_counts.items(), key=lambda x: -x[1])),
         "by_category": rows,
@@ -586,6 +622,114 @@ def ml_predict(req: PredictRequest) -> dict:
         r["name_id"] = d.get("name_id")
         r["is_emergency"] = bool(d.get("is_emergency", False))
     return {"category_slug": req.category_slug, "predictions": results}
+
+
+# =============================================================================
+#  DATASET UPLOAD (CSV / PDF / Excel / TXT / JSON)
+# =============================================================================
+
+_UPLOAD_DIR = Path(os.environ.get("SOBATPAWS_UPLOAD_DIR", "data/uploads"))
+_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+_ALLOWED_EXT = {".csv", ".pdf", ".xlsx", ".xls", ".txt", ".json", ".jsonl", ".md", ".xml"}
+_MAX_UPLOAD_MB = 300
+
+# Excel export directory
+EXCEL_DIR = Path("data/excel")
+
+
+@app.post("/api/dataset/upload")
+async def upload_dataset(
+    file: UploadFile = File(...),
+    description: str = Form(""),
+    category: str = Form(""),
+):
+    """Upload dataset (CSV/PDF/Excel/TXT/JSON) untuk analisis & training."""
+    # Validasi ekstensi
+    ext = Path(file.filename or "").suffix.lower()
+    if ext not in _ALLOWED_EXT:
+        raise HTTPException(
+            400,
+            f"Format '{ext}' tidak didukung. Gunakan: {', '.join(sorted(_ALLOWED_EXT))}",
+        )
+
+    # Validasi ukuran
+    contents = await file.read()
+    size_mb = len(contents) / (1024 * 1024)
+    if size_mb > _MAX_UPLOAD_MB:
+        raise HTTPException(
+            400,
+            f"File terlalu besar ({size_mb:.1f} MB). Maksimum {_MAX_UPLOAD_MB} MB.",
+        )
+
+    # Simpan file
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    safe_name = f"{timestamp}_{file.filename}"
+    dest = _UPLOAD_DIR / safe_name
+    dest.write_bytes(contents)
+
+    # Parse CSV/JSON untuk preview
+    preview = None
+    row_count = 0
+    columns = []
+    if ext == ".csv":
+        try:
+            import csv, io
+            reader = csv.DictReader(io.StringIO(contents.decode("utf-8-sig")))
+            rows = list(reader)
+            row_count = len(rows)
+            columns = list(rows[0].keys()) if rows else []
+            preview = rows[:5]
+        except Exception as exc:
+            preview = f"Tidak dapat parse CSV: {exc}"
+    elif ext == ".json":
+        try:
+            data = json.loads(contents)
+            if isinstance(data, list):
+                row_count = len(data)
+                columns = list(data[0].keys()) if data else []
+                preview = data[:5]
+            elif isinstance(data, dict):
+                row_count = 1
+                columns = list(data.keys())
+                preview = data
+        except Exception as exc:
+            preview = f"Tidak dapat parse JSON: {exc}"
+    elif ext == ".jsonl":
+        try:
+            lines = [json.loads(l) for l in contents.decode("utf-8").strip().split("\n") if l.strip()]
+            row_count = len(lines)
+            columns = list(lines[0].keys()) if lines else []
+            preview = lines[:5]
+        except Exception as exc:
+            preview = f"Tidak dapat parse JSONL: {exc}"
+
+    return {
+        "status": "uploaded",
+        "filename": safe_name,
+        "original_name": file.filename,
+        "size_mb": round(size_mb, 2),
+        "format": ext,
+        "description": description,
+        "category": category,
+        "row_count": row_count,
+        "columns": columns,
+        "preview": preview,
+        "path": str(dest),
+    }
+
+
+@app.get("/api/dataset/list")
+def list_datasets():
+    """Daftar semua dataset yang sudah diupload."""
+    files = []
+    for p in sorted(_UPLOAD_DIR.iterdir(), reverse=True):
+        if p.is_file():
+            files.append({
+                "filename": p.name,
+                "size_mb": round(p.stat().st_size / (1024 * 1024), 2),
+                "modified": datetime.fromtimestamp(p.stat().st_mtime, tz=timezone.utc).isoformat(),
+            })
+    return {"count": len(files), "files": files, "directory": str(_UPLOAD_DIR)}
 
 
 # =============================================================================

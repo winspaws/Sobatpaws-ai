@@ -72,11 +72,12 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
         if cid is None:
             continue
         bid, _ = ids.get_or_create("breeds", b["slug"])
+        breed_name = b.get("name") or b.get("common_name")
         out.append(
             "INSERT INTO breeds (id, category_id, slug, name, name_id, origin_country, "
             "size_class, weight_kg_min, weight_kg_max, height_cm_min, height_cm_max, "
             "lifespan_years_min, lifespan_years_max, temperament, coat_type, care_level, description) "
-            f"VALUES ({bid}, {cid}, {q(b['slug'])}, {q(b['name'])}, {q(b.get('name_id'))}, "
+            f"VALUES ({bid}, {cid}, {q(b['slug'])}, {q(breed_name)}, {q(b.get('name_id'))}, "
             f"{q(b.get('origin_country'))}, {q(b.get('size_class'))}, {q(b.get('weight_kg_min'))}, "
             f"{q(b.get('weight_kg_max'))}, {q(b.get('height_cm_min'))}, {q(b.get('height_cm_max'))}, "
             f"{q(b.get('lifespan_years_min'))}, {q(b.get('lifespan_years_max'))}, "
@@ -107,14 +108,21 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
 
     for d in kb.diseases:
         did, is_new = ids.get_or_create("diseases", d["slug"])
+        disease_name = d.get("name") or d.get("common_name")
+        body_sys = d.get("body_system") or "systemic"
+        severity = d.get("default_severity")
+        # Map severity to valid enum values
+        sev_map = {"high": "severe", "low": "mild", "very_low": "mild", "very_high": "critical"}
+        if severity in sev_map:
+            severity = sev_map[severity]
         if is_new:
             out.append(
                 "INSERT INTO diseases (id, slug, name, name_id, etiology, body_system, "
                 "is_contagious, is_zoonotic, default_severity, overview, causes, prevention, "
                 "prognosis, is_emergency) "
-                f"VALUES ({did}, {q(d['slug'])}, {q(d['name'])}, {q(d.get('name_id'))}, "
-                f"{q(d['etiology'])}, {q(d['body_system'])}, {q(d.get('is_contagious', False))}, "
-                f"{q(d.get('is_zoonotic', False))}, {q(d.get('default_severity'))}, "
+                f"VALUES ({did}, {q(d['slug'])}, {q(disease_name)}, {q(d.get('name_id'))}, "
+                f"{q(d['etiology'])}, {q(body_sys)}, {q(d.get('is_contagious', False))}, "
+                f"{q(d.get('is_zoonotic', False))}, {q(severity)}, "
                 f"{q(d.get('overview'))}, {q(d.get('causes'))}, {q(d.get('prevention'))}, "
                 f"{q(d.get('prognosis'))}, {q(d.get('is_emergency', False))});"
             )
@@ -146,10 +154,26 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
             slug = (key or "").lower().replace(" ", "-")[:150]
             sym_id, new_sym = ids.get_or_create("symptoms", slug)
             if new_sym:
+                sym_bs = sym.get("body_system")
+                # Normalize body_system to valid enum
+                bs_map = {
+                    "oral": "dental", "mulut": "dental", "gigi": "dental",
+                    "kulit": "integumentary", "skin": "integumentary",
+                    "pencernaan": "digestive", "pernapasan": "respiratory",
+                    "syaraf": "nervous", "saraf": "nervous", "neurological": "nervous",
+                    "muskuloskeletal": "musculoskeletal", "tulang": "musculoskeletal",
+                    "endokrin": "endocrine", "hormon": "endocrine",
+                    "mata": "ophthalmic", "telinga": "auditory",
+                    "darah": "hematologic", "kekebalan": "immune",
+                    "perilaku": "behavioral", "perkemihan": "urinary",
+                    "reproduksi": "reproductive", "kardiovaskular": "cardiovascular",
+                }
+                if sym_bs and sym_bs.lower() in bs_map:
+                    sym_bs = bs_map[sym_bs.lower()]
                 out.append(
                     "INSERT INTO symptoms (id, slug, name, name_id, body_system, is_red_flag) "
                     f"VALUES ({sym_id}, {q(slug)}, {q(sym.get('name'))}, {q(sym.get('name_id'))}, "
-                    f"{q(sym.get('body_system'))}, {q(sym.get('is_red_flag', False))});"
+                    f"{q(sym_bs)}, {q(sym.get('is_red_flag', False))});"
                 )
             link = ids.next("disease_symptoms")
             out.append(
@@ -164,9 +188,13 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
             slug = dg["name"].lower().replace(" ", "-")[:150]
             dgid, new_dg = ids.get_or_create("diagnostic_methods", slug)
             if new_dg:
+                dg_type = dg.get("type", "physical_exam")
+                dt_map = {"anamnesis": "history_taking", "history": "history_taking"}
+                if dg_type and dg_type.lower() in dt_map:
+                    dg_type = dt_map[dg_type.lower()]
                 out.append(
                     "INSERT INTO diagnostic_methods (id, slug, name, type) "
-                    f"VALUES ({dgid}, {q(slug)}, {q(dg['name'])}, {q(dg.get('type'))});"
+                    f"VALUES ({dgid}, {q(slug)}, {q(dg['name'])}, {q(dg_type)});"
                 )
             link = ids.next("disease_diagnostics")
             out.append(
@@ -183,7 +211,7 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
             if new_tx:
                 out.append(
                     "INSERT INTO treatments (id, slug, name, type, description, procedure_steps) "
-                    f"VALUES ({txid}, {q(slug)}, {q(tx['name'])}, {q(tx.get('type'))}, "
+                    f"VALUES ({txid}, {q(slug)}, {q(tx['name'])}, {q(tx.get('type', 'pharmacological'))}, "
                     f"{q(tx.get('recommendation'))}, {q(tx.get('procedure_steps'))});"
                 )
             link = ids.next("disease_treatments")
@@ -197,9 +225,13 @@ def generate_sql(kb: KnowledgeBase | None = None) -> str:
                 pslug = (p["name"]).lower().replace(" ", "-")[:150]
                 pid, new_p = ids.get_or_create("products", pslug)
                 if new_p:
+                    pk = p.get("kind", "medication")
+                    pk_map = {"supportive": "supplement", "dietary": "food_prescription"}
+                    if pk and pk.lower() in pk_map:
+                        pk = pk_map[pk.lower()]
                     out.append(
                         "INSERT INTO products (id, name, kind, active_ingredient, description) "
-                        f"VALUES ({pid}, {q(p['name'])}, {q(p.get('kind'))}, "
+                        f"VALUES ({pid}, {q(p['name'])}, {q(pk)}, "
                         f"{q(p.get('active_ingredient'))}, {q(p.get('cautions'))});"
                     )
                 link = ids.next("treatment_products")

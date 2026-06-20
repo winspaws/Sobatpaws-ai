@@ -14,6 +14,9 @@ numpy==1.26.4
 scikit-learn==1.4.2
 joblib==1.4.2
 
+# HTTP client — pin <0.28 for openai SDK compatibility (proxies param removed in 0.28)
+httpx<0.28
+
 # API service
 fastapi==0.111.0
 uvicorn[standard]==0.30.1

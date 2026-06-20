@@ -1,6 +1,6 @@
 """Autentikasi API key untuk integrasi app vet & dashboard admin.
 
-Header: `X-Sobatpaws-Key: <key>` atau `Authorization: Bearer <key>`
+Header: `X-Sobatpaws-Key: <key>` atau `Authorization: Bearer <key>`.
 
 Bila kunci tidak dikonfigurasi di environment, auth dinonaktifkan (mode dev).
 """

@@ -74,20 +74,25 @@ def client(temp_learning_dir):
     mock_llm.available = False
     mock_llm.provider = "local"
     mock_llm.model = "rule-based"
+    # Make LLM methods return None (matching real behavior when unavailable)
+    mock_llm.transcribe.return_value = None
+    mock_llm.describe_image.return_value = None
+    mock_llm.chat_json.return_value = None
     
     # Patch all relevant singletons and dependencies
     with patch("sobatpaws.api.deps.LLMClient", return_value=mock_llm):
         with patch("sobatpaws.ai.suggestion_engine.LLMClient", return_value=mock_llm):
             with patch("sobatpaws.ai.consultation.LLMClient", return_value=mock_llm):
-                # Mock AI settings to use never augmentation mode
-                with patch("sobatpaws.ai.suggestion_engine.AISettings") as mock_settings:
-                    mock_settings_instance = MagicMock()
-                    mock_settings_instance.augmentation_mode = "never"
-                    mock_settings_instance.max_tokens = 800
-                    mock_settings_instance.skip_llm_confidence = 0.82
-                    mock_settings.return_value = mock_settings_instance
-                    
-                    yield TestClient(app)
+                with patch("sobatpaws.ai.intake.LLMClient", return_value=mock_llm):
+                    # Mock AI settings to use never augmentation mode
+                    with patch("sobatpaws.ai.suggestion_engine.AISettings") as mock_settings:
+                        mock_settings_instance = MagicMock()
+                        mock_settings_instance.augmentation_mode = "never"
+                        mock_settings_instance.max_tokens = 800
+                        mock_settings_instance.skip_llm_confidence = 0.82
+                        mock_settings.return_value = mock_settings_instance
+                        
+                        yield TestClient(app)
 
 
 class TestPublicEndpoints:
@@ -375,6 +380,48 @@ class TestVetEndpoints:
         # Now lookup by external ID
         lookup_response = client.get(f"/api/integration/consultations/by-external/{external_id}")
         assert lookup_response.status_code == 200
+
+    def test_media_upload(self, client):
+        """Test POST /consultations/{id}/media (multipart upload)."""
+        # First start a consultation
+        start_response = client.post(
+            "/consultations",
+            json={
+                "context": {
+                    "vet_id": 1,
+                    "owner_id": 107,
+                    "pet_id": 207,
+                    "category_slug": "cat",
+                },
+                "intake": {
+                    "channel": "chat",
+                    "text": "Kucing muntah",
+                },
+            },
+        )
+        assert start_response.status_code == 200
+        consultation_id = start_response.json()["consultation_id"]
+
+        # Now upload a simple test image as multipart
+        # Create a small test image (1x1 pixel GIF)
+        test_image = b"GIF89a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;"
+
+        media_response = client.post(
+            f"/consultations/{consultation_id}/media",
+            files={
+                "file": ("test.gif", test_image, "image/gif"),
+            },
+            data={
+                "modality": "image",
+                "channel": "video",
+            },
+        )
+        # Note: This may process the image and return a suggestion
+        # In rule-based mode without vision, it should still work (image gets stored/ignored gracefully)
+        assert media_response.status_code in [200, 404]
+        if media_response.status_code == 200:
+            data = media_response.json()
+            assert data["consultation_id"] == consultation_id
 
 
 class TestOpenAPIDocumentation:

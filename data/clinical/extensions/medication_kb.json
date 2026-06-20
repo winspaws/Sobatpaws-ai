@@ -1,0 +1,102 @@
+{
+  "source": "Dataset_Kesehatan_Hewan_500K_Rows",
+  "total_cases": 500000,
+  "diseases": {
+    "Newcastle Disease (Tetelo)": {
+      "medications": [
+        {
+          "name": "Vitamin Kompleks & Antibiotik Amoxicillin (sekunder)",
+          "dosage": "Vitamin 1 gram/liter air minum; Amoxicillin 20 mg/kg BB",
+          "contraindications": "Tidak ada obat virus spesifik, hindari antibiotik overdosis karena merusak hati"
+        }
+      ],
+      "causes": "Avian Paramyxovirus",
+      "first_aid": "Pemisahan ayam sakit, desinfeksi kandang menyeluruh",
+      "treatment": "Pemberian vitamin dosis tinggi, jaga sanitasi air minum"
+    },
+    "White Spot (Ich)": {
+      "medications": [
+        {
+          "name": "Methylene Blue & Garam Ikan",
+          "dosage": "1 tetes per 2 liter air akuarium; Garam 1-3 gram/liter",
+          "contraindications": "Jangan gunakan Methylene Blue pada akuarium utama berfilter biologi karena mematikan bakteri baik"
+        }
+      ],
+      "causes": "Protozoa Ichthyophthirius multifiliis",
+      "first_aid": "Karantina ikan, naikkan suhu akuarium perlahan",
+      "treatment": "Naikkan suhu air hingga 28-30°C, tingkatkan aerasi udara"
+    },
+    "Metabolic Bone Disease (MBD)": {
+      "medications": [
+        {
+          "name": "Kalsium Glukonat Cair",
+          "dosage": "0.2 ml per 100 gram berat badan PO setiap hari",
+          "contraindications": "Jangan berikan kalsium tinggi tanpa kecukupan UVB karena memicu batu ginjal"
+        }
+      ],
+      "causes": "Kekurangan Kalsium & sinar UVB",
+      "first_aid": "Koreksi pencahayaan kandang",
+      "treatment": "Jemur di matahari pagi 15-30 menit, pasang lampu UVB 10.0"
+    },
+    "Ear Canker (Kudis Telinga)": {
+      "medications": [
+        {
+          "name": "Ivermectin tetes/injeksi",
+          "dosage": "Injeksi SC 0.4 mg/kg BB, ulangi setelah 14 hari",
+          "contraindications": "Jangan dikelupas paksa tanpa pelunak karena memicu pendarahan parah"
+        }
+      ],
+      "causes": "Tungau Psoroptes cuniculi",
+      "first_aid": "Pembersihan kerak secara perlahan",
+      "treatment": "Olesi minyak zaitun untuk melunakkan kerak, pisahkan kandang"
+    },
+    "Distemper": {
+      "medications": [
+        {
+          "name": "Diazepam (jika kejang) & Vitamin B Kompleks",
+          "dosage": "Diazepam 0.5 mg/kg IV; Vit B 1 tablet/hari",
+          "contraindications": "Hindari vaksinasi saat sakit; jangan gunakan obat penekan imun tubuh"
+        }
+      ],
+      "causes": "Canine Distemper Virus",
+      "first_aid": "Suplementasi saraf, isolasi total",
+      "treatment": "Terapi suportif nutrisi tinggi, ruang gelap jika kejang"
+    },
+    "Parvovirus": {
+      "medications": [
+        {
+          "name": "Cairan Ringer Lactate & Antibiotik Ceftriaxone",
+          "dosage": "Infus 60 ml/kg/hari; Ceftriaxone 25 mg/kg IV tiap 12 jam",
+          "contraindications": "Jangan berikan makanan padat saat muntah aktif; hindari obat steroid"
+        }
+      ],
+      "causes": "Canine Parvovirus",
+      "first_aid": "Isolasi ketat, terapi cairan (infus IV)",
+      "treatment": "Rawat inap di klinik, jaga kehangatan tubuh"
+    },
+    "Feline Panleukopenia": {
+      "medications": [
+        {
+          "name": "Cefotaxime & Ondansetron",
+          "dosage": "Cefotaxime 20 mg/kg IV tiap 12 jam; Ondansetron 0.5 mg/kg IV",
+          "contraindications": "Jangan berikan obat cacing saat kondisi kritis/lemas"
+        }
+      ],
+      "causes": "Feline Parvovirus",
+      "first_aid": "Isolasi ketat, rehidrasi agresif",
+      "treatment": "Terapi cairan intravena, penghangat tubuh"
+    },
+    "GI Stasis": {
+      "medications": [
+        {
+          "name": "Metoclopramide & Meloxicam",
+          "dosage": "Metoclopramide 0.5 mg/kg PO tiap 12 jam; Meloxicam 0.3 mg/kg PO",
+          "contraindications": "Jangan berikan obat pencahar keras jika ada penyumbatan total fisik"
+        }
+      ],
+      "causes": "Diet rendah serat, stres, dehidrasi",
+      "first_aid": "Pemberian cairan oral darurat, pijat perut perlahan",
+      "treatment": "Suap makanan cair (Critical Care), hentikan pelet komersial"
+    }
+  }
+}

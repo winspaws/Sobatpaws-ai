@@ -238,6 +238,38 @@
       </div>
     </div>
 
+    <h2>📤 Upload Dataset</h2>
+    <div class="panel panel-wide">
+      <div class="layout" style="grid-template-columns:1fr 1fr;">
+        <div>
+          <h3 style="margin:0 0 12px;font-size:15px;">Upload File</h3>
+          <p class="sub" style="margin:0 0 12px;">CSV, PDF, Excel (.xlsx/.xls), TXT, JSON, JSONL, MD, XML — maks 300 MB</p>
+          <div id="dropZone" style="border:2px dashed var(--border);border-radius:var(--radius);padding:30px;text-align:center;cursor:pointer;transition:.2s;background:var(--panel-2);"
+               ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+               ondragleave="this.style.borderColor='var(--border)'"
+               ondrop="event.preventDefault();handleDrop(event);this.style.borderColor='var(--border)'"
+               onclick="document.getElementById('fileInput').click()">
+            <div style="font-size:48px;margin-bottom:10px;">📁</div>
+            <div style="font-size:14px;color:var(--muted);">Seret & lepas file di sini<br>atau klik untuk memilih</div>
+            <input id="fileInput" type="file" accept=".csv,.pdf,.xlsx,.xls,.txt,.json,.jsonl,.md,.xml" style="display:none" onchange="handleFileSelect(this)" />
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+            <input id="uploadDesc" type="text" placeholder="Deskripsi (opsional)" style="flex:1;min-width:120px;" />
+            <input id="uploadCat" type="text" placeholder="Kategori (opsional)" style="flex:1;min-width:100px;" />
+            <button class="btn primary" id="uploadBtn" onclick="uploadDataset()" disabled>⬆ Upload</button>
+          </div>
+          <div id="uploadProgress" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
+        </div>
+        <div>
+          <h3 style="margin:0 0 12px;font-size:15px;">Dataset Terupload</h3>
+          <div id="datasetList" style="max-height:300px;overflow-y:auto;">
+            <div class="empty">Memuat…</div>
+          </div>
+        </div>
+      </div>
+      <div id="uploadResult" style="margin-top:14px;display:none;"></div>
+    </div>
+
     <h2>Explorer Taxonomy — Kategori, Ras &amp; Varian</h2>
     <div class="panel panel-wide">
       <div class="section-tabs">
@@ -456,6 +488,11 @@
               "Penyakit": s.data.diseases,
               "Gejala unik": s.data.unique_symptoms,
             }),
+          statusCard("📁", "Dataset Terupload", s.datasets?.ok ?? true, false,
+            `${s.datasets?.upload_count ?? 0} file (${s.datasets?.total_size_mb ?? 0} MB)`, {
+              "Jumlah file": s.datasets?.upload_count ?? 0,
+              "Total ukuran": (s.datasets?.total_size_mb ?? 0) + " MB",
+            }),
           statusCard("🧠", "AI Engine", s.ai.ok, false,
             s.ai.mode === "llm_augmented" ? "LLM aktif" : "Mode rule-based (tanpa kunci API)", {
               "Provider": s.ai.provider,
@@ -483,7 +520,7 @@
     }
 
     function cardSkeletons() {
-      return Array(5).fill(0).map(() =>
+      return Array(6).fill(0).map(() =>
         `<div class="card"><div class="head"><span class="dot loading"></span>
          <span class="ttl">Memeriksa…</span></div></div>`).join("");
     }
@@ -530,12 +567,14 @@
         tiles.innerHTML = [
           ["Kategori", t.categories], ["Ras", t.breeds], ["Varian", t.variants],
           ["Traits", t.traits], ["Penyakit", t.diseases], ["Gejala", t.symptoms],
+          ["Dataset", t.datasets_uploaded],
         ].map(([lbl, num]) => `<div class="tile"><div class="num">${num}</div><div class="lbl">${lbl}</div></div>`).join("");
 
         el.innerHTML = `<div class="summary-box" style="margin:0">
           Rata-rata <b>${t.avg_variants_per_breed}</b> varian/ras ·
           <b>${t.breeds_without_variants}</b> ras tanpa varian ·
-          ${Object.keys(d.variant_types || {}).length} jenis varian
+          ${Object.keys(d.variant_types || {}).length} jenis varian ·
+          <b>${t.datasets_uploaded}</b> dataset (${t.datasets_size_mb} MB)
         </div>`;
 
         renderCharts(d);
@@ -1225,11 +1264,102 @@
       }
     }
 
+    // ---------- DATASET UPLOAD ----------
+    let UPLOAD_FILE = null;
+
+    function handleFileSelect(input) {
+        UPLOAD_FILE = input.files[0] || null;
+        document.getElementById('uploadBtn').disabled = !UPLOAD_FILE;
+        if (UPLOAD_FILE) {
+            document.getElementById('uploadProgress').textContent = '📄 ' + UPLOAD_FILE.name + ' (' + (UPLOAD_FILE.size / 1024).toFixed(1) + ' KB)';
+        }
+    }
+
+    function handleDrop(event) {
+        UPLOAD_FILE = event.dataTransfer.files[0] || null;
+        document.getElementById('uploadBtn').disabled = !UPLOAD_FILE;
+        if (UPLOAD_FILE) {
+            document.getElementById('uploadProgress').textContent = '📄 ' + UPLOAD_FILE.name + ' (' + (UPLOAD_FILE.size / 1024).toFixed(1) + ' KB)';
+        }
+    }
+
+    async function uploadDataset() {
+        if (!UPLOAD_FILE) return;
+        const btn = document.getElementById('uploadBtn');
+        const prog = document.getElementById('uploadProgress');
+        const result = document.getElementById('uploadResult');
+        btn.disabled = true;
+        prog.textContent = '⏳ Mengupload…';
+
+        const fd = new FormData();
+        fd.append('file', UPLOAD_FILE);
+        fd.append('description', document.getElementById('uploadDesc').value || '');
+        fd.append('category', document.getElementById('uploadCat').value || '');
+
+        try {
+            const r = await fetch('/api/dataset/upload', { method: 'POST', body: fd });
+            const data = await r.json();
+            if (!r.ok) throw new Error(data.detail || r.statusText);
+
+            result.style.display = 'block';
+            let previewHtml = '';
+            if (data.preview && Array.isArray(data.preview) && data.preview.length > 0) {
+                const cols = data.columns || Object.keys(data.preview[0] || {});
+                previewHtml = '<div class="data-table-wrap" style="max-height:200px;margin-top:10px;">' +
+                    '<table class="data-table"><thead><tr>' +
+                    cols.map(c => '<th>' + c + '</th>').join('') +
+                    '</tr></thead><tbody>' +
+                    data.preview.slice(0, 5).map(row =>
+                        '<tr>' + cols.map(c => '<td>' + (row[c] !== undefined ? String(row[c]).slice(0, 60) : '') + '</td>').join('') + '</tr>'
+                    ).join('') +
+                    '</tbody></table></div>';
+            } else if (data.preview && typeof data.preview === 'object') {
+                previewHtml = '<pre style="font-size:12px;max-height:200px;overflow:auto;background:var(--panel-2);padding:10px;border-radius:8px;margin-top:10px;">' +
+                    JSON.stringify(data.preview, null, 2).slice(0, 2000) + '</pre>';
+            }
+
+            result.innerHTML = '<div class="summary-box">✅ Upload berhasil: <b>' + data.original_name + '</b>' +
+                ' (' + data.size_mb + ' MB · ' + data.row_count + ' baris · ' + data.format + ')' +
+                '</div>' + previewHtml;
+
+            prog.textContent = '✅ Selesai';
+            UPLOAD_FILE = null;
+            document.getElementById('fileInput').value = '';
+            loadDatasetList();
+        } catch (e) {
+            result.style.display = 'block';
+            result.innerHTML = '<div class="warn-box">❌ Gagal: ' + e.message + '</div>';
+            prog.textContent = '❌ Gagal';
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    async function loadDatasetList() {
+        const el = document.getElementById('datasetList');
+        try {
+            const r = await api('/api/dataset/list');
+            if (!r.files || !r.files.length) {
+                el.innerHTML = '<div class="empty">Belum ada dataset terupload.</div>';
+                return;
+            }
+            el.innerHTML = r.files.map(f =>
+                '<div class="item"><div class="item-top">' +
+                '<span class="name">' + f.filename + '</span>' +
+                '<span class="conf">' + f.size_mb + ' MB</span></div>' +
+                '<div class="meta">' + (f.modified || '').slice(0, 19) + '</div></div>'
+            ).join('');
+        } catch (e) {
+            el.innerHTML = '<div class="empty">Gagal memuat: ' + e.message + '</div>';
+        }
+    }
+
     // ---------- INIT ----------
     loadStatus();
     refreshGoldBadge();
     loadExcelExports();
     loadProviders();
+    loadDatasetList();
     loadCategories().catch(e =>
       document.getElementById("dataBrowser").innerHTML =
         `<div class="empty">Gagal memuat data: ${e.message}</div>`);

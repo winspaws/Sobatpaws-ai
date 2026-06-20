@@ -70,7 +70,7 @@ class PostgresLearningBackend:
             conn.execute(
                 text("""
                     INSERT INTO learning_events (id, consultation_id, kind, payload, recorded_at)
-                    VALUES (:id, :cid, :kind, CAST(:payload AS jsonb), COALESCE(:ts::timestamptz, now()))
+                    VALUES (:id, :cid, :kind, CAST(:payload AS jsonb), COALESCE(CAST(:ts AS timestamptz), now()))
                     ON CONFLICT (id) DO NOTHING
                 """),
                 {

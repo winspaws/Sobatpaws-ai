@@ -94,6 +94,122 @@ def _load_breeds() -> list[dict]:
     return breeds
 
 
+def _normalize_etiology(etiology: str | None) -> str | None:
+    """Map free-text etiology to valid PostgreSQL enum value."""
+    if etiology is None:
+        return None
+    valid_enums = {
+        "infectious_viral", "infectious_bacterial", "infectious_fungal",
+        "parasitic_internal", "parasitic_external", "genetic_congenital",
+        "nutritional", "metabolic", "neoplastic", "traumatic", "toxic",
+        "degenerative", "idiopathic", "behavioral", "environmental",
+    }
+    etiology_lower = etiology.strip().lower()
+    # Already valid enum
+    if etiology_lower in valid_enums:
+        return etiology_lower
+    # Keyword-based mapping
+    kw_map = [
+        ("jamur", "infectious_fungal"),
+        ("fungal", "infectious_fungal"),
+        ("bakteri", "infectious_bacterial"),
+        ("bacterial", "infectious_bacterial"),
+        ("virus", "infectious_viral"),
+        ("viral", "infectious_viral"),
+        ("parvovirus", "infectious_viral"),
+        ("parasit", "parasitic_internal"),
+        ("kalsium", "nutritional"),
+        ("vitamin", "nutritional"),
+        ("nutrisi", "nutritional"),
+        ("defisiensi", "nutritional"),
+        ("nutritional", "nutritional"),
+        ("neoplasma", "neoplastic"),
+        ("tumor", "neoplastic"),
+        ("adenoma", "neoplastic"),
+        ("karsinoma", "neoplastic"),
+        ("neoplastic", "neoplastic"),
+        ("metabolisme", "metabolic"),
+        ("metabolic", "metabolic"),
+        ("trauma", "traumatic"),
+        ("tekanan", "traumatic"),
+        ("traumatic", "traumatic"),
+        ("genetik", "genetic_congenital"),
+        ("genetic", "genetic_congenital"),
+        ("degeneratif", "degenerative"),
+        ("degenerative", "degenerative"),
+        ("perilaku", "behavioral"),
+        ("behavioral", "behavioral"),
+        ("lingkungan", "environmental"),
+        ("environmental", "environmental"),
+        ("toksin", "toxic"),
+        ("toxic", "toxic"),
+        ("idiopatik", "idiopathic"),
+        ("idiopathic", "idiopathic"),
+    ]
+    for kw, mapped in kw_map:
+        if kw in etiology_lower:
+            return mapped
+    return "idiopathic"
+
+
+def _normalize_disease(d: dict, default_cat: str | None, file_disclaimer: str | None) -> dict:
+    """Normalisasi disease dari berbagai format (domestic vs exotic) ke schema standar."""
+    cat = d.get("category_slug", default_cat)
+    result = {
+        **d,
+        "category_slug": cat,
+        "_category_disclaimer": d.get("_category_disclaimer", file_disclaimer),
+    }
+    # Exotic diseases use 'common_name' instead of 'name'
+    if "name" not in result and "common_name" in result:
+        result["name"] = result["common_name"]
+    # Normalize etiology to valid enum
+    if "etiology" in result:
+        result["etiology"] = _normalize_etiology(result["etiology"])
+    # Normalize body_system to valid enum
+    if "body_system" in result:
+        bs_map = {
+            "oral": "dental", "mulut": "dental", "gigi": "dental",
+            "kulit": "integumentary", "skin": "integumentary",
+            "pencernaan": "digestive", "pernapasan": "respiratory",
+            "syaraf": "nervous", "saraf": "nervous", "neurological": "nervous",
+            "muskuloskeletal": "musculoskeletal", "tulang": "musculoskeletal",
+            "endokrin": "endocrine", "hormon": "endocrine",
+            "mata": "ophthalmic", "telinga": "auditory",
+            "darah": "hematologic", "kekebalan": "immune",
+            "perilaku": "behavioral", "perkemihan": "urinary",
+            "reproduksi": "reproductive", "kardiovaskular": "cardiovascular",
+        }
+        bs = result["body_system"]
+        if isinstance(bs, str) and bs.lower() in bs_map:
+            result["body_system"] = bs_map[bs.lower()]
+    # Exotic: 'contagious' -> 'is_contagious'
+    if "is_contagious" not in result and "contagious" in result:
+        result["is_contagious"] = result["contagious"]
+    # Exotic: 'clinical_signs' -> 'symptoms'
+    if "symptoms" not in result and "clinical_signs" in result:
+        signs = result["clinical_signs"]
+        if isinstance(signs, list):
+            result["symptoms"] = [{"name": s} if isinstance(s, str) else s for s in signs]
+        elif isinstance(signs, str):
+            result["symptoms"] = [{"name": signs}]
+    # Exotic: 'diagnostic_gold_standard' -> 'diagnostics'
+    if "diagnostics" not in result and "diagnostic_gold_standard" in result:
+        dgs = result["diagnostic_gold_standard"]
+        if isinstance(dgs, list):
+            result["diagnostics"] = [{"name": d} if isinstance(d, str) else d for d in dgs]
+        elif isinstance(dgs, str):
+            result["diagnostics"] = [{"name": dgs, "is_gold_standard": True}]
+    # Exotic: 'treatment' -> 'treatments'
+    if "treatments" not in result and "treatment" in result:
+        tx = result["treatment"]
+        if isinstance(tx, list):
+            result["treatments"] = [{"name": t} if isinstance(t, str) else t for t in tx]
+        elif isinstance(tx, str):
+            result["treatments"] = [{"name": tx}]
+    return result
+
+
 def _load_diseases() -> list[dict]:
     diseases: list[dict] = []
     for path in sorted(CLINICAL_DIR.glob("diseases_*.json")):
@@ -101,13 +217,7 @@ def _load_diseases() -> list[dict]:
         default_cat = payload.get("category_slug")
         file_disclaimer = payload.get("disclaimer")
         for d in payload.get("diseases", []):
-            # category_slug bisa di level file atau di level disease (file gabungan)
-            cat = d.get("category_slug", default_cat)
-            diseases.append({
-                **d,
-                "category_slug": cat,
-                "_category_disclaimer": d.get("_category_disclaimer", file_disclaimer),
-            })
+            diseases.append(_normalize_disease(d, default_cat, file_disclaimer))
     return diseases
 
 

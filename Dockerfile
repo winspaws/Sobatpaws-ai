@@ -35,8 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user for security
-RUN groupadd -r sobatpaws && useradd -r -g sobatpaws -d /app -s /sbin/nologin sobatpaws
+# Create non-root user with uid 1000 (matches VPS ubuntu user for volume permissions)
+RUN groupadd -r sobatpaws -g 1000 && useradd -r -g sobatpaws -u 1000 -d /app -s /sbin/nologin sobatpaws
 
 WORKDIR /app
 

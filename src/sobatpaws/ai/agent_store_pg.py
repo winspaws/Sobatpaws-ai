@@ -64,7 +64,7 @@ class PostgresAgentBackend:
                 text("""
                     INSERT INTO ai_agent_events (id, kind, consultation_id, payload, created_at)
                     VALUES (:id, :kind, :cid, CAST(:payload AS jsonb),
-                            COALESCE(:ts::timestamptz, now()))
+                            COALESCE(CAST(:ts AS timestamptz), now()))
                     ON CONFLICT (id) DO NOTHING
                 """),
                 {
