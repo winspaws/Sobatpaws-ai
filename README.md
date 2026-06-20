@@ -1,6 +1,8 @@
 # 🐾 Sobatpaws — Veterinary Backend AI Services
 
-**Backend AI Services** untuk dokter hewan — menyediakan REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+**Backend AI Services** untuk dokter hewan — REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+
+**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `0.3.0`
 
 > ⚠️ Sobatpaws **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
 > Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
@@ -16,6 +18,21 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 
 ---
 
+## Quick Links
+
+| Resource | Link |
+|----------|------|
+| Swagger UI | `/docs` |
+| ReDoc | `/redoc` |
+| API Documentation | [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md) |
+| Request/Response Examples | [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md) |
+| Postman Collection | [`docs/Sobatpaws_API.postman_collection.json`](docs/Sobatpaws_API.postman_collection.json) |
+| Deployment Guide | [`docs/deployment.md`](docs/deployment.md) |
+| AI Agent Guide | [`AGENTS.md`](AGENTS.md) |
+| Jurnal Perhewanan | [`docs/jurnal/INDEX.md`](docs/jurnal/INDEX.md) |
+
+---
+
 ## 1. Apa yang ada di dalam platform ini
 
 | Lapisan | Isi | Lokasi |
@@ -25,13 +42,23 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 | **Seed SQL** | Generator JSON → PostgreSQL INSERT | `src/sobatpaws/seed_generator.py` → `seed/seed.sql` |
 | **Pembelajaran (ML)** | Dataset builder, feature engineering, training, inference | `src/sobatpaws/ml/` |
 | **Smart Data Platform** | Orkestrator pipeline, doctor, registry lineage (agent-friendly) | `src/sobatpaws/platform/` + `AGENTS.md` |
-| **API** | REST (FastAPI): data, ML, AI, konsultasi, platform, agent | `src/sobatpaws/api/main.py` |
+| **API** | REST (FastAPI v0.3.0): data, ML, AI, konsultasi, integrasi, platform, admin | `src/sobatpaws/api/` |
+| **Dokumentasi Integrasi** | API reference, contoh request/response, Postman | `docs/` |
+| **Riset & Jurnal** | Monograf spesies, ras, penyakit (130+ ras terdokumentasi) | `docs/jurnal/` |
 
-Cakupan data saat ini (dapat terus diperluas):
-- **10 kategori** spesies: anjing, kucing, kelinci, hamster, unggas, ikan, reptil, amfibi, ferret, marmut.
-- **160+ ras/breed** dengan varian (warna/pola/morph/ukuran) & traits untuk fitur ML.
-- **30+ penyakit** umum & rentan per hewan, lengkap dengan **gejala, metode diagnosa, langkah tindakan, dan produk pengobatan**.
-- **130+ gejala** unik yang dapat diobservasi.
+### Cakupan data saat ini
+
+| Item | Jumlah | Catatan |
+|------|--------|---------|
+| Kategori spesies | **10** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig |
+| Ras/breed | **177** | dengan varian (warna/pola/morph/ukuran) & traits untuk fitur ML |
+| Penyakit (KB curated) | **44** | gejala, diagnosa, tindakan, produk — per spesies |
+| Gejala unik | **207** | dapat diobservasi klinis |
+| Model ML terlatih | **10** | RandomForest per kategori spesies (`artifacts/models/`) |
+| Dataset sintetik | **500K baris** | `data/generated/` — untuk validasi & bulk training |
+| Jurnal riset | **130+ ras**, **30 penyakit** | `docs/jurnal/` — sync dari KB via `scripts/build_journal_index.py` |
+
+**Menambah data** = tambahkan entri JSON di `data/`, lalu jalankan ulang generator seed & training. Tidak perlu mengubah kode inti.
 
 ---
 
@@ -47,7 +74,7 @@ Cakupan data saat ini (dapat terus diperluas):
                          │ REST API / JSON
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  SOBATPAWS BACKEND API (FastAPI)                         │
+│  SOBATPAWS BACKEND API (FastAPI 0.3.0)                   │
 │                                                          │
 │  ┌──────────────────────────────────────────────────┐    │
 │  │              KNOWLEDGE BASE (JSON)               │    │
@@ -66,17 +93,13 @@ Cakupan data saat ini (dapat terus diperluas):
 │  │         AI Suggestion Engine (RAG)               │    │
 │  │  retrieve (ML + KB + breed risk)                 │    │
 │  │  → ground (KB) → safety guardrail                │    │
-│  │  → LLM synthesis (opsional) → structured JSON    │    │
+│  │  → LLM synthesis (opsional, mode smart)          │    │
+│  │  → structured JSON                               │    │
 │  └────────────────────┬─────────────────────────────┘    │
 │                       │                                  │
 │  ┌────────────────────┴─────────────────────────────┐    │
 │  │              REST API ENDPOINTS                   │    │
-│  │  ┌──────────┐ ┌──────────┐ ┌────────────────┐    │    │
-│  │  │Input API │ │ AI/ML   │ │ Integration    │    │    │
-│  │  │(keluhan, │ │(suggest,│ │(manifest,      │    │    │
-│  │  │ symptom, │ │ predict,│ │ id-schema,     │    │    │
-│  │  │ data pet)│ │ consult)│ │ lookup, sync)  │    │    │
-│  │  └──────────┘ └──────────┘ └────────────────┘    │    │
+│  │  Core │ Integration │ Platform │ Agent │ Admin   │    │
 │  └──────────────────────────────────────────────────┘    │
 │                                                          │
 │  ┌──────────────────────────────────────────────────┐    │
@@ -89,6 +112,8 @@ Cakupan data saat ini (dapat terus diperluas):
 Prinsip kunci: **Retrieval-Augmented Generation (RAG)** — AI tidak mengarang;
 ia di-*ground* pada knowledge base terstruktur, diperkuat prediksi ML, dan
 dilindungi **safety guardrail** kontraindikasi obat per spesies.
+
+Mode **`smart`** melewati LLM bila ML + KB sudah yakin (hemat token).
 
 ### Smart Data Platform (terintegrasi)
 
@@ -150,12 +175,20 @@ data/
 ├── breeds/
 │   ├── dogs.json  cats.json  rabbits.json  hamsters.json
 │   ├── poultry.json  fish.json  reptiles.json  others.json
-└── clinical/
-    ├── diseases_dogs.json       # penyakit + gejala + diagnosa + tindakan + produk
-    ├── diseases_cats.json
-    ├── diseases_rabbits.json    diseases_hamsters.json
-    ├── diseases_poultry.json    diseases_fish.json
-    ├── diseases_reptiles.json   diseases_exotic_others.json
+├── clinical/
+│   ├── diseases_dogs.json       # penyakit + gejala + diagnosa + tindakan + produk
+│   ├── diseases_cats.json
+│   ├── diseases_rabbits.json    diseases_hamsters.json
+│   ├── diseases_poultry.json    diseases_fish.json
+│   ├── diseases_reptiles.json   diseases_exotic_others.json
+│   └── extensions/
+│       └── medication_kb.json   # knowledge base obat per spesies
+├── generated/                   # dataset sintetik (gitignored, regenerate via scripts/)
+└── ml_views/                    # view ML terkompresi (Parquet/gzip-CSV)
+
+docs/jurnal/                     # monograf riset per spesies, ras, penyakit
+├── INDEX.md                     # auto-generated index
+├── spesies/  ras/  penyakit/
 ```
 
 Setiap penyakit bersifat **self-contained** (contoh ringkas):
@@ -177,16 +210,14 @@ Setiap penyakit bersifat **self-contained** (contoh ringkas):
 }
 ```
 
-**Menambah data** = cukup tambahkan entri JSON, lalu jalankan ulang generator
-seed & training. Tidak perlu mengubah kode.
-
 ---
 
 ## 5. Cara Menjalankan
 
 ### Prasyarat
 - Python **3.10+** disarankan (di 3.9 paket `eval_type_backport` otomatis dipakai).
-- (Opsional) PostgreSQL untuk memuat seed.
+- (Opsional) PostgreSQL untuk memuat seed & learning store.
+- (Opsional) Ollama / vLLM untuk inferensi LLM lokal.
 
 ### Instalasi
 ```bash
@@ -199,6 +230,7 @@ export PYTHONPATH=src
 ### a) Validasi data & lihat statistik
 ```bash
 python -m sobatpaws.data_loader
+# → categories: 10, breeds: 177, diseases: 44, unique_symptoms: 207
 ```
 
 ### b) Generate seed SQL & muat ke DB
@@ -210,7 +242,7 @@ psql "$DATABASE_URL" -f seed/seed.sql         # isi data
 
 ### c) Latih model ML (symptom → disease)
 ```bash
-python -m sobatpaws.ml.train                 # semua kategori
+python -m sobatpaws.ml.train                 # semua kategori (10 model)
 python -m sobatpaws.ml.train --category dog  # satu kategori
 ```
 Artefak tersimpan di `artifacts/models/`.
@@ -223,38 +255,25 @@ python -m sobatpaws.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
 
 ### e) Jalankan API + Dashboard Verifikasi
 ```bash
-uvicorn sobatpaws.api.main:app --reload --app-dir src
-# Dashboard verifikasi : http://localhost:8000/      (web/index.html)
+./run.sh              # default port 8000
+./run.sh 8080         # port lain
+# Dashboard verifikasi : http://localhost:8000/
 # Dokumentasi API      : http://localhost:8000/docs
-#
-# Endpoint utama:
-#   GET  /health, /api/status              status sistem (data/AI/ML/DB)
-#   GET  /categories, /breeds/{slug}, ...  data master knowledge base
-#   POST /api/consult                      saran klinis single-shot (teks bebas/gejala)
-#   POST /ml/predict                       prediksi cepat symptom -> disease
-#   POST /consultations                    mulai sesi konsultasi multimodal (chat/video)
-#   POST /consultations/{id}/turns         giliran lanjutan (gejala kumulatif)
-#   POST /consultations/{id}/media         unggah audio (mic) / gambar (kamera)
-#   POST /consultations/{id}/doctor-input  simpan keputusan dokter (bahan pembelajaran)
-#   POST /consultations/{id}/feedback      penilaian dokter atas saran AI
-#   GET  /learning/export                  ekspor data gold untuk retraining
-#   POST /learning/retrain                 latih ulang model dari input dokter
-#   GET  /learning/stats                   statistik event pembelajaran
-#   POST /learning/sync-db                 migrasi JSONL → PostgreSQL (learning_events)
-#   GET  /exports/excel                    daftar workbook Excel (data/excel/)
-#   GET  /exports/excel/{filename}         unduh .xlsx
 ```
 
-Atau pakai skrip singkat:
+Atau manual:
 ```bash
-./run.sh    # http://localhost:8000
+uvicorn sobatpaws.api.main:app --reload --app-dir src
 ```
 
 ### f) Retraining dari input dokter
 ```bash
 python -m sobatpaws.ml.retrain
 python -m sobatpaws.ml.retrain --category cat
-curl -X POST http://localhost:8000/learning/retrain -H 'Content-Type: application/json' -d '{"category":"cat"}'
+curl -X POST http://localhost:8000/learning/retrain \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-Key: YOUR_ADMIN_KEY' \
+  -d '{"category":"cat"}'
 ```
 
 ### g) Learning store ke PostgreSQL (opsional)
@@ -266,17 +285,97 @@ python -m sobatpaws.ai.learning_store --sync-db
 
 ### h) Export dataset ke Excel
 ```bash
-pip install openpyxl   # sudah ada di requirements.txt
 python3 scripts/generate_all.py          # generate CSV dulu (jika belum)
 python3 scripts/export_excel.py          # full export → data/excel/
-python3 scripts/export_excel.py --sample-only      # cepat: ringkasan + masters
-python3 scripts/export_excel.py --learning-only    # konsultasi + gold rows dokter
+python3 scripts/export_excel.py --sample-only
+python3 scripts/export_excel.py --learning-only
 # Unduh via API: GET /exports/excel  →  GET /exports/excel/Sobatpaws_08_Learning.xlsx
+```
+
+### i) Resample dataset bulk (500K baris)
+```bash
+python3 scripts/resample_dataset_500k.py
+# Output: data/generated/Dataset_Kesehatan_Hewan_500K_Rows.csv
+```
+
+### j) Build index jurnal riset
+```bash
+python3 scripts/build_journal_index.py   # → docs/jurnal/INDEX.md
 ```
 
 ---
 
-## 6. Pipeline ML
+## 6. API Endpoints
+
+Dokumentasi lengkap: [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)
+
+### Core (`main.py`)
+
+| Method | Path | Auth | Deskripsi |
+|--------|------|------|-----------|
+| GET | `/health` | — | Status sistem (KB, LLM, learning store) |
+| GET | `/api/status` | — | Status detail backend, AI, ML, DB |
+| GET | `/categories`, `/breeds/{slug}`, `/diseases/{slug}` | — | Master data knowledge base |
+| GET | `/api/stats/breakdown`, `/api/stats/breeds`, `/api/symptoms` | — | Statistik & lookup gejala |
+| POST | `/api/consult` | Vet | Single-shot consult (teks/gejala → saran AI) |
+| POST | `/ml/predict` | — | Prediksi cepat symptom → disease |
+| POST | `/consultations` | Vet | Mulai sesi konsultasi multimodal |
+| POST | `/consultations/{id}/turns` | Vet | Giliran lanjutan (gejala kumulatif) |
+| POST | `/consultations/{id}/media` | Vet | Upload audio (mic) / gambar (kamera) |
+| POST | `/consultations/{id}/doctor-input` | Vet | Simpan keputusan dokter |
+| POST | `/consultations/{id}/feedback` | Vet | Penilaian dokter atas saran AI |
+| GET | `/learning/export`, `/learning/stats` | — | Ekspor gold labels & statistik |
+| POST | `/learning/retrain`, `/learning/sync-db` | Admin | Retrain ML & sync ke PostgreSQL |
+| POST | `/api/dataset/upload` | — | Upload dataset CSV |
+| GET | `/exports/excel`, `/exports/excel/{filename}` | — | Unduh workbook Excel |
+
+### Integrasi Vet App (`/api/integration`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/manifest` | Kontrak integrasi untuk tim developer app |
+| GET | `/id-schema` | Skema ID entitas (vet, owner, pet, case) |
+| GET | `/entities/{consultation_id}` | Lookup bundle ID entitas |
+| GET | `/consultations/by-external/{external_id}` | Lookup by ID eksternal |
+| GET | `/consultations` | Filter konsultasi by vet/pet/owner |
+| GET | `/capabilities` | Fitur yang tersedia |
+
+### Smart Data Platform (`/api/platform`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/manifest` | Kontrak agent-friendly |
+| GET | `/doctor` | Health check pipeline |
+| GET | `/registry` | Lineage registry |
+| GET | `/pipeline` | Daftar step pipeline |
+| POST | `/pipeline/run` | Jalankan pipeline (Admin) |
+
+### AI Agent (`/api/agent`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/providers`, `/providers/status` | Daftar & status provider LLM |
+| POST | `/providers/{id}/activate` | Aktifkan provider (Admin) |
+| GET | `/conversations`, `/suggestions` | Riwayat sesi & saran AI |
+| POST | `/conversations/{id}/doctor-input` | Input dokter via agent API |
+
+### Admin Dashboard (`/api/admin`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/overview` | Ringkasan sistem |
+| GET | `/ai/usage` | Penggunaan token LLM |
+| GET | `/learning/events` | Event pembelajaran |
+| GET | `/integration/status` | Status integrasi |
+
+### Autentikasi
+
+Endpoint bertanda **Vet** membutuhkan header `X-API-Key` dengan `SOBATPAWS_VET_API_KEY`.
+Endpoint **Admin** membutuhkan `SOBATPAWS_ADMIN_API_KEY`.
+
+---
+
+## 7. Pipeline ML
 
 - **`ml/dataset_builder.py`** — membangun dataset `symptom → disease`. Strategi
   *cold-start*: membangkitkan sampel sintetis dari bobot frekuensi gejala di KB,
@@ -302,9 +401,9 @@ Komponen: `ai/learning_store.py`, `ai/consultation.py`, `ml/retrain.py`.
 
 ---
 
-## 7. AI Wrapping
+## 8. AI Wrapping
 
-- **`ai/wrapper.py`** — `LLMClient` provider-agnostic (OpenAI / Anthropic /
+- **`ai/wrapper.py`** — `LLMClient` provider-agnostic (OpenAI / Anthropic / local Ollama /
   mode `mock` tanpa kunci). Mencatat token, biaya, latensi (selaras `ai_requests`).
 - **`ai/prompts.py`** — template prompt terversi (selaras `ai_prompt_templates`).
 - **`ai/schemas.py`** — output **terstruktur** (Pydantic) → `ai_suggestions`.
@@ -315,6 +414,9 @@ Komponen: `ai/learning_store.py`, `ai/consultation.py`, `ml/retrain.py`.
   - 🐱 Kucing: **paracetamol, permethrin, ibuprofen = FATAL**.
   - 🐰 Kelinci & 🐹 rodensia & 🐹 marmut: **penicillin/amoxicillin/clindamycin oral = fatal**.
   - 🐶 Anjing: **xylitol toksik**.
+
+Provider LLM didukung via env: `local` (Ollama), `openai`, `anthropic` — dengan fallback chain
+(`SOBATPAWS_AI_FALLBACK_CHAIN=local,openai,anthropic`).
 
 Tanpa kunci API, engine tetap berfungsi penuh dalam **mode rule-based**
 (ML + KB), sehingga aman untuk pengembangan/offline.
@@ -334,26 +436,54 @@ for h in resp.suggested_diseases: print(h.name_id, h.confidence)
 
 ---
 
-## 8. Dukungan untuk tiap pengguna
+## 9. Testing
+
+```bash
+# Semua test
+pytest tests/ -v
+
+# Integration tests (API endpoints)
+pytest tests/test_api_integration.py -v
+
+# Unit tests (session store, consultation service)
+pytest tests/test_session_store_unit.py tests/test_consultation_service.py -v
+```
+
+Test menggunakan `conftest.py` dengan fixture FastAPI TestClient dan isolasi session store.
+
+---
+
+## 10. Dukungan untuk tiap pengguna
 
 | Pengguna | Manfaat |
 |---|---|
 | **Dokter hewan / klinik** | Triage darurat, diagnosa banding, langkah pemeriksaan & tindakan, panduan dosis dengan guardrail keselamatan. |
 | **Petshop** | Edukasi ras & penyakit umum, rekomendasi produk (suplemen/antiparasit/pakan resep), peramalan permintaan stok. |
+| **Tim integrasi app** | Manifest API, skema ID entitas, Postman collection, contoh request/response siap pakai. |
 | **Data/ML engineer** | Skema siap-pakai, feature store, dataset builder, registry model & prediksi, loop feedback. |
 
 ---
 
-## 9. Roadmap singkat
-- [ ] Tambah data ras & penyakit (target ratusan penyakit per spesies).
-- [ ] Model triage-severity & treatment-recommendation.
-- [ ] Embedding + vector search untuk RAG literatur.
-- [ ] Integrasi gambar (klasifikasi lesi kulit / identifikasi ras).
-- [ ] Modul peramalan permintaan inventory petshop.
+## 11. Roadmap
+
+- [x] REST API FastAPI dengan konsultasi multimodal
+- [x] ML pipeline (RandomForest per spesies, 10 model)
+- [x] Integration endpoints untuk app vet eksternal
+- [x] Smart Data Platform + AGENTS.md
+- [x] Docker Compose production stack
+- [x] API documentation + Postman collection
+- [x] Jurnal riset perhewanan (130+ ras terdokumentasi)
+- [x] Integration tests
+- [ ] Perluas KB penyakit (target ratusan per spesies)
+- [ ] Model triage-severity & treatment-recommendation
+- [ ] Embedding + vector search untuk RAG literatur
+- [ ] Integrasi gambar (klasifikasi lesi kulit / identifikasi ras)
+- [ ] Modul peramalan permintaan inventory petshop
 
 ---
 
-## 10. Lisensi & etika data
+## 12. Lisensi & etika data
+
 Data kurasi bersifat edukatif. Saat menambah data klinis nyata, lakukan
 **anonimisasi** (`clinical_cases.is_anonymized`) dan patuhi regulasi privasi.
 Penyakit unggas menular tertentu (mis. ND/AI) **wajib dilaporkan** ke dinas
@@ -361,7 +491,7 @@ peternakan setempat.
 
 ---
 
-## 11. Deployment (Production)
+## 13. Deployment (Production)
 
 ### Architecture
 
@@ -379,7 +509,7 @@ peternakan setempat.
 │         ▼                                                │
 │  ┌──────────────┐                                        │
 │  │  host.docker │  (Ollama / vLLM for local inference)   │
-│  │  .internal   │                                        │
+│  │  .internal   │  extra_hosts + OLLAMA_HOST=0.0.0.0    │
 │  └──────────────┘                                        │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -388,27 +518,41 @@ peternakan setempat.
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Multi-stage build (builder + runtime slim image) |
-| `docker-compose.prod.yml` | Production stack: API + PostgreSQL + pgAdmin (debug) |
+| `Dockerfile` | Multi-stage build (builder + runtime slim image, uid 1000) |
+| `docker-compose.prod.yml` | Production stack: API + PostgreSQL + pgAdmin (debug profile) |
 | `.env.production` | Environment variable template (copy to `.env`) |
 | `docs/deployment.md` | Full deployment guide (build, seed, backup, rollback) |
 
 ### Quick Start
 
 ```bash
-# 1. Copy env template and fill secrets
+# 1. Clone repo
+git clone https://github.com/winspaws/Sobatpaws-ai.git
+cd Sobatpaws-ai
+
+# 2. Copy env template and fill secrets
 cp .env.production .env
 # Edit .env — set API keys, passwords, etc.
 
-# 2. Build and start
+# 3. Build and start
 docker compose -f docker-compose.prod.yml up -d
 
-# 3. Verify health
+# 4. Verify health
 curl http://localhost:8080/health
 
-# 4. Check logs
+# 5. Check logs
 docker compose -f docker-compose.prod.yml logs -f api
 ```
+
+### Production Notes
+
+| Item | Detail |
+|------|--------|
+| **Port mapping** | Host `:8080` → container `:8000` |
+| **Ollama access** | `extra_hosts: host.docker.internal:host-gateway` + Ollama bind `0.0.0.0:11434` |
+| **httpx pin** | `httpx<0.28` di `requirements.txt` (kompatibilitas openai SDK 1.30.1) |
+| **LLM fallback** | `SOBATPAWS_AI_FALLBACK_CHAIN=local,openai,anthropic` |
+| **pgAdmin** | Hanya jalan dengan profile debug: `docker compose --profile debug up -d` |
 
 ### Resource Limits
 
@@ -418,7 +562,7 @@ docker compose -f docker-compose.prod.yml logs -f api
 | PostgreSQL | 1.0 core | 1 GB |
 | pgAdmin (debug) | — | 256 MB |
 
-ML inference (RandomForest) is CPU-bound. Expect ~100-500ms per prediction.
+ML inference (RandomForest) is CPU-bound. Expect ~100–500 ms per prediction.
 
 ### Health Check
 
@@ -434,7 +578,7 @@ docker inspect --format='{{.State.Health.Status}}' sobatpaws-api
 
 ### Full Guide
 
-See `docs/deployment.md` for detailed instructions covering:
+See [`docs/deployment.md`](docs/deployment.md) for detailed instructions covering:
 - Build & deploy steps
 - Database seeding (first deploy)
 - ML model training
