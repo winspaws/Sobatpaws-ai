@@ -50,6 +50,7 @@ COPY src/ ./src/
 COPY scripts/ ./scripts/
 COPY web/ ./web/
 COPY data/ ./data/
+COPY dbml/ ./dbml/
 COPY requirements.txt .
 
 # Create writable directories for runtime artifacts and fix permissions

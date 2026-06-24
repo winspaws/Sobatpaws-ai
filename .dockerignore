@@ -40,7 +40,6 @@ tests/
 
 # Docs
 docs/
-dbml/
-# scripts/ — needed for pipeline steps (generate, build_ml_views, etc.)
+# dbml/ — needed for validate_dataset.py pipeline step
 *.md
 *.log
