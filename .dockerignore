@@ -41,6 +41,6 @@ tests/
 # Docs
 docs/
 dbml/
-scripts/
+# scripts/ — needed for pipeline steps (generate, build_ml_views, etc.)
 *.md
 *.log
