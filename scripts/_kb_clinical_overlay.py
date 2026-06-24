@@ -6,8 +6,7 @@ Regenerate:
 
 # kb_diseases=30 added=19 already_in_catalog=11
 
-KB_CLINICAL_OVERLAY = 
-{
+KB_CLINICAL_OVERLAY = {
   "cat": [
     {
       "slug": "cat-fpv-panleukopenia",
