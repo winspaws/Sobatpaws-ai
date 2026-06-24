@@ -47,6 +47,7 @@ COPY --from=builder /root/.local/bin /usr/local/bin
 
 # Copy application source code
 COPY src/ ./src/
+COPY scripts/ ./scripts/
 COPY web/ ./web/
 COPY data/ ./data/
 COPY requirements.txt .
