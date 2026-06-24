@@ -104,8 +104,11 @@ def write_overlay(overlay: dict[str, list[dict]], stats: dict[str, int]) -> None
         f"# kb_diseases={stats['kb_diseases']} added={stats['added']} "
         f"already_in_catalog={stats['already_in_catalog']}",
         "",
-        "KB_CLINICAL_OVERLAY = ",
-        json.dumps(overlay, ensure_ascii=False, indent=2),
+        "KB_CLINICAL_OVERLAY = " +
+        json.dumps(overlay, ensure_ascii=False, indent=2)
+        .replace(": true", ": True")
+        .replace(": false", ": False")
+        .replace(": null", ": None"),
         "",
     ]
     OUT.write_text("\n".join(lines), encoding="utf-8")
