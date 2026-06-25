@@ -1,12 +1,12 @@
-# 🐾 Sobatpaws — Veterinary Backend AI Services
+# 🐾 Ekosistem Satwa — Veterinary Backend AI Services
 
 **Backend AI Services** untuk dokter hewan — REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
-**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `0.3.0`
+**Repo:** [github.com/winspaws/Ekosistem Satwa-ai](https://github.com/winspaws/Ekosistem Satwa-ai) · **API version:** `0.3.0`
 
-> ⚠️ Sobatpaws **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
+> ⚠️ Ekosistem Satwa **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
 > Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
-> endpoint Sobatpaws untuk menerima input customer dan menampilkan saran AI ke dokter.
+> endpoint Ekosistem Satwa untuk menerima input customer dan menampilkan saran AI ke dokter.
 
 Mendukung **dokter hewan (vets), klinik hewan, dan petshop** dalam mengolah & menganalisa
 data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
@@ -26,9 +26,10 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 | ReDoc | `/redoc` |
 | API Documentation | [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md) |
 | Request/Response Examples | [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md) |
-| Postman Collection | [`docs/Sobatpaws_API.postman_collection.json`](docs/Sobatpaws_API.postman_collection.json) |
+| Postman Collection | [`docs/EkosistemSatwa_API.postman_collection.json`](docs/EkosistemSatwa_API.postman_collection.json) |
 | Deployment Guide | [`docs/deployment.md`](docs/deployment.md) |
 | AI Agent Guide | [`AGENTS.md`](AGENTS.md) |
+| **Pawnia AI Companion** | [`PAWNIA.md`](PAWNIA.md) — Soul, Role & Architecture |
 | Jurnal Perhewanan | [`docs/jurnal/INDEX.md`](docs/jurnal/INDEX.md) |
 
 ---
@@ -39,10 +40,10 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 |---|---|---|
 | **Skema Data** | 5 domain (taxonomy, clinical, operational, ML, AI) dalam DBML | `dbml/schema.dbml` |
 | **Sumber Data** | Kategori spesies, ras + varian + traits, penyakit + gejala + diagnosa + tindakan + produk | `data/` |
-| **Seed SQL** | Generator JSON → PostgreSQL INSERT | `src/sobatpaws/seed_generator.py` → `seed/seed.sql` |
-| **Pembelajaran (ML)** | Dataset builder, feature engineering, training, inference | `src/sobatpaws/ml/` |
-| **Smart Data Platform** | Orkestrator pipeline, doctor, registry lineage (agent-friendly) | `src/sobatpaws/platform/` + `AGENTS.md` |
-| **API** | REST (FastAPI v0.3.0): data, ML, AI, konsultasi, integrasi, platform, admin | `src/sobatpaws/api/` |
+| **Seed SQL** | Generator JSON → PostgreSQL INSERT | `src/ekosistem_satwa/seed_generator.py` → `seed/seed.sql` |
+| **Pembelajaran (ML)** | Dataset builder, feature engineering, training, inference | `src/ekosistem_satwa/ml/` |
+| **Smart Data Platform** | Orkestrator pipeline, doctor, registry lineage (agent-friendly) | `src/ekosistem_satwa/platform/` + `AGENTS.md` |
+| **API** | REST (FastAPI v0.3.0): data, ML, AI, konsultasi, integrasi, platform, admin | `src/ekosistem_satwa/api/` |
 | **Dokumentasi Integrasi** | API reference, contoh request/response, Postman | `docs/` |
 | **Riset & Jurnal** | Monograf spesies, ras, penyakit (130+ ras terdokumentasi) | `docs/jurnal/` |
 
@@ -74,7 +75,7 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
                          │ REST API / JSON
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  SOBATPAWS BACKEND API (FastAPI 0.3.0)                   │
+│  EKOSISTEM SATWA BACKEND API (FastAPI 0.3.0)                   │
 │                                                          │
 │  ┌──────────────────────────────────────────────────┐    │
 │  │              KNOWLEDGE BASE (JSON)               │    │
@@ -134,9 +135,9 @@ Mode **`smart`** melewati LLM bila ML + KB sudah yakin (hemat token).
 ```
 
 ```bash
-python -m sobatpaws.platform.doctor              # cek kesehatan sistem
-python -m sobatpaws.platform.pipeline --preset ml_ready
-python -m sobatpaws.platform.registry --refresh
+python -m ekosistem_satwa.platform.doctor              # cek kesehatan sistem
+python -m ekosistem_satwa.platform.pipeline --preset ml_ready
+python -m ekosistem_satwa.platform.registry --refresh
 ```
 
 Lihat **AGENTS.md** untuk panduan lengkap AI agent.
@@ -229,27 +230,27 @@ export PYTHONPATH=src
 
 ### a) Validasi data & lihat statistik
 ```bash
-python -m sobatpaws.data_loader
+python -m ekosistem_satwa.data_loader
 # → categories: 10, breeds: 177, diseases: 44, unique_symptoms: 207
 ```
 
 ### b) Generate seed SQL & muat ke DB
 ```bash
-python -m sobatpaws.seed_generator           # → seed/seed.sql
+python -m ekosistem_satwa.seed_generator           # → seed/seed.sql
 psql "$DATABASE_URL" -f seed/schema.sql       # buat tabel
 psql "$DATABASE_URL" -f seed/seed.sql         # isi data
 ```
 
 ### c) Latih model ML (symptom → disease)
 ```bash
-python -m sobatpaws.ml.train                 # semua kategori (10 model)
-python -m sobatpaws.ml.train --category dog  # satu kategori
+python -m ekosistem_satwa.ml.train                 # semua kategori (10 model)
+python -m ekosistem_satwa.ml.train --category dog  # satu kategori
 ```
 Artefak tersimpan di `artifacts/models/`.
 
 ### d) Prediksi cepat
 ```bash
-python -m sobatpaws.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
+python -m ekosistem_satwa.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
 # → dog-parvovirus (0.94), ...
 ```
 
@@ -263,13 +264,13 @@ python -m sobatpaws.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
 
 Atau manual:
 ```bash
-uvicorn sobatpaws.api.main:app --reload --app-dir src
+uvicorn ekosistem_satwa.api.main:app --reload --app-dir src
 ```
 
 ### f) Retraining dari input dokter
 ```bash
-python -m sobatpaws.ml.retrain
-python -m sobatpaws.ml.retrain --category cat
+python -m ekosistem_satwa.ml.retrain
+python -m ekosistem_satwa.ml.retrain --category cat
 curl -X POST http://localhost:8000/learning/retrain \
   -H 'Content-Type: application/json' \
   -H 'X-API-Key: YOUR_ADMIN_KEY' \
@@ -279,8 +280,8 @@ curl -X POST http://localhost:8000/learning/retrain \
 ### g) Learning store ke PostgreSQL (opsional)
 ```bash
 psql "$DATABASE_URL" -f seed/learning.sql
-export SOBATPAWS_LEARNING_BACKEND=both
-python -m sobatpaws.ai.learning_store --sync-db
+export EKOSISTEM_SATWA_LEARNING_BACKEND=both
+python -m ekosistem_satwa.ai.learning_store --sync-db
 ```
 
 ### h) Export dataset ke Excel
@@ -289,7 +290,7 @@ python3 scripts/generate_all.py          # generate CSV dulu (jika belum)
 python3 scripts/export_excel.py          # full export → data/excel/
 python3 scripts/export_excel.py --sample-only
 python3 scripts/export_excel.py --learning-only
-# Unduh via API: GET /exports/excel  →  GET /exports/excel/Sobatpaws_08_Learning.xlsx
+# Unduh via API: GET /exports/excel  →  GET /exports/excel/EkosistemSatwa_08_Learning.xlsx
 ```
 
 ### i) Resample dataset bulk (500K baris)
@@ -370,8 +371,8 @@ Dokumentasi lengkap: [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)
 
 ### Autentikasi
 
-Endpoint bertanda **Vet** membutuhkan header `X-API-Key` dengan `SOBATPAWS_VET_API_KEY`.
-Endpoint **Admin** membutuhkan `SOBATPAWS_ADMIN_API_KEY`.
+Endpoint bertanda **Vet** membutuhkan header `X-API-Key` dengan `EKOSISTEM_SATWA_VET_API_KEY`.
+Endpoint **Admin** membutuhkan `EKOSISTEM_SATWA_ADMIN_API_KEY`.
 
 ---
 
@@ -416,15 +417,15 @@ Komponen: `ai/learning_store.py`, `ai/consultation.py`, `ml/retrain.py`.
   - 🐶 Anjing: **xylitol toksik**.
 
 Provider LLM didukung via env: `local` (Ollama), `openai`, `anthropic` — dengan fallback chain
-(`SOBATPAWS_AI_FALLBACK_CHAIN=local,openai,anthropic`).
+(`EKOSISTEM_SATWA_AI_FALLBACK_CHAIN=local,openai,anthropic`).
 
 Tanpa kunci API, engine tetap berfungsi penuh dalam **mode rule-based**
 (ML + KB), sehingga aman untuk pengembangan/offline.
 
 Contoh penggunaan:
 ```python
-from sobatpaws.ai.schemas import SuggestionRequest
-from sobatpaws.ai.suggestion_engine import suggest
+from ekosistem_satwa.ai.schemas import SuggestionRequest
+from ekosistem_satwa.ai.suggestion_engine import suggest
 
 resp = suggest(SuggestionRequest(
     category_slug="dog", breed_slug="dog-rottweiler", age_years=0.4,
@@ -500,7 +501,7 @@ peternakan setempat.
 │                     Docker Host                          │
 │                                                          │
 │  ┌──────────────┐    ┌──────────────┐    ┌────────────┐ │
-│  │  sobatpaws-  │    │  sobatpaws-  │    │ sobatpaws- │ │
+│  │  ekosistem-satwa-  │    │  ekosistem-satwa-  │    │ ekosistem-satwa- │ │
 │  │  api         │───▶│  db          │    │ pgadmin    │ │
 │  │  (port 8080) │    │  (port 5432) │    │ (port 5050)│ │
 │  │              │    │              │    │ (debug)    │ │
@@ -527,8 +528,8 @@ peternakan setempat.
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/winspaws/Sobatpaws-ai.git
-cd Sobatpaws-ai
+git clone https://github.com/winspaws/Ekosistem Satwa-ai.git
+cd Ekosistem Satwa-ai
 
 # 2. Copy env template and fill secrets
 cp .env.production .env
@@ -551,7 +552,7 @@ docker compose -f docker-compose.prod.yml logs -f api
 | **Port mapping** | Host `:8080` → container `:8000` |
 | **Ollama access** | `extra_hosts: host.docker.internal:host-gateway` + Ollama bind `0.0.0.0:11434` |
 | **httpx pin** | `httpx<0.28` di `requirements.txt` (kompatibilitas openai SDK 1.30.1) |
-| **LLM fallback** | `SOBATPAWS_AI_FALLBACK_CHAIN=local,openai,anthropic` |
+| **LLM fallback** | `EKOSISTEM_SATWA_AI_FALLBACK_CHAIN=local,openai,anthropic` |
 | **pgAdmin** | Hanya jalan dengan profile debug: `docker compose --profile debug up -d` |
 
 ### Resource Limits
@@ -573,7 +574,7 @@ curl http://localhost:8080/health
 
 Container-level HEALTHCHECK runs every 30s:
 ```bash
-docker inspect --format='{{.State.Health.Status}}' sobatpaws-api
+docker inspect --format='{{.State.Health.Status}}' ekosistem-satwa-api
 ```
 
 ### Full Guide
