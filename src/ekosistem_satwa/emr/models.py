@@ -67,7 +67,7 @@ class User(Base):
         String(60), nullable=False, default="pet_owner",
         comment="pet_owner | vet | clinic_staff | admin",
     )
-    preferences: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    preferences: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSON, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
@@ -189,15 +189,15 @@ class PetProfile(Base):
         String(80), comment="nomor microchip",
     )
     allergies: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="daftar alergi",
+        JSON, nullable=True, comment="daftar alergi",
     )
     chronic_conditions: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="daftar kondisi medis kronis",
+        JSON, nullable=True, comment="daftar kondisi medis kronis",
     )
     blood_type: Mapped[Optional[str]] = mapped_column(String(40))
     insurance_policy: Mapped[Optional[str]] = mapped_column(String(120))
     emergency_contact: Mapped[Optional[str]] = mapped_column(String(200))
-    additional_info: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    additional_info: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
     )
@@ -229,13 +229,13 @@ class EMRRecord(Base):
         Text, comment="diagnosa utama (free text)",
     )
     diagnosis_codes: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="kode ICD/penyakit terstruktur",
+        JSON, nullable=True, comment="kode ICD/penyakit terstruktur",
     )
     symptoms: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="gejala yang diamati",
+        JSON, nullable=True, comment="gejala yang diamati",
     )
     physical_exam: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="pemeriksaan fisik: temperature, heart_rate, resp_rate, weight, dll",
     )
     notes: Mapped[Optional[str]] = mapped_column(
@@ -248,10 +248,10 @@ class EMRRecord(Base):
     clinic_id: Mapped[Optional[str]] = mapped_column(String(80), comment="ID klinik")
     clinic_name: Mapped[Optional[str]] = mapped_column(String(200))
     procedures: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="tindakan yang dilakukan",
+        JSON, nullable=True, comment="tindakan yang dilakukan",
     )
     attachments: Mapped[Optional[List[Dict[str, Any]]]] = mapped_column(
-        JSONB, nullable=True, comment="lampiran: foto, lab result, dokumen",
+        JSON, nullable=True, comment="lampiran: foto, lab result, dokumen",
     )
     is_urgent: Mapped[bool] = mapped_column(Boolean, default=False)
     status: Mapped[str] = mapped_column(
@@ -447,29 +447,29 @@ class Consultation(Base):
     )
     chief_complaint: Mapped[Optional[str]] = mapped_column(Text)
     symptoms_reported: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="daftar gejala yang dilaporkan",
+        JSON, nullable=True, comment="daftar gejala yang dilaporkan",
     )
     vitals: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True, comment="tanda-tanda vital: temperature, heart_rate, dll",
+        JSON, nullable=True, comment="tanda-tanda vital: temperature, heart_rate, dll",
     )
     suggested_diseases: Mapped[Optional[List[Dict[str, Any]]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="daftar penyakit yang disarankan AI dengan confidence dan rationale",
     )
     suggested_diagnostics: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="pemeriksaan yang disarankan",
+        JSON, nullable=True, comment="pemeriksaan yang disarankan",
     )
     suggested_treatments: Mapped[Optional[List[Dict[str, Any]]]] = mapped_column(
-        JSONB, nullable=True, comment="tindakan pengobatan yang disarankan",
+        JSON, nullable=True, comment="tindakan pengobatan yang disarankan",
     )
     summary: Mapped[Optional[str]] = mapped_column(
         Text, comment="ringkasan konsultasi dari AI",
     )
     red_flags: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="tanda bahaya yang terdeteksi",
+        JSON, nullable=True, comment="tanda bahaya yang terdeteksi",
     )
     safety_warnings: Mapped[Optional[List[str]]] = mapped_column(
-        JSONB, nullable=True, comment="peringatan keamanan",
+        JSON, nullable=True, comment="peringatan keamanan",
     )
     disclaimer: Mapped[str] = mapped_column(
         String(500),
@@ -478,7 +478,7 @@ class Consultation(Base):
     escalated_to_vet: Mapped[bool] = mapped_column(Boolean, default=False)
     escalation_reason: Mapped[Optional[str]] = mapped_column(Text)
     doctor_feedback: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True, comment="feedback dari dokter jika ada",
+        JSON, nullable=True, comment="feedback dari dokter jika ada",
     )
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
@@ -539,7 +539,7 @@ class ConversationThread(Base):
     )
     ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     message_count: Mapped[int] = mapped_column(Integer, default=0)
-    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
     )
@@ -598,10 +598,10 @@ class ConversationMessage(Base):
         String(80), comment="intent yang terdeteksi: symptom_report | question | follow_up",
     )
     entities: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True, comment="entitas yang diekstrak: gejala, durasi, dll",
+        JSON, nullable=True, comment="entitas yang diekstrak: gejala, durasi, dll",
     )
     extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="metadata tambahan: token usage, latency, provider info, tool calls",
     )
     tokens_used: Mapped[Optional[int]] = mapped_column(
@@ -661,7 +661,7 @@ class AIMemory(Base):
         comment="nilai/isi memori",
     )
     value_json: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="nilai terstruktur jika memori berupa data kompleks",
     )
     source: Mapped[Optional[str]] = mapped_column(
@@ -740,7 +740,7 @@ class Recommendation(Base):
         String(80), comment="kode alasan untuk filtering: breed_risk | age_related | season",
     )
     details: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="detail tambahan rekomendasi",
     )
     score: Mapped[float] = mapped_column(
@@ -763,7 +763,7 @@ class Recommendation(Base):
     consultation_id: Mapped[Optional[int]] = mapped_column(
         Integer, ForeignKey("consultations.id"), nullable=True,
     )
-    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSON, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
@@ -811,7 +811,7 @@ class Notification(Base):
         String(80), comment="ID template notifikasi",
     )
     data: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="data untuk deep linking / action buttons",
     )
     scheduled_at: Mapped[datetime] = mapped_column(
@@ -832,7 +832,7 @@ class Notification(Base):
     recommendation_id: Mapped[Optional[int]] = mapped_column(
         Integer, ForeignKey("recommendations.id"), nullable=True,
     )
-    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, default=utcnow,
     )
@@ -898,15 +898,15 @@ class AuditLog(Base):
         String(80), comment="ID resource yang diakses",
     )
     old_values: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="nilai sebelum perubahan (untuk update/delete)",
     )
     new_values: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="nilai setelah perubahan (untuk create/update)",
     )
     extra_metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True,
+        JSON, nullable=True,
         comment="metadata tambahan: query params, request body (yang sensitif di-hash)",
     )
     description: Mapped[Optional[str]] = mapped_column(

@@ -80,6 +80,7 @@ class AgentStore:
         consultation_id: str,
         context: ConsultationContext,
         title: str | None = None,
+        status: str = "active",
     ) -> dict[str, Any]:
         return self._append("conversation", {
             "consultation_id": consultation_id,
@@ -93,6 +94,7 @@ class AgentStore:
             "external_consultation_id": context.external_consultation_id,
             "external_refs": context.external_refs,
             "title": title or f"Konsultasi {consultation_id[:8]}",
+            "status": status,
             "context": context.model_dump(mode="json"),
         })
 
@@ -231,6 +233,143 @@ class AgentStore:
 
     def list_conversations(self, limit: int = 30) -> list[dict]:
         return self._read("conversation", limit=limit)
+
+    def get_conversation_with_status(self, consultation_id: str) -> dict | None:
+        """Get conversation with resolved latest status (handles status_update events)."""
+        rows = [r for r in self._read("conversation", limit=10000)
+                if r.get("consultation_id") == consultation_id]
+        if not rows:
+            return None
+
+        # Find base record (not a status_update event)
+        base = None
+        latest_status = None
+        latest_status_time = None
+
+        for row in rows:
+            if row.get("_event") == "status_update":
+                # This is a status update event
+                created = row.get("created_at", "")
+                if latest_status_time is None or created > latest_status_time:
+                    latest_status = row.get("status")
+                    latest_status_time = created
+            elif base is None:
+                base = row
+
+        if base is None:
+            base = rows[0]
+
+        # Apply latest status
+        result = dict(base)
+        if latest_status:
+            result["status"] = latest_status
+            result["status_updated_at"] = latest_status_time
+        if "status" not in result:
+            result["status"] = "active"
+
+        return result
+
+    def update_conversation_status(
+        self, consultation_id: str, status: str
+    ) -> dict[str, Any] | None:
+        """Update conversation status (append-only pattern)."""
+        conv = self.get_conversation(consultation_id)
+        if not conv:
+            return None
+
+        # Append status update event (like review_suggestion pattern)
+        return self._append("conversation", {
+            **{k: v for k, v in conv.items() if k != "id"},
+            "consultation_id": consultation_id,
+            "status": status,
+            "status_updated_at": _now_iso(),
+            "_event": "status_update",
+        })
+
+    def list_messages_paginated(
+        self, consultation_id: str, limit: int = 50, offset: int = 0
+    ) -> tuple[list[dict], int]:
+        """List messages with pagination. Returns (messages, total_count)."""
+        rows = self._read("message", limit=10000)
+        msgs = [r for r in rows if r.get("consultation_id") == consultation_id]
+        msgs.sort(key=lambda x: x.get("created_at", ""))
+        total = len(msgs)
+        # Apply pagination
+        if offset >= total:
+            return [], total
+        end = offset + limit
+        return msgs[offset:end], total
+
+    def list_conversations_filtered(
+        self,
+        status: str | None = None,
+        vet_id: int | None = None,
+        owner_id: int | None = None,
+        pet_id: int | None = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> tuple[list[dict], int]:
+        """List conversations with filters and pagination."""
+        # First get all conversations, then deduplicate by consultation_id
+        # and resolve their latest status
+        all_rows = self._read("conversation", limit=10000)
+
+        # Group by consultation_id
+        by_cid: dict[str, list[dict]] = {}
+        for row in all_rows:
+            cid = row.get("consultation_id")
+            if cid:
+                if cid not in by_cid:
+                    by_cid[cid] = []
+                by_cid[cid].append(row)
+
+        # Resolve each conversation with latest status
+        resolved: list[dict] = []
+        for cid, rows in by_cid.items():
+            # Get base and resolve status
+            base = None
+            latest_status = None
+            latest_status_time = None
+
+            for row in rows:
+                if row.get("_event") == "status_update":
+                    created = row.get("created_at", "")
+                    if latest_status_time is None or created > latest_status_time:
+                        latest_status = row.get("status")
+                        latest_status_time = created
+                elif base is None:
+                    base = row
+
+            if base is None:
+                base = rows[0]
+
+            result = dict(base)
+            if latest_status:
+                result["status"] = latest_status
+                result["status_updated_at"] = latest_status_time
+            if "status" not in result:
+                result["status"] = "active"
+
+            # Apply filters
+            if status and result.get("status") != status:
+                continue
+            if vet_id is not None and result.get("vet_id") != vet_id:
+                continue
+            if owner_id is not None and result.get("owner_id") != owner_id:
+                continue
+            if pet_id is not None and result.get("pet_id") != pet_id:
+                continue
+
+            resolved.append(result)
+
+        # Sort by created_at descending (newest first)
+        resolved.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+
+        total = len(resolved)
+        if offset >= total:
+            return [], total
+        end = offset + limit
+        return resolved[offset:end], total
 
     def stats(self) -> dict[str, int]:
         counts = {}

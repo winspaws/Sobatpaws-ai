@@ -313,6 +313,44 @@ class AgentManager:
     def list_conversations(self, limit: int = 30) -> list[dict]:
         return self.store.list_conversations(limit)
 
+    def get_conversation_status(self, consultation_id: str) -> dict | None:
+        """Get conversation with resolved latest status."""
+        return self.store.get_conversation_with_status(consultation_id)
+
+    def update_conversation_status(
+        self, consultation_id: str, status: str
+    ) -> dict | None:
+        """Update session status (active, archived, closed)."""
+        valid_statuses = {"active", "archived", "closed"}
+        if status not in valid_statuses:
+            raise ValueError(f"Invalid status: {status}. Must be one of: {valid_statuses}")
+        return self.store.update_conversation_status(consultation_id, status)
+
+    def list_messages_paginated(
+        self, consultation_id: str, limit: int = 50, offset: int = 0
+    ) -> tuple[list[dict], int]:
+        """List messages with pagination. Returns (messages, total_count)."""
+        return self.store.list_messages_paginated(consultation_id, limit, offset)
+
+    def list_sessions_filtered(
+        self,
+        status: str | None = None,
+        vet_id: int | None = None,
+        owner_id: int | None = None,
+        pet_id: int | None = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> tuple[list[dict], int]:
+        """List sessions with filters and pagination."""
+        return self.store.list_conversations_filtered(
+            status=status,
+            vet_id=vet_id,
+            owner_id=owner_id,
+            pet_id=pet_id,
+            limit=limit,
+            offset=offset,
+        )
+
     def usage_summary(self) -> dict:
         from .telemetry import get_telemetry
 
