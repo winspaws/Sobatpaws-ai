@@ -34,7 +34,7 @@ router = APIRouter(prefix="/api/v1/ai", tags=["Pawnia AI Companion"])
 class ChatRequest(BaseModel):
     """Request to the Pawnia AI Companion chat endpoint."""
 
-    message: str = Field(..., min_length=1, max_length=5000, description="User message")
+    message: str = Field(default="", max_length=5000, description="User message (can be empty if has_image=true)")
     session_id: str | None = Field(
         default=None,
         description="Session/consultation ID for conversation continuity",
@@ -144,7 +144,7 @@ def pawnia_chat(
     }
     ```
     """
-    if not req.message.strip():
+    if not req.message.strip() and not req.has_image:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
     try:
