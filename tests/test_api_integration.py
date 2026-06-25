@@ -8,9 +8,9 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from sobatpaws.api.main import app
-from sobatpaws.ai.learning_store import LearningStore
-from sobatpaws.ai.schemas import (
+from ekosistem_satwa.api.main import app
+from ekosistem_satwa.ai.learning_store import LearningStore
+from ekosistem_satwa.ai.schemas import (
     ConsultationContext,
     ConsultationChannel,
     DoctorInput,
@@ -22,27 +22,27 @@ from sobatpaws.ai.schemas import (
 def reset_singletons():
     """Reset all singletons to ensure test isolation."""
     # Reset AgentManager singleton
-    import sobatpaws.ai.agent_manager as am
+    import ekosistem_satwa.ai.agent_manager as am
     am._agent = None
     
     # Reset AgentStore singleton
-    import sobatpaws.ai.agent_store as as_
+    import ekosistem_satwa.ai.agent_store as as_
     as_._store_singleton = None
     
     # Reset IdentityRegistry singleton
-    import sobatpaws.integration.identity as ii
+    import ekosistem_satwa.integration.identity as ii
     ii._registry = None
     
     # Reset SessionStore singleton
-    import sobatpaws.ai.session_store as ss
+    import ekosistem_satwa.ai.session_store as ss
     ss._store_singleton = None
     
     # Reset LearningStore singleton
-    import sobatpaws.ai.learning_store as ls
+    import ekosistem_satwa.ai.learning_store as ls
     ls._default_store = None
     
     # Clear lru_cache for deps
-    import sobatpaws.api.deps as deps
+    import ekosistem_satwa.api.deps as deps
     deps.get_service.cache_clear()
     deps.get_agent.cache_clear()
 
@@ -80,12 +80,12 @@ def client(temp_learning_dir):
     mock_llm.chat_json.return_value = None
     
     # Patch all relevant singletons and dependencies
-    with patch("sobatpaws.api.deps.LLMClient", return_value=mock_llm):
-        with patch("sobatpaws.ai.suggestion_engine.LLMClient", return_value=mock_llm):
-            with patch("sobatpaws.ai.consultation.LLMClient", return_value=mock_llm):
-                with patch("sobatpaws.ai.intake.LLMClient", return_value=mock_llm):
+    with patch("ekosistem_satwa.api.deps.LLMClient", return_value=mock_llm):
+        with patch("ekosistem_satwa.ai.suggestion_engine.LLMClient", return_value=mock_llm):
+            with patch("ekosistem_satwa.ai.consultation.LLMClient", return_value=mock_llm):
+                with patch("ekosistem_satwa.ai.intake.LLMClient", return_value=mock_llm):
                     # Mock AI settings to use never augmentation mode
-                    with patch("sobatpaws.ai.suggestion_engine.AISettings") as mock_settings:
+                    with patch("ekosistem_satwa.ai.suggestion_engine.AISettings") as mock_settings:
                         mock_settings_instance = MagicMock()
                         mock_settings_instance.augmentation_mode = "never"
                         mock_settings_instance.max_tokens = 800
@@ -434,4 +434,182 @@ class TestOpenAPIDocumentation:
         data = response.json()
         assert "paths" in data
         assert "info" in data
-        assert data["info"]["title"] == "Sobatpaws Veterinary ML & AI API"
+        assert data["info"]["title"] == "Ekosistem Satwa Veterinary ML & AI API"
+
+
+class TestIntegrationEndpoints:
+    """Test POST /api/integration/* endpoints for sync, lookup, entity-registry."""
+
+    def test_integration_health_endpoint(self, client):
+        """Test GET /api/integration/health (requires vet auth)."""
+        response = client.get("/api/integration/health")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "ok"
+        assert data["authenticated"] == True
+
+    def test_integration_sync_minimal(self, client):
+        """Test POST /api/integration/sync with minimal payload."""
+        response = client.post(
+            "/api/integration/sync",
+            json={
+                "external_consultation_id": "sync-test-001",
+                "vet_id": 99,
+                "owner_id": 888,
+                "pet_id": 7777,
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "synced"
+        assert data["external_consultation_id"] == "sync-test-001"
+        assert "entities" in data
+        assert data["entities"]["vet_id"] == 99
+        assert data["entities"]["owner_id"] == 888
+        assert data["entities"]["pet_id"] == 7777
+
+    def test_integration_sync_with_external_refs(self, client):
+        """Test POST /api/integration/sync with external_refs."""
+        response = client.post(
+            "/api/integration/sync",
+            json={
+                "external_consultation_id": "sync-test-002",
+                "vet_id": 1,
+                "owner_id": 100,
+                "pet_id": 200,
+                "case_id": 5000,
+                "external_refs": {
+                    "appointment_id": "APT-2025-0626-001",
+                    "invoice_id": "INV-12345",
+                },
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["entities"]["external_refs"]["appointment_id"] == "APT-2025-0626-001"
+        assert data["entities"]["case_id"] == 5000
+
+    def test_integration_sync_generates_id_when_missing(self, client):
+        """Test POST /api/integration/sync auto-generates consultation_id."""
+        response = client.post(
+            "/api/integration/sync",
+            json={
+                # No external_consultation_id, no consultation_id
+                "vet_id": 1,
+                "owner_id": 100,
+                "pet_id": 200,
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "consultation_id" in data
+        assert data["consultation_id"] is not None
+
+    def test_integration_entity_registry_empty(self, client):
+        """Test GET /api/integration/entity-registry returns empty list."""
+        response = client.get("/api/integration/entity-registry")
+        assert response.status_code == 200
+        data = response.json()
+        assert "count" in data
+        assert "registry" in data
+        assert isinstance(data["registry"], list)
+        assert "schema" in data
+
+    def test_integration_entity_registry_with_filter(self, client):
+        """Test GET /api/integration/entity-registry with query filters.
+        
+        First sync an entity, then verify we can query it back.
+        """
+        # First register an entity
+        sync_response = client.post(
+            "/api/integration/sync",
+            json={
+                "external_consultation_id": "registry-test-001",
+                "vet_id": 42,
+                "owner_id": 1042,
+                "pet_id": 2042,
+            },
+        )
+        assert sync_response.status_code == 200
+
+        # Query without filter
+        response = client.get("/api/integration/entity-registry")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["count"] >= 1
+
+        # Query with specific vet_id filter
+        filtered = client.get("/api/integration/entity-registry?vet_id=42")
+        assert filtered.status_code == 200
+        filtered_data = filtered.json()
+        assert any(r.get("vet_id") == 42 for r in filtered_data["registry"])
+
+    def test_integration_bulk_lookup(self, client):
+        """Test POST /api/integration/lookup for bulk entity lookup."""
+        # First register some entities
+        client.post(
+            "/api/integration/sync",
+            json={
+                "external_consultation_id": "lookup-test-A",
+                "vet_id": 1,
+                "owner_id": 100,
+                "pet_id": 200,
+            },
+        )
+        client.post(
+            "/api/integration/sync",
+            json={
+                "external_consultation_id": "lookup-test-B",
+                "vet_id": 2,
+                "owner_id": 200,
+                "pet_id": 400,
+            },
+        )
+
+        # Lookup by external IDs (one exists, one doesn't)
+        lookup_response = client.post(
+            "/api/integration/lookup",
+            json={
+                "external_consultation_ids": ["lookup-test-A", "lookup-test-NONEXISTENT"],
+            },
+        )
+        assert lookup_response.status_code == 200
+        data = lookup_response.json()
+        assert data["total"] == 2
+        assert data["found"] == 1
+        assert data["not_found_count"] == 1
+        assert "results" in data
+        assert data["results"]["lookup-test-A"] is not None
+        assert data["results"]["lookup-test-NONEXISTENT"] is None
+
+    def test_integration_lookup_empty_request(self, client):
+        """Test POST /api/integration/lookup with empty request (valid but returns nothing)."""
+        response = client.post(
+            "/api/integration/lookup",
+            json={
+                "external_consultation_ids": [],
+                "consultation_ids": [],
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["total"] == 0
+        assert data["found"] == 0
+
+    def test_integration_manifest_includes_new_endpoints(self, client):
+        """Verify manifest references sync, lookup, and entity-registry endpoints."""
+        response = client.get("/api/integration/manifest")
+        assert response.status_code == 200
+        data = response.json()
+        endpoints = data.get("endpoints", {})
+        assert "sync" in endpoints
+        assert "bulk_lookup" in endpoints
+        assert "entity_registry" in endpoints
+
+        # Verify integration_endpoints in capabilities response
+        cap_response = client.get("/api/integration/capabilities")
+        assert cap_response.status_code == 200
+        cap_data = cap_response.json()
+        assert "integration_endpoints" in cap_data
+        assert cap_data["features"].get("entity_sync") == True
+        assert cap_data["features"].get("bulk_lookup") == True

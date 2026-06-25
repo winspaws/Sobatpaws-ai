@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Export the generated Sobatpaws dataset to Excel (.xlsx).
+Export the generated Ekosistem Satwa dataset to Excel (.xlsx).
 
 Excel limits: max 1,048,576 rows per sheet (including header). Tables that
 exceed this are split across multiple sheets automatically.
 
 Output (default: data/excel/):
-  Sobatpaws_00_Summary.xlsx          ringkasan + manifest
-  Sobatpaws_01_Taxonomy.xlsx         kategori, ras, varian, traits
-  Sobatpaws_02_Clinical_Masters.xlsx penyakit, gejala, diagnosa, obat
-  Sobatpaws_03_Clinical_Matrix.xlsx  matriks relasi (590k baris)
-  Sobatpaws_04_Operational.xlsx      org, user, owner, pet, kasus
-  Sobatpaws_05_Case_Details.xlsx     gejala/diagnosa/tindakan per kasus
-  Sobatpaws_06_ML_AI.xlsx            dataset, model, prediksi, AI
-  Sobatpaws_07_ML_Views.xlsx         tabel fitur siap latih (jika ada)
-  Sobatpaws_08_Learning.xlsx         konsultasi AI + input dokter (gold rows)
+  EkosistemSatwa_00_Summary.xlsx          ringkasan + manifest
+  EkosistemSatwa_01_Taxonomy.xlsx         kategori, ras, varian, traits
+  EkosistemSatwa_02_Clinical_Masters.xlsx penyakit, gejala, diagnosa, obat
+  EkosistemSatwa_03_Clinical_Matrix.xlsx  matriks relasi (590k baris)
+  EkosistemSatwa_04_Operational.xlsx      org, user, owner, pet, kasus
+  EkosistemSatwa_05_Case_Details.xlsx     gejala/diagnosa/tindakan per kasus
+  EkosistemSatwa_06_ML_AI.xlsx            dataset, model, prediksi, AI
+  EkosistemSatwa_07_ML_Views.xlsx         tabel fitur siap latih (jika ada)
+  EkosistemSatwa_08_Learning.xlsx         konsultasi AI + input dokter (gold rows)
 
 Usage:
   python3 scripts/export_excel.py
@@ -184,8 +184,8 @@ def build_gold_rows_df():
 
 
 def export_learning_workbook():
-    """Export jejak konsultasi & pembelajaran ke Sobatpaws_08_Learning.xlsx."""
-    path = os.path.join(OUT, "Sobatpaws_08_Learning.xlsx")
+    """Export jejak konsultasi & pembelajaran ke EkosistemSatwa_08_Learning.xlsx."""
+    path = os.path.join(OUT, "EkosistemSatwa_08_Learning.xlsx")
     os.makedirs(OUT, exist_ok=True)
     if not os.path.isdir(LEARNING):
         print("  (skip) artifacts/learning/ belum ada")
@@ -207,7 +207,7 @@ def export_learning_workbook():
                 df = pd.DataFrame([{"note": "Belum ada data"}])
             df.to_excel(w, sheet_name=safe_sheet(name), index=False)
             total += len(df)
-    print("  %-40s %8d rows  (%.1fs)" % ("Sobatpaws_08_Learning.xlsx", total, time.time() - t0))
+    print("  %-40s %8d rows  (%.1fs)" % ("EkosistemSatwa_08_Learning.xlsx", total, time.time() - t0))
     return total
 
 
@@ -236,7 +236,7 @@ def main():
     ap.add_argument("--sample-only", action="store_true",
                     help="Export summary + masters only (fast)")
     ap.add_argument("--learning-only", action="store_true",
-                    help="Export konsultasi AI + input dokter saja (Sobatpaws_08)")
+                    help="Export konsultasi AI + input dokter saja (EkosistemSatwa_08)")
     args = ap.parse_args()
 
     if args.learning_only:
@@ -252,7 +252,7 @@ def main():
         sys.exit("ERROR: dataset not found. Run: python3 scripts/generate_all.py")
 
     print("=" * 70)
-    print("EXPORT SOBATPAWS DATASET -> EXCEL")
+    print("EXPORT EKOSISTEM SATWA DATASET -> EXCEL")
     print("Output: %s" % OUT)
     if args.max_rows:
         print("Row cap per table: %d" % args.max_rows)
@@ -263,20 +263,20 @@ def main():
     # 00 Summary
     summary_df = build_summary()
     readme = pd.DataFrame([
-        {"item": "Platform", "value": "Sobatpaws Veterinary ML & AI Data Platform"},
+        {"item": "Platform", "value": "Ekosistem Satwa Veterinary ML & AI Data Platform"},
         {"item": "Format", "value": "Excel .xlsx (openpyxl)"},
         {"item": "Source", "value": "data/generated/*.csv"},
         {"item": "Note", "value": "Tabel >1M baris otomatis di-split ke sheet _2, _3, ..."},
         {"item": "Regenerate", "value": "python3 scripts/generate_all.py"},
     ])
-    export_workbook("Sobatpaws_00_Summary.xlsx", [],
+    export_workbook("EkosistemSatwa_00_Summary.xlsx", [],
                       extra_sheets={"README": readme, "Table_Summary": summary_df})
 
     if args.sample_only:
-        export_workbook("Sobatpaws_01_Taxonomy.xlsx",
+        export_workbook("EkosistemSatwa_01_Taxonomy.xlsx",
                         ["animal_categories", "breeds", "breed_variants", "breed_traits"],
                         args.max_rows)
-        export_workbook("Sobatpaws_02_Clinical_Masters.xlsx",
+        export_workbook("EkosistemSatwa_02_Clinical_Masters.xlsx",
                         ["diseases", "symptoms", "diagnostic_methods", "treatments",
                          "products", "disease_symptoms"],
                         args.max_rows)
@@ -284,22 +284,22 @@ def main():
         print("Sample export done in %.1fs" % (time.time() - t0))
         return
 
-    export_workbook("Sobatpaws_01_Taxonomy.xlsx",
+    export_workbook("EkosistemSatwa_01_Taxonomy.xlsx",
                     ["animal_categories", "breeds", "breed_variants", "breed_traits"],
                     args.max_rows)
-    export_workbook("Sobatpaws_02_Clinical_Masters.xlsx",
+    export_workbook("EkosistemSatwa_02_Clinical_Masters.xlsx",
                     ["diseases", "symptoms", "diagnostic_methods", "treatments",
                      "products", "disease_symptoms"],
                     args.max_rows)
-    export_workbook("Sobatpaws_03_Clinical_Matrix.xlsx",
+    export_workbook("EkosistemSatwa_03_Clinical_Matrix.xlsx",
                     ["breed_clinical_matrix"], args.max_rows)
-    export_workbook("Sobatpaws_04_Operational.xlsx",
+    export_workbook("EkosistemSatwa_04_Operational.xlsx",
                     ["organizations", "users", "pet_owners", "pets", "clinical_cases"],
                     args.max_rows)
-    export_workbook("Sobatpaws_05_Case_Details.xlsx",
+    export_workbook("EkosistemSatwa_05_Case_Details.xlsx",
                     ["case_symptoms", "case_diagnoses", "case_treatments"],
                     args.max_rows)
-    export_workbook("Sobatpaws_06_ML_AI.xlsx",
+    export_workbook("EkosistemSatwa_06_ML_AI.xlsx",
                     ["data_sources", "ml_datasets", "dataset_sources",
                      "feature_definitions", "dataset_features", "ml_models",
                      "ml_predictions", "ml_feedback", "ai_providers",
@@ -308,7 +308,7 @@ def main():
                     args.max_rows)
 
     # ML views (gzip CSV or parquet)
-    mlv_path = os.path.join(OUT, "Sobatpaws_07_ML_Views.xlsx")
+    mlv_path = os.path.join(OUT, "EkosistemSatwa_07_ML_Views.xlsx")
     os.makedirs(OUT, exist_ok=True)
     t_mlv = time.time()
     with pd.ExcelWriter(mlv_path, engine="openpyxl") as w:
@@ -323,7 +323,7 @@ def main():
             pd.read_parquet(pq).to_excel(w, sheet_name="disease_classification", index=False)
             n_total += len(pd.read_parquet(pq))
     if os.path.exists(mlv_path):
-        print("  %-40s %8d rows  (%.1fs)" % ("Sobatpaws_07_ML_Views.xlsx", n_total, time.time() - t_mlv))
+        print("  %-40s %8d rows  (%.1fs)" % ("EkosistemSatwa_07_ML_Views.xlsx", n_total, time.time() - t_mlv))
 
     export_learning_workbook()
 

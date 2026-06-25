@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-One-shot orchestrator for the full Sobatpaws synthetic dataset.
+One-shot orchestrator for the full Ekosistem Satwa synthetic dataset.
 
 Runs, in order:
   1. generate_dataset.py     (taxonomy + clinical matrix + symptoms/diagnosa)
@@ -69,7 +69,7 @@ def _refresh_registry():
     root = os.path.normpath(os.path.join(HERE, ".."))
     env["PYTHONPATH"] = os.path.join(root, "src") + os.pathsep + env.get("PYTHONPATH", "")
     subprocess.call(
-        [PY, "-m", "sobatpaws.platform.registry", "--refresh"],
+        [PY, "-m", "ekosistem_satwa.platform.registry", "--refresh"],
         cwd=root, env=env,
     )
 

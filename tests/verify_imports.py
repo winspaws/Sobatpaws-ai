@@ -8,25 +8,25 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 print("Testing imports...")
 
-from sobatpaws.ai.consultation import (
+from ekosistem_satwa.ai.consultation import (
     ConsultationService,
     ConsultationState,
     _state_to_dict,
     _dict_to_state,
 )
-print("  ✓ sobatpaws.ai.consultation")
+print("  ✓ ekosistem_satwa.ai.consultation")
 
-from sobatpaws.ai.session_store import SessionStore, get_session_store, SESSIONS_DIR
-print("  ✓ sobatpaws.ai.session_store")
+from ekosistem_satwa.ai.session_store import SessionStore, get_session_store, SESSIONS_DIR
+print("  ✓ ekosistem_satwa.ai.session_store")
 
-from sobatpaws.ai.agent_manager import AgentManager, get_agent_manager
-print("  ✓ sobatpaws.ai.agent_manager")
+from ekosistem_satwa.ai.agent_manager import AgentManager, get_agent_manager
+print("  ✓ ekosistem_satwa.ai.agent_manager")
 
-from sobatpaws.api.deps import get_service, get_agent
-print("  ✓ sobatpaws.api.deps")
+from ekosistem_satwa.api.deps import get_service, get_agent
+print("  ✓ ekosistem_satwa.api.deps")
 
-from sobatpaws.config import SESSION_STORE_BACKEND
-print("  ✓ sobatpaws.config")
+from ekosistem_satwa.config import SESSION_STORE_BACKEND
+print("  ✓ ekosistem_satwa.config")
 
 print("\nAll imports successful!")
 print(f"\nSESSION_STORE_BACKEND = {SESSION_STORE_BACKEND}")

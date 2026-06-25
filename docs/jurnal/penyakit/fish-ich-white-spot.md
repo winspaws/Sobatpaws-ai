@@ -66,7 +66,7 @@ Baik bila diobati dini; fatal bila menyerang insang masif.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_fish.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_fish.json`
 
 ## Disclaimer
 

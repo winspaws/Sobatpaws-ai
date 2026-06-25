@@ -1,8 +1,8 @@
-# AGENTS.md — Panduan AI Agent untuk Sobatpaws
+# AGENTS.md — Panduan AI Agent untuk Ekosistem Satwa
 
 Dokumen ini adalah **titik masuk utama** bagi AI coding agent (Cursor, CI bot, integrasi otomatis) agar bekerja maksimal di repo ini.
 
-## 1. Apa itu Sobatpaws?
+## 1. Apa itu Ekosistem Satwa?
 
 **Backend AI Services** untuk dokter hewan — menyediakan API, ML, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
@@ -16,7 +16,7 @@ Dokumen ini adalah **titik masuk utama** bagi AI coding agent (Cursor, CI bot, i
                          │ REST API / JSON
                          ▼
 ┌──────────────────────────────────────────────────────────┐
-│  SOBATPAWS BACKEND API                                   │
+│  EKOSISTEM SATWA BACKEND API                                   │
 │  ┌────────────┐  ┌──────────────┐  ┌─────────────────┐  │
 │  │ Input API  │  │ AI Engine    │  │ Output/Suggest  │  │
 │  │ (keluhan,  │→ │ ML + KB +    │→ │ (structured     │  │
@@ -48,7 +48,7 @@ Komponen inti:
 
 **Aturan emas:** Perubahan klinis → edit JSON curated → `seed` + `train_ml` + `refresh_registry`.
 
-**Integrasi app utama:** Selalu kirim `vet_id`, `owner_id`/`customer_id`, `pet_id`, dan `external_consultation_id` di `ConsultationContext`. Response API memuat field `entities` untuk sync balik ke DB Sobatpaws.
+**Integrasi app utama:** Selalu kirim `vet_id`, `owner_id`/`customer_id`, `pet_id`, dan `external_consultation_id` di `ConsultationContext`. Response API memuat field `entities` untuk sync balik ke DB Ekosistem Satwa.
 
 ## 3. Titik masuk machine-readable (prioritas agent)
 
@@ -66,10 +66,10 @@ GET  /api/agent/providers       # Provider LLM terdaftar
 CLI setara:
 ```bash
 export PYTHONPATH=src
-python -m sobatpaws.platform.doctor
-python -m sobatpaws.platform.pipeline --list
-python -m sobatpaws.platform.pipeline --preset ml_ready
-python -m sobatpaws.platform.registry --refresh
+python -m ekosistem_satwa.platform.doctor
+python -m ekosistem_satwa.platform.pipeline --list
+python -m ekosistem_satwa.platform.pipeline --preset ml_ready
+python -m ekosistem_satwa.platform.registry --refresh
 ```
 
 ## 4. Pipeline presets
@@ -85,7 +85,7 @@ python -m sobatpaws.platform.registry --refresh
 ## 5. Struktur kode inti
 
 ```
-src/sobatpaws/
+src/ekosistem_satwa/
 ├── data_loader.py          # KnowledgeBase dari JSON
 ├── platform/               # Smart Data Platform (ORCHESTRATOR)
 │   ├── manifest.py         # Pipeline steps + agent guidelines
@@ -104,29 +104,29 @@ src/sobatpaws/
 ## 6. Alur kerja agent yang direkomendasikan
 
 ### A. Bootstrap proyek
-1. `python -m sobatpaws.platform.doctor` → baca `recommended_next`
-2. `python -m sobatpaws.platform.pipeline --preset agent_bootstrap`
+1. `python -m ekosistem_satwa.platform.doctor` → baca `recommended_next`
+2. `python -m ekosistem_satwa.platform.pipeline --preset agent_bootstrap`
 3. `./run.sh` → verifikasi `GET /health`
 
 ### B. Tambah penyakit/gejala
 1. Edit `data/clinical/diseases_{species}.json`
 2. `python scripts/sync_catalogs_from_kb.py` (sinkron vocabulary synthetic)
-3. `python -m sobatpaws.seed_generator`
-4. `python -m sobatpaws.ml.train --category {slug} --source hybrid`
-5. `python -m sobatpaws.platform.registry --refresh`
+3. `python -m ekosistem_satwa.seed_generator`
+4. `python -m ekosistem_satwa.ml.train --category {slug} --source hybrid`
+5. `python -m ekosistem_satwa.platform.registry --refresh`
 
 ### B2. Training dari synthetic CSV (ML views)
 ```bash
 python scripts/build_ml_views.py   # ml_view_symptom_disease_cases
-python -m sobatpaws.ml.train --source views --category dog
-python -m sobatpaws.ml.train --source hybrid --max-view-cases 2000
+python -m ekosistem_satwa.ml.train --source views --category dog
+python -m ekosistem_satwa.ml.train --source hybrid --max-view-cases 2000
 ```
 
 ### C. Uji konsultasi AI
 1. `POST /consultations` dengan `ConsultationContext` + `IntakePayload`
 2. Tampilkan `AISuggestion` ke dokter
 3. `POST /consultations/{id}/doctor-input` (gold label)
-4. `POST /learning/retrain` atau `python -m sobatpaws.ml.retrain`
+4. `POST /learning/retrain` atau `python -m ekosistem_satwa.ml.retrain`
 
 ### E. Riset & jurnal perhewanan (agent `research` / Risa)
 1. Baca gap di `docs/jurnal/INDEX.md`
@@ -140,14 +140,14 @@ Chat: `research chat` dari workspace Naincode AI Dept.
 ### D. Agent AI interaktif (hemat token)
 - Gunakan `POST /api/agent/conversations/{id}/chat` (bukan raw LLM)
 - Provider: `GET /api/agent/providers`, aktivasi via admin
-- Mode `SOBATPAWS_AI_AUGMENTATION_MODE=smart` melewati LLM bila ML+KB yakin
+- Mode `EKOSISTEM_SATWA_AI_AUGMENTATION_MODE=smart` melewati LLM bila ML+KB yakin
 
 ## 7. Zona aman vs berbahaya
 
 **Aman:**
 - `data/clinical/*.json`, `data/breeds/*.json`
-- `src/sobatpaws/ai/safety.py` (guardrail obat)
-- `src/sobatpaws/platform/*`
+- `src/ekosistem_satwa/ai/safety.py` (guardrail obat)
+- `src/ekosistem_satwa/platform/*`
 - `web/index.html`, `web/admin.html`
 
 **Hati-hati:**
@@ -163,12 +163,12 @@ Chat: `research chat` dari workspace Naincode AI Dept.
 
 | Variable | Default | Fungsi |
 |----------|---------|--------|
-| `PYTHONPATH` | `src` | Wajib untuk import sobatpaws |
-| `SOBATPAWS_AI_PROVIDER` | openai | openai / anthropic / local |
-| `SOBATPAWS_AI_AUGMENTATION_MODE` | smart | smart / always / never |
-| `SOBATPAWS_LEARNING_BACKEND` | jsonl | jsonl / postgres / both |
-| `SOBATPAWS_VET_API_KEY` | - | Auth app vet |
-| `SOBATPAWS_ADMIN_API_KEY` | - | Admin + pipeline run |
+| `PYTHONPATH` | `src` | Wajib untuk import ekosistem_satwa |
+| `EKOSISTEM_SATWA_AI_PROVIDER` | openai | openai / anthropic / local |
+| `EKOSISTEM_SATWA_AI_AUGMENTATION_MODE` | smart | smart / always / never |
+| `EKOSISTEM_SATWA_LEARNING_BACKEND` | jsonl | jsonl / postgres / both |
+| `EKOSISTEM_SATWA_VET_API_KEY` | - | Auth app vet |
+| `EKOSISTEM_SATWA_ADMIN_API_KEY` | - | Admin + pipeline run |
 | `DATABASE_URL` | postgresql://... | PostgreSQL (learning + ml_models) |
 
 ## 9. Output terstruktur untuk agent
@@ -187,7 +187,7 @@ Registry (`artifacts/platform_registry.json`):
 
 | Gejala | Perbaikan |
 |--------|-----------|
-| ML predict 404 | `python -m sobatpaws.ml.train --category {cat}` |
+| ML predict 404 | `python -m ekosistem_satwa.ml.train --category {cat}` |
 | Saran AI kosong | Cek gejala terdeteksi; perlu teks keluhan jelas |
 | synthetic manifest missing | `python scripts/generate_all.py --scale 0.05` |
 | gold_rows = 0 | Dokter harus `POST .../doctor-input` dengan `confirmed_disease_slug` |

@@ -1,5 +1,6 @@
 # =============================================================================
-#  Sobatpaws — Production Stack (Docker Compose)
+#  Ekosistem Satwa — Production Stack (Docker Compose)
+#  (Rebranded from Sobatpaws)
 #  Includes: API service, PostgreSQL, pgAdmin
 #
 #  Usage:
@@ -22,21 +23,28 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: sobatpaws-api:latest
-    container_name: sobatpaws-api
+    image: ekosistemsatwa-api:latest
+    container_name: ekosistemsatwa-api
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
+
+    # Log rotation — prevent disk from filling up
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
     ports:
       - "8080:8000"
 
     environment:
       # Database — connect to the 'postgres' service in this stack
-      DATABASE_URL: postgresql://sobatpaws:${POSTGRES_PASSWORD:-sobatpaws_dev}@postgres:5432/sobatpaws
+      DATABASE_URL: postgresql://ekosistemsatwa:***@postgres:5432/ekosistemsatwa
 
       # AI Provider (set via .env)
-      SOBATPAWS_AI_PROVIDER: ${SOBATPAWS_AI_PROVIDER:-local}
+      EKOSISTEM_SATWA_AI_PROVIDER: ${EKOSISTEM_SATWA_AI_PROVIDER:-local}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
@@ -46,26 +54,26 @@ services:
       LOCAL_LLM_MODEL: ${LOCAL_LLM_MODEL:-llama3.2}
 
       # AI tuning
-      SOBATPAWS_AI_TEMPERATURE: ${SOBATPAWS_AI_TEMPERATURE:-0.2}
-      SOBATPAWS_AI_MAX_TOKENS: ${SOBATPAWS_AI_MAX_TOKENS:-800}
-      SOBATPAWS_AI_AUGMENTATION_MODE: ${SOBATPAWS_AI_AUGMENTATION_MODE:-smart}
-      SOBATPAWS_AI_DAILY_TOKEN_BUDGET: ${SOBATPAWS_AI_DAILY_TOKEN_BUDGET:-0}
-      SOBATPAWS_AI_CACHE_TTL_SEC: ${SOBATPAWS_AI_CACHE_TTL_SEC:-3600}
-      SOBATPAWS_AI_SKIP_LLM_CONFIDENCE: ${SOBATPAWS_AI_SKIP_LLM_CONFIDENCE:-0.82}
-      SOBATPAWS_AI_FALLBACK_CHAIN: ${SOBATPAWS_AI_FALLBACK_CHAIN:-local,openai,anthropic}
+      EKOSISTEM_SATWA_AI_TEMPERATURE: ${EKOSISTEM_SATWA_AI_TEMPERATURE:-0.2}
+      EKOSISTEM_SATWA_AI_MAX_TOKENS: ${EKOSISTEM_SATWA_AI_MAX_TOKENS:-800}
+      EKOSISTEM_SATWA_AI_AUGMENTATION_MODE: ${EKOSISTEM_SATWA_AI_AUGMENTATION_MODE:-smart}
+      EKOSISTEM_SATWA_AI_DAILY_TOKEN_BUDGET: ${EKOSISTEM_SATWA_AI_DAILY_TOKEN_BUDGET:-0}
+      EKOSISTEM_SATWA_AI_CACHE_TTL_SEC: ${EKOSISTEM_SATWA_AI_CACHE_TTL_SEC:-3600}
+      EKOSISTEM_SATWA_AI_SKIP_LLM_CONFIDENCE: ${EKOSISTEM_SATWA_AI_SKIP_LLM_CONFIDENCE:-0.82}
+      EKOSISTEM_SATWA_AI_FALLBACK_CHAIN: ${EKOSISTEM_SATWA_AI_FALLBACK_CHAIN:-local,openai,anthropic}
 
       # Storage backends
-      SOBATPAWS_LEARNING_BACKEND: ${SOBATPAWS_LEARNING_BACKEND:-jsonl}
-      SOBATPAWS_AI_STORE_BACKEND: ${SOBATPAWS_AI_STORE_BACKEND:-jsonl}
-      SOBATPAWS_SESSION_BACKEND: ${SOBATPAWS_SESSION_BACKEND:-jsonl}
+      EKOSISTEM_SATWA_LEARNING_BACKEND: ${EKOSISTEM_SATWA_LEARNING_BACKEND:-jsonl}
+      EKOSISTEM_SATWA_AI_STORE_BACKEND: ${EKOSISTEM_SATWA_AI_STORE_BACKEND:-jsonl}
+      EKOSISTEM_SATWA_SESSION_BACKEND: ${EKOSISTEM_SATWA_SESSION_BACKEND:-jsonl}
 
       # Auth keys (set via .env)
-      SOBATPAWS_VET_API_KEY: ${SOBATPAWS_VET_API_KEY:-}
-      SOBATPAWS_ADMIN_API_KEY: ${SOBATPAWS_ADMIN_API_KEY:-}
+      EKOSISTEM_SATWA_VET_API_KEY: ${EKOSISTEM_SATWA_VET_API_KEY:-}
+      EKOSISTEM_SATWA_ADMIN_API_KEY: ${EKOSISTEM_SATWA_ADMIN_API_KEY:-}
 
     volumes:
       # Mount ML models and learning data for persistence
-      - sobatpaws_artifacts:/app/artifacts
+      - ekosistemsatwa_artifacts:/app/artifacts
 
     depends_on:
       postgres:
@@ -92,25 +100,32 @@ services:
     stop_grace_period: 30s
 
     networks:
-      - sobatpaws-network
+      - ekosistemsatwa-network
 
   # ── PostgreSQL ───────────────────────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
-    container_name: sobatpaws-db
+    container_name: ekosistemsatwa-db
     restart: unless-stopped
 
+    # Log rotation — DB logs can grow fast
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
     environment:
-      POSTGRES_USER: sobatpaws
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sobatpaws_dev}
-      POSTGRES_DB: sobatpaws
+      POSTGRES_USER: ekosistemsatwa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ekosistemsatwa_dev}
+      POSTGRES_DB: ekosistemsatwa
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale-provider=icu --icu-locale=en_US.UTF8"
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U sobatpaws -d sobatpaws"]
+      test: ["CMD-SHELL", "pg_isready -U ekosistemsatwa -d ekosistemsatwa"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -126,18 +141,18 @@ services:
           memory: 256M
 
     networks:
-      - sobatpaws-network
+      - ekosistemsatwa-network
 
   # ── pgAdmin (optional — remove in production if not needed) ──────────────
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: sobatpaws-pgadmin
+    container_name: ekosistemsatwa-pgadmin
     restart: unless-stopped
     profiles:
       - debug  # Only starts with: docker compose --profile debug up -d
 
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@sobatpaws.id}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@ekosistemsatwa.id}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
       PGADMIN_CONFIG_SERVER_MODE: "False"
 
@@ -157,7 +172,7 @@ services:
           memory: 256M
 
     networks:
-      - sobatpaws-network
+      - ekosistemsatwa-network
 
 # ── Volumes ────────────────────────────────────────────────────────────────
 volumes:
@@ -165,11 +180,11 @@ volumes:
     driver: local
   pgadmin_data:
     driver: local
-  sobatpaws_artifacts:
+  ekosistemsatwa_artifacts:
     driver: local
 
 # ── Networks ───────────────────────────────────────────────────────────────
 networks:
-  sobatpaws-network:
-    name: sobatpaws-network
+  ekosistemsatwa-network:
+    name: ekosistemsatwa-network
     driver: bridge

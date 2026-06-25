@@ -68,7 +68,7 @@ Baik bila tidak tersumbat; obstruksi butuh penanganan segera.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_cats.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_cats.json`
 
 ## Disclaimer
 

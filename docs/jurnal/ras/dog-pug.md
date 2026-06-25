@@ -53,7 +53,7 @@ Lihat [INDEX penyakit](../INDEX.md#penyakit) — filter ras `dog-pug`.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/breeds/`
+1. Ekosistem Satwa curated KB — `data/breeds/`
 
 ## Disclaimer
 

@@ -63,7 +63,7 @@ Baik bila cepat ditangani; fatal bila syok/prolaps.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_poultry.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_poultry.json`
 
 ## Disclaimer
 

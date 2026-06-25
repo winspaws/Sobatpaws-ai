@@ -1,4 +1,4 @@
-# Sobatpaws Architecture Decisions
+# Ekosistem Satwa Architecture Decisions
 
 > This file is maintained by Architect profile.
 > Last updated: 2025-06-19

@@ -64,7 +64,7 @@ Sangat baik bila ditangani <6 jam; memburuk drastis dengan keterlambatan.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_dogs.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_dogs.json`
 
 ## Disclaimer
 

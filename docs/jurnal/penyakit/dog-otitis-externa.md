@@ -65,7 +65,7 @@ Baik bila penyebab dasar ditangani; bisa kronik bila alergi tak terkontrol.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_dogs.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_dogs.json`
 
 ## Disclaimer
 

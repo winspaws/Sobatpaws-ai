@@ -44,7 +44,7 @@ Lihat [INDEX ras](../INDEX.md#ras) — filter kategori `poultry`.
 
 ## Referensi
 
-1. Data kurasi internal Sobatpaws KB (`data/categories.json`)
+1. Data kurasi internal Ekosistem Satwa KB (`data/categories.json`)
 
 ## Disclaimer
 

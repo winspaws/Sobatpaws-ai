@@ -89,7 +89,7 @@ Nutrisi:
 1.  OFA Canine Health Statistics 2024 — Orthopedic Foundation for Animals
 2.  WSAVA Breed Predisposition Guidelines 2023
 3.  Merck Veterinary Manual — Golden Retriever Health Summary
-4.  Sobatpaws curated KB — `data/breeds/dogs/golden_retriever.json
+4.  Ekosistem Satwa curated KB — `data/breeds/dogs/golden_retriever.json
 5.  Veterinary Information Network (VIN) Breed Database
 
 ## Disclaimer

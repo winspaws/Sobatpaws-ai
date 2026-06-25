@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Seed catalogs for the Sobatpaws data-generation pipeline.
+Seed catalogs for the Ekosistem Satwa data-generation pipeline.
 
 This module is PURE DATA (no logic). It holds:
   * CATEGORY_IDS    -> stable id per category slug (matches data/categories.json)

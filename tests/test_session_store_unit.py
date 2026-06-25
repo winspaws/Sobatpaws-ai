@@ -10,11 +10,11 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
-from sobatpaws.ai.session_store import (  # noqa: E402
+from ekosistem_satwa.ai.session_store import (  # noqa: E402
     SessionStore,
     _serialize_state,
 )
-from sobatpaws.ai.consultation import (  # noqa: E402
+from ekosistem_satwa.ai.consultation import (  # noqa: E402
     _state_to_dict,
     _dict_to_state,
     ConsultationState,
@@ -22,7 +22,7 @@ from sobatpaws.ai.consultation import (  # noqa: E402
     IntakeResult,
     AISuggestion,
 )
-from sobatpaws.ai.schemas import (  # noqa: E402
+from ekosistem_satwa.ai.schemas import (  # noqa: E402
     ConsultationChannel,
     ExtractedSymptom,
     MediaObservation,
@@ -147,7 +147,7 @@ def test_session_store_persistence():
     print("="*60)
 
     # Create temp directory
-    tmpdir = tempfile.mkdtemp(prefix="sobatpaws_session_test_")
+    tmpdir = tempfile.mkdtemp(prefix="ekosistem_satwa_session_test_")
     sessions_dir = Path(tmpdir) / "sessions"
     print(f"  Using temp directory: {tmpdir}")
 
@@ -200,7 +200,7 @@ def test_cache_rehydration():
     print("TEST 3: Cache rehydration on SessionStore init")
     print("="*60)
 
-    tmpdir = tempfile.mkdtemp(prefix="sobatpaws_rehydrate_test_")
+    tmpdir = tempfile.mkdtemp(prefix="ekosistem_satwa_rehydrate_test_")
     sessions_dir = Path(tmpdir) / "sessions"
 
     # First store: create multiple sessions

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Ekspansi masif knowledge base Sobatpaws:
+Ekspansi masif knowledge base Ekosistem Satwa:
 - Tambah penyakit per spesies (target: 20-30+ per spesies)
 - Tambah obat-obatan, dosis, kontraindikasi
 - Tambah protokol terapi & resep
@@ -1114,7 +1114,7 @@ EXPANDED_DISEASES = {
 
 def main():
     print("=" * 60)
-    print("SOBATPAWS KNOWLEDGE BASE EXPANSION")
+    print("EKOSISTEM SATWA KNOWLEDGE BASE EXPANSION")
     print("=" * 60)
     
     for species, diseases in EXPANDED_DISEASES.items():

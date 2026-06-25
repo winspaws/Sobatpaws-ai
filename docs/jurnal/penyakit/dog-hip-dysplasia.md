@@ -66,7 +66,7 @@ Manajemen baik memungkinkan kualitas hidup baik; kasus berat butuh operasi.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_dogs.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_dogs.json`
 
 ## Disclaimer
 

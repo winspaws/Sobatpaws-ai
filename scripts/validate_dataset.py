@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Validator for the generated Sobatpaws dataset.
+Validator for the generated Ekosistem Satwa dataset.
 
 Single source of truth = dbml/schema.dbml. This tool:
   * parses every Enum from the DBML and checks generated enum-typed columns
@@ -270,7 +270,7 @@ def main():
 
     # ---- report ----
     print("=" * 70)
-    print("SOBATPAWS DATASET VALIDATION")
+    print("EKOSISTEM SATWA DATASET VALIDATION")
     print("=" * 70)
     print("Enums parsed from schema.dbml: %d" % len(enums))
     print("Tables validated            : %d" % len(TABLES))

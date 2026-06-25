@@ -42,7 +42,7 @@ Vaksinasi inti (core) melindungi dari penyakit menular berat. Jadwal disesuaikan
 ## Referensi
 
 1. WSAVA Vaccination Guidelines (dog/cat)
-2. Sobatpaws KB — pencegahan per penyakit di `data/clinical/`
+2. Ekosistem Satwa KB — pencegahan per penyakit di `data/clinical/`
 
 ## Disclaimer
 

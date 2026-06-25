@@ -63,7 +63,7 @@ Baik; bisa sembuh sendiri tapi pengobatan mempercepat & cegah penularan.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_cats.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_cats.json`
 
 ## Disclaimer
 

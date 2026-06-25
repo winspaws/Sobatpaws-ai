@@ -66,7 +66,7 @@ Strain velogenik mortalitas hingga 100%; tidak ada terapi spesifik.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_poultry.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_poultry.json`
 
 ## Disclaimer
 

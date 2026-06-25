@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sobatpaws — Telekonsultasi</title>
+  <title>Ekosistem Satwa — Telekonsultasi</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
   <style>
     :root {
@@ -402,7 +402,7 @@
       <header>
         <span class="logo">🐾</span>
         <div>
-          <h1>Sobatpaws Telekonsultasi</h1>
+          <h1>Ekosistem Satwa Telekonsultasi</h1>
           <p>Konsultasi dokter hewan dengan dukungan AI</p>
         </div>
         <div class="grow"></div>
@@ -479,9 +479,9 @@
       ferret: "🦨", guinea_pig: "🐹"
     };
 
-    // API Key config — can be set via localStorage.setItem('sobatpaws_api_key', 'sk-...')
+    // API Key config — can be set via localStorage.setItem('ekosistem_satwa_api_key', 'sk-...')
     function getApiKey() {
-      return localStorage.getItem('sobatpaws_api_key') || "";
+      return localStorage.getItem('ekosistem_satwa_api_key') || "";
     }
 
     // ---------- Utilities ----------
@@ -495,7 +495,7 @@
         headers["Content-Type"] = "application/json";
       }
       if (apiKey) {
-        headers["X-Sobatpaws-Key"] = apiKey;
+        headers["X-EkosistemSatwa-Key"] = apiKey;
       }
       const res = await fetch(API + path, {
         ...opts,
@@ -548,7 +548,7 @@
         const apiKey = getApiKey();
         const headers = {};
         if (apiKey) {
-          headers["X-Sobatpaws-Key"] = apiKey;
+          headers["X-EkosistemSatwa-Key"] = apiKey;
         }
 
         const res = await fetch(`${API}/consultations/${CONSULTATION_ID}/media`, {

@@ -67,7 +67,7 @@ Kasus ringan reversibel dengan koreksi; deformitas berat permanen.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_reptiles.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_reptiles.json`
 
 ## Disclaimer
 

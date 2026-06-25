@@ -21,11 +21,12 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     Integer,
+    JSON,
     String,
     Text,
     UniqueConstraint,
 )
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -37,7 +38,9 @@ class Base(DeclarativeBase):
     """Base class untuk semua model EMR."""
 
     type_annotation_map = {
-        Dict[str, Any]: JSONB,
+        Dict[str, Any]: JSON,
+        List[str]: JSON,
+        List[Dict[str, Any]]: JSON,
         uuid.UUID: UUID(as_uuid=True),
     }
 

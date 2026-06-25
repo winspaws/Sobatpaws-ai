@@ -65,7 +65,7 @@ Baik bila dini + koreksi suhu; berat bila pneumonia.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_reptiles.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_reptiles.json`
 
 ## Disclaimer
 

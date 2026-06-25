@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Jalankan API + Dashboard Sobatpaws.
+# Jalankan API + Dashboard Ekosistem Satwa (rebranded from Sobatpaws).
 # Pakai:  ./run.sh           (default port 8000)
 #         ./run.sh 8080      (port lain)
 set -e
@@ -12,10 +12,10 @@ PY=".venv/bin/python"
 
 export PYTHONPATH=src
 
-echo "🐾 Sobatpaws — menjalankan API + Dashboard"
+echo "🐾 Ekosistem Satwa — menjalankan API + Dashboard"
 echo "   Dashboard : http://localhost:${PORT}/"
 echo "   API docs  : http://localhost:${PORT}/docs"
 echo "   (Ctrl+C untuk berhenti)"
 echo
 
-exec "$PY" -m uvicorn sobatpaws.api.main:app --host 0.0.0.0 --port "$PORT" --app-dir src
+exec "$PY" -m uvicorn ekosistem_satwa.api.main:app --host 0.0.0.0 --port "$PORT" --app-dir src

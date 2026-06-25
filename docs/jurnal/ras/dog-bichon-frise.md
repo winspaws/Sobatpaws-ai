@@ -53,7 +53,7 @@ Lihat [INDEX penyakit](../INDEX.md#penyakit) — filter ras `dog-bichon-frise`.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/breeds/`
+1. Ekosistem Satwa curated KB — `data/breeds/`
 
 ## Disclaimer
 

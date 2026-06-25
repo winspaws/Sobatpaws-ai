@@ -63,7 +63,7 @@ Buruk (sering terlambat); pengobatan dini meningkatkan peluang.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_fish.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_fish.json`
 
 ## Disclaimer
 

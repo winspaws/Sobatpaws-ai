@@ -1,4 +1,4 @@
-# Jurnal Perhewanan — Sobatpaws
+# Jurnal Perhewanan — Ekosistem Satwa
 
 Dokumentasi ilmiah & edukatif tentang hewan peliharaan: spesies, ras, varian, kesehatan, dan penyakit.
 

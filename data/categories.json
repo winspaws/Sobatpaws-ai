@@ -1,6 +1,6 @@
 {
   "$schema": "../schemas/categories.schema.json",
-  "description": "Master kategori spesies hewan peliharaan untuk platform Sobatpaws.",
+  "description": "Master kategori spesies hewan peliharaan untuk platform Ekosistem Satwa.",
   "categories": [
     {
       "slug": "dog",

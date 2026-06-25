@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sobatpaws — Panel Verifikasi Sistem</title>
+  <title>Ekosistem Satwa — Panel Verifikasi Sistem</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
   <style>
     :root {
@@ -175,7 +175,7 @@
   <header>
     <span class="logo">🐾</span>
     <div>
-      <h1>Sobatpaws — Panel Verifikasi Sistem</h1>
+      <h1>Ekosistem Satwa — Panel Verifikasi Sistem</h1>
       <p>Pastikan backend, data, AI, ML, & database berjalan dengan baik.</p>
     </div>
     <div class="grow"></div>
@@ -444,7 +444,7 @@
   </main>
 
   <footer>
-    Sobatpaws Veterinary ML &amp; AI · <a href="/docs" target="_blank">API Docs</a> ·
+    Ekosistem Satwa Veterinary ML &amp; AI · <a href="/docs" target="_blank">API Docs</a> ·
     <span class="muted">Saran AI bersifat pendukung keputusan — keputusan final oleh dokter hewan berlisensi.</span>
   </footer>
 
@@ -1161,7 +1161,7 @@
         const total = Object.values(r.counts || {}).reduce((a, b) => a + b, 0);
         out.innerHTML = `<div class="summary-box">🐘 Sync PostgreSQL selesai · ${total} event · mode: ${r.backend?.mode || "—"}</div>`;
       } catch (e) {
-        out.innerHTML = `<div class="warn-box">Sync DB: ${e.message}. Pastikan PostgreSQL jalan & SOBATPAWS_LEARNING_BACKEND=both/postgres.</div>`;
+        out.innerHTML = `<div class="warn-box">Sync DB: ${e.message}. Pastikan PostgreSQL jalan & EKOSISTEM_SATWA_LEARNING_BACKEND=both/postgres.</div>`;
       } finally { btn.disabled = false; }
     }
 

@@ -23,19 +23,14 @@ if config.config_file_name is not None:
 # Get DATABASE_URL from environment, fallback to default
 database_url = os.getenv(
     "DATABASE_URL",
-    "postgresql://sobatpaws:***@localhost:5432/sobatpaws"
+    "postgresql://ekosistemsatwa:***@localhost:5432/ekosistemsatwa"
 )
 config.set_main_option("sqlalchemy.url", database_url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-#
-# TODO: Setelah models.py dibuat, import Base dari sana:
-# from sobatpaws.models import Base
-# target_metadata = Base.metadata
-target_metadata = None
+from ekosistem_satwa.emr import Base
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

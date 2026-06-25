@@ -63,7 +63,7 @@ Mortalitas tinggi (bisa 90%) bila terlambat; agresif & cepat.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_hamsters.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_hamsters.json`
 
 ## Disclaimer
 

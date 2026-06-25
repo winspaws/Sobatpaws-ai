@@ -12,20 +12,20 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 # Patch ARTIFACTS_DIR before any imports
-tmpdir = tempfile.mkdtemp(prefix="sobatpaws_test_")
+tmpdir = tempfile.mkdtemp(prefix="ekosistem_satwa_test_")
 print(f"Using temp test directory: {tmpdir}")
 os.makedirs(os.path.join(tmpdir, "sessions"), exist_ok=True)
 
 # Now do the imports
-from sobatpaws.ai.session_store import SessionStore, SESSIONS_DIR  # noqa: E402
-from sobatpaws.ai.consultation import (  # noqa: E402
+from ekosistem_satwa.ai.session_store import SessionStore, SESSIONS_DIR  # noqa: E402
+from ekosistem_satwa.ai.consultation import (  # noqa: E402
     ConsultationService,
     ConsultationState,
     ConsultationResult,
     ConsultationContext,
     IntakePayload,
 )
-from sobatpaws.ai.schemas import ConsultationChannel  # noqa: E402
+from ekosistem_satwa.ai.schemas import ConsultationChannel  # noqa: E402
 
 
 def test_session_persistence():

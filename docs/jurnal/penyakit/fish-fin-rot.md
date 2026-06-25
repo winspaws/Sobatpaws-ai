@@ -63,7 +63,7 @@ Baik bila perbaiki air + antibakteri; berat bila sampai ke tubuh.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_fish.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_fish.json`
 
 ## Disclaimer
 

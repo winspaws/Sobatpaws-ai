@@ -62,7 +62,7 @@ Baik bila superfisial; serius bila menembus tulang tempurung.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_reptiles.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_reptiles.json`
 
 ## Disclaimer
 

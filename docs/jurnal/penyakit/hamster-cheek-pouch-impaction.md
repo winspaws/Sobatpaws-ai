@@ -60,7 +60,7 @@ Baik bila dibersihkan; abses butuh penanganan lebih.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_hamsters.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_hamsters.json`
 
 ## Disclaimer
 

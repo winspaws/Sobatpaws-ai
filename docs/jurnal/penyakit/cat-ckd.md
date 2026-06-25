@@ -68,7 +68,7 @@ Tidak bisa sembuh tapi bisa dikelola; staging IRIS menentukan harapan hidup.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_cats.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_cats.json`
 
 ## Disclaimer
 

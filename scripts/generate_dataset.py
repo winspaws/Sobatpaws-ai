@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Sobatpaws data-generation pipeline.
+Ekosistem Satwa data-generation pipeline.
 
 Expands the curated seed catalogs (scripts/catalogs.py) into a large,
-schema-conformant dataset for the Sobatpaws DBML model and writes it to
+schema-conformant dataset for the Ekosistem Satwa DBML model and writes it to
 data/generated/ as CSV, ready to bulk-load into PostgreSQL.
 
 Outputs (data/generated/):
@@ -353,9 +353,9 @@ def main():
         "breeds", "breed_variants", "breed_traits", "breed_clinical_matrix",
     ]
     with open(os.path.join(OUT_DIR, "load.sql"), "w") as f:
-        f.write("-- Bulk loader for Sobatpaws generated dataset (PostgreSQL).\n")
+        f.write("-- Bulk loader for Ekosistem Satwa generated dataset (PostgreSQL).\n")
         f.write("-- Prereq: schema created via `dbml2sql dbml/schema.dbml --postgres`.\n")
-        f.write("-- Run from the data/generated/ directory: psql -d sobatpaws -f load.sql\n")
+        f.write("-- Run from the data/generated/ directory: psql -d ekosistem_satwa -f load.sql\n")
         f.write("BEGIN;\n")
         for t in tables:
             # Only load the columns we generated; others use table defaults.
@@ -386,7 +386,7 @@ def main():
 
     # ---- report ----
     print("=" * 64)
-    print("SOBATPAWS DATASET GENERATION  (scale=%.3f)" % args.scale)
+    print("EKOSISTEM SATWA DATASET GENERATION  (scale=%.3f)" % args.scale)
     print("=" * 64)
     print("Master taxa (breeds) by category:")
     for cat in sorted(per_cat_counts):

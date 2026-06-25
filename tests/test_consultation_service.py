@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from sobatpaws.ai.consultation import ConsultationService
-from sobatpaws.ai.learning_store import LearningStore
-from sobatpaws.ai.session_store import SessionStore
-from sobatpaws.ai.schemas import (
+from ekosistem_satwa.ai.consultation import ConsultationService
+from ekosistem_satwa.ai.learning_store import LearningStore
+from ekosistem_satwa.ai.session_store import SessionStore
+from ekosistem_satwa.ai.schemas import (
     ConsultationContext,
     ConsultationChannel,
     DoctorInput,
@@ -23,27 +23,27 @@ from sobatpaws.ai.schemas import (
 def reset_singletons():
     """Reset all singletons to ensure test isolation."""
     # Reset AgentManager singleton
-    import sobatpaws.ai.agent_manager as am
+    import ekosistem_satwa.ai.agent_manager as am
     am._agent = None
     
     # Reset AgentStore singleton
-    import sobatpaws.ai.agent_store as as_
+    import ekosistem_satwa.ai.agent_store as as_
     as_._store_singleton = None
     
     # Reset IdentityRegistry singleton
-    import sobatpaws.integration.identity as ii
+    import ekosistem_satwa.integration.identity as ii
     ii._registry = None
     
     # Reset SessionStore singleton
-    import sobatpaws.ai.session_store as ss
+    import ekosistem_satwa.ai.session_store as ss
     ss._store_singleton = None
     
     # Reset LearningStore singleton
-    import sobatpaws.ai.learning_store as ls
+    import ekosistem_satwa.ai.learning_store as ls
     ls._default_store = None
     
     # Clear lru_cache for deps
-    import sobatpaws.api.deps as deps
+    import ekosistem_satwa.api.deps as deps
     deps.get_service.cache_clear()
     deps.get_agent.cache_clear()
 
@@ -253,16 +253,16 @@ class TestConsultationServiceLLMMode:
         mock_provider.default_model = "gpt-4o-mini"
         mock_provider.id = "test-openai"
         
-        with patch("sobatpaws.ai.llm.get_provider_registry") as mock_registry:
+        with patch("ekosistem_satwa.ai.llm.get_provider_registry") as mock_registry:
             mock_registry_instance = MagicMock()
             mock_registry_instance.get_chain.return_value = [mock_provider]
             mock_registry_instance.get_primary.return_value = mock_provider
             mock_registry.return_value = mock_registry_instance
 
             # Mock LLMClient.for_provider to return our mock_llm
-            with patch("sobatpaws.ai.llm.LLMClient.for_provider", return_value=mock_llm):
+            with patch("ekosistem_satwa.ai.llm.LLMClient.for_provider", return_value=mock_llm):
                 # Mock AISettings to use "always" augmentation mode
-                with patch("sobatpaws.ai.suggestion_engine.AISettings") as mock_settings:
+                with patch("ekosistem_satwa.ai.suggestion_engine.AISettings") as mock_settings:
                     mock_settings_instance = MagicMock()
                     mock_settings_instance.augmentation_mode = "always"
                     mock_settings_instance.max_tokens = 800

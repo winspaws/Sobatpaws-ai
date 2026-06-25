@@ -1,4 +1,4 @@
-# Sobatpaws — Veterinary ML & AI Data Platform
+# Ekosistem Satwa — Veterinary ML & AI Data Platform
 # Python 3.10+
 
 # Core data
@@ -35,4 +35,6 @@ alembic==1.13.2
 # pyarrow dipakai build_ml_views.py untuk output Parquet; tanpa ini otomatis
 # fallback ke gzip-CSV.
 pyarrow==16.1.0
-openpyxl==3.1.2
+# Vision / media analysis (Pillow + OpenCV)
+Pillow==10.4.0
+opencv-python-headless==4.10.0.84

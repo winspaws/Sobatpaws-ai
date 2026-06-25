@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Sobatpaws operational + ML + AI data generator (stage 2).
+Ekosistem Satwa operational + ML + AI data generator (stage 2).
 
 Builds on the taxonomy/clinical dataset produced by generate_dataset.py and
 populates the remaining schema domains with referentially-consistent,
@@ -321,7 +321,7 @@ def main():
         name = "%s %s %s" % (rng.choice(ORG_NAME_PREFIX), rng.choice(ORG_NAME_SUFFIX), city)
         slug = "org-%d-%s" % (i, name.lower().replace(" ", "-").replace("'", ""))
         otype = rng.choice(ORG_TYPES)
-        w_org.writerow([i, slug, name, otype, "org%d@sobatpaws.id" % i,
+        w_org.writerow([i, slug, name, otype, "org%d@ekosistem_satwa.id" % i,
                         "+62%d" % rng.randint(81000000000, 89999999999), city, prov, "Indonesia"])
         org_ids.append(i)
 
@@ -334,14 +334,14 @@ def main():
             role = rng.choice(ROLES)
             fn = "%s %s" % (rng.choice(FIRST), rng.choice(LAST))
             lic = "VET-%05d" % user_id if role == "vet" else ""
-            w_usr.writerow([user_id, org, fn, "user%d@sobatpaws.id" % user_id, role, lic])
+            w_usr.writerow([user_id, org, fn, "user%d@ekosistem_satwa.id" % user_id, role, lic])
             if role == "vet":
                 org_vets.setdefault(org, []).append(user_id)
     for org in org_ids:  # ensure each org has >=1 vet
         if org not in org_vets:
             user_id += 1
             w_usr.writerow([user_id, org, "%s %s" % (rng.choice(FIRST), rng.choice(LAST)),
-                            "user%d@sobatpaws.id" % user_id, "vet", "VET-%05d" % user_id])
+                            "user%d@ekosistem_satwa.id" % user_id, "vet", "VET-%05d" % user_id])
             org_vets[org] = [user_id]
 
     # ---- pet owners ----
@@ -565,9 +565,9 @@ def main():
         ("ml_feedback", "id,prediction_id,ai_suggestion_id,case_id,reviewer_id,verdict,corrected_disease_id"),
     ]
     with open(os.path.join(OUT_DIR, "load_all.sql"), "w") as f:
-        f.write("-- Full FK-ordered loader for the Sobatpaws dataset (PostgreSQL).\n")
-        f.write("-- Prereq: dbml2sql dbml/schema.dbml --postgres | psql -d sobatpaws\n")
-        f.write("-- Then:   cd data/generated && psql -d sobatpaws -f load_all.sql\n")
+        f.write("-- Full FK-ordered loader for the Ekosistem Satwa dataset (PostgreSQL).\n")
+        f.write("-- Prereq: dbml2sql dbml/schema.dbml --postgres | psql -d ekosistem_satwa\n")
+        f.write("-- Then:   cd data/generated && psql -d ekosistem_satwa -f load_all.sql\n")
         f.write("BEGIN;\n")
         for t, cols in load_order:
             f.write("\\copy %s(%s) FROM '%s.csv' WITH (FORMAT csv, HEADER true);\n" % (t, cols, t))
@@ -595,7 +595,7 @@ def main():
         json.dump({"scale": s, "tables": counts, "grand_total_rows": grand}, f, indent=2)
 
     print("=" * 64)
-    print("SOBATPAWS OPERATIONAL + ML + AI GENERATION (scale=%.3f)" % s)
+    print("EKOSISTEM SATWA OPERATIONAL + ML + AI GENERATION (scale=%.3f)" % s)
     print("=" * 64)
     for t in stage2:
         print("  %-22s %10d" % (t, counts.get(t, 0)))

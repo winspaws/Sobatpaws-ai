@@ -1,10 +1,10 @@
-# ADR-001: PostgreSQL Migration for Sobatpaws Platform
+# ADR-001: PostgreSQL Migration for Ekosistem Satwa Platform
 
 ## Status
 Proposed
 
 ## Context
-Saat ini Sobatpaws berjalan dengan:
+Saat ini Ekosistem Satwa berjalan dengan:
 1.  In-memory KnowledgeBase dari file JSON
 2.  SQLite sebagai backend sementara untuk development
 3.  JSONL files untuk learning loop log
@@ -57,6 +57,6 @@ Schema sudah didefinisikan di `dbml/schema.dbml` dan akan digenerate ke DDL Post
 ## Next Steps
 1.  Setup alembic migration
 2.  Implementasikan `model_registry_pg.py`
-3.  Update `SOBATPAWS_LEARNING_BACKEND=postgres`
+3.  Update `EKOSISTEM_SATWA_LEARNING_BACKEND=postgres`
 4.  Docker compose untuk local PostgreSQL
 5.  Github Actions test pipeline dengan Postgres service

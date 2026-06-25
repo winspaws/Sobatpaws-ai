@@ -4,7 +4,7 @@
 Proposed
 
 ## Context
-Sobatpaws membutuhkan antarmuka frontend untuk:
+Ekosistem Satwa membutuhkan antarmuka frontend untuk:
 1.  Dokter hewan menerima dan menjawab konsultasi
 2.  Pemilik hewan mengirim intake gejala, foto, suara
 3.  Real time sync antara AI suggestion dan input dokter
@@ -45,7 +45,7 @@ Arsitektur frontend telekonsultasi:
         └───────────┬────────────┘
                     │
         ┌───────────▼────────────┐
-        │ Sobatpaws FastAPI      │
+        │ Ekosistem Satwa FastAPI      │
         │  /api/consultations/*  │
         │  /api/ai/suggest       │
         └────────────────────────┘

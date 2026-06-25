@@ -64,7 +64,7 @@ Perlu manajemen seumur hidup (kikir gigi berkala).
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_rabbits.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_rabbits.json`
 
 ## Disclaimer
 

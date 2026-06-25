@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sobatpaws Admin — Integrasi &amp; AI Monitor</title>
+  <title>Ekosistem Satwa Admin — Integrasi &amp; AI Monitor</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>" />
   <style>
     :root {
@@ -43,7 +43,7 @@
 <body>
 <header>
   <span style="font-size:28px">🛡</span>
-  <div><h1>Sobatpaws Admin Dashboard</h1><p>Integrasi app vet · pengelolaan data · efisiensi token AI</p></div>
+  <div><h1>Ekosistem Satwa Admin Dashboard</h1><p>Integrasi app vet · pengelolaan data · efisiensi token AI</p></div>
   <div class="grow"></div>
   <input id="adminKey" type="password" placeholder="Admin API Key" style="min-width:180px" />
   <button class="btn primary" onclick="refreshAll()">↻ Refresh</button>
@@ -82,14 +82,14 @@
 </main>
 
 <script>
-const KEY_STORAGE = "sobatpaws_admin_key";
+const KEY_STORAGE = "ekosistem_satwa_admin_key";
 document.getElementById("adminKey").value = localStorage.getItem(KEY_STORAGE) || "";
 
 function headers() {
   const k = document.getElementById("adminKey").value.trim();
   if (k) localStorage.setItem(KEY_STORAGE, k);
   const h = {};
-  if (k) h["X-Sobatpaws-Key"] = k;
+  if (k) h["X-EkosistemSatwa-Key"] = k;
   return h;
 }
 
@@ -192,7 +192,7 @@ async function refreshAll() {
 
     const m = await fetch("/api/integration/manifest", { headers: headers() }).then(r=>r.json());
     document.getElementById("integrationBox").innerHTML = `
-      <div class="flow"><b>Kontrak integrasi vet app</b> · auth: ${m.auth?.enabled ? "WAJIB X-Sobatpaws-Key" : "dev (tanpa key)"}
+      <div class="flow"><b>Kontrak integrasi vet app</b> · auth: ${m.auth?.enabled ? "WAJIB X-EkosistemSatwa-Key" : "dev (tanpa key)"}
       <ol>${(m.recommended_flow||[]).map(s=>`<li>${s}</li>`).join("")}</ol>
       <p style="margin:10px 0 0;font-size:12px;color:var(--muted)">
         💡 Hemat token: kirim gejala terstruktur + <code>pretranscribed_text</code> dari device;

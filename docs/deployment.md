@@ -1,4 +1,4 @@
-# Sobatpaws — Deployment Guide
+# Ekosistem Satwa — Deployment Guide
 
 ## Architecture Overview
 
@@ -7,7 +7,7 @@
 │                     Docker Host                          │
 │                                                          │
 │  ┌──────────────┐    ┌──────────────┐    ┌────────────┐ │
-│  │  sobatpaws-  │    │  sobatpaws-  │    │ sobatpaws- │ │
+│  │  ekosistem-satwa-  │    │  ekosistem-satwa-  │    │ ekosistem-satwa- │ │
 │  │  api         │───▶│  db          │    │ pgadmin    │ │
 │  │  (port 8080) │    │  (port 5432) │    │ (port 5050)│ │
 │  │              │    │              │    │ (debug)    │ │
@@ -24,9 +24,9 @@
 **Services:**
 | Service | Container | Port | Purpose |
 |---------|-----------|------|---------|
-| API | sobatpaws-api | 8080:8000 | FastAPI backend (ML + AI) |
-| DB | sobatpaws-db | 5432 | PostgreSQL 16 |
-| pgAdmin | sobatpaws-pgadmin | 5050:80 | DB admin (debug profile only) |
+| API | ekosistemsatwa-api | 8080:8000 | FastAPI backend (ML + AI) |
+| DB | ekosistemsatwa-db | 5432 | PostgreSQL 16 |
+| pgAdmin | ekosistemsatwa-pgadmin | 5050:80 | DB admin (debug profile only) |
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@
 
 ```bash
 # 1. Clone & enter project
-cd /path/to/sobatpaws-ai
+cd /path/to/ekosistem-satwa-ai
 
 # 2. Copy production env template and fill secrets
 cp .env.production .env
@@ -63,9 +63,9 @@ See `.env.production` for the full list. Key variables:
 |----------|----------|---------|-------------|
 | `DATABASE_URL` | Yes | — | PostgreSQL connection string |
 | `POSTGRES_PASSWORD` | Yes | — | DB password |
-| `SOBATPAWS_VET_API_KEY` | Yes* | — | Auth key for vet endpoints |
-| `SOBATPAWS_ADMIN_API_KEY` | Yes* | — | Auth key for admin endpoints |
-| `SOBATPAWS_AI_PROVIDER` | No | `local` | AI provider: openai/anthropic/local |
+| `EKOSISTEM_SATWA_VET_API_KEY` | Yes* | — | Auth key for vet endpoints |
+| `EKOSISTEM_SATWA_ADMIN_API_KEY` | Yes* | — | Auth key for admin endpoints |
+| `EKOSISTEM_SATWA_AI_PROVIDER` | No | `local` | AI provider: openai/anthropic/local |
 | `OPENAI_API_KEY` | If OpenAI | — | OpenAI API key |
 | `ANTHROPIC_API_KEY` | If Anthropic | — | Anthropic API key |
 
@@ -112,7 +112,7 @@ Response:
 
 Docker also runs a container-level HEALTHCHECK every 30s. Check status:
 ```bash
-docker inspect --format='{{.State.Health.Status}}' sobatpaws-api
+docker inspect --format='{{.State.Health.Status}}' ekosistem-satwa-api
 ```
 
 ## Deployment Steps (Production)
@@ -144,19 +144,19 @@ curl http://localhost:8080/health
 
 ```bash
 # Generate seed SQL
-docker compose -f docker-compose.prod.yml exec api python -m sobatpaws.seed_generator
+docker compose -f docker-compose.prod.yml exec api python -m ekosistem_satwa.seed_generator
 
 # Apply schema
-docker compose -f docker-compose.prod.yml exec -T postgres psql -U sobatpaws -d sobatpaws < seed/schema.sql
+docker compose -f docker-compose.prod.yml exec -T postgres psql -U ekosistemsatwa -d ekosistemsatwa < seed/schema.sql
 
 # Apply seed data
-docker compose -f docker-compose.prod.yml exec -T postgres psql -U sobatpaws -d sobatpaws < seed/seed.sql
+docker compose -f docker-compose.prod.yml exec -T postgres psql -U ekosistemsatwa -d ekosistemsatwa < seed/seed.sql
 ```
 
 ### 4. Train ML Models (First Deploy / After Data Changes)
 
 ```bash
-docker compose -f docker-compose.prod.yml exec api python -m sobatpaws.ml.train
+docker compose -f docker-compose.prod.yml exec api python -m ekosistem_satwa.ml.train
 ```
 
 ### 5. Verify Full System
@@ -190,18 +190,18 @@ docker compose -f docker-compose.prod.yml up -d api:previous-tag
 
 ### Database Backup
 ```bash
-docker compose -f docker-compose.prod.yml exec -T postgres pg_dump -U sobatpaws sobatpaws > backup_$(date +%Y%m%d_%H%M%S).sql
+docker compose -f docker-compose.prod.yml exec -T postgres pg_dump -U ekosistemsatwa ekosistemsatwa > backup_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 ### Database Restore
 ```bash
-cat backup_file.sql | docker compose -f docker-compose.prod.yml exec -T postgres psql -U sobatpaws -d sobatpaws
+cat backup_file.sql | docker compose -f docker-compose.prod.yml exec -T postgres psql -U ekosistemsatwa -d ekosistemsatwa
 ```
 
 ### Artifacts Backup
 ```bash
 # ML models and learning data live in a Docker volume
-docker run --rm -v sobatpaws_artifacts:/data -v $(pwd):/backup alpine tar czf /backup/artifacts_backup.tar.gz -C /data .
+docker run --rm -v ekosistem_satwa_artifacts:/data -v $(pwd):/backup alpine tar czf /backup/artifacts_backup.tar.gz -C /data .
 ```
 
 ## Monitoring
@@ -220,7 +220,7 @@ docker compose -f docker-compose.prod.yml logs --tail=100 api
 
 ### Resource Usage
 ```bash
-docker stats sobatpaws-api sobatpaws-db
+docker stats ekosistem-satwa-api ekosistem-satwa-db
 ```
 
 ### Health Check Automation
@@ -243,13 +243,13 @@ docker compose -f docker-compose.prod.yml logs api
 docker compose -f docker-compose.prod.yml config
 
 # Test connectivity to DB
-docker compose -f docker-compose.prod.yml exec api python -c "from sobatpaws.api.deps import db_status; print(db_status())"
+docker compose -f docker-compose.prod.yml exec api python -c "from ekosistem_satwa.api.deps import db_status; print(db_status())"
 ```
 
 ### ML models not found
 ```bash
 # Train models inside container
-docker compose -f docker-compose.prod.yml exec api python -m sobatpaws.ml.train
+docker compose -f docker-compose.prod.yml exec api python -m ekosistem_satwa.ml.train
 
 # Check artifacts volume
 docker compose -f docker-compose.prod.yml exec api ls -la /app/artifacts/models/
@@ -265,6 +265,55 @@ docker compose -f docker-compose.prod.yml exec api ls -la /app/artifacts/models/
 1. **NEVER commit .env to git** — it's in `.gitignore`
 2. Change default passwords (`POSTGRES_PASSWORD`, `PGADMIN_PASSWORD`)
 3. pgAdmin runs under `debug` profile only — omit `--profile debug` in production
-4. API auth keys (`SOBATPAWS_VET_API_KEY`, `SOBATPAWS_ADMIN_API_KEY`) should be strong random strings
+4. API auth keys (`EKOSISTEM_SATWA_VET_API_KEY`, `EKOSISTEM_SATWA_ADMIN_API_KEY`) should be strong random strings
 5. DB port 5432 is not exposed to host by default (comment in docker-compose if needed)
-6. Consider a reverse proxy (nginx/Caddy) in front of the API for TLS termination
+
+## Reverse Proxy (Nginx)
+
+A shared nginx reverse proxy at `infra/nginx/` provides TLS termination and routing:
+
+| Domain | Target | Service |
+|--------|--------|---------|
+| `vet.naincode.id` | `ekosistemsatwa-api:8000` | Ekosistem Satwa API |
+| `api.naincode.id` | `naincode-platform-api:8000` | Naincode Platform API |
+| `app.naincode.id` | `naincode-platform-web:3000` | Naincode Platform Web |
+
+```bash
+# Start the reverse proxy (from repo root)
+docker compose -f infra/nginx/docker-compose.yml up -d
+
+# Verify config
+docker compose -f infra/nginx/docker-compose.yml exec nginx nginx -t
+```
+
+See `infra/nginx/ssl/README.md` for SSL certificate setup.
+
+## Disaster Recovery
+
+### Full System Restore
+```bash
+# 1. Restore database
+gunzip -c /backups/ekosistem_satwa_YYYYMMDD/backup.sql.gz | \
+  docker compose -f docker-compose.prod.yml exec -T postgres psql -U ekosistemsatwa -d ekosistemsatwa
+
+# 2. Restore artifacts (ML models, learning data)
+docker run --rm \
+  -v ekosistemsatwa_artifacts:/dest \
+  -v /backups/ekosistem_satwa_YYYYMMDD:/src \
+  alpine tar xzf /src/artifacts.tar.gz -C /dest
+
+# 3. Restart stack
+docker compose -f docker-compose.prod.yml up -d
+```
+
+### Container Restart Loop
+```bash
+# Check restart count
+docker inspect --format='{{.RestartCount}}' ekosistemsatwa-api
+
+# If >5 restarts in 60s, investigate logs
+docker logs ekosistemsatwa-api --tail 100
+
+# Force recreate
+docker compose -f docker-compose.prod.yml up -d --force-recreate api
+```

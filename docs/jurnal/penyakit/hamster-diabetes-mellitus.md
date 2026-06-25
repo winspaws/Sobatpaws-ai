@@ -63,7 +63,7 @@ Bisa dikelola dengan diet; kasus berat memburuk.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_hamsters.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_hamsters.json`
 
 ## Disclaimer
 

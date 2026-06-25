@@ -64,7 +64,7 @@ Baik dengan suplementasi dini.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_exotic_others.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_exotic_others.json`
 
 ## Disclaimer
 

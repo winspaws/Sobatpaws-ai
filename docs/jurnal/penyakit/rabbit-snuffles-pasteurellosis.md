@@ -64,7 +64,7 @@ Sulit eradikasi total; manajemen jangka panjang.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_rabbits.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_rabbits.json`
 
 ## Disclaimer
 

@@ -1,7 +1,7 @@
 # =============================================================================
-#  Sobatpaws — Production Dockerfile (multi-stage, slim image)
+#  Ekosistem Satwa — Production Dockerfile (multi-stage, slim image)
 #  Target: Python 3.11 runtime with ML dependencies (scikit-learn, pandas)
-#  Build:  docker build -t sobatpaws-api:latest .
+#  Build:  docker build -t ekosistemsatwa-api:latest .
 # =============================================================================
 
 # ── Stage 1: Builder ──────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 FROM python:3.11-slim AS runtime
 
 LABEL maintainer="Naincode AI Dept"
-LABEL description="Sobatpaws — Veterinary Backend AI Services"
+LABEL description="Ekosistem Satwa — Veterinary Backend AI Services (rebranded from Sobatpaws)"
 LABEL version="0.3.0"
 
 # Runtime dependencies (no build tools needed)
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user with uid 1000 (matches VPS ubuntu user for volume permissions)
-RUN groupadd -r sobatpaws -g 1000 && useradd -r -g sobatpaws -u 1000 -d /app -s /sbin/nologin sobatpaws
+RUN groupadd -r ekosistemsatwa -g 1000 && useradd -r -g ekosistemsatwa -u 1000 -d /app -s /sbin/nologin ekosistemsatwa
 
 WORKDIR /app
 
@@ -55,7 +55,7 @@ COPY requirements.txt .
 
 # Create writable directories for runtime artifacts and fix permissions
 RUN mkdir -p /app/artifacts/models /app/artifacts/learning /app/artifacts/ai /app/artifacts/sessions \
-    && chown -R sobatpaws:sobatpaws /app
+    && chown -R ekosistemsatwa:ekosistemsatwa /app
 
 # PYTHONPATH for imports
 ENV PYTHONPATH=/app/src
@@ -65,7 +65,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     CMD curl -sf http://localhost:8000/health || exit 1
 
 # ── Run ───────────────────────────────────────────────────────────────────
-USER sobatpaws
+USER ekosistemsatwa
 EXPOSE 8000
 
-CMD ["uvicorn", "sobatpaws.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "src"]
+CMD ["uvicorn", "ekosistem_satwa.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "src"]

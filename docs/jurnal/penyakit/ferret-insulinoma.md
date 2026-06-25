@@ -63,7 +63,7 @@ Tidak sembuh total; manajemen memperpanjang kualitas hidup berbulan-tahun.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_exotic_others.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_exotic_others.json`
 
 ## Disclaimer
 

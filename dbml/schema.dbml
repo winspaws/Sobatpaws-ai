@@ -1,5 +1,5 @@
 // =============================================================================
-//  SOBATPAWS — VETERINARY ML & AI DATA PLATFORM
+//  EKOSISTEM SATWA — VETERINARY ML & AI DATA PLATFORM
 //  Database schema (DBML) untuk mendukung Vets, Pet Clinic, dan Pet Shop
 //  dalam mengolah & menganalisa data menjadi sumber pembelajaran (ML) + AI.
 //
@@ -7,10 +7,10 @@
 //  Konvensi: snake_case, PK = id (bigint), soft-delete via deleted_at.
 // =============================================================================
 
-Project sobatpaws {
+Project ekosistem_satwa {
   database_type: 'PostgreSQL'
   Note: '''
-    # Sobatpaws Data Platform
+    # Ekosistem Satwa Data Platform
     Sumber data terstruktur + pipeline ML + AI wrapping untuk dukungan
     diagnosa, rekomendasi tindakan, dan saran pengobatan hewan.
 

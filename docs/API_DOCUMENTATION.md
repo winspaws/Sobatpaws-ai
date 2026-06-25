@@ -1,17 +1,17 @@
-# 📘 Sobatpaws API Documentation
+# 📘 Ekosistem Satwa API Documentation
 
 > **Base URL:** `http://43.129.56.221:8080`
 > **Version:** 0.3.0 (OAS 3.1)
 > **Swagger UI:** [`/docs`](http://43.129.56.221:8080/docs)
 > **ReDoc:** [`/redoc`](http://43.129.56.221:8080/redoc)
 > **OpenAPI JSON:** [`/openapi.json`](http://43.129.56.221:8080/openapi.json)
-> **Postman Collection:** [`Sobatpaws_API.postman_collection.json`](./Sobatpaws_API.postman_collection.json)
+> **Postman Collection:** [`EkosistemSatwa_API.postman_collection.json`](./EkosistemSatwa_API.postman_collection.json)
 
 ---
 
 ## 📋 Daftar Isi
 
-1. [Tentang Sobatpaws API](#1-tentang-sobatpaws-api)
+1. [Tentang Ekosistem Satwa API](#1-tentang-ekosistem-satwa-api)
 2. [Autentikasi](#2-autentikasi)
 3. [Flow Integrasi Utama](#3-flow-integrasi-utama)
 4. [Endpoint Reference](#4-endpoint-reference)
@@ -35,9 +35,9 @@
 
 ---
 
-## 1. Tentang Sobatpaws API
+## 1. Tentang Ekosistem Satwa API
 
-**Sobatpaws** adalah Backend AI Services untuk dokter hewan — menyediakan REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+**Ekosistem Satwa** adalah Backend AI Services untuk dokter hewan — menyediakan REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
 ### Arsitektur
 
@@ -46,7 +46,7 @@ APLIKASI EKSTERNAL (Android / iOS / Web / App Vet 3rd)
          │
          ▼
 ┌─────────────────────────────────────────────┐
-│         SOBATPAWS BACKEND API                │
+│         EKOSISTEM SATWA BACKEND API                │
 │                                              │
 │  Knowledge Base (JSON) → ML Pipeline → AI    │
 │  Suggestion Engine (RAG) → Safety Guardrail  │
@@ -85,7 +85,7 @@ APLIKASI EKSTERNAL (Android / iOS / Web / App Vet 3rd)
 Saat ini autentikasi bersifat **opsional** (development mode). Untuk production, gunakan header:
 
 ```
-X-Sobatpaws-Key: <your_vet_api_key>
+X-EkosistemSatwa-Key: <your_vet_api_key>
 ```
 
 Atau header alternatif:
@@ -94,7 +94,7 @@ Atau header alternatif:
 Authorization: Bearer <your_token>
 ```
 
-> **Catatan:** Endpoint admin (`/admin/*`) dan pipeline (`POST /api/platform/pipeline/run`) memerlukan `X-Sobatpaws-Key` atau `Authorization` dengan level admin.
+> **Catatan:** Endpoint admin (`/admin/*`) dan pipeline (`POST /api/platform/pipeline/run`) memerlukan `X-EkosistemSatwa-Key` atau `Authorization` dengan level admin.
 
 ---
 
@@ -259,7 +259,7 @@ Mulai sesi konsultasi baru. Memproses keluhan pertama (text/audio/image) → sar
 
 **Headers (opsional):**
 ```
-X-Sobatpaws-Key: <api_key>
+X-EkosistemSatwa-Key: <api_key>
 Content-Type: application/json
 ```
 
@@ -642,7 +642,7 @@ Sinkronkan artefak ML lokal ke tabel PostgreSQL `ml_models`.
 
 #### `GET /api/integration/id-schema`
 
-Kontrak ID entitas untuk tim developer Sobatpaws.
+Kontrak ID entitas untuk tim developer Ekosistem Satwa.
 
 **Response `200`:** Dokumentasi lengkap field ID yang harus dikirim di `ConsultationContext`.
 
@@ -669,7 +669,7 @@ Ambil bundle ID entitas untuk satu sesi konsultasi.
 
 #### `GET /api/integration/consultations/by-external/{external_id}`
 
-Lookup sesi AI dari ID konsultasi app Sobatpaws utama.
+Lookup sesi AI dari ID konsultasi app Ekosistem Satwa utama.
 
 **Parameters:**
 | Name | In | Type | Required |
@@ -678,7 +678,7 @@ Lookup sesi AI dari ID konsultasi app Sobatpaws utama.
 
 #### `GET /api/integration/consultations`
 
-Daftar sesi AI terfilter by ID entitas Sobatpaws.
+Daftar sesi AI terfilter by ID entitas Ekosistem Satwa.
 
 **Parameters:**
 | Name | In | Type | Required |
@@ -886,7 +886,7 @@ Analisis file yang sudah diupload.
 
 ### 4.12 Admin Dashboard
 
-Semua endpoint admin memerlukan `X-Sobatpaws-Key` atau `Authorization` level admin.
+Semua endpoint admin memerlukan `X-EkosistemSatwa-Key` atau `Authorization` level admin.
 
 #### `GET /admin/overview`
 
@@ -1043,13 +1043,13 @@ Struktur response saran AI.
 
 Kami menyediakan Postman Collection lengkap yang bisa di-import langsung ke Postman.
 
-**File:** [`Sobatpaws_API.postman_collection.json`](./Sobatpaws_API.postman_collection.json)
+**File:** [`EkosistemSatwa_API.postman_collection.json`](./EkosistemSatwa_API.postman_collection.json)
 
 ### Cara Import
 
 1. Buka Postman
 2. Klik **Import** → **Upload Files**
-3. Pilih file `Sobatpaws_API.postman_collection.json`
+3. Pilih file `EkosistemSatwa_API.postman_collection.json`
 4. Set **Base URL** variable: `http://43.129.56.221:8080`
 
 ### Isi Collection

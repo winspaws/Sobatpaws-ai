@@ -1,14 +1,14 @@
-# Integrasi Sobatpaws — App Vet & Admin Dashboard
+# Integrasi Ekosistem Satwa — App Vet & Admin Dashboard
 
-Panduan integrasi platform ML/AI Sobatpaws dengan **aplikasi dokter hewan (vet app)** dan **dashboard admin** Sobatpaws.
+Panduan integrasi platform ML/AI Ekosistem Satwa dengan **aplikasi dokter hewan (vet app)** dan **dashboard admin** Ekosistem Satwa.
 
 ---
 
 ## 1. Arsitektur Integrasi
 
 ```
-┌─────────────────┐     X-Sobatpaws-Key      ┌──────────────────────────────┐
-│  App Vet        │ ───────────────────────► │  Sobatpaws API (FastAPI)     │
+┌─────────────────┐     X-EkosistemSatwa-Key      ┌──────────────────────────────┐
+│  App Vet        │ ───────────────────────► │  Ekosistem Satwa API (FastAPI)     │
 │  (mobile/web)   │   REST + multipart       │  ML + KB + AI (smart mode)   │
 └─────────────────┘                          └──────────────┬───────────────┘
                                                             │
@@ -26,14 +26,14 @@ Panduan integrasi platform ML/AI Sobatpaws dengan **aplikasi dokter hewan (vet a
 Set di `.env`:
 
 ```bash
-SOBATPAWS_VET_API_KEY=sk-vet-your-secret-key
-SOBATPAWS_ADMIN_API_KEY=sk-admin-your-secret-key
+EKOSISTEM_SATWA_VET_API_KEY=sk-vet-your-secret-key
+EKOSISTEM_SATWA_ADMIN_API_KEY=sk-admin-your-secret-key
 ```
 
 Header pada setiap request vet app:
 
 ```
-X-Sobatpaws-Key: sk-vet-your-secret-key
+X-EkosistemSatwa-Key: sk-vet-your-secret-key
 ```
 
 Atau: `Authorization: Bearer sk-vet-your-secret-key`
@@ -68,7 +68,7 @@ GET /api/symptoms?category=dog
 
 ### c) Mulai konsultasi (sesi)
 
-Kirim **semua ID entitas** dari app Sobatpaws agar ML/AI, learning loop, dan PostgreSQL selaras:
+Kirim **semua ID entitas** dari app Ekosistem Satwa agar ML/AI, learning loop, dan PostgreSQL selaras:
 
 | Field | DB | Wajib |
 |-------|-----|-------|
@@ -84,7 +84,7 @@ Kontrak lengkap: `GET /api/integration/id-schema`
 ```http
 POST /consultations
 Content-Type: application/json
-X-Sobatpaws-Key: sk-vet-...
+X-EkosistemSatwa-Key: sk-vet-...
 
 {
   "consultation_id": "sp-consult-20250612-0042",
@@ -138,6 +138,176 @@ GET /api/integration/consultations/by-external/sp-consult-20250612-0042
 GET /api/integration/entities/sp-consult-20250612-0042
 GET /api/integration/consultations?vet_id=42&pet_id=500
 ```
+
+
+
+### g) Sinkronisasi Entity Mapping (Sync/Lookup/Registry)
+
+Endpoint tambahan untuk skenario di mana app utama perlu:
+1. **Pre-register** entity mapping SEBELUM konsultasi dimulai
+2. **Bulk lookup** banyak ID sekaligus (untuk sync batch)
+3. **Dump seluruh registry** untuk inisialisasi sync ke DB utama
+
+#### POST /api/integration/sync — Register/Upsert Entity Mapping
+
+Gunakan endpoint ini untuk mendaftarkan mapping entity ID dari app utama
+**sebelum** konsultasi dimulai. Berguna untuk:
+- App yang ingin memisahkan langkah "pendaftaran entity" dan "mulai konsultasi"
+- Sync batch dari DB utama ke AI session
+
+```http
+POST /api/integration/sync
+Content-Type: application/json
+X-EkosistemSatwa-Key: sk-vet-...
+
+{
+  "external_consultation_id": "app-2025-0626-0001",
+  "vet_id": 42,
+  "owner_id": 1001,
+  "customer_id": 1001,
+  "pet_id": 500,
+  "case_id": 8801,
+  "org_id": 1,
+  "external_refs": {
+    "appointment_id": "APT-2025-0626-0001",
+    "invoice_id": "INV-5521"
+  }
+}
+```
+
+Response:
+```json
+{
+  "status": "synced",
+  "consultation_id": "app-2025-0626-0001",
+  "external_consultation_id": "app-2025-0626-0001",
+  "entities": {
+    "consultation_id": "app-2025-0626-0001",
+    "external_consultation_id": "app-2025-0626-0001",
+    "org_id": 1,
+    "vet_id": 42,
+    "owner_id": 1001,
+    "customer_id": 1001,
+    "pet_id": 500,
+    "case_id": 8801,
+    "external_refs": {
+      "appointment_id": "APT-2025-0626-0001",
+      "invoice_id": "INV-5521"
+    }
+  },
+  "registered_at": "2025-06-26T04:30:00+00:00",
+  "session_active": false
+}
+```
+
+**Catatan:**
+- Field `external_consultation_id` disarankan tapi opsional
+- Jika tidak ada `consultation_id` maupun `external_consultation_id`, server akan generate UUID baru
+- Jika `external_consultation_id` sudah pernah terdaftar, mapping akan di-update (upsert)
+
+#### POST /api/integration/lookup — Bulk Lookup
+
+Lookup banyak ID sekaligus untuk sync batch:
+
+```http
+POST /api/integration/lookup
+Content-Type: application/json
+X-EkosistemSatwa-Key: sk-vet-...
+
+{
+  "external_consultation_ids": [
+    "app-2025-0626-0001",
+    "app-2025-0626-0002",
+    "id-tidak-ada"
+  ],
+  "consultation_ids": ["uuid-sesi-ai-123"]
+}
+```
+
+Response:
+```json
+{
+  "total": 4,
+  "found": 2,
+  "not_found_count": 2,
+  "not_found": ["id-tidak-ada", "uuid-sesi-ai-123"],
+  "results": {
+    "app-2025-0626-0001": {
+      "consultation_id": "app-2025-0626-0001",
+      "external_consultation_id": "app-2025-0626-0001",
+      "entities": { "vet_id": 42, "owner_id": 1001, ... }
+    },
+    "app-2025-0626-0002": {
+      "consultation_id": "...",
+      "entities": { ... },
+      "session_active": true
+    },
+    "id-tidak-ada": null,
+    "uuid-sesi-ai-123": null
+  }
+}
+```
+
+#### GET /api/integration/entity-registry — Dump Semua Mapping
+
+Ambil seluruh entity registry untuk inisialisasi sync atau backup:
+
+```http
+GET /api/integration/entity-registry
+GET /api/integration/entity-registry?vet_id=42&limit=100
+GET /api/integration/entity-registry?owner_id=1001&offset=50&limit=50
+GET /api/integration/entity-registry?pet_id=500
+GET /api/integration/entity-registry?org_id=1
+```
+
+**Query Parameters:**
+| Param | Type | Default | Deskripsi |
+|-------|------|---------|-----------|
+| `vet_id` | int | null | Filter by dokter |
+| `owner_id` | int | null | Filter by pemilik hewan |
+| `customer_id` | int | null | Alias untuk owner_id |
+| `pet_id` | int | null | Filter by hewan |
+| `org_id` | int | null | Filter by organisasi/klinik |
+| `limit` | int | 50 | Max records per page (max 500) |
+| `offset` | int | 0 | Pagination offset |
+
+Response:
+```json
+{
+  "count": 42,
+  "offset": 0,
+  "limit": 50,
+  "registry": [
+    {
+      "consultation_id": "app-2025-0626-0001",
+      "external_consultation_id": "app-2025-0626-0001",
+      "vet_id": 42,
+      "owner_id": 1001,
+      "pet_id": 500,
+      "case_id": 8801,
+      "org_id": 1,
+      "external_refs": { ... },
+      "registered_at": "2025-06-26T04:30:00+00:00"
+    },
+    ...
+  ],
+  "schema": {
+    "description": "ID entitas Ekosistem Satwa...",
+    "fields": { ... }
+  }
+}
+```
+
+#### Ringkasan Endpoint Sync
+
+| Endpoint | Method | Use Case |
+|----------|--------|----------|
+| `/api/integration/sync` | POST | Daftarkan/update entity mapping (upsert) |
+| `/api/integration/lookup` | POST | Bulk lookup entities by ID |
+| `/api/integration/entity-registry` | GET | Dump/filter semua mapping dengan pagination |
+| `/api/integration/entities/{id}` | GET | Get single entity by consultation_id |
+| `/api/integration/consultations/by-external/{id}` | GET | Get single entity by external_consultation_id |
+
 
 ### d) Giliran lanjutan / media
 
@@ -200,7 +370,7 @@ POST /api/platform/pipeline/run   {"preset": "learning_loop"}
 POST /learning/sync-models-db     # sync ml_models → PostgreSQL
 ```
 
-Training ML (`python -m sobatpaws.ml.train`):
+Training ML (`python -m ekosistem_satwa.ml.train`):
 
 | `--source` | Data |
 |------------|------|
@@ -224,19 +394,19 @@ Setelah edit `data/clinical/*.json`, jalankan `python scripts/sync_catalogs_from
 
 ```bash
 # Mode: smart | always | never
-SOBATPAWS_AI_AUGMENTATION_MODE=smart
+EKOSISTEM_SATWA_AI_AUGMENTATION_MODE=smart
 
 # Lewati LLM augment bila confidence top disease >= 0.82
-SOBATPAWS_AI_SKIP_LLM_CONFIDENCE=0.82
+EKOSISTEM_SATWA_AI_SKIP_LLM_CONFIDENCE=0.82
 
 # Max output token per panggilan LLM (default 800, bukan 1500)
-SOBATPAWS_AI_MAX_TOKENS=800
+EKOSISTEM_SATWA_AI_MAX_TOKENS=800
 
 # Cache respons identik (detik, default 3600)
-SOBATPAWS_AI_CACHE_TTL_SEC=3600
+EKOSISTEM_SATWA_AI_CACHE_TTL_SEC=3600
 
 # Budget harian token (0 = unlimited)
-SOBATPAWS_AI_DAILY_TOKEN_BUDGET=50000
+EKOSISTEM_SATWA_AI_DAILY_TOKEN_BUDGET=50000
 ```
 
 ### Tips integrasi vet app (hemat kredit)
@@ -264,7 +434,7 @@ Monitor via `GET /admin/ai/usage`.
 ### Konfigurasi `.env`
 
 ```bash
-SOBATPAWS_AI_PROVIDER=anthropic
+EKOSISTEM_SATWA_AI_PROVIDER=anthropic
 ANTHROPIC_API_KEY=sk-ant-api03-...
 ANTHROPIC_MODEL=claude-3-5-sonnet-latest
 # atau claude-sonnet-4-20250514 / model terbaru di console Anthropic
@@ -294,7 +464,7 @@ Response sukses:
 
 ```http
 POST /api/agent/providers/anthropic/activate
-X-Sobatpaws-Key: <admin-key>
+X-EkosistemSatwa-Key: <admin-key>
 ```
 
 ### Fallback chain
@@ -306,7 +476,7 @@ primary → provider lain yang configured (openai, anthropic, local)
 
 Atur urutan via env:
 ```bash
-SOBATPAWS_AI_FALLBACK_CHAIN=anthropic,openai,local
+EKOSISTEM_SATWA_AI_FALLBACK_CHAIN=anthropic,openai,local
 ```
 
 ### Chat agent via Claude (app vet)
@@ -335,9 +505,9 @@ Tag endpoint:
 
 ## 8. Checklist Production
 
-- [ ] Set `SOBATPAWS_VET_API_KEY` dan `SOBATPAWS_ADMIN_API_KEY`
-- [ ] Set `SOBATPAWS_LEARNING_BACKEND=both` + PostgreSQL
-- [ ] Set `SOBATPAWS_AI_AUGMENTATION_MODE=smart`
-- [ ] Set `SOBATPAWS_AI_DAILY_TOKEN_BUDGET` sesuai paket kredit
+- [ ] Set `EKOSISTEM_SATWA_VET_API_KEY` dan `EKOSISTEM_SATWA_ADMIN_API_KEY`
+- [ ] Set `EKOSISTEM_SATWA_LEARNING_BACKEND=both` + PostgreSQL
+- [ ] Set `EKOSISTEM_SATWA_AI_AUGMENTATION_MODE=smart`
+- [ ] Set `EKOSISTEM_SATWA_AI_DAILY_TOKEN_BUDGET` sesuai paket kredit
 - [ ] Vet app kirim `org_id`, `user_id`, `pet_id` di setiap konsultasi
 - [ ] Monitor `/admin/overview` secara berkala

@@ -1,6 +1,6 @@
 # API Request/Response Examples
 
-Contoh request dan response real dari endpoint integrasi Sobatpaws.
+Contoh request dan response real dari endpoint integrasi Ekosistem Satwa.
 
 ---
 
@@ -56,7 +56,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
     "enabled": false,
     "vet_key_configured": false,
     "admin_key_configured": false,
-    "header": "X-Sobatpaws-Key",
+    "header": "X-EkosistemSatwa-Key",
     "alt_header": "Authorization: Bearer <key>"
   },
   "client": {
@@ -95,7 +95,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
     "symptoms": "http://testserver/api/symptoms"
   },
   "entity_ids": {
-    "description": "ID entitas Sobatpaws — kirim di context saat POST /consultations",
+    "description": "ID entitas Ekosistem Satwa — kirim di context saat POST /consultations",
     "fields": {
       "org_id": {
         "type": "int",
@@ -133,7 +133,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
       },
       "external_consultation_id": {
         "type": "string",
-        "note": "ID konsultasi dari app Sobatpaws utama — untuk lookup & sync"
+        "note": "ID konsultasi dari app Ekosistem Satwa utama — untuk lookup & sync"
       },
       "consultation_id": {
         "type": "string",
@@ -152,7 +152,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
     ]
   },
   "headers_required": {
-    "X-Sobatpaws-Key": false,
+    "X-EkosistemSatwa-Key": false,
     "Content-Type": "application/json"
   },
   "media_upload": {
@@ -180,7 +180,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
 ```json
 
 {
-  "description": "ID entitas Sobatpaws — kirim di context saat POST /consultations",
+  "description": "ID entitas Ekosistem Satwa — kirim di context saat POST /consultations",
   "fields": {
     "org_id": {
       "type": "int",
@@ -218,7 +218,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
     },
     "external_consultation_id": {
       "type": "string",
-      "note": "ID konsultasi dari app Sobatpaws utama — untuk lookup & sync"
+      "note": "ID konsultasi dari app Ekosistem Satwa utama — untuk lookup & sync"
     },
     "consultation_id": {
       "type": "string",
@@ -5776,7 +5776,7 @@ Contoh request dan response real dari endpoint integrasi Sobatpaws.
 
 {
   "info": {
-    "title": "Sobatpaws Veterinary ML & AI API",
+    "title": "Ekosistem Satwa Veterinary ML & AI API",
     "description": "Sumber data + ML + AI wrapping untuk dukungan vets, klinik & petshop. Mencakup data master, prediksi ML, konsultasi multimodal, dan learning loop.",
     "version": "0.3.0"
   },

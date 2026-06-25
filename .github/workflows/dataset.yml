@@ -7,13 +7,13 @@ on:
   push:
     paths:
       - "scripts/**"
-      - "src/sobatpaws/**"
+      - "src/ekosistem_satwa/**"
       - "dbml/**"
       - ".github/workflows/dataset.yml"
   pull_request:
     paths:
       - "scripts/**"
-      - "src/sobatpaws/**"
+      - "src/ekosistem_satwa/**"
       - "dbml/**"
   workflow_dispatch:
     inputs:
@@ -46,19 +46,19 @@ jobs:
       - name: Platform doctor
         env:
           PYTHONPATH: src
-        run: python -m sobatpaws.platform.doctor
+        run: python -m ekosistem_satwa.platform.doctor
 
       - name: ML train smoke (hybrid, subsampled views)
         env:
           PYTHONPATH: src
         run: |
-          python -m sobatpaws.ml.train --category cat --samples 10 --source hybrid --max-view-cases 500
+          python -m ekosistem_satwa.ml.train --category cat --samples 10 --source hybrid --max-view-cases 500
 
       - name: Upload generated artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sobatpaws-dataset-sample
+          name: ekosistemsatwa-dataset-sample
           path: |
             data/generated/summary_full.json
             data/generated/manifest.json

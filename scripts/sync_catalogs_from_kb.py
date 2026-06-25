@@ -22,7 +22,7 @@ OUT = SCRIPTS / "_kb_clinical_overlay.py"
 
 sys.path.insert(0, str(ROOT / "src"))
 
-from sobatpaws.data_loader import load_knowledge_base  # noqa: E402
+from ekosistem_satwa.data_loader import load_knowledge_base  # noqa: E402
 
 # Impor catalogs setelah path OK
 sys.path.insert(0, str(SCRIPTS))

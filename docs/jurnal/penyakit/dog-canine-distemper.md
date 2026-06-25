@@ -62,7 +62,7 @@ Variabel; gejala neurologis menandakan prognosis buruk.
 
 ## Referensi
 
-1. Sobatpaws curated KB — `data/clinical/diseases_dogs.json`
+1. Ekosistem Satwa curated KB — `data/clinical/diseases_dogs.json`
 
 ## Disclaimer
 
