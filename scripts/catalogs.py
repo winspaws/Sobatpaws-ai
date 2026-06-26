@@ -26,6 +26,7 @@ CATEGORY_IDS = {
     "amphibian": 8,
     "ferret": 9,
     "guinea_pig": 10,
+    "others": 11,
 }
 
 # Per-category leaf-taxon targets.
