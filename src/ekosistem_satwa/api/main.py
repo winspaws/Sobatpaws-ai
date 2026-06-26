@@ -37,6 +37,8 @@ from .knowledge_router import router as knowledge_router
 from .memory_router import router as memory_router
 from .platform_router import router as platform_router
 from .vision_router import router as vision_router
+from .triage_router import router as triage_router
+from .forecast_router import router as forecast_router
 from ..ai.llm import LLMClient
 from ..ai.schemas import (
     AISuggestion,
@@ -88,6 +90,8 @@ app.include_router(memory_router)
 app.include_router(ai_gateway_router)
 app.include_router(emr_router)
 app.include_router(knowledge_router)
+app.include_router(triage_router)
+app.include_router(forecast_router)
 
 
 # =============================================================================
