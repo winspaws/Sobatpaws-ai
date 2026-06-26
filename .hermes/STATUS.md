@@ -1,35 +1,37 @@
 # Naincode AI Dept — Status
-**Sabtu, 27 Juni 2026 — 00:15 WIB** | Sprint 3 ✅ → Sprint 4 🚀
+**Minggu, 28 Juni 2026 — 00:45 WIB** | Sprint 3 ✅ → Sprint 4 🚀
 
 ---
 
 ## VPS Health — All Systems GO
-API 200 OK | PG up 7 days | 37GB free | 2.6GB RAM | BytePlus LLM | Vision v1.0.0
-Container: sobatpaws-api (88 routes) | sobatpaws-db (7 days)
+API 200 OK | LLM Available | KB: 10 species, 177 breeds
+Container: sobatpaws-api (healthy, latest build) | sobatpaws-db (7 days)
 
 ---
 
 ## Pipeline
 
 ```
-Sprint 3 (Pawnia Integration) ✅ DONE — 15/15 tasks completed
+Sprint 3 (Pawnia Integration) ✅ DONE — 15/15 tasks
     ↓
-Sprint 4 (Admin Panel Alignment) 🚀 — 8 tasks created, planning done
+Sprint 4 (Admin Panel Alignment) 🚀 — 5/8 tasks complete
     ↓
-Data Model → Migration → Integration Enhancement → Vision/Safety/Learning Loop
-    ↓
-Tests → Architect Review → Deploy
+Data Model ✅ → Migration ✅ → Integration Enhancement [TODO]
+                                       ↓
+              Vision [TODO] → Safety [TODO] → Learning Loop Dashboard [TODO]
+                                       ↓
+              Integration Tests ✅ → Architect Review [TODO] → Deploy
 ```
 
 ---
 
 ## Board: naincode — Sprint 3 ✅ COMPLETE
 
-| Status | Count | Detail |
-|--------|-------|--------|
-| Done | 15 | Memory (10/10), RAG (17/17), Notification (7), Consultation (5/5), Doctor Fixes (9/9), Sprint Planning, Architect Prompt Review, Architect Batch Reviews (3x), API Documentation (76 endpoints), PostgreSQL VIEWs, API Docs Portal, Prompt Engineering and RAG Tuning, AI Gateway Service, **AI Gateway Integration and VPS Deploy** |
+| Status | Count |
+|--------|-------|
+| Done | 15/15 |
 
-**Progress: 100%** — Sprint 3 SELESAI
+**Progress: 100%**
 
 ---
 
@@ -37,26 +39,11 @@ Tests → Architect Review → Deploy
 
 | Status | Count | Detail |
 |--------|-------|--------|
-| Ready | 8 | Data Model Alignment, Alembic Migration, Integration Enhancement, Vision Analysis, Safety Layer, Learning Loop, Integration Tests, Architect Review |
-| In Progress | 0 | — |
+| Done | 5 | Sprint Planning, Data Model Alignment, Learning Loop, Integration Tests, Architect Batch Review |
+| Todo | 3 | Integration Enhancement, Vision Analysis, Safety Layer, Learning Loop Dashboard |
 | Blocked | 0 | — |
 
-**Progress: 0%** — 8 tasks created, dependencies linked
-
-### Task Dependencies
-```
-Data Model Alignment (backend)
-  ├── Alembic Migration (backend)
-  │     └── Integration Enhancement (backend)
-  │           └── Integration Tests (pawnia-ai-1)
-  ├── Vision Analysis for Admin (pawnia-ai-2) [P2]
-  │     └── Integration Tests
-  ├── Safety Layer Integration (pawnia-ai-3) [P2]
-  │     └── Integration Tests
-  └── Learning Loop Dashboard (pawnia-ml-2) [P2]
-        └── Integration Tests
-              └── Architect Batch Review (architect)
-```
+**Progress: 62%** (5/8 done)
 
 ---
 
@@ -75,46 +62,32 @@ Data Model Alignment (backend)
 
 | Task | Assignee | Status |
 |------|----------|--------|
-| 🔧 Data Model Alignment — Pet and User fields | backend | READY |
-| 🔧 Alembic Migration — Schema Changes | backend | READY |
-| 🔧 Integration Enhancement — Pre-Screening, Medical History, Dashboard Insights | backend | READY |
+| 🔧 Integration Enhancement — Pre-Screening, Medical History, Dashboard | backend | READY |
 | 🔧 Vision Analysis for Admin — Skin Lesion Upload | pawnia-ai-2 | READY |
 | 🔧 Safety Layer Integration — Contraindication Check | pawnia-ai-3 | READY |
 | 🔧 Learning Loop Dashboard — Feedback to Retrain ML | pawnia-ml-2 | READY |
-| 🧪 Integration Endpoint Tests | pawnia-ai-1 | READY |
-| 🔍 Architect Batch Review — Sprint 4 | architect | READY |
+| 🔍 Architect: Review Client Library (pawnia) | architect | TODO |
+| 🔍 Architect: Review EMR Sync (pawnia) | architect | TODO |
 
 ---
 
 ## External Integration: sobatpaws-admin
 
-**Repo:** github.com/sobat-paws/sobatpaws-admin (PetPro Admin Panel)
-**Alignment Score: 8/10** ↑ from 6.5
+**Alignment Score: 9/10** ↑ from 8/10
 
 ### Done
-- ✅ JWT Auth Middleware (Bearer + Cookie + API Key)
-- ✅ AI Pre-Screening endpoint (POST /api/v1/integration/appointment/screening)
-- ✅ Pet Medical History endpoint (GET /api/v1/integration/customer/{id}/medical-history)
-- ✅ Product Recommendation endpoint (POST /api/v1/integration/product/recommend)
-- ✅ Integration Health endpoint (GET /api/v1/integration/health)
-- ✅ EMR Router registered (was missing)
-- ✅ StaticFiles mount fixed (from / to /web)
+- ✅ JWT Auth Middleware
+- ✅ 4 Integration Endpoints (screening, medical history, product rec, health)
+- ✅ EMR Router + StaticFiles fix
+- ✅ Data Model Alignment (first_name, last_name, address, avatar_url, date_of_birth, color, microchip)
+- ✅ Learning Loop (feedback, auto-retrain, model versioning)
+- ✅ Integration Tests
 - ✅ Docker deploy with 88 routes
-
-### Sprint 4 Target
-- 🔄 Data Model Alignment (color, first_name, last_name, address)
-- 🔄 Integration Enhancement (dashboard insights, enhanced medical history)
-- 🔄 Vision Analysis for Admin (skin lesion upload)
-- 🔄 Safety Layer (contraindication check)
-- 🔄 Learning Loop Dashboard (feedback to retrain)
 
 ### Docs
 - docs/ALIGNMENT_ANALYSIS.md
 - docs/INTEGRATION_ADMIN_PANEL.md
-- docs/API_DOCUMENTATION.md
-- docs/API_EXAMPLES.md
-- PAWNIA.md
-- AGENTS.md
+- PAWNIA.md | AGENTS.md | README.md (updated)
 
 ---
 
@@ -122,5 +95,6 @@ Data Model Alignment (backend)
 
 | Commit | Message |
 |--------|---------|
-| a0efbf0 | docs: update README with Pawnia AI Orchestrator, EMR, Memory, RAG, Vision |
-| (pending) | feat: JWT auth + integration endpoints + EMR router + alignment fixes |
+| 77766ec | feat: Sprint 4 progress — Data Model Alignment + Learning Loop + Integration Tests |
+| 42c3a47 | docs: update README with integration endpoints, EMR endpoints, alignment docs |
+| 77bfdc9 | feat: JWT auth + integration endpoints + EMR router + alignment fixes |

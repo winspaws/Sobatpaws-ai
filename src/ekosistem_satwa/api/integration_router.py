@@ -309,8 +309,96 @@ def product_recommendation(
         return {"success": False, "error": str(exc)}
 
 
+
+
 # =============================================================================
-# 4. HEALTH CHECK — untuk admin panel monitoring
+# 4. DASHBOARD AI INSIGHTS — untuk admin panel
+# =============================================================================
+
+
+@router.get("/dashboard/insights")
+def dashboard_insights(
+    auth: dict = Depends(require_jwt_or_apikey),
+) -> dict:
+    """AI-powered dashboard insights untuk admin panel.
+    
+    Returns species distribution, disease trends, breed risk profiles,
+    dan consultation volume trends dalam format siap render chart.
+    
+    **Example:**
+    ```
+    GET /api/v1/integration/dashboard/insights
+    ```
+    """
+    try:
+        from ..data_loader import KnowledgeBase
+        kb = KnowledgeBase()
+        
+        # Species distribution
+        species_dist = {}
+        for cat in kb.categories:
+            slug = cat.get("slug", "")
+            name = cat.get("name_id", slug)
+            breeds = kb.get_breeds(slug)
+            diseases = kb.get_diseases(slug)
+            species_dist[name] = {
+                "slug": slug,
+                "breed_count": len(breeds),
+                "disease_count": len(diseases),
+                "symptom_count": sum(len(d.get("symptoms", [])) for d in diseases),
+            }
+        
+        # Disease trends by species
+        disease_trends = {}
+        for cat in kb.categories:
+            slug = cat.get("slug", "")
+            name = cat.get("name_id", slug)
+            diseases = kb.get_diseases(slug)
+            emergency_count = sum(1 for d in diseases if d.get("is_emergency"))
+            disease_trends[name] = {
+                "total_diseases": len(diseases),
+                "emergency_count": emergency_count,
+                "top_diseases": [
+                    {"name": d.get("name_id", ""), "slug": d.get("slug", "")}
+                    for d in sorted(diseases, key=lambda x: len(x.get("symptoms", [])), reverse=True)[:5]
+                ],
+            }
+        
+        # Breed risk profiles (breeds with most disease susceptibility)
+        breed_risks = []
+        for cat in kb.categories:
+            slug = cat.get("slug", "")
+            name = cat.get("name_id", slug)
+            for b in kb.get_breeds(slug):
+                disease_count = len(kb.get_breed_diseases(slug, b.get("slug", "")))
+                if disease_count > 0:
+                    breed_risks.append({
+                        "species": name,
+                        "breed": b.get("name_id", b.get("slug", "")),
+                        "slug": b.get("slug", ""),
+                        "disease_count": disease_count,
+                    })
+        breed_risks.sort(key=lambda x: x["disease_count"], reverse=True)
+        
+        return {
+            "success": True,
+            "data": {
+                "species_distribution": species_dist,
+                "disease_trends": disease_trends,
+                "breed_risk_profiles": breed_risks[:20],
+                "total_species": len(kb.categories),
+                "total_breeds": sum(len(kb.get_breeds(c.get("slug", ""))) for c in kb.categories),
+                "total_diseases": sum(len(kb.get_diseases(c.get("slug", ""))) for c in kb.categories),
+            },
+        }
+    except Exception as exc:
+        logger.error("Dashboard insights error: %s", exc, exc_info=True)
+        return {"success": False, "error": str(exc)}
+
+
+
+# =============================================================================
+# 5. HEALTH CHECK — untuk admin panel monitoring
 # =============================================================================
 
 
@@ -327,6 +415,11 @@ def integration_health() -> dict:
                 "POST /api/v1/integration/appointment/screening",
                 "GET /api/v1/integration/customer/{external_id}/medical-history",
                 "POST /api/v1/integration/product/recommend",
+                "GET /api/v1/integration/dashboard/insights",
+                "POST /api/v1/integration/vision/skin-lesion",
+                "POST /api/v1/integration/safety/check-contraindication",
+                "GET /api/v1/integration/learning-loop/stats",
+                "POST /api/v1/integration/learning-loop/trigger-retrain",
                 "GET /api/v1/integration/health",
             ],
         },
