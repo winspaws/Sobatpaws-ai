@@ -2,7 +2,7 @@
 
 **Backend AI Services** untuk dokter hewan — REST API, ML inference, multi-agent AI Orchestrator, dan ekosistem smart veterinary yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
-**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `2.0.0-beta`
+**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `v2.1.0`
 
 > ⚠️ Ekosistem Satwa **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
 > Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
@@ -381,7 +381,7 @@ GET /api/v1/integration/health
 ### Authentication
 | Method | Header |
 |--------|--------|
-| JWT Bearer | `Authorization: Bearer <token>` |
+| JWT Bearer | `Authorization: Bearer *** |
 | JWT Cookie | `access_token=<token>` (cookie) |
 | API Key | `X-EkosistemSatwa-Key: <key>` |
 
@@ -699,11 +699,23 @@ pytest tests/test_api_integration.py -v
 - PostgreSQL VIEWs - 3 reporting views
 - Prompt Engineering & RAG Tuning - Safety score 1.00
 
-### Dalam Pengerjaan
-- Pawnia AI Gateway Integration & VPS Deploy
-- Learning Loop - Doctor feedback -> auto-retrain ML
-- Perluas KB penyakit (target ratusan per spesies)
-- Pawnia Telegram Bot - full integration
+### Selesai (Sprint 4 - Admin Panel Integration)
+- JWT Auth Middleware (Bearer + Cookie + API Key dual auth)
+- 9 Integration Endpoints untuk admin panel (screening, medical history, dashboard, vision, safety, learning loop)
+- Data Model Alignment (User: first_name, last_name, address, avatar_url, dob; Pet: color, microchip)
+- Alembic Migration 002 (upgrade/downgrade/idempotent)
+- Learning Loop Dashboard (stats + retrain trigger)
+- Vision Analysis for Admin (skin lesion upload endpoint)
+- Safety Layer Integration (5 kontraindikasi: species, drug interaction, condition, age, breed MDR1)
+- Dashboard AI Insights (species distribution, disease trends, breed risk profiles)
+- Integration Endpoint Tests
+- CRITICAL FIX: Dockerfile CMD path was using old sobatpaws.api.main, now fixed to ekosistem_satwa.api.main
+
+### Dalam Pengerjaan (Sprint 5 - Knowledge Expansion) 🚀
+- Perluas KB penyakit dari 44 -> ratusan per spesies (sedang dikerjakan research)
+- Triage-Severity ML Model
+- Vector Search untuk RAG literatur
+- Retrain ML Models with expanded KB
 
 ---
 
@@ -724,4 +736,4 @@ Baca selengkapnya: [`PAWNIA.md`](PAWNIA.md)
 
 ---
 
-*Ekosistem Satwa v2.0.0-beta - Naincode AI Dept - 2026*
+*Ekosistem Satwa v2.1.0 - Naincode AI Dept - 2026 | Sprint 4 ✅ Admin Panel Integration | Sprint 5 🚀 Knowledge Expansion*
