@@ -50,6 +50,8 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 | Jurnal Perhewanan | [`docs/jurnal/INDEX.md`](docs/jurnal/INDEX.md) |
 | Integration Guide | [`docs/INTEGRATION.md`](docs/INTEGRATION.md) |
 | Admin Panel Integration | [`docs/INTEGRATION_ADMIN_PANEL.md`](docs/INTEGRATION_ADMIN_PANEL.md) |
+| **Integrasi sobat-paws** | [`docs/INTEGRASI_SOBATPAWS_PAWNIA.md`](docs/INTEGRASI_SOBATPAWS_PAWNIA.md) — Panduan integrasi admin panel & mobile |
+| Alignment Analysis | [`docs/ALIGNMENT_ANALYSIS.md`](docs/ALIGNMENT_ANALYSIS.md) |
 
 ---
 
