@@ -32,6 +32,7 @@ from .ai_gateway_router import router as ai_gateway_router
 from .auth import require_admin, require_vet
 from .deps import ai_status, db_status, get_agent, get_service, ml_status
 from .integration_router import router as integration_router
+from .emr_router import router as emr_router
 from .knowledge_router import router as knowledge_router
 from .memory_router import router as memory_router
 from .platform_router import router as platform_router
@@ -77,6 +78,7 @@ app.include_router(agent_router)
 app.include_router(vision_router)
 app.include_router(memory_router)
 app.include_router(ai_gateway_router)
+app.include_router(emr_router)
 app.include_router(knowledge_router)
 
 
@@ -783,5 +785,7 @@ def download_excel(filename: str) -> FileResponse:
 # =============================================================================
 #  Frontend statis (opsional) — dipasang terakhir agar tak menutupi route API
 # =============================================================================
+
+# Mount static files AFTER all API routers
 if _WEB_DIR.exists():
-    app.mount("/", StaticFiles(directory=str(_WEB_DIR), html=True), name="web")
+    app.mount("/web", StaticFiles(directory=str(_WEB_DIR), html=True), name="web")

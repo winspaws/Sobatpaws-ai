@@ -36,3 +36,7 @@ alembic==1.13.2
 # fallback ke gzip-CSV.
 pyarrow==16.1.0
 openpyxl==3.1.2
+
+# Telegram Bot (Pawnia)
+telethon==1.44.0
+pyjwt

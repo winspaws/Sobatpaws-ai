@@ -49,6 +49,7 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 | AI Agent Guide | [`AGENTS.md`](AGENTS.md) |
 | Jurnal Perhewanan | [`docs/jurnal/INDEX.md`](docs/jurnal/INDEX.md) |
 | Integration Guide | [`docs/INTEGRATION.md`](docs/INTEGRATION.md) |
+| Admin Panel Integration | [`docs/INTEGRATION_ADMIN_PANEL.md`](docs/INTEGRATION_ADMIN_PANEL.md) |
 
 ---
 
