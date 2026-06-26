@@ -1,8 +1,8 @@
 # 🐾 Ekosistem Satwa — Veterinary Backend AI Services
 
-**Backend AI Services** untuk dokter hewan — REST API, ML inference, dan AI suggestion engine yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
+**Backend AI Services** untuk dokter hewan — REST API, ML inference, multi-agent AI Orchestrator, dan ekosistem smart veterinary yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
-**Repo:** [github.com/winspaws/Ekosistem Satwa-ai](https://github.com/winspaws/Ekosistem Satwa-ai) · **API version:** `0.3.0`
+**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `2.0.0-beta`
 
 > ⚠️ Ekosistem Satwa **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
 > Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
@@ -18,6 +18,23 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 
 ---
 
+## Daftar Isi
+
+- [Quick Links](#quick-links)
+- [1. Arsitektur Sistem](#1-arsitektur-sistem)
+- [2. Pawnia AI Orchestrator](#2-pawnia-ai-orchestrator)
+- [3. Services & Pipeline](#3-services--pipeline)
+- [4. API Endpoints](#4-api-endpoints)
+- [5. Model Data](#5-model-data)
+- [6. Knowledge Base & Data](#6-knowledge-base--data)
+- [7. Cara Menjalankan](#7-cara-menjalankan)
+- [8. Deployment (Production)](#8-deployment-production)
+- [9. Testing](#9-testing)
+- [10. Roadmap](#10-roadmap)
+- [11. Lisensi & Etika Data](#11-lisensi--etika-data)
+
+---
+
 ## Quick Links
 
 | Resource | Link |
@@ -28,320 +45,310 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 | Request/Response Examples | [`docs/API_EXAMPLES.md`](docs/API_EXAMPLES.md) |
 | Postman Collection | [`docs/EkosistemSatwa_API.postman_collection.json`](docs/EkosistemSatwa_API.postman_collection.json) |
 | Deployment Guide | [`docs/deployment.md`](docs/deployment.md) |
-| AI Agent Guide | [`AGENTS.md`](AGENTS.md) |
 | **Pawnia AI Companion** | [`PAWNIA.md`](PAWNIA.md) — Soul, Role & Architecture |
+| AI Agent Guide | [`AGENTS.md`](AGENTS.md) |
 | Jurnal Perhewanan | [`docs/jurnal/INDEX.md`](docs/jurnal/INDEX.md) |
+| Integration Guide | [`docs/INTEGRATION.md`](docs/INTEGRATION.md) |
 
 ---
 
-## 1. Apa yang ada di dalam platform ini
+## 1. Arsitektur Sistem
+
+```
++----------------------------------------------------------------------+
+|                      APLIKASI EKSTERNAL                              |
+|  (Android / iOS / Web / App Vet 3rd / Telegram)                      |
+|  Input: teks, mic, kamera, gambar, video                             |
++----------------------------------+-----------------------------------+
+                                   | REST API / JSON / Multipart
+                                   v
++----------------------------------------------------------------------+
+|                    EKOSISTEM SATWA BACKEND API                        |
+|                                                                       |
+|  +--------------------------------------------------------------+   |
+|  |                    PAWNIA AI ORCHESTRATOR                      |   |
+|  |  +----------+  +----------+  +----------+  +--------------+ |   |
+|  |  |  Intent  |-> |  Risk    |-> |  Context |-> |  Agent       | |   |
+|  |  | Detection|  | Classify |  |  Loader  |  |  Routing     | |   |
+|  |  +----------+  +----------+  +----------+  +------+-------+ |   |
+|  |                                                     |         |   |
+|  |  +--------------------------------------------------+-------+ |   |
+|  |  |              9 AGENT SPESIALIS                   |       | |   |
+|  |  |  Companion | Emergency | VetEsc | Vision | ...   |       | |   |
+|  |  +----------------------------------------------------------+ |   |
+|  +--------------------------------------------------------------+   |
+|                                                                       |
+|  +--------------+  +--------------+  +--------------+  +----------+ |
+|  |  EMR Service |  |Memory Service|  | RAG Pipeline |  |  Vision  | |
+|  |  (PostgreSQL)|  | (STM + LTM)  |  | (Embeddings) |  | Analysis | |
+|  +--------------+  +--------------+  +--------------+  +----------+ |
+|                                                                       |
+|  +--------------+  +--------------+  +----------------------------+ |
+|  |  Notification|  |  Telegram    |  |  ML Pipeline (10 models)   | |
+|  |  Service     |  |  Bot        |  |  RandomForest per species  | |
+|  +--------------+  +--------------+  +----------------------------+ |
+|                                                                       |
+|  +--------------------------------------------------------------+   |
+|  |              LEARNING LOOP (human-in-the-loop)                |   |
+|  |  Doctor Feedback -> Gold Labels -> Retrain ML -> Registry    |   |
+|  +--------------------------------------------------------------+   |
++----------------------------------------------------------------------+
+```
+
+### Komponen Utama
 
 | Lapisan | Isi | Lokasi |
-|---|---|---|
-| **Skema Data** | 5 domain (taxonomy, clinical, operational, ML, AI) dalam DBML | `dbml/schema.dbml` |
-| **Sumber Data** | Kategori spesies, ras + varian + traits, penyakit + gejala + diagnosa + tindakan + produk | `data/` |
-| **Seed SQL** | Generator JSON → PostgreSQL INSERT | `src/ekosistem_satwa/seed_generator.py` → `seed/seed.sql` |
-| **Pembelajaran (ML)** | Dataset builder, feature engineering, training, inference | `src/ekosistem_satwa/ml/` |
-| **Smart Data Platform** | Orkestrator pipeline, doctor, registry lineage (agent-friendly) | `src/ekosistem_satwa/platform/` + `AGENTS.md` |
-| **API** | REST (FastAPI v0.3.0): data, ML, AI, konsultasi, integrasi, platform, admin | `src/ekosistem_satwa/api/` |
-| **Dokumentasi Integrasi** | API reference, contoh request/response, Postman | `docs/` |
-| **Riset & Jurnal** | Monograf spesies, ras, penyakit (130+ ras terdokumentasi) | `docs/jurnal/` |
-
-### Cakupan data saat ini
-
-| Item | Jumlah | Catatan |
-|------|--------|---------|
-| Kategori spesies | **10** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig |
-| Ras/breed | **177** | dengan varian (warna/pola/morph/ukuran) & traits untuk fitur ML |
-| Penyakit (KB curated) | **44** | gejala, diagnosa, tindakan, produk — per spesies |
-| Gejala unik | **207** | dapat diobservasi klinis |
-| Model ML terlatih | **10** | RandomForest per kategori spesies (`artifacts/models/`) |
-| Dataset sintetik | **500K baris** | `data/generated/` — untuk validasi & bulk training |
-| Jurnal riset | **130+ ras**, **30 penyakit** | `docs/jurnal/` — sync dari KB via `scripts/build_journal_index.py` |
-
-**Menambah data** = tambahkan entri JSON di `data/`, lalu jalankan ulang generator seed & training. Tidak perlu mengubah kode inti.
+|---------|-----|--------|
+| **AI Orchestrator** | Pawnia - 9 agent, intent detection, risk classification, safety layer | `src/ekosistem_satwa/ai/pawnia_orchestrator.py` |
+| **AI Gateway** | Entry point REST untuk Pawnia | `src/ekosistem_satwa/api/ai_gateway_router.py` |
+| **EMR Service** | 13 SQLAlchemy models, CRUD, pet context | `src/ekosistem_satwa/emr/` |
+| **Memory Service** | Short-term (TTL 24h) + Long-term (permanent) | `src/ekosistem_satwa/ai/memory_store.py` |
+| **RAG Pipeline** | Embeddings + Vector Store + Knowledge retrieval | `src/ekosistem_satwa/knowledge/` |
+| **Vision Analysis** | Image/video analysis, skin lesion, breed ID | `src/ekosistem_satwa/vision/` |
+| **Telegram Bot** | MTProto user-bot (Telethon) | `src/ekosistem_satwa/telegram/` |
+| **ML Pipeline** | 10 RandomForest models per species | `src/ekosistem_satwa/ml/` |
+| **Safety Layer** | Guardrails: poison rules, dosage refusal, tone boundaries | `src/ekosistem_satwa/ai/safety.py` |
+| **Agent Manager** | 9 specialized agent routing & response generation | `src/ekosistem_satwa/ai/agent_manager.py` |
+| **Smart Data Platform** | Orchestrator pipeline, doctor, registry lineage | `src/ekosistem_satwa/platform/` |
+| **API Routers** | 14 router files (FastAPI) | `src/ekosistem_satwa/api/` |
 
 ---
 
-## 2. Arsitektur
+## 2. Pawnia AI Orchestrator
+
+Pawnia adalah **AI Orchestrator** - pusat kecerdasan yang mengoordinasikan **9 agent spesialis**. Setiap input user melewati pipeline 5-langkah:
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  APLIKASI EKSTERNAL (Android / iOS / Web / App Vet 3rd)  │
-│  - Input: teks, mic, kamera                              │
-│  - UI/UX: tampilkan saran AI ke dokter                   │
-│  - Kelola data customer, pet, appointment                │
-└────────────────────────┬─────────────────────────────────┘
-                         │ REST API / JSON
-                         ▼
-┌──────────────────────────────────────────────────────────┐
-│  EKOSISTEM SATWA BACKEND API (FastAPI 0.3.0)                   │
-│                                                          │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │              KNOWLEDGE BASE (JSON)               │    │
-│  │  data_loader.py → KnowledgeBase (in-mem)         │    │
-│  │  (kategori, ras, varian, penyakit)               │    │
-│  └────────────────────┬─────────────────────────────┘    │
-│                       │                                  │
-│         ┌─────────────▼─────────────┐                    │
-│         │    ML Pipeline            │                    │
-│         │  dataset → train → model  │                    │
-│         │  (RandomForest per sp.)   │                    │
-│         └─────────────┬─────────────┘                    │
-│                       │ predict (symptom→disease)        │
-│                       ▼                                  │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │         AI Suggestion Engine (RAG)               │    │
-│  │  retrieve (ML + KB + breed risk)                 │    │
-│  │  → ground (KB) → safety guardrail                │    │
-│  │  → LLM synthesis (opsional, mode smart)          │    │
-│  │  → structured JSON                               │    │
-│  └────────────────────┬─────────────────────────────┘    │
-│                       │                                  │
-│  ┌────────────────────┴─────────────────────────────┐    │
-│  │              REST API ENDPOINTS                   │    │
-│  │  Core │ Integration │ Platform │ Agent │ Admin   │    │
-│  └──────────────────────────────────────────────────┘    │
-│                                                          │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │  Learning Loop (human-in-the-loop)               │    │
-│  │  doctor feedback → gold labels → retrain ML      │    │
-│  └──────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────┘
+User Input
+   |
+   +- 1. Intent Detection ---> 9 intent categories, threshold >70%
+   |     (emergency, vision, behavior, nutrition, meal, medication, companion, dll.)
+   |
+   +- 2. Risk Classification ---> Scoring engine (0-100)
+   |     Critical (71-100) -> Emergency Agent
+   |     High (51-70) -> Vet Escalation
+   |     Medium (31-50) -> Agent + Observasi
+   |     Low (0-30) -> Agent normal + Edukasi
+   |
+   +- 3. Context Loading ---> 3 pilar informasi
+   |     - Proprietary Context (pet profile, EMR dari EMR Service)
+   |     - Memory Context (short-term + long-term dari Memory Service)
+   |     - Knowledge Base (RAG dari Knowledge Service)
+   |
+   +- 4. Agent Routing ---> Decision tree
+   |     Emergency > All | Image -> Vision | Confidence <60% -> Vet Escalation
+   |
+   +- 5. Response Generation ---> Template per agent + Safety Layer
+   |     - Safety: poison ingestion rules, NO dosage, NO definitive diagnosis
+   |     - Medical disclaimer always included
+   |
+   +- 6. Response ---> Structured JSON ke aplikasi
 ```
 
-Prinsip kunci: **Retrieval-Augmented Generation (RAG)** — AI tidak mengarang;
-ia di-*ground* pada knowledge base terstruktur, diperkuat prediksi ML, dan
-dilindungi **safety guardrail** kontraindikasi obat per spesies.
+### 9 Agent Spesialis
 
-Mode **`smart`** melewati LLM bila ML + KB sudah yakin (hemat token).
+| # | Agent | Trigger | Contoh Input |
+|---|-------|---------|-------------|
+| 1 | **Pet Companion** | Sapaan umum, fallback | "Halo", "Cara merawat kucing" |
+| 2 | **Triage & Emergency** | Kata kunci emergency, Risk >70 | "Kejang", "Pendarahan", "Tidak sadar" |
+| 3 | **Vet Escalation** | Confidence <60%, minta dokter | "Saya mau konsultasi dengan dokter" |
+| 4 | **Vision Screening** | Upload foto/gambar | [Foto kulit/mata/telinga] |
+| 5 | **Behavior Insight** | Gangguan perilaku klinis | "Agresif", "Pincang", "Gelisah" |
+| 6 | **Behavior Fun** | AI Pet Translator, mood | "Mood kucing saya?" |
+| 7 | **Nutrition Advisor** | Diet, alergi, suplemen | "Makanan untuk obesitas" |
+| 8 | **Meal Planner** | Jadwal makan, porsi | "Buat jadwal makan kucing" |
+| 9 | **Medication Adherence** | Vaksin, obat, reminder | "Jadwal vaksinasi" |
 
-### Smart Data Platform (terintegrasi)
+### AI Gateway Endpoint
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  AGENTS.md + GET /api/platform/manifest  (kontrak AI agent)      │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-    ┌────────────────────────┼────────────────────────┐
-    ▼                        ▼                        ▼
- curated JSON           synthetic CSV            learning loop
- (runtime truth)        (bulk/validate)          (gold → retrain)
-    │                        │                        │
-    └──────────── platform/doctor ────────────────────┘
-                 platform/pipeline + registry
-                             │
-              ML train ──► AI suggest ──► API vet/agent
-```
+**`POST /api/v1/ai/chat`** - Entry point utama untuk semua interaksi user.
 
-```bash
-python -m ekosistem_satwa.platform.doctor              # cek kesehatan sistem
-python -m ekosistem_satwa.platform.pipeline --preset ml_ready
-python -m ekosistem_satwa.platform.registry --refresh
-```
-
-Lihat **AGENTS.md** untuk panduan lengkap AI agent.
-
----
-
-## 3. Model Data (DBML)
-
-`dbml/schema.dbml` mencakup 5 domain:
-
-1. **Taxonomy** — `animal_categories`, `breeds`, `breed_variants`, `breed_traits`
-2. **Clinical** — `diseases`, `symptoms`, `disease_symptoms`, `diagnostic_methods`,
-   `disease_diagnostics`, `treatments`, `disease_treatments`, `products`,
-   `treatment_products`, `breed_disease_susceptibility`, `product_species_safety`
-3. **Operational** — `organizations` (vet/klinik/petshop), `users`, `pet_owners`,
-   `pets`, `clinical_cases`, `case_symptoms`, `case_diagnoses`, `case_treatments`
-4. **ML** — `data_sources`, `ml_datasets`, `dataset_sources`, `feature_definitions`,
-   `dataset_features`, `ml_models`, `ml_predictions`, `ml_feedback`
-5. **AI** — `ai_providers`, `ai_prompt_templates`, `ai_conversations`,
-   `ai_requests`, `ai_suggestions`
-
-Render diagram: tempel isi `schema.dbml` ke [dbdiagram.io](https://dbdiagram.io).
-
-Kompilasi ke SQL:
-```bash
-npx -p @dbml/cli dbml2sql dbml/schema.dbml --postgres -o seed/schema.sql
-```
-
----
-
-## 4. Struktur Sumber Data
-
-```
-data/
-├── categories.json              # 10 kategori spesies
-├── breeds/
-│   ├── dogs.json  cats.json  rabbits.json  hamsters.json
-│   ├── poultry.json  fish.json  reptiles.json  others.json
-├── clinical/
-│   ├── diseases_dogs.json       # penyakit + gejala + diagnosa + tindakan + produk
-│   ├── diseases_cats.json
-│   ├── diseases_rabbits.json    diseases_hamsters.json
-│   ├── diseases_poultry.json    diseases_fish.json
-│   ├── diseases_reptiles.json   diseases_exotic_others.json
-│   └── extensions/
-│       └── medication_kb.json   # knowledge base obat per spesies
-├── generated/                   # dataset sintetik (gitignored, regenerate via scripts/)
-└── ml_views/                    # view ML terkompresi (Parquet/gzip-CSV)
-
-docs/jurnal/                     # monograf riset per spesies, ras, penyakit
-├── INDEX.md                     # auto-generated index
-├── spesies/  ras/  penyakit/
-```
-
-Setiap penyakit bersifat **self-contained** (contoh ringkas):
-```jsonc
+```json
+// Request
 {
-  "slug": "dog-parvovirus",
-  "name_id": "Parvovirus (Parvo)",
-  "etiology": "infectious_viral",
-  "is_emergency": true,
-  "breed_susceptibility": [{ "breed_slug": "dog-rottweiler", "risk": "high", "prevalence_pct": 12 }],
-  "symptoms": [{ "name_id": "Diare berdarah", "frequency": "very_high", "is_pathognomonic": true }],
-  "diagnostics": [{ "name": "PCR feses", "type": "pcr_molecular", "is_gold_standard": true }],
-  "treatments": [{
-    "name": "Terapi suportif rawat inap parvo",
-    "procedure_steps": "...langkah tindakan...",
-    "products": [{ "name": "Maropitant (Cerenia)", "active_ingredient": "Maropitant citrate",
-                   "route": "SC/IV", "dosage_guide": "1 mg/kg SID" }]
-  }]
+  "message": "Kucing saya muntah dan lemas",
+  "session_id": "uuid-xxx",
+  "pet_id": "uuid-pet",
+  "image_base64": null
+}
+
+// Response
+{
+  "agent": "triage_emergency",
+  "confidence": 0.92,
+  "risk_score": 85,
+  "risk_level": "critical",
+  "response": {
+    "text": "...",
+    "suggestions": [...],
+    "cta": "Segera bawa ke klinik hewan terdekat",
+    "disclaimer": "..."
+  },
+  "context_used": {
+    "intent_detection": {...},
+    "risk_classification": {...},
+    "memory": {...},
+    "proprietary": {...}
+  },
+  "escalated": true,
+  "conversation_id": "uuid-xxx"
 }
 ```
 
----
-
-## 5. Cara Menjalankan
-
-### Prasyarat
-- Python **3.10+** disarankan (di 3.9 paket `eval_type_backport` otomatis dipakai).
-- (Opsional) PostgreSQL untuk memuat seed & learning store.
-- (Opsional) Ollama / vLLM untuk inferensi LLM lokal.
-
-### Instalasi
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env        # isi kunci AI bila ada
-export PYTHONPATH=src
-```
-
-### a) Validasi data & lihat statistik
-```bash
-python -m ekosistem_satwa.data_loader
-# → categories: 10, breeds: 177, diseases: 44, unique_symptoms: 207
-```
-
-### b) Generate seed SQL & muat ke DB
-```bash
-python -m ekosistem_satwa.seed_generator           # → seed/seed.sql
-psql "$DATABASE_URL" -f seed/schema.sql       # buat tabel
-psql "$DATABASE_URL" -f seed/seed.sql         # isi data
-```
-
-### c) Latih model ML (symptom → disease)
-```bash
-python -m ekosistem_satwa.ml.train                 # semua kategori (10 model)
-python -m ekosistem_satwa.ml.train --category dog  # satu kategori
-```
-Artefak tersimpan di `artifacts/models/`.
-
-### d) Prediksi cepat
-```bash
-python -m ekosistem_satwa.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
-# → dog-parvovirus (0.94), ...
-```
-
-### e) Jalankan API + Dashboard Verifikasi
-```bash
-./run.sh              # default port 8000
-./run.sh 8080         # port lain
-# Dashboard verifikasi : http://localhost:8000/
-# Dokumentasi API      : http://localhost:8000/docs
-```
-
-Atau manual:
-```bash
-uvicorn ekosistem_satwa.api.main:app --reload --app-dir src
-```
-
-### f) Retraining dari input dokter
-```bash
-python -m ekosistem_satwa.ml.retrain
-python -m ekosistem_satwa.ml.retrain --category cat
-curl -X POST http://localhost:8000/learning/retrain \
-  -H 'Content-Type: application/json' \
-  -H 'X-API-Key: YOUR_ADMIN_KEY' \
-  -d '{"category":"cat"}'
-```
-
-### g) Learning store ke PostgreSQL (opsional)
-```bash
-psql "$DATABASE_URL" -f seed/learning.sql
-export EKOSISTEM_SATWA_LEARNING_BACKEND=both
-python -m ekosistem_satwa.ai.learning_store --sync-db
-```
-
-### h) Export dataset ke Excel
-```bash
-python3 scripts/generate_all.py          # generate CSV dulu (jika belum)
-python3 scripts/export_excel.py          # full export → data/excel/
-python3 scripts/export_excel.py --sample-only
-python3 scripts/export_excel.py --learning-only
-# Unduh via API: GET /exports/excel  →  GET /exports/excel/EkosistemSatwa_08_Learning.xlsx
-```
-
-### i) Resample dataset bulk (500K baris)
-```bash
-python3 scripts/resample_dataset_500k.py
-# Output: data/generated/Dataset_Kesehatan_Hewan_500K_Rows.csv
-```
-
-### j) Build index jurnal riset
-```bash
-python3 scripts/build_journal_index.py   # → docs/jurnal/INDEX.md
-```
+Dokumentasi lengkap Pawnia: [`PAWNIA.md`](PAWNIA.md)
 
 ---
 
-## 6. API Endpoints
+## 3. Services & Pipeline
 
-Dokumentasi lengkap: [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)
+### 3.1 EMR Service (`src/ekosistem_satwa/emr/`)
 
-### Core (`main.py`)
+Medical record management dengan PostgreSQL. 13 SQLAlchemy models:
 
-| Method | Path | Auth | Deskripsi |
-|--------|------|------|-----------|
-| GET | `/health` | — | Status sistem (KB, LLM, learning store) |
-| GET | `/api/status` | — | Status detail backend, AI, ML, DB |
-| GET | `/categories`, `/breeds/{slug}`, `/diseases/{slug}` | — | Master data knowledge base |
-| GET | `/api/stats/breakdown`, `/api/stats/breeds`, `/api/symptoms` | — | Statistik & lookup gejala |
-| POST | `/api/consult` | Vet | Single-shot consult (teks/gejala → saran AI) |
-| POST | `/ml/predict` | — | Prediksi cepat symptom → disease |
-| POST | `/consultations` | Vet | Mulai sesi konsultasi multimodal |
-| POST | `/consultations/{id}/turns` | Vet | Giliran lanjutan (gejala kumulatif) |
-| POST | `/consultations/{id}/media` | Vet | Upload audio (mic) / gambar (kamera) |
-| POST | `/consultations/{id}/doctor-input` | Vet | Simpan keputusan dokter |
-| POST | `/consultations/{id}/feedback` | Vet | Penilaian dokter atas saran AI |
-| GET | `/learning/export`, `/learning/stats` | — | Ekspor gold labels & statistik |
-| POST | `/learning/retrain`, `/learning/sync-db` | Admin | Retrain ML & sync ke PostgreSQL |
-| POST | `/api/dataset/upload` | — | Upload dataset CSV |
-| GET | `/exports/excel`, `/exports/excel/{filename}` | — | Unduh workbook Excel |
+| Model | Deskripsi |
+|-------|-----------|
+| `User` | Pemilik hewan / dokter |
+| `Pet` | Data dasar hewan |
+| `PetProfile` | Profil medis lengkap |
+| `EMRRecord` | Rekam medis elektronik |
+| `Vaccination` | Riwayat vaksinasi |
+| `Medication` | Obat-obatan |
+| `Consultation` | Sesi konsultasi |
+| `ConversationThread` | Thread percakapan AI |
+| `ConversationMessage` | Pesan dalam thread |
+| `AIMemory` | Memori AI jangka panjang |
+| `Recommendation` | Rekomendasi sistem |
+| `Notification` | Notifikasi & reminder |
+| `AuditLog` | Log audit |
 
-### Integrasi Vet App (`/api/integration`)
+**Key API:** `get_pet_context(pet_id)` - agregasi data pet untuk AI Gateway.
+
+### 3.2 Memory Service (`src/ekosistem_satwa/ai/memory_store.py`)
+
+| Tipe | Storage | TTL | Fungsi |
+|------|---------|-----|--------|
+| **Short-term** | JSONL + in-memory cache | 24 jam inactivity | Active conversation state, last intent, recent messages |
+| **Long-term** | PostgreSQL (`ai_memory` table) | Permanent | User preferences, pet history summary, dietary notes |
+
+### 3.3 RAG Pipeline (`src/ekosistem_satwa/knowledge/`)
+
+| Module | Fungsi |
+|--------|--------|
+| `embeddings.py` | OpenAI text-embedding-3-small (fallback Ollama) |
+| `vector_store.py` | In-memory vector store with JSON persistence |
+| `rag.py` | Retrieval-Augmented Generation pipeline |
+
+### 3.4 Vision Analysis (`src/ekosistem_satwa/vision/`)
+
+| Module | Fungsi |
+|--------|--------|
+| `analyzer.py` | Image analysis: skin lesions, eye/ear issues, breed identification |
+| `image_utils.py` | Image preprocessing, resize, normalize |
+| `video_utils.py` | Video frame extraction |
+
+### 3.5 Telegram Bot (`src/ekosistem_satwa/telegram/`)
+
+MTProto user-bot menggunakan Telethon (ConnectionTcpFull). Berjalan sebagai container terpisah (`pawnia-telegram`).
+
+### 3.6 ML Pipeline (`src/ekosistem_satwa/ml/`)
+
+| Komponen | Fungsi |
+|----------|--------|
+| `dataset_builder.py` | Build dataset symptom->disease (cold-start + clinical merge) |
+| `feature_engineering.py` | Feature store + breed_risk_profile |
+| `train.py` | RandomForestClassifier per species (10 models) |
+| `predict.py` | Top-K disease inference |
+| `retrain.py` | Retrain with doctor feedback (gold labels) |
+
+### 3.7 Learning Loop (Human-in-the-Loop)
+
+```
+Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML -> Model Registry
+```
+
+### 3.8 Safety Layer (`src/ekosistem_satwa/ai/safety.py`)
+
+| Rule | Behavior |
+|------|----------|
+| **NO prescription dosage** | Refuses dosage for prescription meds |
+| **NO home remedies** | No ramuan rumah, minyak kayu putih, madu |
+| **Poison ingestion** | JANGAN sarankan memuntahkan -> LANGSUNG Emergency |
+| **NO definitive diagnosis** | Always uses probabilistic language |
+| **Medical disclaimer** | Always included in responses |
+| **Tone boundary** | Dilarang "tidak usah khawatir", slang kasual |
+| **Drug contraindications** | Kucing: paracetamol/permethrin/ibuprofen = FATAL |
+| | Kelinci/rodensia: penicillin/amoxicillin oral = fatal |
+
+---
+
+## 4. API Endpoints
+
+### 4.1 Pawnia AI Gateway (`/api/v1/ai`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
-| GET | `/manifest` | Kontrak integrasi untuk tim developer app |
-| GET | `/id-schema` | Skema ID entitas (vet, owner, pet, case) |
-| GET | `/entities/{consultation_id}` | Lookup bundle ID entitas |
-| GET | `/consultations/by-external/{external_id}` | Lookup by ID eksternal |
-| GET | `/consultations` | Filter konsultasi by vet/pet/owner |
+| POST | `/api/v1/ai/chat` | Main entry - text + optional image |
+| POST | `/api/v1/ai/chat/multipart` | Multipart form + file upload |
+| POST | `/api/v1/ai/chat/simple` | Query-based testing |
+| GET | `/api/v1/ai/status` | Pawnia system status (9 agents) |
+
+### 4.2 EMR (`/api/v1`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/api/v1/pets?user_id=X` | Daftar pets by user |
+| GET | `/api/v1/pets/{id}` | Detail pet |
+| GET | `/api/v1/pets/{pet_id}/context` | Consolidated pet context for AI |
+| GET | `/api/v1/pets/{pet_id}/consultations` | AI consultation history |
+| POST | `/api/v1/pets/{pet_id}/sync` | Trigger EMR->Memory sync |
+| POST | `/api/v1/users/{user_id}/sync-all` | Batch sync all pets |
+| GET | `/api/v1/emr/{petId}` | EMR records |
+| POST | `/api/v1/emr/{petId}` | Create EMR record |
+| GET | `/api/v1/vaccinations/{petId}` | Vaccination history |
+| POST | `/api/v1/vaccinations/{petId}` | Add vaccination |
+
+### 4.3 Memory (`/api/v1/memory`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/api/v1/memory/context` | Load context for AI Gateway |
+| POST | `/api/v1/memory/save-conversation` | Save conversation to memory |
+
+### 4.4 Knowledge / RAG (`/api/v1/knowledge`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| POST | `/api/v1/knowledge/query` | Query knowledge base (RAG) |
+| GET | `/api/v1/knowledge/stats` | Knowledge base statistics |
+| POST | `/api/v1/knowledge/reindex` | Reindex all sources |
+
+### 4.5 Core API (`main.py`)
+
+| Method | Path | Auth | Deskripsi |
+|--------|------|------|-----------|
+| GET | `/health` | - | Status sistem |
+| GET | `/api/status` | - | Status detail backend, AI, ML, DB |
+| GET | `/categories` | - | Daftar kategori spesies |
+| GET | `/breeds/{slug}` | - | Ras per spesies |
+| GET | `/diseases/{slug}` | - | Detail penyakit |
+| POST | `/api/consult` | Vet | Single-shot consult |
+| POST | `/ml/predict` | - | Prediksi symptom->disease |
+| POST | `/consultations` | Vet | Mulai sesi konsultasi |
+| POST | `/consultations/{id}/turns` | Vet | Giliran lanjutan |
+| POST | `/consultations/{id}/feedback` | Vet | Feedback saran AI |
+| POST | `/learning/retrain` | Admin | Retrain ML |
+| GET | `/exports/excel` | - | Unduh workbook Excel |
+
+### 4.6 Integration (`/api/integration`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/manifest` | Kontrak integrasi untuk developer app |
+| GET | `/id-schema` | Skema ID entitas |
+| GET | `/entities/{consultation_id}` | Lookup bundle ID |
 | GET | `/capabilities` | Fitur yang tersedia |
 
-### Smart Data Platform (`/api/platform`)
+### 4.7 Platform (`/api/platform`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
@@ -351,89 +358,225 @@ Dokumentasi lengkap: [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)
 | GET | `/pipeline` | Daftar step pipeline |
 | POST | `/pipeline/run` | Jalankan pipeline (Admin) |
 
-### AI Agent (`/api/agent`)
+### 4.8 Agent (`/api/agent`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
-| GET | `/providers`, `/providers/status` | Daftar & status provider LLM |
-| POST | `/providers/{id}/activate` | Aktifkan provider (Admin) |
-| GET | `/conversations`, `/suggestions` | Riwayat sesi & saran AI |
-| POST | `/conversations/{id}/doctor-input` | Input dokter via agent API |
+| GET | `/providers` | Daftar provider LLM |
+| GET | `/providers/status` | Status provider |
+| GET | `/conversations` | Riwayat sesi |
+| GET | `/suggestions` | Riwayat saran AI |
 
-### Admin Dashboard (`/api/admin`)
+### 4.9 Notification (`/api/v1/notifications`)
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/api/v1/notifications/{user_id}` | Get user notifications |
+| POST | `/api/v1/notifications` | Create notification |
+| PUT | `/api/v1/notifications/{id}/read` | Mark as read |
+
+### 4.10 Admin (`/api/admin`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
 | GET | `/overview` | Ringkasan sistem |
 | GET | `/ai/usage` | Penggunaan token LLM |
 | GET | `/learning/events` | Event pembelajaran |
-| GET | `/integration/status` | Status integrasi |
 
 ### Autentikasi
 
-Endpoint bertanda **Vet** membutuhkan header `X-API-Key` dengan `EKOSISTEM_SATWA_VET_API_KEY`.
-Endpoint **Admin** membutuhkan `EKOSISTEM_SATWA_ADMIN_API_KEY`.
+| Header | Untuk |
+|--------|-------|
+| `X-API-Key` (Vet key) | Endpoint bertanda **Vet** |
+| `X-API-Key` (Admin key) | Endpoint bertanda **Admin** |
+| `X-EkosistemSatwa-Key` | Pawnia Client Library auth |
 
 ---
 
-## 7. Pipeline ML
+## 5. Model Data
 
-- **`ml/dataset_builder.py`** — membangun dataset `symptom → disease`. Strategi
-  *cold-start*: membangkitkan sampel sintetis dari bobot frekuensi gejala di KB,
-  lalu dapat digabung dengan **data klinis nyata** (`clinical_cases`) sebagai
-  label emas (`merge_clinical_cases`).
-- **`ml/feature_engineering.py`** — feature store + `breed_risk_profile()` (skor
-  risiko penyakit per ras) + pembentuk vektor fitur pet (umur, BB, vital, gejala).
-- **`ml/train.py`** — melatih `RandomForestClassifier` **per kategori spesies**
-  (kosakata gejala berbeda), menyimpan model + metadata (vocab, kelas, metrik).
-- **`ml/predict.py`** — inferensi top-K penyakit dari daftar gejala.
+`dbml/schema.dbml` mencakup 5 domain:
 
-Task ML yang didukung skema (`ml_task_type`): klasifikasi penyakit, symptom→disease,
-prediksi risiko, triage severity, rekomendasi tindakan, identifikasi ras,
-deteksi anomali, dan **peramalan permintaan** (untuk inventory petshop).
+1. **Taxonomy** - `animal_categories`, `breeds`, `breed_variants`, `breed_traits`
+2. **Clinical** - `diseases`, `symptoms`, `disease_symptoms`, `diagnostic_methods`, `treatments`, `products`, `breed_disease_susceptibility`, `product_species_safety`
+3. **Operational** - `organizations`, `users`, `pet_owners`, `pets`, `clinical_cases`, `case_symptoms`, `case_diagnoses`, `case_treatments`
+4. **ML** - `data_sources`, `ml_datasets`, `dataset_sources`, `feature_definitions`, `dataset_features`, `ml_models`, `ml_predictions`, `ml_feedback`
+5. **AI** - `ai_providers`, `ai_prompt_templates`, `ai_conversations`, `ai_requests`, `ai_suggestions`
 
-### Loop pembelajaran berkelanjutan (human-in-the-loop)
-1. Konsultasi multimodal (teks/mic/kamera) → saran AI ke dokter.
-2. Dokter menyimpan **diagnosa final** + feedback → `LearningStore` (JSONL / PostgreSQL).
-3. `ml/retrain.py` menggabungkan label emas dokter ke dataset latih → model diperbarui.
-4. Kualitas prediksi meningkat seiring data klinis terkumpul.
-
-Komponen: `ai/learning_store.py`, `ai/consultation.py`, `ml/retrain.py`.
+Render diagram: tempel isi `schema.dbml` ke [dbdiagram.io](https://dbdiagram.io).
 
 ---
 
-## 8. AI Wrapping
+## 6. Knowledge Base & Data
 
-- **`ai/wrapper.py`** — `LLMClient` provider-agnostic (OpenAI / Anthropic / local Ollama /
-  mode `mock` tanpa kunci). Mencatat token, biaya, latensi (selaras `ai_requests`).
-- **`ai/prompts.py`** — template prompt terversi (selaras `ai_prompt_templates`).
-- **`ai/schemas.py`** — output **terstruktur** (Pydantic) → `ai_suggestions`.
-- **`ai/suggestion_engine.py`** — orkestrasi RAG:
-  retrieve (ML + KB overlap + breed risk) → ground (KB) → **safety** → LLM → JSON.
-- **`ai/safety.py`** — **guardrail keselamatan (hard-rule)**: kontraindikasi obat
-  per spesies, mis.:
-  - 🐱 Kucing: **paracetamol, permethrin, ibuprofen = FATAL**.
-  - 🐰 Kelinci & 🐹 rodensia & 🐹 marmut: **penicillin/amoxicillin/clindamycin oral = fatal**.
-  - 🐶 Anjing: **xylitol toksik**.
+### Cakupan Data
 
-Provider LLM didukung via env: `local` (Ollama), `openai`, `anthropic` — dengan fallback chain
-(`EKOSISTEM_SATWA_AI_FALLBACK_CHAIN=local,openai,anthropic`).
+| Item | Jumlah | Catatan |
+|------|--------|---------|
+| Kategori spesies | **10** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig |
+| Ras/breed | **177** | dengan varian & traits untuk fitur ML |
+| Penyakit (KB curated) | **44** | gejala, diagnosa, tindakan, produk |
+| Gejala unik | **207** | dapat diobservasi klinis |
+| Model ML terlatih | **10** | RandomForest per kategori spesies |
+| Dataset sintetik | **500K baris** | Untuk validasi & bulk training |
+| Jurnal riset | **130+ ras**, **30 penyakit** | Monograf terdokumentasi |
 
-Tanpa kunci API, engine tetap berfungsi penuh dalam **mode rule-based**
-(ML + KB), sehingga aman untuk pengembangan/offline.
+### Struktur Data
 
-Contoh penggunaan:
-```python
-from ekosistem_satwa.ai.schemas import SuggestionRequest
-from ekosistem_satwa.ai.suggestion_engine import suggest
-
-resp = suggest(SuggestionRequest(
-    category_slug="dog", breed_slug="dog-rottweiler", age_years=0.4,
-    symptoms=["Muntah hebat", "Diare berdarah", "Lemas/lesu", "Dehidrasi"],
-))
-print(resp.is_emergency, resp.summary)
-for h in resp.suggested_diseases: print(h.name_id, h.confidence)
 ```
+data/
++-- categories.json              # 10 kategori spesies
++-- breeds/
+|   +-- dogs.json  cats.json  rabbits.json  hamsters.json
+|   +-- poultry.json  fish.json  reptiles.json  others.json
++-- clinical/
+|   +-- diseases_dogs.json       # penyakit + gejala + diagnosa + tindakan + produk
+|   +-- diseases_cats.json
+|   +-- diseases_rabbits.json    diseases_hamsters.json
+|   +-- diseases_poultry.json    diseases_fish.json
+|   +-- diseases_reptiles.json   diseases_exotic_others.json
+|   +-- extensions/
+|       +-- medication_kb.json   # knowledge base obat per spesies
++-- generated/                   # dataset sintetik (gitignored)
++-- ml_views/                    # view ML terkompresi (Parquet/gzip-CSV)
+
+docs/jurnal/                     # monograf riset per spesies, ras, penyakit
++-- INDEX.md                     # auto-generated index
++-- spesies/  ras/  penyakit/
+```
+
+---
+
+## 7. Cara Menjalankan
+
+### Prasyarat
+
+- Python **3.10+** (3.9 dengan `eval_type_backport`)
+- (Opsional) PostgreSQL untuk seed & learning store
+- (Opsional) Ollama / vLLM untuk inferensi LLM lokal
+
+### Instalasi
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+export PYTHONPATH=src
+```
+
+### a) Validasi data
+
+```bash
+python -m ekosistem_satwa.data_loader
+# -> categories: 10, breeds: 177, diseases: 44, unique_symptoms: 207
+```
+
+### b) Generate seed SQL
+
+```bash
+python -m ekosistem_satwa.seed_generator           # -> seed/seed.sql
+psql "$DATABASE_URL" -f seed/schema.sql
+psql "$DATABASE_URL" -f seed/seed.sql
+```
+
+### c) Latih model ML
+
+```bash
+python -m ekosistem_satwa.ml.train                 # semua kategori (10 model)
+python -m ekosistem_satwa.ml.train --category dog  # satu kategori
+```
+
+### d) Prediksi cepat
+
+```bash
+python -m ekosistem_satwa.ml.predict dog "Muntah hebat" "Diare berdarah" "Lemas/lesu"
+# -> dog-parvovirus (0.94), ...
+```
+
+### e) Jalankan API Server
+
+```bash
+./run.sh              # default port 8000
+./run.sh 8080         # port lain
+```
+
+Atau manual:
+```bash
+uvicorn ekosistem_satwa.api.main:app --reload --app-dir src
+```
+
+**Akses:**
+- Dashboard: http://localhost:8000/
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+### f) Coba AI Gateway (Pawnia)
+
+```bash
+curl -X POST http://localhost:8000/api/v1/ai/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "Kucing saya muntah dan lemas", "pet_id": "test-123"}'
+```
+
+### g) Pipeline Platform
+
+```bash
+python -m ekosistem_satwa.platform.doctor
+python -m ekosistem_satwa.platform.pipeline --preset ml_ready
+python -m ekosistem_satwa.platform.registry --refresh
+```
+
+### h) Export Excel & Build Jurnal
+
+```bash
+python3 scripts/generate_all.py
+python3 scripts/export_excel.py
+python3 scripts/build_journal_index.py
+```
+
+---
+
+## 8. Deployment (Production)
+
+### Architecture
+
+```
++----------------------------------------------------------------+
+|                     Docker Host (VPS)                            |
+|                                                                  |
+|  +--------------+    +--------------+    +--------------------+ |
+|  |  sobatpaws-  |    |  sobatpaws-  |    |  pawnia-          | |
+|  |  api         |--> |  db          |    |  telegram          | |
+|  |  (port 8080) |    |  (port 5432) |    |  (bot)             | |
+|  +--------------+    +--------------+    +--------------------+ |
+|         |                                                       |
+|         v                                                       |
+|  +--------------+                                               |
+|  |  host.docker |  (Ollama / vLLM for local inference)         |
+|  |  .internal   |  extra_hosts + OLLAMA_HOST=0.0.0.0          |
+|  +--------------+                                               |
++----------------------------------------------------------------+
+```
+
+### Quick Start
+
+```bash
+git clone https://github.com/winspaws/Sobatpaws-ai.git
+cd Sobatpaws-ai
+cp .env.production .env
+docker compose -f docker-compose.prod.yml up -d
+curl http://localhost:8080/health
+curl http://localhost:8080/api/v1/ai/status
+```
+
+### Resource Limits
+
+| Service | CPU | Memory |
+|---------|-----|--------|
+| API | 2.0 cores | 2 GB |
+| PostgreSQL | 1.0 core | 1 GB |
+
+Full guide: [`docs/deployment.md`](docs/deployment.md)
 
 ---
 
@@ -443,47 +586,42 @@ for h in resp.suggested_diseases: print(h.name_id, h.confidence)
 # Semua test
 pytest tests/ -v
 
-# Integration tests (API endpoints)
-pytest tests/test_api_integration.py -v
+# Pawnia Orchestrator (755+ lines)
+pytest tests/test_pawnia_orchestrator.py -v
 
-# Unit tests (session store, consultation service)
-pytest tests/test_session_store_unit.py tests/test_consultation_service.py -v
+# EMR Service (19 tests)
+pytest tests/test_emr_service.py -v
+
+# API Integration
+pytest tests/test_api_integration.py -v
 ```
 
-Test menggunakan `conftest.py` dengan fixture FastAPI TestClient dan isolasi session store.
+---
+
+## 10. Roadmap
+
+### Selesai (Sprint 1-3)
+- REST API FastAPI + ML pipeline (10 models)
+- Pawnia AI Orchestrator - 9 agent multi-agent system
+- AI Gateway - POST /api/v1/ai/chat
+- EMR Service - 13 SQLAlchemy models, PostgreSQL
+- Memory Service - STM (TTL 24h) + LTM (permanent)
+- RAG Pipeline - Embeddings + Vector Store
+- Vision Analysis - Image/video analysis
+- Notification Service - Smart reminders
+- Safety Layer - Poison rules, dosage refusal
+- PostgreSQL VIEWs - 3 reporting views
+- Prompt Engineering & RAG Tuning - Safety score 1.00
+
+### Dalam Pengerjaan
+- Pawnia AI Gateway Integration & VPS Deploy
+- Learning Loop - Doctor feedback -> auto-retrain ML
+- Perluas KB penyakit (target ratusan per spesies)
+- Pawnia Telegram Bot - full integration
 
 ---
 
-## 10. Dukungan untuk tiap pengguna
-
-| Pengguna | Manfaat |
-|---|---|
-| **Dokter hewan / klinik** | Triage darurat, diagnosa banding, langkah pemeriksaan & tindakan, panduan dosis dengan guardrail keselamatan. |
-| **Petshop** | Edukasi ras & penyakit umum, rekomendasi produk (suplemen/antiparasit/pakan resep), peramalan permintaan stok. |
-| **Tim integrasi app** | Manifest API, skema ID entitas, Postman collection, contoh request/response siap pakai. |
-| **Data/ML engineer** | Skema siap-pakai, feature store, dataset builder, registry model & prediksi, loop feedback. |
-
----
-
-## 11. Roadmap
-
-- [x] REST API FastAPI dengan konsultasi multimodal
-- [x] ML pipeline (RandomForest per spesies, 10 model)
-- [x] Integration endpoints untuk app vet eksternal
-- [x] Smart Data Platform + AGENTS.md
-- [x] Docker Compose production stack
-- [x] API documentation + Postman collection
-- [x] Jurnal riset perhewanan (130+ ras terdokumentasi)
-- [x] Integration tests
-- [ ] Perluas KB penyakit (target ratusan per spesies)
-- [ ] Model triage-severity & treatment-recommendation
-- [ ] Embedding + vector search untuk RAG literatur
-- [ ] Integrasi gambar (klasifikasi lesi kulit / identifikasi ras)
-- [ ] Modul peramalan permintaan inventory petshop
-
----
-
-## 12. Lisensi & etika data
+## 11. Lisensi & Etika Data
 
 Data kurasi bersifat edukatif. Saat menambah data klinis nyata, lakukan
 **anonimisasi** (`clinical_cases.is_anonymized`) dan patuhi regulasi privasi.
@@ -492,98 +630,12 @@ peternakan setempat.
 
 ---
 
-## 13. Deployment (Production)
+## Pawnia - The Soul of Ekosistem Satwa
 
-### Architecture
+> *"The Empathetic Veterinary Guide"* - Pemandu Kesehatan Hewan yang Empatik, Edukatif, dan Protektif
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                     Docker Host                          │
-│                                                          │
-│  ┌──────────────┐    ┌──────────────┐    ┌────────────┐ │
-│  │  ekosistem-satwa-  │    │  ekosistem-satwa-  │    │ ekosistem-satwa- │ │
-│  │  api         │───▶│  db          │    │ pgadmin    │ │
-│  │  (port 8080) │    │  (port 5432) │    │ (port 5050)│ │
-│  │              │    │              │    │ (debug)    │ │
-│  └──────────────┘    └──────────────┘    └────────────┘ │
-│         │                                                │
-│         ▼                                                │
-│  ┌──────────────┐                                        │
-│  │  host.docker │  (Ollama / vLLM for local inference)   │
-│  │  .internal   │  extra_hosts + OLLAMA_HOST=0.0.0.0    │
-│  └──────────────┘                                        │
-└─────────────────────────────────────────────────────────┘
-```
+Baca selengkapnya: [`PAWNIA.md`](PAWNIA.md)
 
-### Files
+---
 
-| File | Purpose |
-|------|---------|
-| `Dockerfile` | Multi-stage build (builder + runtime slim image, uid 1000) |
-| `docker-compose.prod.yml` | Production stack: API + PostgreSQL + pgAdmin (debug profile) |
-| `.env.production` | Environment variable template (copy to `.env`) |
-| `docs/deployment.md` | Full deployment guide (build, seed, backup, rollback) |
-
-### Quick Start
-
-```bash
-# 1. Clone repo
-git clone https://github.com/winspaws/Ekosistem Satwa-ai.git
-cd Ekosistem Satwa-ai
-
-# 2. Copy env template and fill secrets
-cp .env.production .env
-# Edit .env — set API keys, passwords, etc.
-
-# 3. Build and start
-docker compose -f docker-compose.prod.yml up -d
-
-# 4. Verify health
-curl http://localhost:8080/health
-
-# 5. Check logs
-docker compose -f docker-compose.prod.yml logs -f api
-```
-
-### Production Notes
-
-| Item | Detail |
-|------|--------|
-| **Port mapping** | Host `:8080` → container `:8000` |
-| **Ollama access** | `extra_hosts: host.docker.internal:host-gateway` + Ollama bind `0.0.0.0:11434` |
-| **httpx pin** | `httpx<0.28` di `requirements.txt` (kompatibilitas openai SDK 1.30.1) |
-| **LLM fallback** | `EKOSISTEM_SATWA_AI_FALLBACK_CHAIN=local,openai,anthropic` |
-| **pgAdmin** | Hanya jalan dengan profile debug: `docker compose --profile debug up -d` |
-
-### Resource Limits
-
-| Service | CPU Limit | Memory Limit |
-|---------|-----------|-------------|
-| API | 2.0 cores | 2 GB |
-| PostgreSQL | 1.0 core | 1 GB |
-| pgAdmin (debug) | — | 256 MB |
-
-ML inference (RandomForest) is CPU-bound. Expect ~100–500 ms per prediction.
-
-### Health Check
-
-```bash
-curl http://localhost:8080/health
-# → {"status":"ok","llm_available":true,"knowledge_base":{...}}
-```
-
-Container-level HEALTHCHECK runs every 30s:
-```bash
-docker inspect --format='{{.State.Health.Status}}' ekosistem-satwa-api
-```
-
-### Full Guide
-
-See [`docs/deployment.md`](docs/deployment.md) for detailed instructions covering:
-- Build & deploy steps
-- Database seeding (first deploy)
-- ML model training
-- Backup & restore (DB + artifacts)
-- Rollback procedure
-- Troubleshooting
-- Security notes
+*Ekosistem Satwa v2.0.0-beta - Naincode AI Dept - 2026*
