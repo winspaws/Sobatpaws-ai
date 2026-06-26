@@ -31,7 +31,8 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 - [8. Deployment (Production)](#8-deployment-production)
 - [9. Testing](#9-testing)
 - [10. Roadmap](#10-roadmap)
-- [11. Lisensi & Etika Data](#11-lisensi--etika-data)
+- [11. Integrasi sobat-paws](#11-integrasi-sobat-paws)
+- [12. Lisensi & Etika Data](#12-lisensi--etika-data)
 
 ---
 
@@ -721,7 +722,36 @@ pytest tests/test_api_integration.py -v
 
 ---
 
-## 11. Lisensi & Etika Data
+## 11. Integrasi sobat-paws
+
+Ekosistem Satwa API menyediakan **9 Integration Endpoints** untuk diintegrasikan ke aplikasi sobat-paws (admin panel, mobile app, web).
+
+### Dokumen Integrasi
+
+| Dokumen | Deskripsi |
+|---------|-----------|
+| [`docs/INTEGRASI_SOBATPAWS_PAWNIA.md`](docs/INTEGRASI_SOBATPAWS_PAWNIA.md) | **Panduan integrasi** — step-by-step integrasi admin panel & mobile |
+| [`docs/INTEGRATION_ADMIN_PANEL.md`](docs/INTEGRATION_ADMIN_PANEL.md) | Analisis gap & rencana integrasi sobatpaws-admin (17 modul) |
+| [`docs/INTEGRATION.md`](docs/INTEGRATION.md) | Panduan integrasi vet app & legacy systems |
+| [`docs/ALIGNMENT_ANALYSIS.md`](docs/ALIGNMENT_ANALYSIS.md) | Alignment score per domain (Auth, Data Model, API) |
+
+### Endpoints Tersedia
+
+| Endpoint | Fungsi | Auth |
+|----------|--------|------|
+| `POST /api/v1/integration/appointment/screening` | AI Pre-Screening | JWT/API Key |
+| `GET /api/v1/integration/customer/{id}/medical-history` | Riwayat medis pet | JWT/API Key |
+| `POST /api/v1/integration/product/recommend` | Rekomendasi produk | JWT/API Key |
+| `GET /api/v1/integration/dashboard/insights` | AI Dashboard Insights | JWT/API Key |
+| `POST /api/v1/integration/vision/skin-lesion` | Analisis lesi kulit | JWT/API Key |
+| `POST /api/v1/integration/safety/check-contraindication` | Cek kontraindikasi obat | JWT/API Key |
+| `GET /api/v1/integration/learning-loop/stats` | Stats feedback ML | JWT/API Key |
+| `POST /api/v1/integration/learning-loop/trigger-retrain` | Trigger retrain | JWT/API Key |
+| `GET /api/v1/integration/health` | Health check | Public |
+
+> VPS: `43.129.56.221:8080` | Semua endpoint live dengan 9 Pawnia agents
+
+## 12. Lisensi & Etika Data
 
 Data kurasi bersifat edukatif. Saat menambah data klinis nyata, lakukan
 **anonimisasi** (`clinical_cases.is_anonymized`) dan patuhi regulasi privasi.
