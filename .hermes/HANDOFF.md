@@ -1,240 +1,62 @@
-# Sobatpaws Telekonsultasi Frontend — HANDOFF
+# Sprint 4 Planning — HANDOFF
 
-> Tanggal: 2025-06-19
-> Profile: frontend
-> Task: t_cbf658a7
-
----
-
-## ✅ Apa yang Dibangun
-
-### 1. Halaman Telekonsultasi (`web/telekonsultasi.html`)
-
-Single-page application (SPA) untuk frontend telekonsultasi dengan fitur:
-
-#### 📋 Intake Form (3-step wizard)
-- **Step 1: Informasi Hewan**
-  - Spesies (dropdown dari `GET /categories`)
-  - Ras (dropdown dari `GET /categories/{slug}/breeds`)
-  - Umur (tahun), Berat (kg)
-  - Jenis kelamin, Status sterilisasi
-
-- **Step 2: Gejala**
-  - Keluhan/riwayat (textarea)
-  - Chip gejala umum (click-to-toggle)
-  - Mendukung multiple selection
-
-- **Step 3: Review**
-  - Ringkasan seluruh input
-  - Tombol "Mulai Konsultasi"
-
-#### 💬 Chat Interface
-- Layout sidebar (intake) + main (chat)
-- Responsive (mobile: stacked, desktop: side-by-side)
-- Message bubbles dengan avatar:
-  - User (kanan, biru gradient)
-  - AI (kiri, panel background)
-  - System (tengah, muted)
-
-#### 🧠 AI Suggestion Cards
-Setiap response AI menampilkan:
-- **Emergency banner** (jika `is_emergency=true`)
-- **Summary box** (ringkasan saran)
-- **Red flags** (jika ada)
-- **Diagnosa potensial** dengan confidence bar
-- **Pemeriksaan disarankan**
-- **Tindakan & Produk**
-- **Pertanyaan lanjutan**
-- **Disclaimer** standar
-
-#### 📹 Video Call Placeholder
-- Panel terpisah di atas chat
-- Toggle button di header
-- Placeholder untuk integrasi WebRTC nanti
-- Controls: Mic, Camera, Hubungkan, Tutup
+> Tanggal: 2026-06-27
+> Profile: wins (PM)
+> Task: t_5a6d47c2 — Sprint 4 Planning & Backlog
 
 ---
 
-## 🔌 API Integration
+## ✅ Yang Dilakukan
 
-### Endpoint yang Digunakan
+### Sprint 4 Planning — Admin Panel Integration
 
-| Method | Endpoint | Kegunaan |
-|--------|----------|----------|
-| `GET` | `/categories` | Load daftar spesies |
-| `GET` | `/categories/{slug}/breeds` | Load ras per spesies |
-| `POST` | `/consultations` | Mulai konsultasi baru |
-| `POST` | `/consultations/{id}/turns` | Tambah pesan/giliran |
-| `GET` | `/api/stats/breakdown` | Stats untuk gejala |
+Membuat 8 task Sprint 4 di Kanban board `naincode` dengan dependency chain:
 
-### Request/Response Contract
+| # | Task | Assignee | Priority | Dependencies |
+|---|------|----------|----------|--------------|
+| 1 | Data Model Alignment — Pet and User fields | backend | P1 | — |
+| 2 | Alembic Migration — Schema Changes | backend | P1 | 1 |
+| 3 | Integration Enhancement — Pre-Screening, Medical History, Dashboard Insights | backend | P1 | 1, 2 |
+| 4 | Vision Analysis for Admin — Skin Lesion Upload | pawnia-ai-2 | P2 | 1 |
+| 5 | Safety Layer Integration — Contraindication Check | pawnia-ai-3 | P2 | 1 |
+| 6 | Learning Loop Dashboard — Feedback to Retrain ML | pawnia-ml-2 | P2 | 1 |
+| 7 | Integration Endpoint Tests | pawnia-ai-1 | P1 | 3, 4, 5, 6 |
+| 8 | Architect Batch Review — Sprint 4 | architect | P1 | 7 |
 
-#### Start Consultation (`POST /consultations`)
-```json
-{
-  "context": {
-    "category_slug": "cat",
-    "breed_slug": "cat-persian",
-    "age_years": 3.5,
-    "weight_kg": 4.2,
-    "sex": "male",
-    "is_neutered": true,
-    "vet_id": 1,
-    "owner_id": 1,
-    "pet_id": 1
-  },
-  "intake": {
-    "channel": "chat",
-    "text": "Kucing muntah dan tidak mau makan",
-    "is_first_contact": true
-  }
-}
+### Dependency Graph
+```
+t_d5a4adfd (Data Model Alignment) — backend
+  ├── t_04911e8e (Alembic Migration) — backend
+  │     └── t_8ddfa6dc (Integration Enhancement) — backend
+  │           └── t_7acd7d84 (Integration Tests) — pawnia-ai-1
+  ├── t_9402ffee (Vision Analysis) — pawnia-ai-2 [P2]
+  │     └── t_7acd7d84 (Integration Tests)
+  ├── t_580075de (Safety Layer) — pawnia-ai-3 [P2]
+  │     └── t_7acd7d84 (Integration Tests)
+  └── t_36c22cc4 (Learning Loop) — pawnia-ml-2 [P2]
+        └── t_7acd7d84 (Integration Tests)
+              └── t_11b2c39f (Architect Review) — architect
 ```
 
-#### Response (`ConsultationResponse`)
-```json
-{
-  "consultation_id": "uuid-xxx",
-  "intake": {
-    "complaint_text": "...",
-    "symptoms": [...]
-  },
-  "suggestion": {
-    "summary": "...",
-    "is_emergency": false,
-    "suggested_diseases": [
-      {"disease_slug": "...", "name_id": "...", "confidence": 0.85, "source": "ml"}
-    ],
-    "suggested_diagnostics": [...],
-    "suggested_treatments": [...],
-    "suggested_products": [...],
-    "red_flags": [...],
-    "follow_up_questions": [...],
-    "disclaimer": "..."
-  },
-  "entities": {...}
-}
-```
+### Key Decisions
+- P1 tasks (Data Model, Migration, Integration Enhancement, Tests, Architect Review) harus selesai dulu sebelum deploy
+- P2 tasks (Vision, Safety, Learning Loop) bisa parallel dengan P1 setelah Data Model selesai
+- Architect review sebagai gate terakhir sebelum deploy ke VPS
+- Integration Tests mencakup semua endpoint Sprint 4
 
-#### Add Turn (`POST /consultations/{id}/turns`)
-```json
-{
-  "intake": {
-    "channel": "chat",
-    "text": "Pesan tambahan..."
-  }
-}
-```
+### Files Updated
+- `/home/ubuntu/sobatpaws/.hermes/STATUS.md` — Sprint 4 status updated
 
 ---
 
-## 🎨 Design System
+## ⏭️ Next Steps (Untuk Agent Selanjutnya)
 
-Mengikuti desain yang sudah ada di `web/index.html`:
-
-| Variable | Value |
-|----------|-------|
-| Background | `#0f1420` (dark blue gradient) |
-| Panel | `#181f2e` / `#1f2838` |
-| Border | `#2a3445` |
-| Text | `#e7ecf3` |
-| Muted | `#94a3b8` |
-| Accent | `#38bdf8` (sky blue) → `#818cf8` (indigo) gradient |
-| Success | `#34d399` |
-| Warning | `#fbbf24` |
-| Error | `#f87171` |
-| Radius | `14px` (cards), `9px` (inputs) |
-
-### Accessibility (a11y) Basics
-- Semantic HTML structure
-- High contrast text (WCAG AA compliant)
-- Focus states on interactive elements
-- Keyboard navigation support
-- Responsive font sizes
-
----
-
-## 📁 File yang Diubah/Dibuat
-
-| File | Status | Keterangan |
-|------|--------|------------|
-| `web/telekonsultasi.html` | ✅ Baru | Halaman utama telekonsultasi (SPA) |
-| `web/index.html` | ✅ Diubah | Tambah link ke `/telekonsultasi.html` |
-
----
-
-## 🚀 Cara Menjalankan
-
-1. **Start backend server:**
-   ```bash
-   cd "/Users/winnerharry/Naincode AI Dept/projects/sobatpaws-ai"
-   export PYTHONPATH=src
-   uvicorn sobatpaws.api.main:app --reload --port 8000
-   ```
-
-2. **Akses halaman:**
-   - Dashboard: http://localhost:8000/
-   - **Telekonsultasi**: http://localhost:8000/telekonsultasi.html
-   - API Docs: http://localhost:8000/docs
-
----
-
-## ⏭️ Next Steps (Untuk Pengembangan Selanjutnya)
-
-1. **Authentication**
-   - Saat ini menggunakan mock `vet_id=1`, `owner_id=1`, `pet_id=1`
-   - Perlu integrasi dengan sistem auth (Auth0/Supabase/Custom)
-   - Header `X-Sobatpaws-Key` untuk API key auth
-
-2. **Real-time (Socket.io)**
-   - ADR-002 merencanakan Socket.io untuk real-time update
-   - Typing indicator
-   - AI suggestion streaming
-   - Doctor presence
-
-3. **State Management**
-   - Saat ini state disimpan di variabel JS sederhana
-   - Untuk production: TanStack Query + React Context
-   - Offline support: IndexedDB
-
-4. **File Upload**
-   - Placeholder untuk mic/camera
-   - Integrasi dengan `POST /consultations/{id}/media`
-   - Drag & drop gambar
-
-5. **Doctor Input & Feedback**
-   - UI untuk `POST /consultations/{id}/doctor-input`
-   - UI untuk `POST /consultations/{id}/feedback`
-   - Rating saran AI (correct/partial/incorrect)
-
-6. **Next.js Migration**
-   - ADR-002 merekomendasikan Next.js 16 App Router
-   - Komponen React + TypeScript strict
-   - shadcn/ui + Tailwind
-   - TanStack Query untuk caching
-   - OpenAPI TypeScript generation
-
----
-
-## 🐾 Spesies yang Didukung
-
-Dari `data/categories.json`:
-- 🐕 Anjing (dog)
-- 🐱 Kucing (cat)
-- 🐰 Kelinci (rabbit)
-- 🐹 Hamster (hamster)
-- 🐔 Unggas (poultry)
-- 🐟 Ikan (fish)
-- 🦎 Reptil (reptile)
-- 🐸 Amfibi (amphibian)
-- 🦨 Musang Ferret (ferret)
-- 🐹 Marmut (guinea_pig)
-
----
-
-## 📝 Catatan
-
-- **MVP Scope**: Halaman ini adalah MVP yang menunjukan alur dasar
-- **Mock IDs**: Untuk demo, menggunakan `vet_id=1`, `owner_id=1`, `pet_id=1`
-- **Same-Origin**: Menggunakan `API = ""` sehingga request ke origin yang sama
-- **Backend Required**: Membutuhkan server FastAPI berjalan di port yang sama
+1. **backend** — Mulai Data Model Alignment (Pet: color, microchip; User: first_name, last_name, address, avatar_url, date_of_birth)
+2. **backend** — Lanjut Alembic Migration setelah data model selesai
+3. **backend** — Integration Enhancement setelah migration
+4. **pawnia-ai-2** — Vision Analysis for Admin (parallel, P2)
+5. **pawnia-ai-3** — Safety Layer Integration (parallel, P2)
+6. **pawnia-ml-2** — Learning Loop Dashboard (parallel, P2)
+7. **pawnia-ai-1** — Integration Tests setelah implementation tasks selesai
+8. **architect** — Batch Review sebagai gate terakhir
+9. **devops** — Deploy setelah architect approve
