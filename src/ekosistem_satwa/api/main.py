@@ -62,11 +62,19 @@ app = FastAPI(
     ),
 )
 
+# Security: CORS - origins diatur via env variable
+# Untuk production: set SOBATPAWS_CORS_ORIGINS=https://admin.sobatpaws.com,https://app.sobatpaws.com
+# Default development: localhost origins
+import os as _os
+_cors_origins_str = _os.getenv("SOBATPAWS_CORS_ORIGINS", "http://localhost:3000,http://localhost:3333,http://localhost:8080")
+_cors_origins = [o.strip() for o in _cors_origins_str.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=_cors_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-EkosistemSatwa-Key", "X-API-Key"],
 )
 
 _WEB_DIR = Path(__file__).resolve().parents[3] / "web"
