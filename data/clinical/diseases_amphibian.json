@@ -93,6 +93,89 @@
         "Oonincx et al. 2015. Nutrition of captive amphibians. Journal of Herpetological Medicine and Surgery"
       ],
       "status": "curated"
+    },
+    {
+      "slug": "amphibian-chytrid",
+      "name": "Chytridiomycosis",
+      "name_id": "Chytrid",
+      "etiology": "infectious_fungal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi jamur Batrachochytrium penyebab kepunahan amfibi global.",
+      "symptoms": [
+        {
+          "name": "Excessive shedding",
+          "name_id": "Kulit mengelupas",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "amphibian-red-leg",
+      "name": "Red Leg Syndrome",
+      "name_id": "Red Leg",
+      "etiology": "infectious_bacterial",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi bakteri sistemik pada katak.",
+      "symptoms": [
+        {
+          "name": "Red thighs",
+          "name_id": "Paha merah",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "amphibian-edema",
+      "name": "Edema (Dropsy)",
+      "name_id": "Edema",
+      "etiology": "infectious_bacterial",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penumpukan cairan pada amfibi.",
+      "symptoms": [
+        {
+          "name": "Bloating",
+          "name_id": "Kembung",
+          "body_system": "systemic",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "amphibian-metabolic-bone",
+      "name": "Metabolic Bone Disease",
+      "name_id": "Penyakit Tulang",
+      "etiology": "metabolic_nutritional",
+      "body_system": "musculoskeletal",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Defisiensi kalsium.",
+      "symptoms": [
+        {
+          "name": "Soft bones",
+          "name_id": "Tulang lunak",
+          "body_system": "musculoskeletal",
+          "frequency": "very_high"
+        }
+      ]
     }
   ]
 }

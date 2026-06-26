@@ -124,6 +124,448 @@
         "Fox JG. 2014. Ferret medicine and surgery. 3rd Edition. Wiley-Blackwell"
       ],
       "status": "curated"
+    },
+    {
+      "slug": "ferret-adrenal-disease",
+      "name": "Adrenal Gland Disease (Hyperadrenocorticism)",
+      "name_id": "Penyakit Adrenal Ferret",
+      "etiology": "endocrine",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyakit endokrin paling umum pada ferret. Produksi hormon seks berlebihan oleh kelenjar adrenal.",
+      "causes": "Hiperplasia/adenoma adrenal, terkait fotoperiode tidak alami (pencahayaan buatan).",
+      "prevention": "Gelapkan kandang 12-14 jam/hari, hindari cahaya buatan malam hari.",
+      "prognosis": "Baik dengan terapi medis atau bedah.",
+      "symptoms": [
+        {
+          "name": "Bilateral alopecia",
+          "name_id": "Rambut rontok bilateral",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Pruritus",
+          "name_id": "Gatal",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Enlarged vulva (female)",
+          "name_id": "Vulva membesar (betina)",
+          "body_system": "reproductive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Prostatomegaly (male)",
+          "name_id": "Prostat membesar (jantan)",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Stranguria",
+          "name_id": "Nyeri kencing",
+          "body_system": "urinary",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Muscle atrophy",
+          "name_id": "Atrofi otot",
+          "body_system": "musculoskeletal",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Abdominal ultrasound",
+          "name_id": "USG abdomen",
+          "category": "imaging",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Sex hormone panel",
+          "name_id": "Panel hormon seks",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "ACTH stim test",
+          "name_id": "Tes stimulasi ACTH",
+          "category": "laboratory",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "surgical",
+          "name": "Adrenalectomy",
+          "protocol": "Reseksi kelenjar adrenal yang terkena"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Deslorelin implant (Suprelorin)",
+          "protocol": "4.7 mg SC implant, efek 6-12 bulan"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Melatonin",
+          "protocol": "0.5-1 mg PO q12h, efek terbatas"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Deslorelin (Suprelorin)",
+          "category": "GnRH_agonist",
+          "dosage": "4.7 mg SC implant q6-12 bulan",
+          "route": "SC",
+          "contraindications": []
+        },
+        {
+          "name": "Melatonin",
+          "category": "hormone",
+          "dosage": "0.5-1 mg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "ferret-insulinoma",
+      "name": "Insulinoma (Pancreatic Beta Cell Tumor)",
+      "name_id": "Insulinoma Ferret",
+      "etiology": "neoplastic",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": true,
+      "overview": "Tumor sel beta pankreas yang menghasilkan insulin berlebihan, menyebabkan hipoglikemia. Sangat umum pada ferret >3 tahun.",
+      "causes": "Adenoma atau karsinoma sel beta pankreas. Etiologi tidak diketahui.",
+      "prevention": "Diet tinggi protein, rendah karbohidrat sederhana, hindari gula.",
+      "prognosis": "Baik dengan manajemen medis; survival 12-24 bulan dengan terapi.",
+      "symptoms": [
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Hypoglycemic collapse",
+          "name_id": "Collapse hipoglikemia",
+          "body_system": "neurologic",
+          "frequency": "high"
+        },
+        {
+          "name": "Pawing at mouth",
+          "name_id": "Menggaruk mulut",
+          "body_system": "neurologic",
+          "frequency": "high"
+        },
+        {
+          "name": "Staring into space",
+          "name_id": "Menatap kosong",
+          "body_system": "neurologic",
+          "frequency": "high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Polyphagia",
+          "name_id": "Lapar berlebihan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Seizures",
+          "name_id": "Kejang",
+          "body_system": "neurologic",
+          "frequency": "moderate",
+          "is_red_flag": true
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Fasting blood glucose",
+          "name_id": "Gula darah puasa",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Insulin:glucose ratio",
+          "name_id": "Rasio insulin:glukosa",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Abdominal ultrasound",
+          "name_id": "USG abdomen",
+          "category": "imaging",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Prednisone/prednisolone",
+          "protocol": "0.5-2 mg/kg PO q12h, titrasi berdasarkan glukosa"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Diazoxide",
+          "protocol": "5-10 mg/kg PO q12h (second line)"
+        },
+        {
+          "type": "surgical",
+          "name": "Partial pancreatectomy",
+          "protocol": "Reseksi nodul pankreas; tidak kuratif jika multiple"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet tinggi protein",
+          "protocol": "High protein diet, frequent small meals, hindari gula sederhana"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Prednisone",
+          "category": "corticosteroid",
+          "dosage": "0.5-2 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Diazoxide",
+          "category": "antihypoglycemic",
+          "dosage": "5-10 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "ferret-lymphoma",
+      "name": "Ferret Lymphoma",
+      "name_id": "Limfoma Ferret",
+      "etiology": "neoplastic",
+      "body_system": "lymphatic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": false,
+      "overview": "Neoplasma limforetikuler paling umum pada ferret. Dapat mengenai berbagai organ.",
+      "causes": "Idiopatik, mungkin terkait virus (retrovirus ferret).",
+      "prevention": "Tidak dapat dicegah.",
+      "prognosis": "Guarded; kemoterapi dapat memperpanjang survival 6-12 bulan.",
+      "symptoms": [
+        {
+          "name": "Lymphadenopathy",
+          "name_id": "Pembesaran kelenjar getah bening",
+          "body_system": "lymphatic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Splenomegaly",
+          "name_id": "Pembesaran limpa",
+          "body_system": "lymphatic",
+          "frequency": "high"
+        },
+        {
+          "name": "Dyspnea (mediastinal mass)",
+          "name_id": "Sesak napas (massa mediastinum)",
+          "body_system": "respiratory",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "FNA cytology",
+          "name_id": "FNA sitologi",
+          "category": "pathology",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Biopsy histopathology",
+          "name_id": "Biopsi histopatologi",
+          "category": "pathology",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "CBC + chemistry",
+          "name_id": "CBC + kimia darah",
+          "category": "laboratory",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Kemoterapi CHOP",
+          "protocol": "Cyclophosphamide, doxorubicin, vincristine, prednisone"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Prednisone palliatif",
+          "protocol": "1-2 mg/kg PO q12h"
+        }
+      ]
+    },
+    {
+      "slug": "ferret-adrenal",
+      "name": "Adrenal Gland Disease",
+      "name_id": "Penyakit Adrenal",
+      "etiology": "neoplastic",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Tumor kelenjar adrenal pada musang.",
+      "symptoms": [
+        {
+          "name": "Hair loss",
+          "name_id": "Rontok bulu",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "ferret-prostate",
+      "name": "Prostatic Disease",
+      "name_id": "Penyakit Prostat",
+      "etiology": "neoplastic",
+      "body_system": "reproductive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Pembesaran prostat pada musang jantan.",
+      "symptoms": [
+        {
+          "name": "Difficulty urinating",
+          "name_id": "Susah kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "ferret-cardiomyopathy",
+      "name": "Dilated Cardiomyopathy",
+      "name_id": "Kardiomiopati",
+      "etiology": "degenerative",
+      "body_system": "cardiovascular",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Pembesaran jantung.",
+      "symptoms": [
+        {
+          "name": "Cough",
+          "name_id": "Batuk",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "ferret-gastric-ulcer",
+      "name": "Gastric Ulcer",
+      "name_id": "Tukak Lambung",
+      "etiology": "digestive_disorder",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Luka di lambung.",
+      "symptoms": [
+        {
+          "name": "Dark stool",
+          "name_id": "Kotoran hitam",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "ferret-epizootic-catarrah",
+      "name": "Epizootic Catarrhal Enteritis",
+      "name_id": "ECE",
+      "etiology": "infectious_viral",
+      "body_system": "digestive",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Diare hijau pada musang.",
+      "symptoms": [
+        {
+          "name": "Green diarrhea",
+          "name_id": "Diare hijau",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "ferret-alec",
+      "name": "Aleutian Disease",
+      "name_id": "Aleutian",
+      "etiology": "infectious_viral",
+      "body_system": "immune",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "chronic",
+      "is_emergency": false,
+      "overview": "Penyakit autoimun pada musang.",
+      "symptoms": [
+        {
+          "name": "Weight loss",
+          "name_id": "BB turun",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        }
+      ]
     }
   ]
 }

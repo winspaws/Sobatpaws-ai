@@ -125,6 +125,433 @@
         "Lichtenberger M. 2019. Urolithiasis in small mammals. Journal of Exotic Pet Medicine"
       ],
       "status": "curated"
+    },
+    {
+      "slug": "guinea-pig-scurvy",
+      "name": "Vitamin C Deficiency (Scurvy)",
+      "name_id": "Defisiensi Vitamin C (Skorbut)",
+      "etiology": "nutritional",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Marmut tidak dapat mensintesis vitamin C. Defisiensi menyebabkan gangguan kolagen, perdarahan, dan imunosupresi.",
+      "causes": "Diet kurang vitamin C (sayuran segar). Kebutuhan: 10-30 mg/kg/hari.",
+      "prevention": "Suplemen vitamin C 10-30 mg/kg/hari, sayuran kaya vitamin C (paprika, kale).",
+      "prognosis": "Sangat baik dengan suplementasi vitamin C.",
+      "symptoms": [
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Joint swelling/pain",
+          "name_id": "Bengkak/nyeri sendi",
+          "body_system": "musculoskeletal",
+          "frequency": "high"
+        },
+        {
+          "name": "Hemorrhage (subcutaneous)",
+          "name_id": "Perdarahan bawah kulit",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Poor coat quality",
+          "name_id": "Bulu kusam",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Delayed wound healing",
+          "name_id": "Luka sulit sembuh",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Dental problems",
+          "name_id": "Masalah gigi",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Response to vitamin C therapy",
+          "name_id": "Respon terapi vitamin C",
+          "category": "clinical",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Plasma vitamin C level",
+          "name_id": "Kadar vitamin C plasma",
+          "category": "laboratory",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Vitamin C suplementasi",
+          "protocol": "Vitamin C 50 mg/kg SC/PO q24h x 7-14 hari, lalu maintenance 10-30 mg/kg/hari"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet korektif",
+          "protocol": "Sayuran segar kaya vitamin C (paprika merah, kale, brokoli) setiap hari"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Vitamin C (ascorbic acid)",
+          "category": "vitamin",
+          "dosage": "50 mg/kg SC/PO q24h loading",
+          "route": "SC/PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "guinea-pig-ovarian-cyst",
+      "name": "Ovarian Cysts",
+      "name_id": "Kista Ovarium Marmut",
+      "etiology": "reproductive",
+      "body_system": "reproductive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Kista ovarium sangat umum pada marmut betina dewasa tidak steril. Dapat menyebabkan alopecia dan masalah reproduksi.",
+      "causes": "Ketidakseimbangan hormonal, folikel tidak berovulasi.",
+      "prevention": "Sterilisasi (OVH) pada usia muda.",
+      "prognosis": "Sangat baik dengan OVH.",
+      "symptoms": [
+        {
+          "name": "Bilateral alopecia",
+          "name_id": "Rambut rontok bilateral",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Abdominal distension",
+          "name_id": "Perut buncit",
+          "body_system": "reproductive",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Abdominal ultrasound",
+          "name_id": "USG abdomen",
+          "category": "imaging",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Abdominal radiography",
+          "name_id": "Radiografi abdomen",
+          "category": "imaging",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "surgical",
+          "name": "OVH (Ovariohisterektomi)",
+          "protocol": "OVH total, termasuk ovarium dan uterus"
+        },
+        {
+          "type": "pharmacological",
+          "name": "hCG therapy",
+          "protocol": "hCG 1000 IU IM, efek sementara"
+        }
+      ]
+    },
+    {
+      "slug": "guinea-pig-urinary-stones",
+      "name": "Urinary Stones (Urolithiasis)",
+      "name_id": "Batu Kemih Marmut",
+      "etiology": "metabolic",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Batu kalsium oksalat/karbonat pada saluran kemih. Umum pada marmut betina dan jantan. Dapat menyebabkan obstruksi fatal.",
+      "causes": "Diet tinggi kalsium, rasio Ca:P tidak seimbang, kurang minum, predisposisi genetik.",
+      "prevention": "Diet seimbang kalsium, hindari alfalfa hay (kalsium tinggi), air minum cukup, timothy hay sebagai basis.",
+      "prognosis": "Baik dengan koreksi bedah; rekurensi tinggi tanpa perubahan diet.",
+      "symptoms": [
+        {
+          "name": "Stranguria",
+          "name_id": "Nyeri kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Hematuria",
+          "name_id": "Kencing darah",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Vocalizing when urinating",
+          "name_id": "Menjerit saat kencing",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Anuria (obstruction)",
+          "name_id": "Tidak bisa kencing",
+          "body_system": "urinary",
+          "frequency": "moderate",
+          "is_red_flag": true
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Abdominal radiography",
+          "name_id": "Radiografi abdomen",
+          "category": "imaging",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Abdominal ultrasound",
+          "name_id": "USG abdomen",
+          "category": "imaging",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Urinalysis + sediment",
+          "name_id": "Urinalisis + sedimen",
+          "category": "laboratory",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "surgical",
+          "name": "Cystotomy",
+          "protocol": "Sistotomi untuk mengeluarkan batu kandung kemih"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Terapi cairan",
+          "protocol": "IV/SC fluids untuk flush saluran kemih"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet korektif",
+          "protocol": "Timothy hay, hindari alfalfa, sayuran rendah kalsium, air banyak"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Analgesik",
+          "protocol": "Meloxicam 0.3-0.6 mg/kg PO q24h"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Meloxicam",
+          "category": "NSAID",
+          "dosage": "0.3-0.6 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Enrofloxacin",
+          "category": "antibiotic",
+          "dosage": "10 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "guinea-scurvy",
+      "name": "Scurvy (Vitamin C Deficiency)",
+      "name_id": "Scorbut",
+      "etiology": "metabolic_nutritional",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Defisiensi vitamin C pada marmut.",
+      "symptoms": [
+        {
+          "name": "Joint pain",
+          "name_id": "Nyeri sendi",
+          "body_system": "musculoskeletal",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "guinea-URI",
+      "name": "Upper Respiratory Infection",
+      "name_id": "Infeksi Saluran Napas Atas",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi saluran napas yang cepat memburuk pada marmut.",
+      "symptoms": [
+        {
+          "name": "Sneezing",
+          "name_id": "Bersin",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Eye discharge",
+          "name_id": "Mata belekan",
+          "body_system": "ocular",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "guinea-bumblefoot",
+      "name": "Bumblefoot (Pododermatitis)",
+      "name_id": "Pododermatitis",
+      "etiology": "infectious_bacterial",
+      "body_system": "musculoskeletal",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi telapak kaki pada marmut.",
+      "symptoms": [
+        {
+          "name": "Swollen feet",
+          "name_id": "Kaki bengkak",
+          "body_system": "musculoskeletal",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "guinea-pneumonia",
+      "name": "Pneumonia (Bordetella)",
+      "name_id": "Radang Paru",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi paru bakteri.",
+      "symptoms": [
+        {
+          "name": "Rales",
+          "name_id": "Suara napas",
+          "body_system": "respiratory",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "guinea-pregnancy-toxemia",
+      "name": "Pregnancy Toxemia",
+      "name_id": "Tokemia Kehamilan",
+      "etiology": "metabolic_nutritional",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Komplikasi kehamilan pada marmut.",
+      "symptoms": [
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "guinea-dermatitis",
+      "name": "Fungal Dermatitis",
+      "name_id": "Jamur Kulit",
+      "etiology": "infectious_fungal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": true,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Infeksi jamur kulit.",
+      "symptoms": [
+        {
+          "name": "Scaly patches",
+          "name_id": "Bercak bersisik",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "guinea-ovarian-cyst",
+      "name": "Ovarian Cysts",
+      "name_id": "Kista Ovarium",
+      "etiology": "reproductive",
+      "body_system": "reproductive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Kista ovarium pada marmut betina.",
+      "symptoms": [
+        {
+          "name": "Bilateral hair loss",
+          "name_id": "Bulru rontok simetris",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
     }
   ]
 }

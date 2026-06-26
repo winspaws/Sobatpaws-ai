@@ -373,6 +373,114 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "hedgehog-wobbly",
+      "name": "Wobbly Hedgehog Syndrome",
+      "name_id": "WHS",
+      "etiology": "degenerative",
+      "body_system": "neurological",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "chronic",
+      "is_emergency": false,
+      "overview": "Penyakit neurologis degeneratif pada landak.",
+      "symptoms": [
+        {
+          "name": "Ataxia",
+          "name_id": "Jalan sempoyongan",
+          "body_system": "neurological",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "hedgehog-mites",
+      "name": "Mange (Mite Infestation)",
+      "name_id": "Kurap Landak",
+      "etiology": "parasitic",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": true,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infestasi tungau penyebab keropeng dan rontok duri.",
+      "symptoms": [
+        {
+          "name": "Quill loss",
+          "name_id": "Duri rontok",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "sugar-glider-nutritional",
+      "name": "Nutritional Osteodystrophy",
+      "name_id": "Penyakit Tulang Metabolik",
+      "etiology": "metabolic_nutritional",
+      "body_system": "musculoskeletal",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Defisiensi kalsium pada kuskus gula.",
+      "symptoms": [
+        {
+          "name": "Tremors",
+          "name_id": "Tremor",
+          "body_system": "neurological",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "chinchilla-heat-stroke",
+      "name": "Heat Stroke",
+      "name_id": "Heat Stroke",
+      "etiology": "traumatic",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Suhu tubuh naik drastis pada chinchilla yang sensitif panas.",
+      "symptoms": [
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Red ears",
+          "name_id": "Telinga merah",
+          "body_system": "systemic",
+          "frequency": "high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "chinchilla-fur-chewing",
+      "name": "Fur Chewing",
+      "name_id": "Kunyah Bulu",
+      "etiology": "behavioral",
+      "body_system": "behavioral",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Perilaku mencabut bulu akibat stres atau bosan.",
+      "symptoms": [
+        {
+          "name": "Patchy fur",
+          "name_id": "Bulu botak",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
     }
   ],
   "category_slug": "others"

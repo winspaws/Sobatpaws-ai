@@ -15,21 +15,73 @@
       "prevention": "Karantina ikan baru, jaga suhu stabil, kualitas air optimal.",
       "prognosis": "Baik bila diobati dini; fatal bila menyerang insang masif.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-goldfish", "risk": "high"},
-        {"breed_slug": "fish-guppy", "risk": "moderate"},
-        {"breed_slug": "fish-betta", "risk": "moderate"}
+        {
+          "breed_slug": "fish-goldfish",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-guppy",
+          "risk": "moderate"
+        },
+        {
+          "breed_slug": "fish-betta",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "White salt-like spots", "name_id": "Bintik putih seperti garam", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Flashing/rubbing on objects", "name_id": "Menggosok tubuh ke benda", "body_system": "behavioral", "frequency": "high"},
-        {"name": "Clamped fins", "name_id": "Sirip mengatup", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Rapid gill movement", "name_id": "Insang bergerak cepat (megap)", "body_system": "respiratory", "frequency": "moderate", "is_red_flag": true},
-        {"name": "Lethargy / loss of appetite", "name_id": "Lesu & tidak nafsu makan", "body_system": "systemic", "frequency": "moderate"}
+        {
+          "name": "White salt-like spots",
+          "name_id": "Bintik putih seperti garam",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Flashing/rubbing on objects",
+          "name_id": "Menggosok tubuh ke benda",
+          "body_system": "behavioral",
+          "frequency": "high"
+        },
+        {
+          "name": "Clamped fins",
+          "name_id": "Sirip mengatup",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Rapid gill movement",
+          "name_id": "Insang bergerak cepat (megap)",
+          "body_system": "respiratory",
+          "frequency": "moderate",
+          "is_red_flag": true
+        },
+        {
+          "name": "Lethargy / loss of appetite",
+          "name_id": "Lesu & tidak nafsu makan",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi visual", "type": "physical_exam", "step_order": 1, "expected_finding": "Bintik putih khas"},
-        {"name": "Mikroskopi kerokan lendir", "type": "skin_scraping", "is_gold_standard": true, "step_order": 2, "expected_finding": "Trofozoit bersilia (ciliata) berputar"},
-        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 3, "expected_finding": "Pemicu stres (suhu/amonia)"}
+        {
+          "name": "Inspeksi visual",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Bintik putih khas"
+        },
+        {
+          "name": "Mikroskopi kerokan lendir",
+          "type": "skin_scraping",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Trofozoit bersilia (ciliata) berputar"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "step_order": 3,
+          "expected_finding": "Pemicu stres (suhu/amonia)"
+        }
       ],
       "treatments": [
         {
@@ -39,8 +91,22 @@
           "procedure_steps": "1) Naikkan suhu bertahap (28-30C) untuk percepat siklus parasit. 2) Obat anti-ich (malachite green/formalin) sesuai volume. 3) Garam akuarium (spesies toleran). 4) Aerasi ekstra. 5) Ganti air parsial rutin & ulang dosis sesuai siklus.",
           "recommendation": "Obati seluruh akuarium (parasit di air); parasit hanya rentan obat saat fase berenang bebas.",
           "products": [
-            {"name": "Malachite green + formalin", "kind": "medication", "active_ingredient": "Malachite green, formaldehyde", "route": "air akuarium", "dosage_guide": "Sesuai label per liter, ulang tiap 2-3 hari", "cautions": "Toksik untuk beberapa ikan tanpa sisik & invertebrata; kurangi dosis."},
-            {"name": "Garam ikan (aquarium salt)", "kind": "medication", "active_ingredient": "NaCl non-iodium", "route": "air akuarium", "dosage_guide": "1-3 g/L (spesies toleran)", "cautions": "Hati-hati ikan sensitif garam & tanaman."}
+            {
+              "name": "Malachite green + formalin",
+              "kind": "medication",
+              "active_ingredient": "Malachite green, formaldehyde",
+              "route": "air akuarium",
+              "dosage_guide": "Sesuai label per liter, ulang tiap 2-3 hari",
+              "cautions": "Toksik untuk beberapa ikan tanpa sisik & invertebrata; kurangi dosis."
+            },
+            {
+              "name": "Garam ikan (aquarium salt)",
+              "kind": "medication",
+              "active_ingredient": "NaCl non-iodium",
+              "route": "air akuarium",
+              "dosage_guide": "1-3 g/L (spesies toleran)",
+              "cautions": "Hati-hati ikan sensitif garam & tanaman."
+            }
           ]
         }
       ]
@@ -57,18 +123,58 @@
       "prevention": "Jaga kualitas air, hindari overcrowding & agresi, ganti air rutin.",
       "prognosis": "Baik bila perbaiki air + antibakteri; berat bila sampai ke tubuh.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-betta", "risk": "high", "notes": "Sirip panjang mudah rusak & infeksi."},
-        {"breed_slug": "fish-goldfish", "risk": "moderate"}
+        {
+          "breed_slug": "fish-betta",
+          "risk": "high",
+          "notes": "Sirip panjang mudah rusak & infeksi."
+        },
+        {
+          "breed_slug": "fish-goldfish",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Frayed/ragged fins", "name_id": "Sirip robek/compang-camping", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Red inflamed fin edges", "name_id": "Tepi sirip memerah", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Fins shrinking", "name_id": "Sirip menyusut/memendek", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Lethargy", "name_id": "Lesu", "body_system": "systemic", "frequency": "moderate"}
+        {
+          "name": "Frayed/ragged fins",
+          "name_id": "Sirip robek/compang-camping",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Red inflamed fin edges",
+          "name_id": "Tepi sirip memerah",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Fins shrinking",
+          "name_id": "Sirip menyusut/memendek",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lesu",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi visual sirip", "type": "physical_exam", "is_gold_standard": false, "step_order": 1, "expected_finding": "Tepi sirip nekrotik"},
-        {"name": "Uji parameter air", "type": "physical_exam", "is_gold_standard": true, "step_order": 2, "expected_finding": "Amonia/nitrit terdeteksi"}
+        {
+          "name": "Inspeksi visual sirip",
+          "type": "physical_exam",
+          "is_gold_standard": false,
+          "step_order": 1,
+          "expected_finding": "Tepi sirip nekrotik"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Amonia/nitrit terdeteksi"
+        }
       ],
       "treatments": [
         {
@@ -78,8 +184,22 @@
           "procedure_steps": "1) Ganti air parsial + perbaiki filtrasi (turunkan amonia/nitrit ke 0). 2) Garam akuarium (spesies toleran). 3) Antibakteri/antiseptik air. 4) Antibiotik bila berat. 5) Pisahkan bila ada agresi.",
           "recommendation": "Kualitas air adalah obat utama; antibiotik hanya bila tidak membaik.",
           "products": [
-            {"name": "Methylene blue / acriflavine", "kind": "medication", "active_ingredient": "Methylene blue", "route": "air/perendaman", "dosage_guide": "Sesuai label", "cautions": "Mewarnai air & dapat mengganggu bakteri filter."},
-            {"name": "Antibiotik akuatik (kanamycin/oxytetracycline)", "kind": "medication", "active_ingredient": "Oxytetracycline", "route": "air/pakan", "dosage_guide": "Sesuai label", "cautions": "Gunakan bijak, hindari resistensi."}
+            {
+              "name": "Methylene blue / acriflavine",
+              "kind": "medication",
+              "active_ingredient": "Methylene blue",
+              "route": "air/perendaman",
+              "dosage_guide": "Sesuai label",
+              "cautions": "Mewarnai air & dapat mengganggu bakteri filter."
+            },
+            {
+              "name": "Antibiotik akuatik (kanamycin/oxytetracycline)",
+              "kind": "medication",
+              "active_ingredient": "Oxytetracycline",
+              "route": "air/pakan",
+              "dosage_guide": "Sesuai label",
+              "cautions": "Gunakan bijak, hindari resistensi."
+            }
           ]
         }
       ]
@@ -96,18 +216,57 @@
       "prevention": "Kualitas air prima, pakan berkualitas, hindari stres kronik.",
       "prognosis": "Buruk (sering terlambat); pengobatan dini meningkatkan peluang.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-goldfish", "risk": "high"},
-        {"breed_slug": "fish-betta", "risk": "moderate"}
+        {
+          "breed_slug": "fish-goldfish",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-betta",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Pinecone scales", "name_id": "Sisik berdiri seperti nanas", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true, "is_red_flag": true},
-        {"name": "Swollen abdomen", "name_id": "Perut menggembung", "body_system": "systemic", "frequency": "very_high"},
-        {"name": "Bulging eyes", "name_id": "Mata menonjol", "body_system": "ophthalmic", "frequency": "moderate"},
-        {"name": "Lethargy & not eating", "name_id": "Lesu & tidak makan", "body_system": "systemic", "frequency": "high"}
+        {
+          "name": "Pinecone scales",
+          "name_id": "Sisik berdiri seperti nanas",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_pathognomonic": true,
+          "is_red_flag": true
+        },
+        {
+          "name": "Swollen abdomen",
+          "name_id": "Perut menggembung",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Bulging eyes",
+          "name_id": "Mata menonjol",
+          "body_system": "ophthalmic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lethargy & not eating",
+          "name_id": "Lesu & tidak makan",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi visual (pinecone)", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Sisik berdiri + asites"},
-        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 2, "expected_finding": "Faktor pemicu lingkungan"}
+        {
+          "name": "Inspeksi visual (pinecone)",
+          "type": "physical_exam",
+          "is_gold_standard": true,
+          "step_order": 1,
+          "expected_finding": "Sisik berdiri + asites"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "step_order": 2,
+          "expected_finding": "Faktor pemicu lingkungan"
+        }
       ],
       "treatments": [
         {
@@ -117,8 +276,22 @@
           "procedure_steps": "1) Isolasi ke karantina. 2) Epsom salt bath untuk tarik cairan. 3) Antibiotik akuatik (kanamycin + antibiotik gram negatif). 4) Optimalkan kualitas air & suhu. 5) Pakan bergizi/medicated.",
           "recommendation": "Prognosis hati-hati; mulai sedini mungkin & isolasi untuk cegah penularan.",
           "products": [
-            {"name": "Epsom salt (MgSO4)", "kind": "medication", "active_ingredient": "Magnesium sulfate", "route": "perendaman", "dosage_guide": "1-2 sdt per 4 L (bath)", "cautions": "Berbeda dari garam akuarium."},
-            {"name": "Kanamycin", "kind": "medication", "active_ingredient": "Kanamycin", "route": "air/pakan", "dosage_guide": "Sesuai label", "cautions": "Untuk infeksi gram negatif sistemik."}
+            {
+              "name": "Epsom salt (MgSO4)",
+              "kind": "medication",
+              "active_ingredient": "Magnesium sulfate",
+              "route": "perendaman",
+              "dosage_guide": "1-2 sdt per 4 L (bath)",
+              "cautions": "Berbeda dari garam akuarium."
+            },
+            {
+              "name": "Kanamycin",
+              "kind": "medication",
+              "active_ingredient": "Kanamycin",
+              "route": "air/pakan",
+              "dosage_guide": "Sesuai label",
+              "cautions": "Untuk infeksi gram negatif sistemik."
+            }
           ]
         }
       ]
@@ -136,21 +309,73 @@
       "prevention": "Hindari overcrowding, jaga kebersihan filter, karantina ikan baru, stabilkan parameter air.",
       "prognosis": "Guardedly baik bila diobati dini; mortalitas tinggi bila menyerang insang.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-goldfish", "risk": "high"},
-        {"breed_slug": "fish-corydoras", "risk": "high"},
-        {"breed_slug": "fish-angel", "risk": "moderate"}
+        {
+          "breed_slug": "fish-goldfish",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-corydoras",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-angel",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "White/grey cotton-like patches", "name_id": "Bercak putih/abu seperti kapas", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Saddle-shaped lesion on back", "name_id": "Lesi berbentuk pelana di punggung", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Mouth erosion / cotton mouth", "name_id": "Mulut berjamur / terkikis", "body_system": "oral", "frequency": "high", "is_red_flag": true},
-        {"name": "Rapid gill movement", "name_id": "Insang megap cepat", "body_system": "respiratory", "frequency": "moderate"},
-        {"name": "Frayed fins", "name_id": "Sirip robek", "body_system": "integumentary", "frequency": "moderate"}
+        {
+          "name": "White/grey cotton-like patches",
+          "name_id": "Bercak putih/abu seperti kapas",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Saddle-shaped lesion on back",
+          "name_id": "Lesi berbentuk pelana di punggung",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Mouth erosion / cotton mouth",
+          "name_id": "Mulut berjamur / terkikis",
+          "body_system": "oral",
+          "frequency": "high",
+          "is_red_flag": true
+        },
+        {
+          "name": "Rapid gill movement",
+          "name_id": "Insang megap cepat",
+          "body_system": "respiratory",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Frayed fins",
+          "name_id": "Sirip robek",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi visual lesi khas", "type": "physical_exam", "step_order": 1, "expected_finding": "Bercak kapas / lesi pelana"},
-        {"name": "Mikroskopi kerokan", "type": "skin_scraping", "is_gold_standard": true, "step_order": 2, "expected_finding": "Bakteri berbentuk batang bergerak lambat (gliding motility)"},
-        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 3, "expected_finding": "Nitrit tinggi / pH tidak stabil"}
+        {
+          "name": "Inspeksi visual lesi khas",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Bercak kapas / lesi pelana"
+        },
+        {
+          "name": "Mikroskopi kerokan",
+          "type": "skin_scraping",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Bakteri berbentuk batang bergerak lambat (gliding motility)"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "step_order": 3,
+          "expected_finding": "Nitrit tinggi / pH tidak stabil"
+        }
       ],
       "treatments": [
         {
@@ -160,8 +385,22 @@
           "procedure_steps": "1) Isolasi ikan sakit. 2) Ganti air 50% dengan air berkualitas. 3) Gunakan antibiotik oxytetracycline / kanamycin. 4) Tambah aerasi maksimal. 5) Kurangi suhu sedikit (jika memungkinkan).",
           "recommendation": "Penanganan segera karena penyakit berkembang sangat cepat; hindari penggunaan antibiotik tanpa indikasi jelas.",
           "products": [
-            {"name": "Oxytetracycline", "kind": "medication", "active_ingredient": "Oxytetracycline hydrochloride", "route": "air akuarium", "dosage_guide": "10-20 mg/L, ulang tiap 24 jam selama 3-5 hari", "cautions": "Matikan UV sterilizer selama pengobatan."},
-            {"name": "Kanamycin sulfate", "kind": "medication", "active_ingredient": "Kanamycin", "route": "air / pakan", "dosage_guide": "15 mg/L", "cautions": "Toksik untuk invertebrata."}
+            {
+              "name": "Oxytetracycline",
+              "kind": "medication",
+              "active_ingredient": "Oxytetracycline hydrochloride",
+              "route": "air akuarium",
+              "dosage_guide": "10-20 mg/L, ulang tiap 24 jam selama 3-5 hari",
+              "cautions": "Matikan UV sterilizer selama pengobatan."
+            },
+            {
+              "name": "Kanamycin sulfate",
+              "kind": "medication",
+              "active_ingredient": "Kanamycin",
+              "route": "air / pakan",
+              "dosage_guide": "15 mg/L",
+              "cautions": "Toksik untuk invertebrata."
+            }
           ]
         }
       ]
@@ -179,21 +418,73 @@
       "prevention": "Karantina minimal 14 hari, hindari tanaman dari sumber tidak terpercaya, jaga imunitas ikan.",
       "prognosis": "Baik jika diobati pada tahap awal; mortalitas tinggi bila parah dan menyerang insang.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-betta", "risk": "very_high"},
-        {"breed_slug": "fish-gourami", "risk": "high"},
-        {"breed_slug": "fish-tetra", "risk": "moderate"}
+        {
+          "breed_slug": "fish-betta",
+          "risk": "very_high"
+        },
+        {
+          "breed_slug": "fish-gourami",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-tetra",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Fine gold/yellow dust on skin", "name_id": "Debu halus emas/kuning di kulit", "body_system": "integumentary", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Flashing / rubbing violently", "name_id": "Menggosok tubuh dengan keras", "body_system": "behavioral", "frequency": "high"},
-        {"name": "Clamped fins", "name_id": "Sirip mengatup rapat", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Loss of appetite", "name_id": "Tidak mau makan", "body_system": "systemic", "frequency": "moderate"},
-        {"name": "Labored breathing", "name_id": "Bernafas berat", "body_system": "respiratory", "frequency": "high", "is_red_flag": true}
+        {
+          "name": "Fine gold/yellow dust on skin",
+          "name_id": "Debu halus emas/kuning di kulit",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Flashing / rubbing violently",
+          "name_id": "Menggosok tubuh dengan keras",
+          "body_system": "behavioral",
+          "frequency": "high"
+        },
+        {
+          "name": "Clamped fins",
+          "name_id": "Sirip mengatup rapat",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Loss of appetite",
+          "name_id": "Tidak mau makan",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Labored breathing",
+          "name_id": "Bernafas berat",
+          "body_system": "respiratory",
+          "frequency": "high",
+          "is_red_flag": true
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi visual dengan senter", "type": "physical_exam", "step_order": 1, "expected_finding": "Tampak debu emas saat terkena cahaya"},
-        {"name": "Mikroskopi kerokan lendir", "type": "skin_scraping", "is_gold_standard": true, "step_order": 2, "expected_finding": "Parasit berbentuk oval dengan flagela"},
-        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 3, "expected_finding": "Cek faktor stres"}
+        {
+          "name": "Inspeksi visual dengan senter",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Tampak debu emas saat terkena cahaya"
+        },
+        {
+          "name": "Mikroskopi kerokan lendir",
+          "type": "skin_scraping",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Parasit berbentuk oval dengan flagela"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "step_order": 3,
+          "expected_finding": "Cek faktor stres"
+        }
       ],
       "treatments": [
         {
@@ -203,8 +494,22 @@
           "procedure_steps": "1) Matikan lampu akuarium (parasit fotosintetik). 2) Tambah garam akuarium 1-2 g/L. 3) Gunakan copper sulfate sesuai dosis aman. 4) Aerasi ekstra. 5) Lanjutkan pengobatan minimal 10 hari.",
           "recommendation": "Parasit dapat bertahan dalam bentuk kista; pengobatan harus cukup lama untuk membunuh semua siklus hidup.",
           "products": [
-            {"name": "Copper sulfate", "kind": "medication", "active_ingredient": "Copper sulfate pentahydrate", "route": "air akuarium", "dosage_guide": "0.15-0.2 mg/L (tidak boleh melebihi)", "cautions": "SANGAT TOKSIK untuk ikan tanpa sisik, invertebrata, udang, siput. Jangan over dosis."},
-            {"name": "Methylene blue", "kind": "medication", "active_ingredient": "Methylene blue", "route": "air", "dosage_guide": "2 mg/L", "cautions": "Alternatif untuk spesies sensitif tembaga."}
+            {
+              "name": "Copper sulfate",
+              "kind": "medication",
+              "active_ingredient": "Copper sulfate pentahydrate",
+              "route": "air akuarium",
+              "dosage_guide": "0.15-0.2 mg/L (tidak boleh melebihi)",
+              "cautions": "SANGAT TOKSIK untuk ikan tanpa sisik, invertebrata, udang, siput. Jangan over dosis."
+            },
+            {
+              "name": "Methylene blue",
+              "kind": "medication",
+              "active_ingredient": "Methylene blue",
+              "route": "air",
+              "dosage_guide": "2 mg/L",
+              "cautions": "Alternatif untuk spesies sensitif tembaga."
+            }
           ]
         }
       ]
@@ -222,21 +527,73 @@
       "prevention": "Berikan pakan dalam jumlah sesuai, rendam pakan kering sebelum diberikan, hindari perubahan suhu drastis.",
       "prognosis": "Sangat baik jika penyebab konstipasi; buruk jika penyebab kerusakan organ permanen.",
       "breed_susceptibility": [
-        {"breed_slug": "fish-goldfish", "risk": "very_high", "notes": "Badan bulat menekan gelembung renang"},
-        {"breed_slug": "fish-betta", "risk": "high"},
-        {"breed_slug": "fish-molly", "risk": "moderate"}
+        {
+          "breed_slug": "fish-goldfish",
+          "risk": "very_high",
+          "notes": "Badan bulat menekan gelembung renang"
+        },
+        {
+          "breed_slug": "fish-betta",
+          "risk": "high"
+        },
+        {
+          "breed_slug": "fish-molly",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Floating upside down / on side", "name_id": "Mengapung terbalik / miring", "body_system": "behavioral", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Sinking to bottom uncontrollably", "name_id": "Tenggelam ke dasar tidak terkendali", "body_system": "behavioral", "frequency": "high"},
-        {"name": "Distended abdomen", "name_id": "Perut kembung", "body_system": "digestive", "frequency": "moderate"},
-        {"name": "Difficulty rising to surface", "name_id": "Sulit naik ke permukaan", "body_system": "behavioral", "frequency": "moderate"},
-        {"name": "Spiral swimming", "name_id": "Berenang berputar", "body_system": "neurological", "frequency": "low"}
+        {
+          "name": "Floating upside down / on side",
+          "name_id": "Mengapung terbalik / miring",
+          "body_system": "behavioral",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Sinking to bottom uncontrollably",
+          "name_id": "Tenggelam ke dasar tidak terkendali",
+          "body_system": "behavioral",
+          "frequency": "high"
+        },
+        {
+          "name": "Distended abdomen",
+          "name_id": "Perut kembung",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Difficulty rising to surface",
+          "name_id": "Sulit naik ke permukaan",
+          "body_system": "behavioral",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Spiral swimming",
+          "name_id": "Berenang berputar",
+          "body_system": "neurological",
+          "frequency": "low"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi pola berenang", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Posisi berenang abnormal"},
-        {"name": "Observasi riwayat pakan", "type": "anamnesis", "step_order": 2, "expected_finding": "Overfeeding / pakan kering tanpa direndam"},
-        {"name": "Uji parameter air", "type": "physical_exam", "step_order": 3, "expected_finding": "Pastikan bukan karena faktor lingkungan"}
+        {
+          "name": "Inspeksi pola berenang",
+          "type": "physical_exam",
+          "is_gold_standard": true,
+          "step_order": 1,
+          "expected_finding": "Posisi berenang abnormal"
+        },
+        {
+          "name": "Observasi riwayat pakan",
+          "type": "anamnesis",
+          "step_order": 2,
+          "expected_finding": "Overfeeding / pakan kering tanpa direndam"
+        },
+        {
+          "name": "Uji parameter air",
+          "type": "physical_exam",
+          "step_order": 3,
+          "expected_finding": "Pastikan bukan karena faktor lingkungan"
+        }
       ],
       "treatments": [
         {
@@ -246,9 +603,327 @@
           "procedure_steps": "1) Puasa ikan selama 2-3 hari. 2) Berendam Epsom salt 1 sdt per 4 L selama 15 menit. 3) Berikan kacang polong rebus tanpa kulit (serat tinggi). 4) Jaga suhu air stabil 26-28C. 5) Hindari pakan mengapung untuk jangka panjang.",
           "recommendation": "90% kasus sembuh dengan puasa dan penyesuaian pakan saja; antibiotik hanya jika ada tanda infeksi.",
           "products": [
-            {"name": "Epsom salt", "kind": "supportive", "active_ingredient": "Magnesium sulfate", "route": "perendaman", "dosage_guide": "1 sdt / 4 L", "cautions": "Hanya untuk perendaman sementara."},
-            {"name": "Green peas (boiled)", "kind": "dietary", "active_ingredient": "Dietary fiber", "route": "oral", "dosage_guide": "1 butir per ikan ukuran sedang", "cautions": "Buang kulit sebelum diberikan."}
+            {
+              "name": "Epsom salt",
+              "kind": "supportive",
+              "active_ingredient": "Magnesium sulfate",
+              "route": "perendaman",
+              "dosage_guide": "1 sdt / 4 L",
+              "cautions": "Hanya untuk perendaman sementara."
+            },
+            {
+              "name": "Green peas (boiled)",
+              "kind": "dietary",
+              "active_ingredient": "Dietary fiber",
+              "route": "oral",
+              "dosage_guide": "1 butir per ikan ukuran sedang",
+              "cautions": "Buang kulit sebelum diberikan."
+            }
           ]
+        }
+      ]
+    },
+    {
+      "slug": "fish-ichthyophthirius",
+      "name": "Ichthyophthirius multifiliis (Ich)",
+      "name_id": "Ich (Bintik Putih)",
+      "etiology": "parasitic_protozoal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyakit parasit paling umum pada ikan air tawar. Protozoa menembus kulit dan insang, menyebabkan bintik putih khas.",
+      "causes": "Ichthyophthirius multifiliis, protozoa ciliate. Siklus hidup: trofont (pada ikan) → tomont (di lingkungan) → theront (infektif).",
+      "prevention": "Karantina ikan baru, karantina 2-4 minggu, hindari stres, kualitas air optimal.",
+      "prognosis": "Baik dengan deteksi dini dan terapi; wabah berat dapat menyebabkan mortalitas tinggi.",
+      "symptoms": [
+        {
+          "name": "White spots on skin/fins",
+          "name_id": "Bintik putih di kulit/sirip",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Flashing/rubbing",
+          "name_id": "Menggosok badan",
+          "body_system": "behavioral",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Respiratory distress",
+          "name_id": "Sesak napas",
+          "body_system": "respiratory",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Clamped fins",
+          "name_id": "Sirip menguncup",
+          "body_system": "integumentary",
+          "frequency": "high"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Skin scrape microscopy",
+          "name_id": "Kerokan kulit mikroskopi",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Gill biopsy microscopy",
+          "name_id": "Biopsi insang mikroskopi",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Malachite green + formalin",
+          "protocol": "0.05 mg/L malachite green + 15 mg/L formalin, q48h x 3 treatments"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Salt bath",
+          "protocol": "NaCl 0.3-0.5% prolonged bath atau 3% short bath 30-60 detik"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Raise temperature",
+          "protocol": "Naikkan suhu ke 30°C selama 3-5 hari untuk mempercepat siklus"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Malachite green",
+          "category": "antiparasitic",
+          "dosage": "0.05 mg/L q48h",
+          "route": "bath",
+          "contraindications": [
+            "Tetras"
+          ]
+        },
+        {
+          "name": "Formalin",
+          "category": "antiparasitic",
+          "dosage": "15-25 mg/L bath",
+          "route": "bath",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "fish-ich",
+      "name": "Ichthyophthirius (White Spot)",
+      "name_id": "Bintik Putih",
+      "etiology": "parasitic",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Parasit protozoa penyebab bintik putih pada ikan.",
+      "symptoms": [
+        {
+          "name": "White spots",
+          "name_id": "Bintik putih",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-swim-bladder",
+      "name": "Swim Bladder Disorder",
+      "name_id": "Gangguan Gelembung Renang",
+      "etiology": "digestive_disorder",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Masalah keseimbangan akibat gangguan gelembung renang.",
+      "symptoms": [
+        {
+          "name": "Floating upside down",
+          "name_id": "Terapung terbalik",
+          "body_system": "musculoskeletal",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-columnaris",
+      "name": "Columnaris (Cotton Wool)",
+      "name_id": "Columnaris",
+      "etiology": "infectious_bacterial",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi bakteri Flavobacterium pada mulut dan sirip.",
+      "symptoms": [
+        {
+          "name": "Cotton-like patches",
+          "name_id": "Bercak kapas",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-hole-in-head",
+      "name": "Hole in the Head (Hexamita)",
+      "name_id": "Hexamita",
+      "etiology": "parasitic",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi protozoa yang menyebabkan lubang di kepala.",
+      "symptoms": [
+        {
+          "name": "Pits on head",
+          "name_id": "Lubang di kepala",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-velvet",
+      "name": "Velvet Disease",
+      "name_id": "Beludru",
+      "etiology": "parasitic",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Parasit Oodinium yang memberi kesan debu emas.",
+      "symptoms": [
+        {
+          "name": "Gold dust",
+          "name_id": "Debu emas di kulit",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-bacterial-hemorrhagic",
+      "name": "Hemorrhagic Septicemia",
+      "name_id": "Septikemia Hemoragik",
+      "etiology": "infectious_bacterial",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi bakteri sistemik.",
+      "symptoms": [
+        {
+          "name": "Red spots",
+          "name_id": "Bercak merah",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "fish-ammonia-burn",
+      "name": "Ammonia Burn",
+      "name_id": "Luka Amonia",
+      "etiology": "traumatic",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Iritasi kulit akibat amonia tinggi.",
+      "symptoms": [
+        {
+          "name": "Red gills",
+          "name_id": "Insang merah",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-cotton-wool",
+      "name": "Cotton Wool Disease",
+      "name_id": "Saprolegnia",
+      "etiology": "infectious_fungal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Jamur saprolegnia.",
+      "symptoms": [
+        {
+          "name": "White cottony growth",
+          "name_id": "Bercak kapas putih",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-pop-eye",
+      "name": "Popeye (Exophthalmia)",
+      "name_id": "Mata Menonjol",
+      "etiology": "infectious_bacterial",
+      "body_system": "ocular",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Mata menonjol akibat infeksi.",
+      "symptoms": [
+        {
+          "name": "Bulging eye",
+          "name_id": "Mata menonjol",
+          "body_system": "ocular",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "fish-neon-tetra",
+      "name": "Neon Tetra Disease",
+      "name_id": "Penyakit Neon Tetra",
+      "etiology": "parasitic",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi protozoa Pleistophora.",
+      "symptoms": [
+        {
+          "name": "Loss of color",
+          "name_id": "Warna pudar",
+          "body_system": "integumentary",
+          "frequency": "very_high",
+          "is_red_flag": true
         }
       ]
     }

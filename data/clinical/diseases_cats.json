@@ -15,23 +15,88 @@
       "prevention": "Diet basah, asupan air cukup, kurangi stres, litter box bersih & cukup jumlah.",
       "prognosis": "Baik bila tidak tersumbat; obstruksi butuh penanganan segera.",
       "breed_susceptibility": [
-        {"breed_slug": "cat-persian", "risk": "moderate"},
-        {"breed_slug": "cat-british-shorthair", "risk": "moderate", "notes": "Terkait obesitas & gaya hidup indoor."},
-        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "notes": "Jantan kastrasi indoor lebih berisiko obstruksi."}
+        {
+          "breed_slug": "cat-persian",
+          "risk": "moderate"
+        },
+        {
+          "breed_slug": "cat-british-shorthair",
+          "risk": "moderate",
+          "notes": "Terkait obesitas & gaya hidup indoor."
+        },
+        {
+          "breed_slug": "cat-domestic-shorthair",
+          "risk": "moderate",
+          "notes": "Jantan kastrasi indoor lebih berisiko obstruksi."
+        }
       ],
       "symptoms": [
-        {"name": "Straining to urinate", "name_id": "Mengejan saat pipis", "body_system": "urinary", "frequency": "very_high", "is_red_flag": true},
-        {"name": "Blood in urine", "name_id": "Kencing berdarah", "body_system": "urinary", "frequency": "high"},
-        {"name": "Frequent small urination", "name_id": "Sering pipis sedikit-sedikit", "body_system": "urinary", "frequency": "high"},
-        {"name": "Urinating outside litter box", "name_id": "Pipis di luar litter box", "body_system": "behavioral", "frequency": "high"},
-        {"name": "Crying when urinating", "name_id": "Mengeong kesakitan saat pipis", "body_system": "urinary", "frequency": "high"},
-        {"name": "Unable to urinate (blockage)", "name_id": "Tidak bisa pipis sama sekali", "body_system": "urinary", "frequency": "moderate", "is_red_flag": true, "is_pathognomonic": true}
+        {
+          "name": "Straining to urinate",
+          "name_id": "Mengejan saat pipis",
+          "body_system": "urinary",
+          "frequency": "very_high",
+          "is_red_flag": true
+        },
+        {
+          "name": "Blood in urine",
+          "name_id": "Kencing berdarah",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Frequent small urination",
+          "name_id": "Sering pipis sedikit-sedikit",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Urinating outside litter box",
+          "name_id": "Pipis di luar litter box",
+          "body_system": "behavioral",
+          "frequency": "high"
+        },
+        {
+          "name": "Crying when urinating",
+          "name_id": "Mengeong kesakitan saat pipis",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Unable to urinate (blockage)",
+          "name_id": "Tidak bisa pipis sama sekali",
+          "body_system": "urinary",
+          "frequency": "moderate",
+          "is_red_flag": true,
+          "is_pathognomonic": true
+        }
       ],
       "diagnostics": [
-        {"name": "Palpasi kandung kemih", "type": "physical_exam", "step_order": 1, "expected_finding": "Kandung kemih besar & keras (obstruksi)"},
-        {"name": "Urinalisis + sedimen", "type": "urinalysis", "is_gold_standard": true, "step_order": 2, "expected_finding": "Kristal struvit/oksalat, darah, pH"},
-        {"name": "USG / Radiografi", "type": "imaging_ultrasound", "step_order": 3, "expected_finding": "Batu/urolith, dinding menebal"},
-        {"name": "Panel ginjal + elektrolit", "type": "blood_test", "step_order": 4, "expected_finding": "Hiperkalemia & azotemia bila obstruksi"}
+        {
+          "name": "Palpasi kandung kemih",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Kandung kemih besar & keras (obstruksi)"
+        },
+        {
+          "name": "Urinalisis + sedimen",
+          "type": "urinalysis",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Kristal struvit/oksalat, darah, pH"
+        },
+        {
+          "name": "USG / Radiografi",
+          "type": "imaging_ultrasound",
+          "step_order": 3,
+          "expected_finding": "Batu/urolith, dinding menebal"
+        },
+        {
+          "name": "Panel ginjal + elektrolit",
+          "type": "blood_test",
+          "step_order": 4,
+          "expected_finding": "Hiperkalemia & azotemia bila obstruksi"
+        }
       ],
       "treatments": [
         {
@@ -42,9 +107,30 @@
           "procedure_steps": "1) Stabilkan: cairan IV, koreksi hiperkalemia. 2) Sedasi + pasang kateter uretra untuk dekompresi. 3) Bilas kandung kemih. 4) Rawat inap, pantau elektrolit & produksi urin. 5) Analgesik.",
           "recommendation": "Obstruksi = DARURAT; hiperkalemia bisa henti jantung. Segera ke klinik.",
           "products": [
-            {"name": "Cairan IV (NaCl 0.9%)", "kind": "medication", "active_ingredient": "Saline", "route": "IV", "dosage_guide": "Koreksi dehidrasi + diuresis", "cautions": "Pantau status jantung."},
-            {"name": "Calcium gluconate", "kind": "medication", "active_ingredient": "Calcium gluconate", "route": "IV", "dosage_guide": "Proteksi jantung saat hiperkalemia", "cautions": "Monitor EKG."},
-            {"name": "Buprenorphine", "kind": "medication", "active_ingredient": "Buprenorphine", "route": "oral transmucosal/IV", "dosage_guide": "0.02 mg/kg", "cautions": "Analgesik aman kucing."}
+            {
+              "name": "Cairan IV (NaCl 0.9%)",
+              "kind": "medication",
+              "active_ingredient": "Saline",
+              "route": "IV",
+              "dosage_guide": "Koreksi dehidrasi + diuresis",
+              "cautions": "Pantau status jantung."
+            },
+            {
+              "name": "Calcium gluconate",
+              "kind": "medication",
+              "active_ingredient": "Calcium gluconate",
+              "route": "IV",
+              "dosage_guide": "Proteksi jantung saat hiperkalemia",
+              "cautions": "Monitor EKG."
+            },
+            {
+              "name": "Buprenorphine",
+              "kind": "medication",
+              "active_ingredient": "Buprenorphine",
+              "route": "oral transmucosal/IV",
+              "dosage_guide": "0.02 mg/kg",
+              "cautions": "Analgesik aman kucing."
+            }
           ]
         },
         {
@@ -54,8 +140,22 @@
           "procedure_steps": "1) Diet urinary (lar­ut struvit / kontrol mineral). 2) Tingkatkan asupan air (makanan basah, fountain). 3) Kurangi stres (pheromone, environmental enrichment). 4) Analgesik jangka pendek.",
           "recommendation": "Fokus hidrasi & manajemen stres untuk cegah kekambuhan.",
           "products": [
-            {"name": "Diet resep urinary (s/o)", "kind": "food_prescription", "active_ingredient": "Diet kontrol mineral/pH", "route": "oral", "dosage_guide": "Sesuai kebutuhan kalori", "cautions": "Diet jangka panjang sesuai tipe kristal."},
-            {"name": "Feliway (feline pheromone)", "kind": "supplement", "active_ingredient": "Synthetic pheromone", "route": "lingkungan", "dosage_guide": "Diffuser ruangan", "cautions": "Pendukung, bukan obat."}
+            {
+              "name": "Diet resep urinary (s/o)",
+              "kind": "food_prescription",
+              "active_ingredient": "Diet kontrol mineral/pH",
+              "route": "oral",
+              "dosage_guide": "Sesuai kebutuhan kalori",
+              "cautions": "Diet jangka panjang sesuai tipe kristal."
+            },
+            {
+              "name": "Feliway (feline pheromone)",
+              "kind": "supplement",
+              "active_ingredient": "Synthetic pheromone",
+              "route": "lingkungan",
+              "dosage_guide": "Diffuser ruangan",
+              "cautions": "Pendukung, bukan obat."
+            }
           ]
         }
       ]
@@ -72,23 +172,88 @@
       "prevention": "Deteksi dini (cek darah senior rutin), hidrasi, hindari nefrotoksin.",
       "prognosis": "Tidak bisa sembuh tapi bisa dikelola; staging IRIS menentukan harapan hidup.",
       "breed_susceptibility": [
-        {"breed_slug": "cat-persian", "risk": "high", "prevalence_pct": 38, "is_hereditary": true, "age_onset": "muda-dewasa", "notes": "Berkaitan dengan Polycystic Kidney Disease (PKD1)."},
-        {"breed_slug": "cat-maine-coon", "risk": "moderate"},
-        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "age_onset": "senior 7+ thn"}
+        {
+          "breed_slug": "cat-persian",
+          "risk": "high",
+          "prevalence_pct": 38,
+          "is_hereditary": true,
+          "age_onset": "muda-dewasa",
+          "notes": "Berkaitan dengan Polycystic Kidney Disease (PKD1)."
+        },
+        {
+          "breed_slug": "cat-maine-coon",
+          "risk": "moderate"
+        },
+        {
+          "breed_slug": "cat-domestic-shorthair",
+          "risk": "moderate",
+          "age_onset": "senior 7+ thn"
+        }
       ],
       "symptoms": [
-        {"name": "Increased thirst", "name_id": "Banyak minum (polidipsia)", "body_system": "urinary", "frequency": "very_high"},
-        {"name": "Increased urination", "name_id": "Banyak pipis (poliuria)", "body_system": "urinary", "frequency": "very_high"},
-        {"name": "Weight loss", "name_id": "Berat badan turun", "body_system": "systemic", "frequency": "high"},
-        {"name": "Poor appetite", "name_id": "Nafsu makan menurun", "body_system": "digestive", "frequency": "high"},
-        {"name": "Vomiting", "name_id": "Muntah", "body_system": "digestive", "frequency": "moderate"},
-        {"name": "Poor coat / lethargy", "name_id": "Bulu kusam & lemas", "body_system": "systemic", "frequency": "high"}
+        {
+          "name": "Increased thirst",
+          "name_id": "Banyak minum (polidipsia)",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Increased urination",
+          "name_id": "Banyak pipis (poliuria)",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Berat badan turun",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Poor appetite",
+          "name_id": "Nafsu makan menurun",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Poor coat / lethargy",
+          "name_id": "Bulu kusam & lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
       ],
       "diagnostics": [
-        {"name": "Panel ginjal (BUN, Creatinine, SDMA)", "type": "blood_test", "is_gold_standard": true, "step_order": 1, "expected_finding": "SDMA & kreatinin meningkat"},
-        {"name": "Urinalisis (USG, UPC)", "type": "urinalysis", "step_order": 2, "expected_finding": "Urin encer (isostenuria), proteinuria"},
-        {"name": "Tekanan darah", "type": "physical_exam", "step_order": 3, "expected_finding": "Hipertensi sistemik"},
-        {"name": "USG ginjal", "type": "imaging_ultrasound", "step_order": 4, "expected_finding": "Ginjal mengecil/irregular atau kista (PKD)"}
+        {
+          "name": "Panel ginjal (BUN, Creatinine, SDMA)",
+          "type": "blood_test",
+          "is_gold_standard": true,
+          "step_order": 1,
+          "expected_finding": "SDMA & kreatinin meningkat"
+        },
+        {
+          "name": "Urinalisis (USG, UPC)",
+          "type": "urinalysis",
+          "step_order": 2,
+          "expected_finding": "Urin encer (isostenuria), proteinuria"
+        },
+        {
+          "name": "Tekanan darah",
+          "type": "physical_exam",
+          "step_order": 3,
+          "expected_finding": "Hipertensi sistemik"
+        },
+        {
+          "name": "USG ginjal",
+          "type": "imaging_ultrasound",
+          "step_order": 4,
+          "expected_finding": "Ginjal mengecil/irregular atau kista (PKD)"
+        }
       ],
       "treatments": [
         {
@@ -98,10 +263,38 @@
           "procedure_steps": "1) Diet renal (protein berkualitas terbatas, fosfor rendah). 2) Phosphate binder bila perlu. 3) Kontrol tekanan darah. 4) Terapi cairan subkutan di rumah. 5) Atasi mual & anemia. 6) Monitor berkala.",
           "recommendation": "Diet renal adalah intervensi paling berdampak; mulai sedini mungkin & pantau tiap 3-6 bulan.",
           "products": [
-            {"name": "Diet resep renal", "kind": "food_prescription", "active_ingredient": "Diet rendah fosfor & protein terkontrol", "route": "oral", "dosage_guide": "Sesuai kalori", "cautions": "Transisi bertahap agar mau makan."},
-            {"name": "Telmisartan / Amlodipine", "kind": "medication", "active_ingredient": "Telmisartan (proteinuria) / Amlodipine (hipertensi)", "route": "oral", "dosage_guide": "Sesuai resep & tekanan darah", "cautions": "Pantau tekanan darah & ginjal."},
-            {"name": "Phosphate binder", "kind": "supplement", "active_ingredient": "Aluminium hidroksida / chitosan", "route": "oral (dengan makan)", "dosage_guide": "Sesuai kadar fosfat", "cautions": "Diberikan bersama makanan."},
-            {"name": "Maropitant / Mirtazapine", "kind": "medication", "active_ingredient": "Maropitant (mual), Mirtazapine (perangsang nafsu makan)", "route": "oral/SC", "dosage_guide": "Sesuai BB", "cautions": "Mirtazapine dosis kecil pada kucing."}
+            {
+              "name": "Diet resep renal",
+              "kind": "food_prescription",
+              "active_ingredient": "Diet rendah fosfor & protein terkontrol",
+              "route": "oral",
+              "dosage_guide": "Sesuai kalori",
+              "cautions": "Transisi bertahap agar mau makan."
+            },
+            {
+              "name": "Telmisartan / Amlodipine",
+              "kind": "medication",
+              "active_ingredient": "Telmisartan (proteinuria) / Amlodipine (hipertensi)",
+              "route": "oral",
+              "dosage_guide": "Sesuai resep & tekanan darah",
+              "cautions": "Pantau tekanan darah & ginjal."
+            },
+            {
+              "name": "Phosphate binder",
+              "kind": "supplement",
+              "active_ingredient": "Aluminium hidroksida / chitosan",
+              "route": "oral (dengan makan)",
+              "dosage_guide": "Sesuai kadar fosfat",
+              "cautions": "Diberikan bersama makanan."
+            },
+            {
+              "name": "Maropitant / Mirtazapine",
+              "kind": "medication",
+              "active_ingredient": "Maropitant (mual), Mirtazapine (perangsang nafsu makan)",
+              "route": "oral/SC",
+              "dosage_guide": "Sesuai BB",
+              "cautions": "Mirtazapine dosis kecil pada kucing."
+            }
           ]
         }
       ]
@@ -120,19 +313,68 @@
       "prevention": "Vaksin tricat (FPV/FHV/FCV), disinfeksi, isolasi.",
       "prognosis": "Mortalitas tinggi pada kitten; survival membaik dengan rawat intensif.",
       "breed_susceptibility": [
-        {"breed_slug": "cat-domestic-shorthair", "risk": "high", "age_onset": "kitten belum vaksin"}
+        {
+          "breed_slug": "cat-domestic-shorthair",
+          "risk": "high",
+          "age_onset": "kitten belum vaksin"
+        }
       ],
       "symptoms": [
-        {"name": "Severe vomiting", "name_id": "Muntah hebat", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
-        {"name": "Profuse diarrhea", "name_id": "Diare hebat", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true},
-        {"name": "High fever", "name_id": "Demam tinggi", "body_system": "systemic", "frequency": "high"},
-        {"name": "Severe dehydration", "name_id": "Dehidrasi berat", "body_system": "systemic", "frequency": "very_high", "is_red_flag": true},
-        {"name": "Sudden death (kitten)", "name_id": "Kematian mendadak (anak kucing)", "body_system": "systemic", "frequency": "moderate", "is_red_flag": true}
+        {
+          "name": "Severe vomiting",
+          "name_id": "Muntah hebat",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        },
+        {
+          "name": "Profuse diarrhea",
+          "name_id": "Diare hebat",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        },
+        {
+          "name": "High fever",
+          "name_id": "Demam tinggi",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Severe dehydration",
+          "name_id": "Dehidrasi berat",
+          "body_system": "systemic",
+          "frequency": "very_high",
+          "is_red_flag": true
+        },
+        {
+          "name": "Sudden death (kitten)",
+          "name_id": "Kematian mendadak (anak kucing)",
+          "body_system": "systemic",
+          "frequency": "moderate",
+          "is_red_flag": true
+        }
       ],
       "diagnostics": [
-        {"name": "SNAP parvo (cross-reaktif FPV)", "type": "serology", "step_order": 1, "expected_finding": "Antigen positif pada feses"},
-        {"name": "PCR feses", "type": "pcr_molecular", "is_gold_standard": true, "step_order": 2, "expected_finding": "DNA FPV"},
-        {"name": "CBC", "type": "blood_test", "step_order": 3, "expected_finding": "Panleukopenia (semua sel darah putih turun)"}
+        {
+          "name": "SNAP parvo (cross-reaktif FPV)",
+          "type": "serology",
+          "step_order": 1,
+          "expected_finding": "Antigen positif pada feses"
+        },
+        {
+          "name": "PCR feses",
+          "type": "pcr_molecular",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "DNA FPV"
+        },
+        {
+          "name": "CBC",
+          "type": "blood_test",
+          "step_order": 3,
+          "expected_finding": "Panleukopenia (semua sel darah putih turun)"
+        }
       ],
       "treatments": [
         {
@@ -142,9 +384,30 @@
           "procedure_steps": "1) Isolasi & barrier nursing. 2) Cairan IV + elektrolit + glukosa. 3) Antiemetik. 4) Antibiotik cegah sepsis. 5) Nutrisi dini. 6) Monitor jumlah sel darah.",
           "recommendation": "Tidak ada antivirus spesifik; suportif agresif menentukan survival.",
           "products": [
-            {"name": "Cairan IV + elektrolit", "kind": "medication", "active_ingredient": "Ringer Lactate + KCl", "route": "IV", "dosage_guide": "Koreksi defisit + maintenance", "cautions": "Pantau kalium."},
-            {"name": "Maropitant", "kind": "medication", "active_ingredient": "Maropitant", "route": "SC", "dosage_guide": "1 mg/kg SID", "cautions": "Antiemetik."},
-            {"name": "Antibiotik beta-lactam", "kind": "medication", "active_ingredient": "Ampicillin", "route": "IV", "dosage_guide": "20 mg/kg q8h", "cautions": "Cegah translokasi bakteri."}
+            {
+              "name": "Cairan IV + elektrolit",
+              "kind": "medication",
+              "active_ingredient": "Ringer Lactate + KCl",
+              "route": "IV",
+              "dosage_guide": "Koreksi defisit + maintenance",
+              "cautions": "Pantau kalium."
+            },
+            {
+              "name": "Maropitant",
+              "kind": "medication",
+              "active_ingredient": "Maropitant",
+              "route": "SC",
+              "dosage_guide": "1 mg/kg SID",
+              "cautions": "Antiemetik."
+            },
+            {
+              "name": "Antibiotik beta-lactam",
+              "kind": "medication",
+              "active_ingredient": "Ampicillin",
+              "route": "IV",
+              "dosage_guide": "20 mg/kg q8h",
+              "cautions": "Cegah translokasi bakteri."
+            }
           ]
         }
       ]
@@ -162,23 +425,89 @@
       "prevention": "Skrining genetik & ekokardiografi pada ras berisiko sebelum dibiakkan.",
       "prognosis": "Bervariasi; asimptomatik bisa stabil lama, gagal jantung/ATE memburuk prognosis.",
       "breed_susceptibility": [
-        {"breed_slug": "cat-maine-coon", "risk": "high", "is_hereditary": true, "notes": "Mutasi MYBPC3 A31P."},
-        {"breed_slug": "cat-ragdoll", "risk": "high", "is_hereditary": true, "notes": "Mutasi MYBPC3 R820W."},
-        {"breed_slug": "cat-sphynx", "risk": "high", "is_hereditary": true},
-        {"breed_slug": "cat-british-shorthair", "risk": "moderate"}
+        {
+          "breed_slug": "cat-maine-coon",
+          "risk": "high",
+          "is_hereditary": true,
+          "notes": "Mutasi MYBPC3 A31P."
+        },
+        {
+          "breed_slug": "cat-ragdoll",
+          "risk": "high",
+          "is_hereditary": true,
+          "notes": "Mutasi MYBPC3 R820W."
+        },
+        {
+          "breed_slug": "cat-sphynx",
+          "risk": "high",
+          "is_hereditary": true
+        },
+        {
+          "breed_slug": "cat-british-shorthair",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Rapid or labored breathing", "name_id": "Napas cepat/sesak", "body_system": "respiratory", "frequency": "high", "is_red_flag": true},
-        {"name": "Lethargy", "name_id": "Lemas", "body_system": "systemic", "frequency": "moderate"},
-        {"name": "Sudden hindlimb paralysis (ATE)", "name_id": "Kelumpuhan kaki belakang mendadak (tromboemboli)", "body_system": "cardiovascular", "frequency": "moderate", "is_red_flag": true, "is_pathognomonic": true},
-        {"name": "Heart murmur / gallop", "name_id": "Bising jantung/gallop", "body_system": "cardiovascular", "frequency": "high"},
-        {"name": "Fainting (syncope)", "name_id": "Pingsan", "body_system": "cardiovascular", "frequency": "low"}
+        {
+          "name": "Rapid or labored breathing",
+          "name_id": "Napas cepat/sesak",
+          "body_system": "respiratory",
+          "frequency": "high",
+          "is_red_flag": true
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Sudden hindlimb paralysis (ATE)",
+          "name_id": "Kelumpuhan kaki belakang mendadak (tromboemboli)",
+          "body_system": "cardiovascular",
+          "frequency": "moderate",
+          "is_red_flag": true,
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Heart murmur / gallop",
+          "name_id": "Bising jantung/gallop",
+          "body_system": "cardiovascular",
+          "frequency": "high"
+        },
+        {
+          "name": "Fainting (syncope)",
+          "name_id": "Pingsan",
+          "body_system": "cardiovascular",
+          "frequency": "low"
+        }
       ],
       "diagnostics": [
-        {"name": "Ekokardiografi", "type": "imaging_ultrasound", "is_gold_standard": true, "step_order": 1, "expected_finding": "Hipertrofi dinding ventrikel kiri >6mm"},
-        {"name": "NT-proBNP test", "type": "blood_test", "step_order": 2, "expected_finding": "Meningkat (skrining)"},
-        {"name": "Radiografi toraks", "type": "imaging_xray", "step_order": 3, "expected_finding": "Edema paru/efusi bila gagal jantung"},
-        {"name": "Tekanan darah & T4", "type": "blood_test", "step_order": 4, "expected_finding": "Singkirkan hipertiroid/hipertensi"}
+        {
+          "name": "Ekokardiografi",
+          "type": "imaging_ultrasound",
+          "is_gold_standard": true,
+          "step_order": 1,
+          "expected_finding": "Hipertrofi dinding ventrikel kiri >6mm"
+        },
+        {
+          "name": "NT-proBNP test",
+          "type": "blood_test",
+          "step_order": 2,
+          "expected_finding": "Meningkat (skrining)"
+        },
+        {
+          "name": "Radiografi toraks",
+          "type": "imaging_xray",
+          "step_order": 3,
+          "expected_finding": "Edema paru/efusi bila gagal jantung"
+        },
+        {
+          "name": "Tekanan darah & T4",
+          "type": "blood_test",
+          "step_order": 4,
+          "expected_finding": "Singkirkan hipertiroid/hipertensi"
+        }
       ],
       "treatments": [
         {
@@ -188,10 +517,38 @@
           "procedure_steps": "1) Diuretik bila kongesti paru. 2) Pengelolaan ritme/beta-blocker bila indikasi. 3) Antitrombotik cegah ATE. 4) Batasi stres & aktivitas berat. 5) Monitor ekokardiografi berkala.",
           "recommendation": "Cegah pembekuan (ATE) pada atrium kiri membesar; tangani edema paru sebagai darurat.",
           "products": [
-            {"name": "Furosemide", "kind": "medication", "active_ingredient": "Furosemide", "route": "oral/IV", "dosage_guide": "Sesuai derajat kongesti", "cautions": "Pantau ginjal & elektrolit."},
-            {"name": "Clopidogrel", "kind": "medication", "active_ingredient": "Clopidogrel", "route": "oral", "dosage_guide": "18.75 mg/kucing SID", "cautions": "Antiplatelet cegah tromboemboli."},
-            {"name": "Atenolol", "kind": "medication", "active_ingredient": "Atenolol", "route": "oral", "dosage_guide": "Sesuai resep", "cautions": "Hati-hati bila gagal jantung dekompensasi."},
-            {"name": "Pimobendan (kasus tertentu)", "kind": "medication", "active_ingredient": "Pimobendan", "route": "oral", "dosage_guide": "Sesuai resep kardiolog", "cautions": "Tidak rutin untuk HCM obstruktif."}
+            {
+              "name": "Furosemide",
+              "kind": "medication",
+              "active_ingredient": "Furosemide",
+              "route": "oral/IV",
+              "dosage_guide": "Sesuai derajat kongesti",
+              "cautions": "Pantau ginjal & elektrolit."
+            },
+            {
+              "name": "Clopidogrel",
+              "kind": "medication",
+              "active_ingredient": "Clopidogrel",
+              "route": "oral",
+              "dosage_guide": "18.75 mg/kucing SID",
+              "cautions": "Antiplatelet cegah tromboemboli."
+            },
+            {
+              "name": "Atenolol",
+              "kind": "medication",
+              "active_ingredient": "Atenolol",
+              "route": "oral",
+              "dosage_guide": "Sesuai resep",
+              "cautions": "Hati-hati bila gagal jantung dekompensasi."
+            },
+            {
+              "name": "Pimobendan (kasus tertentu)",
+              "kind": "medication",
+              "active_ingredient": "Pimobendan",
+              "route": "oral",
+              "dosage_guide": "Sesuai resep kardiolog",
+              "cautions": "Tidak rutin untuk HCM obstruktif."
+            }
           ]
         }
       ]
@@ -210,19 +567,64 @@
       "prevention": "Karantina hewan baru, disinfeksi lingkungan, hindari kontak hewan terinfeksi.",
       "prognosis": "Baik; bisa sembuh sendiri tapi pengobatan mempercepat & cegah penularan.",
       "breed_susceptibility": [
-        {"breed_slug": "cat-persian", "risk": "high", "notes": "Bulu panjang & sering carrier asimptomatik."},
-        {"breed_slug": "cat-domestic-shorthair", "risk": "moderate", "age_onset": "kitten & imunosupresi"}
+        {
+          "breed_slug": "cat-persian",
+          "risk": "high",
+          "notes": "Bulu panjang & sering carrier asimptomatik."
+        },
+        {
+          "breed_slug": "cat-domestic-shorthair",
+          "risk": "moderate",
+          "age_onset": "kitten & imunosupresi"
+        }
       ],
       "symptoms": [
-        {"name": "Circular hair loss", "name_id": "Kebotakan melingkar", "body_system": "integumentary", "frequency": "high", "is_pathognomonic": true},
-        {"name": "Scaly / crusty skin", "name_id": "Kulit bersisik/berkerak", "body_system": "integumentary", "frequency": "high"},
-        {"name": "Broken hairs", "name_id": "Bulu patah", "body_system": "integumentary", "frequency": "moderate"},
-        {"name": "Mild itching", "name_id": "Gatal ringan", "body_system": "integumentary", "frequency": "moderate"}
+        {
+          "name": "Circular hair loss",
+          "name_id": "Kebotakan melingkar",
+          "body_system": "integumentary",
+          "frequency": "high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Scaly / crusty skin",
+          "name_id": "Kulit bersisik/berkerak",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Broken hairs",
+          "name_id": "Bulu patah",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Mild itching",
+          "name_id": "Gatal ringan",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Lampu Wood", "type": "physical_exam", "step_order": 1, "expected_finding": "Fluoresensi hijau apel (M. canis sebagian)"},
-        {"name": "Trichogram (mikroskop bulu)", "type": "cytology", "step_order": 2, "expected_finding": "Artrospora pada batang rambut"},
-        {"name": "Kultur jamur (DTM) / PCR", "type": "culture_sensitivity", "is_gold_standard": true, "step_order": 3, "expected_finding": "Pertumbuhan dermatofit"}
+        {
+          "name": "Lampu Wood",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Fluoresensi hijau apel (M. canis sebagian)"
+        },
+        {
+          "name": "Trichogram (mikroskop bulu)",
+          "type": "cytology",
+          "step_order": 2,
+          "expected_finding": "Artrospora pada batang rambut"
+        },
+        {
+          "name": "Kultur jamur (DTM) / PCR",
+          "type": "culture_sensitivity",
+          "is_gold_standard": true,
+          "step_order": 3,
+          "expected_finding": "Pertumbuhan dermatofit"
+        }
       ],
       "treatments": [
         {
@@ -232,10 +634,1959 @@
           "procedure_steps": "1) Antijamur topikal (lime sulfur/miconazole) seluruh tubuh. 2) Antijamur sistemik (itraconazole) untuk kasus luas. 3) Dekontaminasi lingkungan rutin. 4) Recheck dengan kultur sampai negatif 2x.",
           "recommendation": "Tangani semua hewan kontak + lingkungan; gunakan sarung tangan (zoonosis).",
           "products": [
-            {"name": "Itraconazole", "kind": "medication", "active_ingredient": "Itraconazole", "route": "oral", "dosage_guide": "5 mg/kg SID (pulse 1 minggu on/off)", "cautions": "Monitor hati."},
-            {"name": "Lime sulfur dip", "kind": "medication", "active_ingredient": "Sulfurated lime", "route": "topikal", "dosage_guide": "2x/minggu", "cautions": "Bau menyengat, hindari mata."},
-            {"name": "Miconazole/chlorhexidine shampoo", "kind": "grooming", "active_ingredient": "Miconazole + chlorhexidine", "route": "topikal", "dosage_guide": "2x/minggu", "cautions": "Bilas bersih."}
+            {
+              "name": "Itraconazole",
+              "kind": "medication",
+              "active_ingredient": "Itraconazole",
+              "route": "oral",
+              "dosage_guide": "5 mg/kg SID (pulse 1 minggu on/off)",
+              "cautions": "Monitor hati."
+            },
+            {
+              "name": "Lime sulfur dip",
+              "kind": "medication",
+              "active_ingredient": "Sulfurated lime",
+              "route": "topikal",
+              "dosage_guide": "2x/minggu",
+              "cautions": "Bau menyengat, hindari mata."
+            },
+            {
+              "name": "Miconazole/chlorhexidine shampoo",
+              "kind": "grooming",
+              "active_ingredient": "Miconazole + chlorhexidine",
+              "route": "topikal",
+              "dosage_guide": "2x/minggu",
+              "cautions": "Bilas bersih."
+            }
           ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-herpesvirus",
+      "name": "Feline Herpesvirus (FHV-1)",
+      "name_id": "Herpesvirus Kucing (Flu Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyebab utama upper respiratory infection (URI) pada kucing. Virus laten seumur hidup dengan reaktivasi periodik saat stres.",
+      "causes": "Feline herpesvirus type 1 (FHV-1). Transmisi kontak langsung, fomites, aerosol. Stres memicu reaktivasi.",
+      "prevention": "Vaksinasi FVRCP inti, manajemen stres, hindari overcrowding, suplemen L-lysine (kontroversial).",
+      "prognosis": "Baik untuk episode akut; infeksi kronis dapat menyebabkan kerusakan kornea permanen.",
+      "symptoms": [
+        {
+          "name": "Sneezing",
+          "name_id": "Bersin",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Nasal discharge",
+          "name_id": "Leleran hidung",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Conjunctivitis",
+          "name_id": "Konjungtivitis",
+          "body_system": "ophthalmic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Ocular discharge",
+          "name_id": "Leleran mata",
+          "body_system": "ophthalmic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Fever",
+          "name_id": "Demam",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Corneal ulcers (dendritic)",
+          "name_id": "Ulkus kornea dendritik",
+          "body_system": "ophthalmic",
+          "frequency": "moderate",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Salivation",
+          "name_id": "Air liur berlebihan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Stomatitis",
+          "name_id": "Stomatitis",
+          "body_system": "digestive",
+          "frequency": "low"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "PCR conjunctival/nasal swab",
+          "name_id": "PCR swab konjungtiva/hidung",
+          "category": "molecular",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Fluorescein stain (corneal ulcers)",
+          "name_id": "Fluorescein stain",
+          "category": "ophthalmic",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Serology (IgG/IgM)",
+          "name_id": "Serologi IgG/IgM",
+          "category": "serology",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Antiviral topikal",
+          "protocol": "Famciclovir 40-90 mg/kg PO q8h x 7-14 hari"
+        },
+        {
+          "type": "ophthalmic",
+          "name": "Tetrasiklin topikal",
+          "protocol": "Oxytetracycline ointment q8h untuk konjungtivitis sekunder"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Nebulisasi",
+          "protocol": "Saline nebulization q6-8h untuk dekongesti"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Suplemen",
+          "protocol": "L-lysine 250-500 mg PO q12h, vitamin C"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Famciclovir",
+          "category": "antiviral",
+          "dosage": "40-90 mg/kg PO q8h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Oxytetracycline",
+          "category": "antibiotic_ophthalmic",
+          "dosage": "ointment q8h",
+          "route": "topical_ocular",
+          "contraindications": []
+        },
+        {
+          "name": "L-lysine",
+          "category": "supplement",
+          "dosage": "250-500 mg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-leukemia",
+      "name": "Feline Leukemia Virus (FeLV)",
+      "name_id": "FeLV (Leukemia Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "hematologic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": false,
+      "overview": "Retrovirus yang menyebabkan imunosupresi, anemia, dan neoplasia. Salah satu penyebab kematian utama pada kucing.",
+      "causes": "Feline leukemia virus (FeLV), retrovirus. Transmisi melalui air liur, kontak dekat, gigitan, transfusi, vertikal.",
+      "prevention": "Vaksinasi FeLV untuk kucing outdoor/risiko tinggi, screening sebelum introduksi kucing baru, hindari kontak dengan kucing positif.",
+      "prognosis": "Guarded; median survival 2-4 tahun; kematian akibat infeksi sekunder atau neoplasia.",
+      "symptoms": [
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Pale mucous membranes",
+          "name_id": "Selaput lendir pucat",
+          "body_system": "hematologic",
+          "frequency": "high"
+        },
+        {
+          "name": "Fever",
+          "name_id": "Demam",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lymphadenopathy",
+          "name_id": "Pembesaran kelenjar getah bening",
+          "body_system": "lymphatic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Recurrent infections",
+          "name_id": "Infeksi berulang",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Gingivitis/stomatitis",
+          "name_id": "Radang gusi/mulut",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lymphoma",
+          "name_id": "Limfoma",
+          "body_system": "lymphatic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Anemia",
+          "name_id": "Anemia",
+          "body_system": "hematologic",
+          "frequency": "high"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "SNAP FeLV/FIV combo test",
+          "name_id": "SNAP FeLV/FIV",
+          "category": "rapid_test",
+          "sensitivity": "high"
+        },
+        {
+          "name": "IFA (immunofluorescence)",
+          "name_id": "IFA",
+          "category": "serology",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "PCR proviral DNA",
+          "name_id": "PCR DNA proviral",
+          "category": "molecular",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "CBC + chemistry",
+          "name_id": "CBC + kimia darah",
+          "category": "laboratory",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "supportive_care",
+          "name": "Manajemen infeksi sekunder",
+          "protocol": "Antibiotik agresif untuk infeksi sekunder"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Immunomodulator",
+          "protocol": "Feline interferon omega 1 MU/kg SC q24h x 5 hari, ulang q3 bulan"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Kemoterapi (jika neoplasia)",
+          "protocol": "Vincristine, cyclophosphamide, prednisone untuk limfoma"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Nutrisi",
+          "protocol": "High-calorie diet, appetite stimulant (mirtazapine)"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Feline interferon omega",
+          "category": "immunomodulator",
+          "dosage": "1 MU/kg SC q24h",
+          "route": "SC",
+          "contraindications": []
+        },
+        {
+          "name": "Mirtazapine",
+          "category": "appetite_stimulant",
+          "dosage": "1.88 mg PO q48h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Prednisone",
+          "category": "corticosteroid",
+          "dosage": "1-2 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-immunodeficiency",
+      "name": "Feline Immunodeficiency Virus (FIV)",
+      "name_id": "FIV (AIDS Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "hematologic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Retrovirus yang menyebabkan imunodefisiensi progresif. Umum pada kucing outdoor, terutama jantan dewasa yang agresif.",
+      "causes": "Feline immunodeficiency virus (FIV), lentivirus. Transmisi utama melalui gigitan dalam perkelahian. Jarang transmisi vertikal atau seksual.",
+      "prevention": "Kandangkan kucing indoor, steril untuk mengurangi perkelahian, screening sebelum introduksi kucing baru.",
+      "prognosis": "Baik dengan manajemen yang tepat; banyak kucing FIV+ hidup normal bertahun-tahun tanpa gejala.",
+      "symptoms": [
+        {
+          "name": "Gingivitis/stomatitis",
+          "name_id": "Radang gusi/mulut",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Fever",
+          "name_id": "Demam",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lymphadenopathy",
+          "name_id": "Pembesaran kelenjar getah bening",
+          "body_system": "lymphatic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Recurrent infections",
+          "name_id": "Infeksi berulang",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Chronic diarrhea",
+          "name_id": "Diare kronis",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Neurologic signs",
+          "name_id": "Tanda neurologis",
+          "body_system": "neurologic",
+          "frequency": "low"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "SNAP FeLV/FIV combo test",
+          "name_id": "SNAP FeLV/FIV",
+          "category": "rapid_test",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Western blot confirmation",
+          "name_id": "Western blot",
+          "category": "serology",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "PCR proviral DNA",
+          "name_id": "PCR DNA proviral",
+          "category": "molecular",
+          "sensitivity": "very_high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "supportive_care",
+          "name": "Manajemen infeksi sekunder",
+          "protocol": "Antibiotik agresif, antifungal, antiparasit sesuai kebutuhan"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Immunomodulator",
+          "protocol": "Feline interferon omega, lactoferrin untuk stomatitis"
+        },
+        {
+          "type": "dental",
+          "name": "Perawatan gigi",
+          "protocol": "Dental scaling, ekstraksi gigi untuk stomatitis refrakter"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Nutrisi",
+          "protocol": "High-quality protein diet, suplemen omega-3, probiotik"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Feline interferon omega",
+          "category": "immunomodulator",
+          "dosage": "1 MU/kg SC q24h",
+          "route": "SC",
+          "contraindications": []
+        },
+        {
+          "name": "Prednisone",
+          "category": "corticosteroid",
+          "dosage": "1-2 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Mirtazapine",
+          "category": "appetite_stimulant",
+          "dosage": "1.88 mg PO q48h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-urinary-obstruction",
+      "name": "Feline Lower Urinary Tract Disease (FLUTD)",
+      "name_id": "FLUTD / Sumbatan Kemih",
+      "etiology": "multifactorial",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Kompleks gangguan saluran kemih bawah pada kucing. Termasuk sistitis idiopatik, urolitiasis, dan sumbatan uretra yang mengancam jiwa.",
+      "causes": "Stres, obesitas, diet kering, kurang minum, predisposisi genetik, infeksi (jarang pada kucing <10 tahun).",
+      "prevention": "Diet basah, air minum cukup, lingkungan kaya (enrichment), kontrol berat badan, litter box bersih.",
+      "prognosis": "Baik untuk kasus non-obstruktif; sumbatan uretra adalah darurat medis dengan mortalitas 10-20% jika tidak ditangani cepat.",
+      "symptoms": [
+        {
+          "name": "Stranguria",
+          "name_id": "Nyeri saat kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Hematuria",
+          "name_id": "Kencing darah",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Periuria",
+          "name_id": "Kencing sembarangan",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Pollakiuria",
+          "name_id": "Sering kencing sedikit",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Vocalizing in litter box",
+          "name_id": "Menangis di litter box",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Licking genital area",
+          "name_id": "Menjilat area genital",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Anuria (obstruction)",
+          "name_id": "Tidak bisa kencing",
+          "body_system": "urinary",
+          "frequency": "moderate",
+          "is_red_flag": true
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Depression",
+          "name_id": "Depresi",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Urinalysis + sediment",
+          "name_id": "Urinalisis + sedimen",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Abdominal radiography/ultrasound",
+          "name_id": "Radiografi/USG abdomen",
+          "category": "imaging",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Urethral catheterization",
+          "name_id": "Kateterisasi uretra",
+          "category": "procedure",
+          "sensitivity": "diagnostic_therapeutic"
+        },
+        {
+          "name": "Blood chemistry (BUN, creatinine)",
+          "name_id": "Kimia darah",
+          "category": "laboratory",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "emergency",
+          "name": "Dekompresi kandung kemih",
+          "protocol": "Sedasi/anes, kateterisasi uretra, flush saline, cystocentesis jika perlu"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Terapi cairan",
+          "protocol": "IV fluids post-obstruction, koreksi hiperkalemia, monitor output urin"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Antispasmodik",
+          "protocol": "Prazosin 0.25-0.5 mg/kg PO q8-12h atau phenoxybenzamine 2.5-7.5 mg/kg PO q12h"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Analgesik",
+          "protocol": "Buprenorphine 0.01-0.02 mg/kg IV q6-8h"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet urinary",
+          "protocol": "Hills c/d Multicare atau Royal Canin Urinary S/O, diet basah prefered"
+        },
+        {
+          "type": "surgical",
+          "name": "Perineal urethrostomy (PU)",
+          "protocol": "Untuk sumbatan rekuren; reseksi uretra distal"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Prazosin",
+          "category": "antispasmodic",
+          "dosage": "0.25-0.5 mg/kg PO q8-12h",
+          "route": "PO",
+          "contraindications": [
+            "Hypotension"
+          ]
+        },
+        {
+          "name": "Buprenorphine",
+          "category": "analgesic",
+          "dosage": "0.01-0.02 mg/kg IV q6-8h",
+          "route": "IV",
+          "contraindications": []
+        },
+        {
+          "name": "Acepromazine",
+          "category": "sedative",
+          "dosage": "0.01-0.05 mg/kg IV/IM",
+          "route": "IV/IM",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-chronic-kidney-disease",
+      "name": "Feline Chronic Kidney Disease",
+      "name_id": "Gagal Ginjal Kronis Kucing",
+      "etiology": "degenerative",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyakit ginjal kronis progresif, sangat umum pada kucing geriatri (>10 tahun). Penyebab kematian nomor satu pada kucing tua.",
+      "causes": "Nefritis tubulointerstitial kronis idiopatik, hipertensi, hipertiroidisme, penyakit gigi, nefrotoksin, predisposisi genetik.",
+      "prevention": "Skrining tahunan (SDMA, kreatinin, urinalisis) pada kucing >7 tahun, diet basah, akses air minum cukup, rawat gigi.",
+      "prognosis": "Bervariasi; IRIS stage 1-2: survival 2-3 tahun; stage 3: 1-2 tahun; stage 4: <6 bulan.",
+      "symptoms": [
+        {
+          "name": "Polyuria",
+          "name_id": "Sering kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polydipsia",
+          "name_id": "Sering minum",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Halitosis uremic",
+          "name_id": "Bau mulut uremik",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Oral ulcers",
+          "name_id": "Sariawan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Poor coat quality",
+          "name_id": "Bulu kusam",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Hypertension",
+          "name_id": "Hipertensi",
+          "body_system": "cardiovascular",
+          "frequency": "high"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "SDMA",
+          "name_id": "SDMA",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Serum creatinine",
+          "name_id": "Kreatinin serum",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Urinalysis + UPC",
+          "name_id": "Urinalisis + UPC",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Blood pressure",
+          "name_id": "Tekanan darah",
+          "category": "monitoring",
+          "sensitivity": "moderate"
+        },
+        {
+          "name": "Abdominal ultrasound",
+          "name_id": "USG abdomen",
+          "category": "imaging",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "dietary",
+          "name": "Diet renal",
+          "protocol": "Protein/phosphorus restricted, omega-3 enriched renal diet (Hills k/d, Royal Canin Renal)"
+        },
+        {
+          "type": "pharmacological",
+          "name": "ACE inhibitor",
+          "protocol": "Benazepril 0.25-0.5 mg/kg PO q24h untuk proteinuria"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Phosphate binder",
+          "protocol": "Aluminum hydroxide 30-100 mg/kg/hari PO dengan makan"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Subcutaneous fluids",
+          "protocol": "Lactated Ringer's 10-20 mL/kg SC q24-72h"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Antiemetik",
+          "protocol": "Maropitant 1 mg/kg SC q24h, mirtazapine 1.88 mg PO q48h"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Antihipertensi",
+          "protocol": "Amlodipine 0.625-1.25 mg/kg PO q24h"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Benazepril",
+          "category": "ACE_inhibitor",
+          "dosage": "0.25-0.5 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": [
+            "Hypotension"
+          ]
+        },
+        {
+          "name": "Aluminum hydroxide",
+          "category": "phosphate_binder",
+          "dosage": "30-100 mg/kg/hari PO",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Mirtazapine",
+          "category": "appetite_stimulant",
+          "dosage": "1.88 mg PO q48h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Amlodipine",
+          "category": "antihypertensive",
+          "dosage": "0.625-1.25 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Darbepoetin",
+          "category": "erythropoietin",
+          "dosage": "1 mcg/kg SC q7hari",
+          "route": "SC",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-hyperthyroidism",
+      "name": "Feline Hyperthyroidism",
+      "name_id": "Hipertiroidisme Kucing",
+      "etiology": "neoplastic",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyakit endokrin paling umum pada kucing setengah baya hingga tua. Produksi hormon tiroid berlebihan oleh adenoma tiroid fungsional.",
+      "causes": "Adenoma tiroid fungsional (98%), karsinoma tiroid (2%). Faktor risiko: diet ikan kaleng, paparan isoflavon, goitrogen.",
+      "prevention": "Tidak dapat dicegah; deteksi dini melalui skrining T4 tahunan pada kucing >8 tahun.",
+      "prognosis": "Sangat baik dengan terapi (methimazole, iodine-131, atau bedah); karsinoma tiroid prognosis guarded.",
+      "symptoms": [
+        {
+          "name": "Weight loss despite polyphagia",
+          "name_id": "BB turun meski lapar",
+          "body_system": "endocrine",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Hyperactivity",
+          "name_id": "Hiperaktif",
+          "body_system": "behavioral",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polyphagia",
+          "name_id": "Lapar berlebihan",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Diarrhea",
+          "name_id": "Diare",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Tachycardia",
+          "name_id": "Denyut jantung cepat",
+          "body_system": "cardiovascular",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Palpable thyroid nodule",
+          "name_id": "Benjolan tiroid teraba",
+          "body_system": "endocrine",
+          "frequency": "high"
+        },
+        {
+          "name": "Poor coat quality",
+          "name_id": "Bulu kusam",
+          "body_system": "integumentary",
+          "frequency": "high"
+        },
+        {
+          "name": "Heat intolerance",
+          "name_id": "Tidak tahan panas",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Dyspnea (if thyrotoxic)",
+          "name_id": "Sesak napas",
+          "body_system": "respiratory",
+          "frequency": "low",
+          "is_red_flag": true
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Total T4",
+          "name_id": "Total T4",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Free T4 (dialysis)",
+          "name_id": "Free T4 dialisis",
+          "category": "laboratory",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Thyroid scintigraphy",
+          "name_id": "Skintigrafi tiroid",
+          "category": "imaging",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "CBC + chemistry",
+          "name_id": "CBC + kimia darah",
+          "category": "laboratory",
+          "sensitivity": "moderate"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Methimazole (Tapazole)",
+          "protocol": "1.25-2.5 mg/kg PO q12h, titrasi berdasarkan T4 q2-4 minggu"
+        },
+        {
+          "type": "therapeutic",
+          "name": "Radioactive iodine (I-131)",
+          "protocol": "Dosis tunggal SC, kuratif, memerlukan isolasi 2-4 minggu"
+        },
+        {
+          "type": "surgical",
+          "name": "Thyroidectomy",
+          "protocol": "Untuk adenoma unilateral; risiko hipoparatiroidisme"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet iodine-restricted",
+          "protocol": "Hills y/d diet, mengurangi produksi T4"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Methimazole",
+          "category": "antithyroid",
+          "dosage": "1.25-2.5 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": [
+            "Hepatic disease",
+            "Pregnancy"
+          ]
+        },
+        {
+          "name": "Atenolol",
+          "category": "beta_blocker",
+          "dosage": "6.25-12.5 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": [
+            "Asthma",
+            "Bradycardia"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-diabetes",
+      "name": "Feline Diabetes Mellitus",
+      "name_id": "Diabetes Melitus Kucing",
+      "etiology": "endocrine",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Gangguan metabolisme karbohidrat akibat defisiensi atau resistensi insulin. Kucing sering mengalami Tipe 2 (resistan insulin) dan dapat remisi.",
+      "causes": "Obesitas, diet tinggi karbohidrat, pankreatitis, akromegali, antagonis insulin (steroid, progestogen), predisposisi genetik (Burmese).",
+      "prevention": "Kontrol berat badan, diet rendah karbohidrat/tinggi protein, exercise, hindari steroid jangka panjang.",
+      "prognosis": "Baik; 30-50% kucing dapat mencapai remisi diabetik dengan manajemen agresif early-stage.",
+      "symptoms": [
+        {
+          "name": "Polyuria",
+          "name_id": "Sering kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polydipsia",
+          "name_id": "Sering minum",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polyphagia",
+          "name_id": "Lapar berlebihan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Plantigrade stance",
+          "name_id": "Jalan tumit menapak",
+          "body_system": "neurologic",
+          "frequency": "moderate",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Poor coat quality",
+          "name_id": "Bulu kusam",
+          "body_system": "integumentary",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Ketoacidosis signs",
+          "name_id": "Tanda ketoasidosis",
+          "body_system": "systemic",
+          "frequency": "low",
+          "is_red_flag": true
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Fasting blood glucose",
+          "name_id": "Gula darah puasa",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Fructosamine",
+          "name_id": "Fruktosamin",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Urinalysis glucose/ketones",
+          "name_id": "Urinalisis glukosa/keton",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Glucose curve",
+          "name_id": "Kurva glukosa",
+          "category": "monitoring",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "Terapi insulin",
+          "protocol": "Glargine (Lantus) 0.25-0.5 U/kg SC q12h, titrasi berdasarkan kurva glukosa"
+        },
+        {
+          "type": "dietary",
+          "name": "Diet diabetes",
+          "protocol": "High protein, low carbohydrate diet (Hills m/d, Purina DM), 2x feeding"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Monitoring",
+          "protocol": "Freestyle Libre CGM, target glukosa 100-250 mg/dL"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Penanganan ketoasidosis",
+          "protocol": "Regular insulin IV CRI, IV fluids, koreksi elektrolit"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Glargine Insulin (Lantus)",
+          "category": "insulin",
+          "dosage": "0.25-0.5 U/kg SC q12h",
+          "route": "SC",
+          "contraindications": [
+            "Hypoglycemia"
+          ]
+        },
+        {
+          "name": "Regular Insulin",
+          "category": "insulin",
+          "dosage": "0.1-0.2 U/kg IM/IV initial",
+          "route": "IM/IV",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-stomatitis",
+      "name": "Feline Chronic Gingivostomatitis",
+      "name_id": "Stomatitis Kronis Kucing",
+      "etiology": "immune_mediated",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Inflamasi oral kronis berat, imun-mediated, sering refrakter terhadap terapi medis. Terkait infeksi virus (calicivirus, FIV, FeLV).",
+      "causes": "Respon imun berlebihan terhadap plak gigi, dipicu oleh infeksi virus (FCV, FIV, FeLV), predisposisi genetik.",
+      "prevention": "Vaksinasi FVRCP, kontrol FIV/FeLV, perawatan gigi rutin, diet oral health.",
+      "prognosis": "Variabel; 60-80% membaik signifikan setelah ekstraksi gigi penuh; sisanya memerlukan manajemen medis kronis.",
+      "symptoms": [
+        {
+          "name": "Severe oral pain",
+          "name_id": "Nyeri mulut berat",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Halitosis",
+          "name_id": "Bau mulut",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Drooling",
+          "name_id": "Ngeces",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Gingival hyperplasia/ulceration",
+          "name_id": "Hiperplasia/ulkus gusi",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Pawing at mouth",
+          "name_id": "Menggaruk mulut",
+          "body_system": "behavioral",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Bleeding gums",
+          "name_id": "Gusi berdarah",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Oral examination under sedation",
+          "name_id": "Pemeriksaan oral sedasi",
+          "category": "physical",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Full mouth radiography",
+          "name_id": "Radiografi gigi penuh",
+          "category": "imaging",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Biopsy histopathology",
+          "name_id": "Biopsi histopatologi",
+          "category": "pathology",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "FIV/FeLV PCR",
+          "name_id": "PCR FIV/FeLV",
+          "category": "molecular",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "surgical",
+          "name": "Full mouth extraction",
+          "protocol": "Ekstraksi semua gigi (premolar, molar, kadang kaninus) dalam 1-2 sesi"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Immunosuppressant",
+          "protocol": "Prednisone 1-2 mg/kg PO q24h, cyclosporine 5-7 mg/kg PO q12h"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Analgesik",
+          "protocol": "Buprenorphine 0.01-0.02 mg/kg IV q6-8h, gabapentin 10 mg/kg PO q12h"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Terapi laser",
+          "protocol": "CO2 laser ablation jaringan inflamasi"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Nutrisi",
+          "protocol": "Soft food, appetite stimulant, syringe feeding jika perlu"
+        }
+      ],
+      "medications": [
+        {
+          "name": "Prednisone",
+          "category": "corticosteroid",
+          "dosage": "1-2 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Cyclosporine",
+          "category": "immunosuppressant",
+          "dosage": "5-7 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": [
+            "Toxoplasmosis",
+            "FeLV/FIV"
+          ]
+        },
+        {
+          "name": "Gabapentin",
+          "category": "analgesic",
+          "dosage": "10 mg/kg PO q12h",
+          "route": "PO",
+          "contraindications": []
+        },
+        {
+          "name": "Buprenorphine",
+          "category": "analgesic",
+          "dosage": "0.01-0.02 mg/kg IV q6-8h",
+          "route": "IV",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-coronavirus-fip",
+      "name": "Feline Infectious Peritonitis (FIP)",
+      "name_id": "FIP (Peritonitis Infeksius Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penyakit fatal yang disebabkan oleh mutasi feline coronavirus (FCoV) menjadi biotipe FIPV. Dua bentuk: effusive (basah) dan non-effusive (kering).",
+      "causes": "Mutasi FCoV enterik menjadi FIPV dalam individu kucing. Faktor risiko: usia muda (<2 tahun), genetik, stres, overcrowding, imunosupresi.",
+      "prevention": "Hindari overcrowding, manajemen stres, screening FCoV, vaksinasi (terbatas efektivitasnya).",
+      "prognosis": "Dulunya 100% fatal; dengan terapi antivirus baru (GS-441524, remdesivir) survival rate 70-85%.",
+      "symptoms": [
+        {
+          "name": "Persistent fever",
+          "name_id": "Demam persisten",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Abdominal distension (effusive)",
+          "name_id": "Perut buncit (basah)",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Dyspnea (pleural effusion)",
+          "name_id": "Sesak napas (efusi pleura)",
+          "body_system": "respiratory",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Jaundice",
+          "name_id": "Jaundice/kuning",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Ocular signs (uveitis)",
+          "name_id": "Tanda mata (uveitis)",
+          "body_system": "ophthalmic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Neurologic signs",
+          "name_id": "Tanda neurologis",
+          "body_system": "neurologic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lymphadenopathy",
+          "name_id": "Pembesaran kelenjar getah bening",
+          "body_system": "lymphatic",
+          "frequency": "moderate"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "FCoV antibody titer",
+          "name_id": "Titer antibodi FCoV",
+          "category": "serology",
+          "sensitivity": "moderate"
+        },
+        {
+          "name": "Rivalta test (effusion)",
+          "name_id": "Tes Rivalta (efusi)",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "FIP PCR (fluid/tissue)",
+          "name_id": "PCR FIP (cairan/jaringan)",
+          "category": "molecular",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Histopathology (biopsy)",
+          "name_id": "Histopatologi biopsi",
+          "category": "pathology",
+          "sensitivity": "very_high"
+        },
+        {
+          "name": "Albumin:globulin ratio",
+          "name_id": "Rasio A:G",
+          "category": "laboratory",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "pharmacological",
+          "name": "GS-441524 (antiviral)",
+          "protocol": "4-15 mg/kg SC q24h x 12 minggu, tergantung bentuk (neurologis dosis lebih tinggi)"
+        },
+        {
+          "type": "pharmacological",
+          "name": "Remdesivir (alternatif)",
+          "protocol": "6-10 mg/kg IV q24h x 12 minggu"
+        },
+        {
+          "type": "supportive_care",
+          "name": "Terapi suportif",
+          "protocol": "IV fluids, antiemetik, nutrisi, drainase efusi jika perlu"
+        }
+      ],
+      "medications": [
+        {
+          "name": "GS-441524",
+          "category": "antiviral",
+          "dosage": "4-15 mg/kg SC q24h",
+          "route": "SC",
+          "contraindications": []
+        },
+        {
+          "name": "Remdesivir",
+          "category": "antiviral",
+          "dosage": "6-10 mg/kg IV q24h",
+          "route": "IV",
+          "contraindications": []
+        },
+        {
+          "name": "Prednisolone",
+          "category": "corticosteroid",
+          "dosage": "1-2 mg/kg PO q24h",
+          "route": "PO",
+          "contraindications": []
+        }
+      ]
+    },
+    {
+      "slug": "cat-fiv",
+      "name": "Feline Immunodeficiency Virus",
+      "name_id": "FIV (AIDS Kucing)",
+      "etiology": "infectious_viral",
+      "body_system": "immune",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "chronic",
+      "is_emergency": false,
+      "overview": "Virus imunodefisiensi kucing mirip HIV pada manusia.",
+      "causes": "Gigitandan luka dalam, penularan vertikal.",
+      "symptoms": [
+        {
+          "name": "Weight loss",
+          "name_id": "Berat turun",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Chronic infections",
+          "name_id": "Infeksi kronis",
+          "body_system": "immune",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-fip",
+      "name": "Feline Infectious Peritonitis",
+      "name_id": "FIP",
+      "etiology": "infectious_viral",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penyakit fatal akibat mutasi virus corona kucing.",
+      "causes": "Mutasi FCoV, stres, usia muda.",
+      "symptoms": [
+        {
+          "name": "Abdominal effusion",
+          "name_id": "Perut buncit",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "cat-panleukopenia",
+      "name": "Feline Panleukopenia",
+      "name_id": "Panleukopenia",
+      "etiology": "infectious_viral",
+      "body_system": "systemic",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penyakit virus parvo kucing yang sangat menular dan sering fatal.",
+      "symptoms": [
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Diarrhea",
+          "name_id": "Diare",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-calicivirus",
+      "name": "Feline Calicivirus",
+      "name_id": "Calicivirus",
+      "etiology": "infectious_viral",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Virus saluran pernapasan dengan ulserasi mulut.",
+      "symptoms": [
+        {
+          "name": "Oral ulcers",
+          "name_id": "Sariawan",
+          "body_system": "dental",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Sneezing",
+          "name_id": "Bersin",
+          "body_system": "respiratory",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-herpesvirus",
+      "name": "Feline Herpesvirus",
+      "name_id": "Herpes Kucing",
+      "etiology": "infectious_viral",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Penyebab utama flu kucing.",
+      "symptoms": [
+        {
+          "name": "Conjunctivitis",
+          "name_id": "Konjungtivitis",
+          "body_system": "ocular",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Sneezing",
+          "name_id": "Bersin",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-felv",
+      "name": "Feline Leukemia Virus",
+      "name_id": "FeLV",
+      "etiology": "infectious_viral",
+      "body_system": "immune",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "chronic",
+      "is_emergency": false,
+      "overview": "Virus imunosupresif penyebab kanker dan infeksi sekunder.",
+      "symptoms": [
+        {
+          "name": "Weight loss",
+          "name_id": "BB turun",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Pale gums",
+          "name_id": "Gusi pucat",
+          "body_system": "systemic",
+          "frequency": "high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "cat-cystitis",
+      "name": "Feline Idiopathic Cystitis",
+      "name_id": "FIC (Radang Kandung Kemih)",
+      "etiology": "idiopathic",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Radang kandung kemih tanpa penyebab jelas, terkait stres.",
+      "symptoms": [
+        {
+          "name": "Straining to urinate",
+          "name_id": "Ngeden kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Blood in urine",
+          "name_id": "Kencing darah",
+          "body_system": "urinary",
+          "frequency": "high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "cat-urinary-blockage",
+      "name": "Feline Urethral Obstruction",
+      "name_id": "Sumbatan Kencing",
+      "etiology": "metabolic_nutritional",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Kondisi darurat dimana uretra tersumbat.",
+      "symptoms": [
+        {
+          "name": "Straining",
+          "name_id": "Ngeden",
+          "body_system": "urinary",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "cat-tooth-resorption",
+      "name": "Feline Tooth Resorption",
+      "name_id": "Resorpsi Gigi",
+      "etiology": "degenerative",
+      "body_system": "dental",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Kerusakan gigi progresif pada kucing.",
+      "symptoms": [
+        {
+          "name": "Drooling",
+          "name_id": "Ngeces",
+          "body_system": "dental",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Difficulty eating",
+          "name_id": "Susah makan",
+          "body_system": "dental",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-diabetes",
+      "name": "Feline Diabetes Mellitus",
+      "name_id": "Diabetes Kucing",
+      "etiology": "endocrine",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Gangguan metabolisme insulin.",
+      "symptoms": [
+        {
+          "name": "Polyuria",
+          "name_id": "Banyak kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polydipsia",
+          "name_id": "Banyak minum",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-asthma",
+      "name": "Feline Asthma",
+      "name_id": "Asma Kucing",
+      "etiology": "allergic_immune",
+      "body_system": "respiratory",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": true,
+      "overview": "Penyempitan saluran napas akibat alergi.",
+      "symptoms": [
+        {
+          "name": "Coughing",
+          "name_id": "Batuk",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Wheezing",
+          "name_id": "Mengi",
+          "body_system": "respiratory",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-gingivitis",
+      "name": "Feline Gingivitis",
+      "name_id": "Radang Gusi",
+      "etiology": "infectious_bacterial",
+      "body_system": "dental",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Peradangan gusi kronis.",
+      "symptoms": [
+        {
+          "name": "Red gums",
+          "name_id": "Gusi merah",
+          "body_system": "dental",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-constipation",
+      "name": "Feline Constipation",
+      "name_id": "Konstipasi Kucing",
+      "etiology": "digestive_disorder",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Kesulitan buang air besar.",
+      "symptoms": [
+        {
+          "name": "Straining",
+          "name_id": "Ngeden pup",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Hard stool",
+          "name_id": "Kotoran keras",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-food-allergy",
+      "name": "Food Allergy",
+      "name_id": "Alergi Makanan",
+      "etiology": "allergic_immune",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Reaksi alergi terhadap protein dalam makanan.",
+      "symptoms": [
+        {
+          "name": "Pruritus",
+          "name_id": "Gatal",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Facial itching",
+          "name_id": "Gatal muka",
+          "body_system": "integumentary",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-abscess",
+      "name": "Abscess (Fight Wound)",
+      "name_id": "Abses Gigitan",
+      "etiology": "infectious_bacterial",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi akibat gigitan.",
+      "symptoms": [
+        {
+          "name": "Swelling",
+          "name_id": "Bengkak",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Fever",
+          "name_id": "Demam",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-eosinophilic",
+      "name": "Eosinophilic Granuloma Complex",
+      "name_id": "EGC",
+      "etiology": "allergic_immune",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Reaksi alergi kulit.",
+      "symptoms": [
+        {
+          "name": "Ulcers",
+          "name_id": "Ulkus",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-ringworm",
+      "name": "Dermatophytosis",
+      "name_id": "Jamur Kucing",
+      "etiology": "infectious_fungal",
+      "body_system": "integumentary",
+      "is_contagious": true,
+      "is_zoonotic": true,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Jamur kulit pada kucing.",
+      "symptoms": [
+        {
+          "name": "Circular alopecia",
+          "name_id": "Botak melingkar",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-upper-ri",
+      "name": "Upper Respiratory Infection (URI)",
+      "name_id": "Flu Kucing",
+      "etiology": "infectious_viral",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi saluran napas atas.",
+      "symptoms": [
+        {
+          "name": "Sneezing",
+          "name_id": "Bersin",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-mega colon",
+      "name": "Megacolon",
+      "name_id": "Megakolon",
+      "etiology": "digestive_disorder",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Pembesaran usus besar.",
+      "symptoms": [
+        {
+          "name": "Chronic constipation",
+          "name_id": "Konstipasi kronis",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-arthritis",
+      "name": "Feline Arthritis",
+      "name_id": "Artritis Kucing",
+      "etiology": "degenerative",
+      "body_system": "musculoskeletal",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Radang sendi pada kucing senior.",
+      "symptoms": [
+        {
+          "name": "Stiffness",
+          "name_id": "Kaku",
+          "body_system": "musculoskeletal",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-heartworm",
+      "name": "Feline Heartworm",
+      "name_id": "Heartworm Kucing",
+      "etiology": "parasitic",
+      "body_system": "respiratory",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Cacing jantung pada kucing.",
+      "symptoms": [
+        {
+          "name": "Cough",
+          "name_id": "Batuk",
+          "body_system": "respiratory",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-liver-lipidosis",
+      "name": "Hepatic Lipidosis",
+      "name_id": "Perlemakan Hati",
+      "etiology": "metabolic_nutritional",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penumpukan lemak di hati akibat tidak makan.",
+      "symptoms": [
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "cat-feline-acne",
+      "name": "Feline Acne",
+      "name_id": "Jerawat Kucing",
+      "etiology": "idiopathic",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Jerawat di dagu kucing.",
+      "symptoms": [
+        {
+          "name": "Blackheads",
+          "name_id": "Komedo",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-tail-gland",
+      "name": "Stud Tail (Supracaudal Gland Hyperplasia)",
+      "name_id": "Ekor Berminyak",
+      "etiology": "endocrine",
+      "body_system": "integumentary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Kelebihan produksi sebum di ekor.",
+      "symptoms": [
+        {
+          "name": "Greasy tail",
+          "name_id": "Ekor berminyak",
+          "body_system": "integumentary",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-urocystitis",
+      "name": "Feline Urocystitis",
+      "name_id": "Radang Kandung Kemih",
+      "etiology": "infectious_bacterial",
+      "body_system": "urinary",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Infeksi kandung kemih.",
+      "symptoms": [
+        {
+          "name": "Frequent urination",
+          "name_id": "Sering kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
         }
       ]
     }

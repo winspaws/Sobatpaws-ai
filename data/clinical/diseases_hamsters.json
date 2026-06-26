@@ -16,18 +16,61 @@
       "prevention": "Kurangi stres, kebersihan kandang, karantina hamster baru.",
       "prognosis": "Mortalitas tinggi (bisa 90%) bila terlambat; agresif & cepat.",
       "breed_susceptibility": [
-        {"breed_slug": "hamster-syrian", "risk": "very_high", "age_onset": "3-8 minggu", "notes": "Paling rentan, terutama pasca beli/stres."}
+        {
+          "breed_slug": "hamster-syrian",
+          "risk": "very_high",
+          "age_onset": "3-8 minggu",
+          "notes": "Paling rentan, terutama pasca beli/stres."
+        }
       ],
       "symptoms": [
-        {"name": "Watery diarrhea", "name_id": "Diare cair", "body_system": "digestive", "frequency": "very_high", "is_red_flag": true, "is_pathognomonic": true},
-        {"name": "Wet matted tail area", "name_id": "Area ekor basah & kotor", "body_system": "digestive", "frequency": "very_high", "is_pathognomonic": true},
-        {"name": "Lethargy", "name_id": "Lemas, kurang aktif", "body_system": "systemic", "frequency": "high"},
-        {"name": "Loss of appetite", "name_id": "Tidak mau makan", "body_system": "digestive", "frequency": "high"},
-        {"name": "Hunched, ruffled fur", "name_id": "Membungkuk, bulu kusut", "body_system": "systemic", "frequency": "high"}
+        {
+          "name": "Watery diarrhea",
+          "name_id": "Diare cair",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_red_flag": true,
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Wet matted tail area",
+          "name_id": "Area ekor basah & kotor",
+          "body_system": "digestive",
+          "frequency": "very_high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas, kurang aktif",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Loss of appetite",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        },
+        {
+          "name": "Hunched, ruffled fur",
+          "name_id": "Membungkuk, bulu kusut",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
       ],
       "diagnostics": [
-        {"name": "Pemeriksaan klinis + riwayat stres", "type": "physical_exam", "step_order": 1, "expected_finding": "Diare basah, dehidrasi"},
-        {"name": "Pemeriksaan feses", "type": "fecal_exam", "step_order": 2, "expected_finding": "Singkirkan parasit penyerta"}
+        {
+          "name": "Pemeriksaan klinis + riwayat stres",
+          "type": "physical_exam",
+          "step_order": 1,
+          "expected_finding": "Diare basah, dehidrasi"
+        },
+        {
+          "name": "Pemeriksaan feses",
+          "type": "fecal_exam",
+          "step_order": 2,
+          "expected_finding": "Singkirkan parasit penyerta"
+        }
       ],
       "treatments": [
         {
@@ -37,8 +80,22 @@
           "procedure_steps": "1) Rehidrasi (cairan SC, larutan elektrolit). 2) Antibiotik aman rodensia. 3) Jaga kehangatan. 4) Isolasi & desinfeksi. 5) Dorong makan/minum.",
           "recommendation": "Segera ke dokter hewan eksotik; rehidrasi adalah penentu utama survival.",
           "products": [
-            {"name": "Enrofloxacin", "kind": "medication", "active_ingredient": "Enrofloxacin", "route": "oral/SC", "dosage_guide": "10 mg/kg BID (encerkan)", "cautions": "Dosis presisi; aman rodensia."},
-            {"name": "Larutan elektrolit oral/SC", "kind": "medication", "active_ingredient": "Elektrolit + glukosa", "route": "SC/oral", "dosage_guide": "Sedikit-sering", "cautions": "Cegah hipotermia."}
+            {
+              "name": "Enrofloxacin",
+              "kind": "medication",
+              "active_ingredient": "Enrofloxacin",
+              "route": "oral/SC",
+              "dosage_guide": "10 mg/kg BID (encerkan)",
+              "cautions": "Dosis presisi; aman rodensia."
+            },
+            {
+              "name": "Larutan elektrolit oral/SC",
+              "kind": "medication",
+              "active_ingredient": "Elektrolit + glukosa",
+              "route": "SC/oral",
+              "dosage_guide": "Sedikit-sering",
+              "cautions": "Cegah hipotermia."
+            }
           ]
         }
       ]
@@ -55,18 +112,58 @@
       "prevention": "Diet rendah gula (hindari buah berlebih/treat manis), kontrol berat badan.",
       "prognosis": "Bisa dikelola dengan diet; kasus berat memburuk.",
       "breed_susceptibility": [
-        {"breed_slug": "hamster-campbell", "risk": "very_high", "is_hereditary": true},
-        {"breed_slug": "hamster-winter-white", "risk": "very_high", "is_hereditary": true}
+        {
+          "breed_slug": "hamster-campbell",
+          "risk": "very_high",
+          "is_hereditary": true
+        },
+        {
+          "breed_slug": "hamster-winter-white",
+          "risk": "very_high",
+          "is_hereditary": true
+        }
       ],
       "symptoms": [
-        {"name": "Excessive drinking", "name_id": "Minum berlebihan", "body_system": "endocrine", "frequency": "high"},
-        {"name": "Excessive urination", "name_id": "Sering pipis (kandang cepat basah)", "body_system": "urinary", "frequency": "high"},
-        {"name": "Weight change", "name_id": "Berat badan berubah", "body_system": "systemic", "frequency": "moderate"},
-        {"name": "Lethargy / shaking", "name_id": "Lemas/gemetar (hipo/hiperglikemia)", "body_system": "nervous", "frequency": "moderate"}
+        {
+          "name": "Excessive drinking",
+          "name_id": "Minum berlebihan",
+          "body_system": "endocrine",
+          "frequency": "high"
+        },
+        {
+          "name": "Excessive urination",
+          "name_id": "Sering pipis (kandang cepat basah)",
+          "body_system": "urinary",
+          "frequency": "high"
+        },
+        {
+          "name": "Weight change",
+          "name_id": "Berat badan berubah",
+          "body_system": "systemic",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Lethargy / shaking",
+          "name_id": "Lemas/gemetar (hipo/hiperglikemia)",
+          "body_system": "nervous",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Tes glukosa urin (dipstick)", "type": "urinalysis", "is_gold_standard": false, "step_order": 1, "expected_finding": "Glukosuria"},
-        {"name": "Glukosa darah", "type": "blood_test", "is_gold_standard": true, "step_order": 2, "expected_finding": "Hiperglikemia"}
+        {
+          "name": "Tes glukosa urin (dipstick)",
+          "type": "urinalysis",
+          "is_gold_standard": false,
+          "step_order": 1,
+          "expected_finding": "Glukosuria"
+        },
+        {
+          "name": "Glukosa darah",
+          "type": "blood_test",
+          "is_gold_standard": true,
+          "step_order": 2,
+          "expected_finding": "Hiperglikemia"
+        }
       ],
       "treatments": [
         {
@@ -76,7 +173,14 @@
           "procedure_steps": "1) Hentikan treat/buah manis. 2) Diet rendah gula tinggi protein/serat. 3) Sediakan air cukup. 4) Pantau berat & gejala. 5) Fenugreek kadang membantu (anekdotal).",
           "recommendation": "Manajemen utamanya diet; insulin jarang praktis pada hamster.",
           "products": [
-            {"name": "Pakan hamster rendah gula", "kind": "food_regular", "active_ingredient": "Pelet tinggi serat/protein", "route": "oral", "dosage_guide": "Porsi terukur", "cautions": "Hindari mix bergula/madu."}
+            {
+              "name": "Pakan hamster rendah gula",
+              "kind": "food_regular",
+              "active_ingredient": "Pelet tinggi serat/protein",
+              "route": "oral",
+              "dosage_guide": "Porsi terukur",
+              "cautions": "Hindari mix bergula/madu."
+            }
           ]
         }
       ]
@@ -93,15 +197,40 @@
       "prevention": "Hindari makanan lengket & bedding kapas, sediakan bedding aman.",
       "prognosis": "Baik bila dibersihkan; abses butuh penanganan lebih.",
       "breed_susceptibility": [
-        {"breed_slug": "hamster-syrian", "risk": "moderate"}
+        {
+          "breed_slug": "hamster-syrian",
+          "risk": "moderate"
+        }
       ],
       "symptoms": [
-        {"name": "Persistent swollen cheek", "name_id": "Pipi bengkak menetap (tak mengecil)", "body_system": "digestive", "frequency": "high", "is_pathognomonic": true},
-        {"name": "Difficulty eating", "name_id": "Sulit makan", "body_system": "digestive", "frequency": "moderate"},
-        {"name": "Pawing at mouth", "name_id": "Menggaruk mulut", "body_system": "behavioral", "frequency": "moderate"}
+        {
+          "name": "Persistent swollen cheek",
+          "name_id": "Pipi bengkak menetap (tak mengecil)",
+          "body_system": "digestive",
+          "frequency": "high",
+          "is_pathognomonic": true
+        },
+        {
+          "name": "Difficulty eating",
+          "name_id": "Sulit makan",
+          "body_system": "digestive",
+          "frequency": "moderate"
+        },
+        {
+          "name": "Pawing at mouth",
+          "name_id": "Menggaruk mulut",
+          "body_system": "behavioral",
+          "frequency": "moderate"
+        }
       ],
       "diagnostics": [
-        {"name": "Inspeksi kantung pipi (sedasi)", "type": "physical_exam", "is_gold_standard": true, "step_order": 1, "expected_finding": "Massa makanan/abses"}
+        {
+          "name": "Inspeksi kantung pipi (sedasi)",
+          "type": "physical_exam",
+          "is_gold_standard": true,
+          "step_order": 1,
+          "expected_finding": "Massa makanan/abses"
+        }
       ],
       "treatments": [
         {
@@ -111,9 +240,215 @@
           "procedure_steps": "1) Sedasi ringan. 2) Keluarkan isi & bilas dengan saline. 3) Antibiotik bila ada infeksi/abses. 4) Koreksi jenis makanan/bedding.",
           "recommendation": "Tangani lembut untuk hindari robek kantung pipi.",
           "products": [
-            {"name": "Saline steril", "kind": "medication", "active_ingredient": "NaCl 0.9%", "route": "topikal/irigasi", "dosage_guide": "Untuk bilas", "cautions": "—"},
-            {"name": "Antibiotik (bila abses)", "kind": "medication", "active_ingredient": "Enrofloxacin", "route": "oral", "dosage_guide": "Sesuai BB", "cautions": "Hanya bila infeksi."}
+            {
+              "name": "Saline steril",
+              "kind": "medication",
+              "active_ingredient": "NaCl 0.9%",
+              "route": "topikal/irigasi",
+              "dosage_guide": "Untuk bilas",
+              "cautions": "—"
+            },
+            {
+              "name": "Antibiotik (bila abses)",
+              "kind": "medication",
+              "active_ingredient": "Enrofloxacin",
+              "route": "oral",
+              "dosage_guide": "Sesuai BB",
+              "cautions": "Hanya bila infeksi."
+            }
           ]
+        }
+      ]
+    },
+    {
+      "slug": "hamster-lymphoma",
+      "name": "Hamster Lymphoma",
+      "name_id": "Limfoma Hamster",
+      "etiology": "neoplastic",
+      "body_system": "lymphatic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Neoplasma limforetikuler umum pada hamster, terutama Syrian hamster. Sering mengenai usus dan kelenjar getah bening.",
+      "causes": "Idiopatik, mungkin terkait virus (hamster polyomavirus pada hamster Syrian).",
+      "prevention": "Tidak dapat dicegah; breeding selektif.",
+      "prognosis": "Guarded; kemoterapi jarang dilakukan pada hamster.",
+      "symptoms": [
+        {
+          "name": "Abdominal mass",
+          "name_id": "Benjolan perut",
+          "body_system": "lymphatic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Lymphadenopathy",
+          "name_id": "Pembesaran kelenjar getah bening",
+          "body_system": "lymphatic",
+          "frequency": "high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "body_system": "digestive",
+          "frequency": "high"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "FNA cytology",
+          "name_id": "FNA sitologi",
+          "category": "pathology",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Biopsy histopathology",
+          "name_id": "Biopsi histopatologi",
+          "category": "pathology",
+          "sensitivity": "very_high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "supportive_care",
+          "name": "Palliative care",
+          "protocol": "Analgesik, nutrisi supportif, kualitas hidup"
+        }
+      ]
+    },
+    {
+      "slug": "hamster-diabetes",
+      "name": "Hamster Diabetes Mellitus",
+      "name_id": "Diabetes Hamster",
+      "etiology": "genetic",
+      "body_system": "endocrine",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Umum pada Chinese hamster dan Campbell's dwarf hamster. Predisposisi genetik kuat.",
+      "causes": "Mutasi genetik, diet tinggi gula/karbohidrat, obesitas.",
+      "prevention": "Diet rendah gula, hindari buah manis, kontrol berat badan.",
+      "prognosis": "Baik dengan manajemen diet.",
+      "symptoms": [
+        {
+          "name": "Polyuria",
+          "name_id": "Sering kencing",
+          "body_system": "urinary",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Polydipsia",
+          "name_id": "Sering minum",
+          "body_system": "systemic",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Penurunan berat badan",
+          "body_system": "systemic",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "body_system": "systemic",
+          "frequency": "high"
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "Blood glucose",
+          "name_id": "Gula darah",
+          "category": "laboratory",
+          "sensitivity": "high"
+        },
+        {
+          "name": "Urinalysis glucose",
+          "name_id": "Urinalisis glukosa",
+          "category": "laboratory",
+          "sensitivity": "high"
+        }
+      ],
+      "treatments": [
+        {
+          "type": "dietary",
+          "name": "Diet rendah gula",
+          "protocol": "Hindari buah manis, seed mix rendah gula, sayuran segar"
+        }
+      ]
+    },
+    {
+      "slug": "hamster-cheek-pouch",
+      "name": "Cheek Pouch Impaction",
+      "name_id": "Kantong Pipi Tersumbat",
+      "etiology": "digestive_disorder",
+      "body_system": "digestive",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Makanan tersangkut di kantong pipi.",
+      "symptoms": [
+        {
+          "name": "Swollen cheek",
+          "name_id": "Pipi bengkak",
+          "body_system": "digestive",
+          "frequency": "very_high"
+        }
+      ]
+    },
+    {
+      "slug": "hamster-amyloidosis",
+      "name": "Amyloidosis",
+      "name_id": "Amiloidosis",
+      "etiology": "degenerative",
+      "body_system": "systemic",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Penumpukan protein amiloid.",
+      "symptoms": [
+        {
+          "name": "Weight loss",
+          "name_id": "BB turun",
+          "body_system": "systemic",
+          "frequency": "very_high",
+          "is_red_flag": true
+        }
+      ]
+    },
+    {
+      "slug": "hamster-pneumonia",
+      "name": "Pneumonia",
+      "name_id": "Radang Paru",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "is_contagious": false,
+      "is_zoonotic": false,
+      "default_severity": "critical",
+      "is_emergency": true,
+      "overview": "Infeksi paru-paru.",
+      "symptoms": [
+        {
+          "name": "Labored breathing",
+          "name_id": "Sesak napas",
+          "body_system": "respiratory",
+          "frequency": "very_high",
+          "is_red_flag": true
         }
       ]
     }
