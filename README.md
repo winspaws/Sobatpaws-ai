@@ -323,7 +323,92 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | GET | `/api/v1/knowledge/stats` | Knowledge base statistics |
 | POST | `/api/v1/knowledge/reindex` | Reindex all sources |
 
-### 4.5 Core API (`main.py`)
+
+---
+
+## 4.5 Integration Endpoints (Admin Panel)
+
+Endpoint khusus untuk integrasi dengan **sobatpaws-admin** (PetPro Admin Panel).
+Semua endpoint menggunakan JWT auth (compatible dengan cookie-based auth admin panel).
+
+### AI Pre-Screening
+```http
+POST /api/v1/integration/appointment/screening
+?species=cat&breed=cat-persian&age_years=3
+&symptoms=muntah,lemas,tidak mau makan&duration_days=2
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "risk_level": "high",
+    "risk_score": 65,
+    "agent": "triage_emergency",
+    "confidence": 0.85,
+    "suggested_specialist": "dokter_hewan_umum",
+    "urgency": "within_24h",
+    "ai_summary": "...",
+    "escalated": false,
+    "suggestions": [...],
+    "cta": [...],
+    "disclaimer": "..."
+  }
+}
+```
+
+### Pet Medical History
+```http
+GET /api/v1/integration/customer/{external_id}/medical-history?pet_id={pet_id}
+```
+
+Returns: pet profile, vaccinations, active medications, chronic conditions, allergies.
+
+### Product Recommendation
+```http
+POST /api/v1/integration/product/recommend
+?species=dog&breed=dog-golden&age_years=5&condition=obesitas
+```
+
+Returns: AI-powered product suggestions based on pet condition.
+
+### Integration Health
+```http
+GET /api/v1/integration/health
+```
+
+### Authentication
+| Method | Header |
+|--------|--------|
+| JWT Bearer | `Authorization: Bearer <token>` |
+| JWT Cookie | `access_token=<token>` (cookie) |
+| API Key | `X-EkosistemSatwa-Key: <key>` |
+
+### Dokumen Lengkap
+- [`docs/ALIGNMENT_ANALYSIS.md`](docs/ALIGNMENT_ANALYSIS.md) — Gap analysis & alignment plan
+- [`docs/INTEGRATION_ADMIN_PANEL.md`](docs/INTEGRATION_ADMIN_PANEL.md) — Admin panel integration guide
+
+---
+
+## 4.6 EMR Endpoints
+
+| Method | Path | Deskripsi |
+|--------|------|-----------|
+| GET | `/api/v1/pets?user_id=X` | Daftar pets by user |
+| GET | `/api/v1/pets/{id}` | Detail pet |
+| GET | `/api/v1/pets/{pet_id}/context` | Consolidated pet context for AI |
+| GET | `/api/v1/pets/{pet_id}/consultations` | AI consultation history |
+| POST | `/api/v1/pets/{pet_id}/sync` | Trigger EMR->Memory sync |
+| POST | `/api/v1/users/{user_id}/sync-all` | Batch sync all pets |
+| GET | `/api/v1/emr/{petId}` | EMR records |
+| POST | `/api/v1/emr/{petId}` | Create EMR record |
+| GET | `/api/v1/vaccinations/{petId}` | Vaccination history |
+| POST | `/api/v1/vaccinations/{petId}` | Add vaccination |
+| GET | `/api/v1/emr/health` | EMR service health |
+
+
+### 4.7 Core API (`main.py`)
 
 | Method | Path | Auth | Deskripsi |
 |--------|------|------|-----------|
@@ -340,7 +425,7 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | POST | `/learning/retrain` | Admin | Retrain ML |
 | GET | `/exports/excel` | - | Unduh workbook Excel |
 
-### 4.6 Integration (`/api/integration`)
+### 4.8 Integration (`/api/integration`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
@@ -349,7 +434,7 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | GET | `/entities/{consultation_id}` | Lookup bundle ID |
 | GET | `/capabilities` | Fitur yang tersedia |
 
-### 4.7 Platform (`/api/platform`)
+### 4.9 Platform (`/api/platform`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
@@ -359,7 +444,7 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | GET | `/pipeline` | Daftar step pipeline |
 | POST | `/pipeline/run` | Jalankan pipeline (Admin) |
 
-### 4.8 Agent (`/api/agent`)
+### 4.10 Agent (`/api/agent`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
@@ -368,7 +453,7 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | GET | `/conversations` | Riwayat sesi |
 | GET | `/suggestions` | Riwayat saran AI |
 
-### 4.9 Notification (`/api/v1/notifications`)
+### 4.11 Notification (`/api/v1/notifications`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
@@ -376,7 +461,7 @@ Consultation -> AI Suggestion -> Doctor Feedback -> Gold Labels -> Retrain ML ->
 | POST | `/api/v1/notifications` | Create notification |
 | PUT | `/api/v1/notifications/{id}/read` | Mark as read |
 
-### 4.10 Admin (`/api/admin`)
+### 4.12 Admin (`/api/admin`)
 
 | Method | Path | Deskripsi |
 |--------|------|-----------|
