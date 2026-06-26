@@ -1,15 +1,24 @@
 # Blockers - Wins PM
 
-## Active
-1. **API Gateway Client Library** (t_c67554b9) - menunggu architect review
-   - Review task: t_da5ab74d
-   - Impact: BLOCKING Pawnia client library merge
+## Sprint 5 — Knowledge Expansion
+No active blockers. 3 research tasks are READY and waiting for dispatcher pick-up.
 
-2. **EMR Integration & Pet Profile Sync** (t_775a66c2) - menunggu architect review
-   - Review task: t_8a70871f
-   - Impact: BLOCKING Pawnia EMR sync merge
+## Sprint 5 Pipeline
+```
+T1 (research) 🟢 READY → KB: Cats & Dogs
+T2 (research) 🟢 READY → KB: Small Mammals
+T3 (research) 🟢 READY → KB: Exotics
+  → T4 (backend) ⏳ → Sync+Seed+ML Views
+    → T5 (backend) ⏳ → Retrain ML
+    → T6 (backend) ⏳ → Triage Model
+    → T7 (backend) ⏳ → Treatment Model
+    → T8 (backend) ⏳ → Vector Search
+      → T9 (architect) ⏳ → Review
+        → T10 (devops) ⏳ → Deploy
+```
 
-## Resolved
+## Resolved (Sprint 4)
+- All old Pawnia review tasks — tasks no longer exist, BLOCKERS.md cleaned up.
 - PostgreSQL VIEWs - architect approved, unblocked
 - API Docs Portal - architect approved, unblocked
 - Naincode Platform - architect approved, unblocked

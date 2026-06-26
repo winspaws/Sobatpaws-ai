@@ -1,100 +1,86 @@
 # Naincode AI Dept — Status
-**Minggu, 28 Juni 2026 — 00:45 WIB** | Sprint 3 ✅ → Sprint 4 🚀
+**Minggu, 28 Juni 2026 — 06:15 WIB** | Sprint 5 🏗️ PLANNED — 10 tasks
 
 ---
 
 ## VPS Health — All Systems GO
-API 200 OK | LLM Available | KB: 10 species, 177 breeds
-Container: sobatpaws-api (healthy, latest build) | sobatpaws-db (7 days)
+API 200 OK | LLM Available | KB: 10 species, 177 breeds, 44 diseases (target: 200+)
+Container: sobatpaws-api (healthy) | sobatpaws-db (healthy)
 
 ---
 
-## Pipeline
+## Pipeline Keseluruhan
 
 ```
-Sprint 3 (Pawnia Integration) ✅ DONE — 15/15 tasks
+Sprint 1 (Foundation)           ✅ 15 tasks
+Sprint 2 (Ekosistem Satwa)      ✅ 10 tasks
+Sprint 3 (Pawnia Integration)   ✅ 15 tasks
+Sprint 4 (Admin Panel)          ✅ 9 tasks
     ↓
-Sprint 4 (Admin Panel Alignment) 🚀 — 5/8 tasks complete
+Sprint 5 (Knowledge Expansion)  🏗️ 10 tasks — KB 44→200+, ML Models, Vector Search
     ↓
-Data Model ✅ → Migration ✅ → Integration Enhancement [TODO]
-                                       ↓
-              Vision [TODO] → Safety [TODO] → Learning Loop Dashboard [TODO]
-                                       ↓
-              Integration Tests ✅ → Architect Review [TODO] → Deploy
+Sprint 6 (Advanced Features)    📋 RENCANA — Telegram Bot, Inventory Forecasting
 ```
 
 ---
 
-## Board: naincode — Sprint 3 ✅ COMPLETE
+## Sprint 5 — Knowledge Expansion 🏗️
+
+| Task | Assignee | Status | Description |
+|------|----------|--------|-------------|
+| T1 | research | 🟢 READY | KB Expansion: Cats & Dogs |
+| T2 | research | 🟢 READY | KB Expansion: Small Mammals |
+| T3 | research | 🟢 READY | KB Expansion: Exotics |
+| T4 | backend | ⏳ todo | Sync KB → Seed → ML Views (waits T1+T2+T3) |
+| T5 | backend | ⏳ todo | Retrain ML Models (waits T4) |
+| T6 | backend | ⏳ todo | Triage-Severity Model (waits T4) |
+| T7 | backend | ⏳ todo | Treatment-Recommendation Model (waits T4) |
+| T8 | backend | ⏳ todo | Vector Search for RAG (waits T4) |
+| T9 | architect | ⏳ todo | Review Sprint 5 (waits T5+T6+T7+T8) |
+| T10 | devops | ⏳ todo | Deploy Sprint 5 (waits T9) |
+
+### Dependency Chain
+```
+T1 ──┐
+T2 ──┤──→ T4 ──→ T5 ──┬──→ T6 ──┐
+T3 ──┘                 │         │
+                       ├──→ T7 ──┤──→ T9 ──→ T10
+                       └──→ T8 ──┘
+```
+
+### Verification Gates
+- ✅ KB: minimal 200 diseases across all species
+- ✅ Triage model: accuracy > 80%
+- ✅ Treatment model: accuracy > 80%
+- ✅ Vector search: recall > 90%
+
+---
+
+## Board: naincode — Sprint 5
 
 | Status | Count |
 |--------|-------|
-| Done | 15/15 |
-
-**Progress: 100%**
-
----
-
-## Board: naincode — Sprint 4 🚀
-
-| Status | Count | Detail |
-|--------|-------|--------|
-| Done | 5 | Sprint Planning, Data Model Alignment, Learning Loop, Integration Tests, Architect Batch Review |
-| Todo | 3 | Integration Enhancement, Vision Analysis, Safety Layer, Learning Loop Dashboard |
-| Blocked | 0 | — |
-
-**Progress: 62%** (5/8 done)
+| Ready | 3 (research tasks) |
+| Todo | 7 (backend/architect/devops — menunggu dependensi) |
+| **Total** | **10** |
 
 ---
 
-## Board: pawnia — Sprint 1
-
-| Status | Count |
-|--------|-------|
-| Done | 12/14 |
-| Blocked | 2 (review-required) |
-
-**Progress: 86%**
-
----
-
-## Active Tasks
-
-| Task | Assignee | Status |
-|------|----------|--------|
-| 🔧 Integration Enhancement — Pre-Screening, Medical History, Dashboard | backend | READY |
-| 🔧 Vision Analysis for Admin — Skin Lesion Upload | pawnia-ai-2 | READY |
-| 🔧 Safety Layer Integration — Contraindication Check | pawnia-ai-3 | READY |
-| 🔧 Learning Loop Dashboard — Feedback to Retrain ML | pawnia-ml-2 | READY |
-| 🔍 Architect: Review Client Library (pawnia) | architect | TODO |
-| 🔍 Architect: Review EMR Sync (pawnia) | architect | TODO |
+## Board: pawnia — Sprint 1 ✅ COMPLETE (14/14)
 
 ---
 
 ## External Integration: sobatpaws-admin
 
-**Alignment Score: 9/10** ↑ from 8/10
-
-### Done
-- ✅ JWT Auth Middleware
-- ✅ 4 Integration Endpoints (screening, medical history, product rec, health)
-- ✅ EMR Router + StaticFiles fix
-- ✅ Data Model Alignment (first_name, last_name, address, avatar_url, date_of_birth, color, microchip)
-- ✅ Learning Loop (feedback, auto-retrain, model versioning)
-- ✅ Integration Tests
-- ✅ Docker deploy with 88 routes
-
-### Docs
-- docs/ALIGNMENT_ANALYSIS.md
-- docs/INTEGRATION_ADMIN_PANEL.md
-- PAWNIA.md | AGENTS.md | README.md (updated)
+**Alignment Score: 10/10** — All 9 integration endpoints live on VPS
 
 ---
 
-## Recent Commits
+## Blockers
 
-| Commit | Message |
-|--------|---------|
-| 77766ec | feat: Sprint 4 progress — Data Model Alignment + Learning Loop + Integration Tests |
-| 42c3a47 | docs: update README with integration endpoints, EMR endpoints, alignment docs |
-| 77bfdc9 | feat: JWT auth + integration endpoints + EMR router + alignment fixes |
+### Old (Sprint 4) — Pawnia Architect Review Tasks
+2 review tasks stuck on `pawnia` board (architect tidak monitor board pawnia):
+- t_da5ab74d — Review API Gateway Client Library
+- t_8a70871f — Review EMR Integration & Pet Profile Sync
+
+**Action:** Akan create ulang di board `naincode` agar di-pick up architect.
