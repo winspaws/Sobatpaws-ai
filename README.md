@@ -502,13 +502,25 @@ Render diagram: tempel isi `schema.dbml` ke [dbdiagram.io](https://dbdiagram.io)
 
 | Item | Jumlah | Catatan |
 |------|--------|---------|
-| Kategori spesies | **10** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig |
+| Kategori spesies | **11** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig, others |
 | Ras/breed | **177** | dengan varian & traits untuk fitur ML |
-| Penyakit (KB curated) | **44** | gejala, diagnosa, tindakan, produk |
+| **Diseases (Active)** | **11000** | 1.000 per spesies untuk performa API |
+| **Diseases (Generated)** | **315,000+** | Full archive siap dimuat kapan saja |
+| **Auto-Expansion** | ✅ Setiap 10 menit | Cron menuju target 350.000 diseases |
 | Gejala unik | **207** | dapat diobservasi klinis |
-| Model ML terlatih | **10** | RandomForest per kategori spesies |
+| AI Agents | **9** | Orchestrator multi-agent Pawnia |
+| Model ML terlatih | **3** | Triage, Treatment, Forecasting |
 | Dataset sintetik | **500K baris** | Untuk validasi & bulk training |
 | Jurnal riset | **130+ ras**, **30 penyakit** | Monograf terdokumentasi |
+| AI Providers | **5** | OpenAI, Anthropic, SumoPod, Qwen, Local |
+
+## Expansion Pipeline
+```bash
+# Auto-expand setiap 10 menit via cron
+scripts/generate_diseases_massive.py    # Generate → 350K target
+scripts/sync_catalogs_from_kb.py        # Sync ke format KB
+scripts/auto_deploy_kb.sh               # Deploy + Push otomatis
+```
 
 ### Struktur Data
 
