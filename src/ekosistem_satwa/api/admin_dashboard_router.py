@@ -82,32 +82,48 @@ def get_ai_metrics():
 # =============================================================================
 @router.get("/kb/diseases")
 def list_diseases(species: Optional[str] = None, search: Optional[str] = None, limit: int = Query(50, le=200)):
-    """List diseases dengan filter species dan search."""
-    clinical_dir = os.path.join(DATA_DIR, 'clinical')
-    results = []
-    for f in glob.glob(os.path.join(clinical_dir, 'diseases_*.json')):
+    """List diseases dengan filter species dan search (cached)."""
+    from functools import lru_cache
+    
+    @lru_cache(maxsize=1)
+    def _load_all():
+        """Load all diseases once and cache."""
         try:
-            data = json.load(open(f))
-            cat_slug = data.get("category_slug", "")
-            if species and species != cat_slug:
-                continue
-            for d in data.get('diseases', []):
-                if search and search.lower() not in d.get('name','').lower() and search.lower() not in d.get('name_id','').lower():
-                    continue
-                results.append({
-                    "slug": d["slug"],
-                    "name": d.get("name", ""),
-                    "name_id": d.get("name_id", ""),
-                    "species": cat_slug,
-                    "severity": d.get("default_severity", ""),
-                    "emergency": d.get("is_emergency", False),
-                    "contagious": d.get("is_contagious", False),
-                    "body_system": d.get("body_system", ""),
-                    "etiology": d.get("etiology", ""),
-                })
-        except: pass
-    results.sort(key=lambda x: x["name"])
-    return {"total": len(results), "diseases": results[:limit]}
+            clinical_dir = os.path.join(DATA_DIR, 'clinical')
+            all_diseases = []
+            files = sorted(glob.glob(os.path.join(clinical_dir, 'diseases_*.json')))
+            for f in files:
+                try:
+                    raw = open(f, 'rb').read()
+                    data = __import__('orjson').loads(raw)
+                except Exception:
+                    data = json.load(open(f))
+                cat_slug = data.get("category_slug", "")
+                for d in data.get('diseases', []):
+                    all_diseases.append({
+                        "slug": d["slug"],
+                        "name": d.get("name", ""),
+                        "name_id": d.get("name_id", ""),
+                        "species": cat_slug,
+                        "severity": d.get("default_severity", ""),
+                        "emergency": d.get("is_emergency", False),
+                        "contagious": d.get("is_contagious", False),
+                        "body_system": d.get("body_system", ""),
+                        "etiology": d.get("etiology", ""),
+                    })
+            all_diseases.sort(key=lambda x: x["name"])
+            return all_diseases
+        except Exception as exc:
+            return []
+    
+    all_d = _load_all()
+    filtered = all_d
+    if species:
+        filtered = [d for d in filtered if d["species"] == species]
+    if search:
+        s = search.lower()
+        filtered = [d for d in filtered if s in d["name"].lower() or s in d["name_id"].lower()]
+    return {"total": len(filtered), "diseases": filtered[:limit]}
 
 # =============================================================================
 # 4. LEARNING LOOP
@@ -148,16 +164,22 @@ def test_chat(req: ChatTestRequest):
     )
     elapsed = round((time.time() - start) * 1000, 1)
     
+    # PawniaResponse is a dataclass, not a dict!
+    agent = str(result.agent.value) if hasattr(result.agent, 'value') else str(result.agent)
+    risk_level = result.risk_level or ""
+    risk_score = result.risk_score or 0
+    resp_data = result.response if isinstance(result.response, dict) else {}
+    
     return {
         "request": {"message": req.message, "session_id": req.session_id, "pet_id": req.pet_id, "agent": req.agent},
         "response": {
-            "agent": result.get("agent", ""),
-            "risk_level": result.get("risk_level", ""),
-            "risk_score": result.get("risk_score", 0),
-            "text": result.get("text", "")[:500],
-            "suggestions": result.get("suggestions", [])[:5],
-            "cta": result.get("cta", []),
-            "disclaimer": result.get("disclaimer", ""),
+            "agent": agent,
+            "risk_level": risk_level,
+            "risk_score": risk_score,
+            "text": resp_data.get("text", "")[:500],
+            "suggestions": resp_data.get("suggestions", [])[:5],
+            "cta": resp_data.get("cta", []),
+            "disclaimer": resp_data.get("disclaimer", ""),
         },
         "processing_time_ms": elapsed,
     }

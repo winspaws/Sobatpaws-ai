@@ -181,7 +181,7 @@ function showPage(page) {
 
 
 async function loadProviders() {
-  const d = await api('/providers');
+  const d = await api('/api/v1/admin/providers');
   const providers = d.providers || [];
   
   // Provider table
@@ -229,7 +229,7 @@ async function saveProvider() {
 }
 
 async function loadTokenUsage() {
-  const d = await api('/token-usage');
+  const d = await api('/api/v1/admin/token-usage');
   if (!d.per_agent) return;
   
   // Token cards
@@ -299,8 +299,10 @@ async function api(path) {
 }
 
 async function loadDashboard() {
-  const stats = await api('/stats');
-  const metrics = await api('/ai/metrics');
+  try {
+  try {
+  const stats = await api('/api/v1/admin/stats');
+  const metrics = await api('/api/v1/admin/ai/metrics');
   
   // Stat cards
   const kb = stats.knowledge_base || {};
@@ -334,7 +336,7 @@ async function loadDashboard() {
 }
 
 async function loadKB() {
-  const data = await api('/kb/diseases?limit=200');
+  const data = await api('/api/v1/admin/kb/diseases?limit=200');
   document.getElementById('kb-table').innerHTML = (data.diseases||[]).map(d => `<tr>
     <td><strong>${d.name_id||d.name}</strong><br><small style="color:#64748b">${d.slug}</small></td>
     <td><span class="pill pill-blue">${d.species}</span></td>
@@ -388,7 +390,7 @@ loadDashboard();
 
 
 async function loadProviders() {
-  const d = await api('/providers');
+  const d = await api('/api/v1/admin/providers');
   const providers = d.providers || [];
   
   // Provider table
@@ -436,7 +438,7 @@ async function saveProvider() {
 }
 
 async function loadTokenUsage() {
-  const d = await api('/token-usage');
+  const d = await api('/api/v1/admin/token-usage');
   if (!d.per_agent) return;
   
   // Token cards
