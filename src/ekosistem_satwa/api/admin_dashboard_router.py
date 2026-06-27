@@ -136,23 +136,30 @@ class ChatTestRequest(BaseModel):
 @router.post("/testing/chat")
 def test_chat(req: ChatTestRequest):
     """Testing endpoint — proxy ke AI Gateway untuk testing."""
-    from ekosistem_satwa.api.ai_gateway_router import PawniaProcessor
-    processor = PawniaProcessor()
-    result = processor.process(
+    from ekosistem_satwa.ai.pawnia_orchestrator import PawniaOrchestrator
+    import time
+    
+    start = time.time()
+    orchestrator = PawniaOrchestrator()
+    result = orchestrator.process(
         text=req.message,
         session_id=req.session_id or "test-session",
         pet_id=req.pet_id,
     )
+    elapsed = round((time.time() - start) * 1000, 1)
+    
     return {
-        "request": req.dict(),
+        "request": {"message": req.message, "session_id": req.session_id, "pet_id": req.pet_id, "agent": req.agent},
         "response": {
             "agent": result.get("agent", ""),
             "risk_level": result.get("risk_level", ""),
             "risk_score": result.get("risk_score", 0),
-            "text": result.get("text", ""),
-            "suggestions": result.get("suggestions", []),
+            "text": result.get("text", "")[:500],
+            "suggestions": result.get("suggestions", [])[:5],
+            "cta": result.get("cta", []),
+            "disclaimer": result.get("disclaimer", ""),
         },
-        "processing_time_ms": 0,
+        "processing_time_ms": elapsed,
     }
 
 
