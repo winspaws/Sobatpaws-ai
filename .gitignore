@@ -19,3 +19,4 @@ data/generated/
 
 # OS
 .DS_Store
+_kb_clinical_overlay.py
