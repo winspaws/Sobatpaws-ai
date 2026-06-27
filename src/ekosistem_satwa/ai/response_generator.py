@@ -114,8 +114,22 @@ def generate_response(
     
     # Try LLM first
     if llm_client and llm_client.available:
+        import signal
         try:
-            return _generate_with_llm(agent_type, pet_name, user_text, context, llm_client)
+            # Set 5-second timeout untuk LLM call
+            result = [None]
+            def _do():
+                try:
+                    result[0] = _generate_with_llm(agent_type, pet_name, user_text, context, llm_client)
+                except Exception as e:
+                    logger.warning(f"LLM failed for {agent_type}: {e}")
+            import threading
+            t = threading.Thread(target=_do, daemon=True)
+            t.start()
+            t.join(timeout=5)
+            if result[0] is not None:
+                return result[0]
+            logger.warning(f"LLM timed out for {agent_type}, using fallback")
         except Exception as e:
             logger.warning(f"LLM response failed for {agent_type}: {e}, using fallback")
     
@@ -209,23 +223,60 @@ def _generate_fallback(
     user_text: str,
     context: dict,
 ) -> dict:
-    """Fallback response menggunakan template sederhana."""
-    template = FALLBACK.get(agent_type, FALLBACK["pet_companion"])
-    text = template.format(pet_name=pet_name)
+    """Fallback contextual — extracts key topics from user text for dynamic template."""
+    text_lower = user_text.lower()
     
-    # Default structure yang aman
-    base = {
-        "text": text,
-        "suggestions": ["Ceritakan lebih detail", "Konsultasi dengan dokter hewan"],
-        "cta": [],
-        "disclaimer": "Informasi ini bersifat informatif dan bukan pengganti konsultasi dokter hewan.",
-    }
+    # Keyword-based contextual fallback
+    if agent_type == "behavior_insight":
+        if "muntah" in text_lower or "diare" in text_lower:
+            intro = f"Hai, saya turut prihatin {pet_name} sedang mengalami masalah pencernaan."
+        elif "agresif" in text_lower or "galak" in text_lower:
+            intro = f"Saya paham pasti khawatir melihat {pet_name} jadi agresif."
+        elif "takut" in text_lower or "cemas" in text_lower:
+            intro = f"{pet_name}看来 sedang merasa cemas ya? Mari kita cari tahu penyebabnya."
+        elif "makan" in text_lower or "nafsu" in text_lower:
+            intro = f"{pet_name} sedang tidak nafsu makan? Ada beberapa hal yang bisa dicoba."
+        else:
+            intro = f"Terima kasih sudah memperhatikan perubahan perilaku {pet_name}."
+        
+        text = f"{intro}\n\nBisa cerita lebih detail? Misalnya sejak kapan, seberapa sering, dan apa yang biasanya memicu perilaku ini?"
+        suggestions = ["Ceritakan lebih detail", "Konsultasi dengan dokter hewan"]
+        cta = [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}]
+        disclaimer = "Analisis perilaku bersifat informatif. Untuk gejala fisik, konsultasi dengan dokter hewan."
     
-    # Agent-specific CTAs
-    if agent_type in ("triage_emergency",):
-        base["cta"].append({"type": "emergency", "label": "Cari Klinik Terdekat", "endpoint": "/api/v1/clinics/nearby"})
-        base["cta"].append({"type": "teleconsult", "label": "Hubungi Dokter Darurat", "endpoint": "/api/v1/teleconsult/emergency"})
-    elif agent_type in ("vet_escalation", "behavior_insight"):
-        base["cta"].append({"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"})
+    elif agent_type == "pet_companion":
+        if "halo" in text_lower or "hai" in text_lower or "selamat" in text_lower:
+            text = f"Halo! Senang bertemu denganmu dan {pet_name}! 🐾\n\nAda yang bisa saya bantu hari ini? Saya bisa membantu:\n• Analisis gejala kesehatan\n• Rekomendasi nutrisi\n• Cek jadwal vaksin\n• Konsultasi dengan dokter"
+        elif "terima kasih" in text_lower or "makasih" in text_lower:
+            text = f"Sama-sama! Senang bisa membantu {pet_name} 🐾\n\nAda lagi yang ingin ditanyakan?"
+        else:
+            text = f"Halo! Ada yang bisa saya bantu untuk {pet_name} hari ini? 🐾"
+        suggestions = ["Cek kesehatan " + pet_name, "Rekomendasi makanan", "Konsultasi dokter"]
+        cta = [{"type": "chat", "label": "💬 Mulai Konsultasi", "endpoint": "/api/v1/ai/chat"}]
+        disclaimer = ""
     
-    return base
+    elif agent_type in ("triage_emergency",):
+        text = f"🚨 **Perhatian!** {pet_name} membutuhkan penanganan medis.\n\nTetap tenamg dan segera bawa ke klinik hewan terdekat. Jangan berikan makanan atau minuman."
+        suggestions = ["Cari klinik terdekat", "Hubungi dokter darurat"]
+        cta = [
+            {"type": "emergency", "label": "Cari Klinik", "endpoint": "/api/v1/clinics/nearby"},
+            {"type": "teleconsult", "label": "Hubungi Dokter", "endpoint": "/api/v1/teleconsult/emergency"},
+        ]
+        disclaimer = "⚠️ KONDISI DARURAT. Segera cari pertolongan medis profesional."
+    
+    elif agent_type == "nutrition_advisor":
+        text = f"Tentu! Bantu cari nutrisi terbaik untuk {pet_name}.\n\nApa yang biasanya {pet_name} makan sekarang? Apakah ada keluhan terkait makanan?"
+        suggestions = ["Rekomendasi produk", "Info diet khusus", "Konsultasi dokter"]
+        cta = [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}]
+        disclaimer = "Rekomendasi nutrisi bersifat informatif."
+    
+    else:
+        template = FALLBACK.get(agent_type, FALLBACK["pet_companion"])
+        text = template.format(pet_name=pet_name)
+        suggestions = ["Ceritakan lebih detail", "Konsultasi dengan dokter hewan"]
+        cta = []
+        if agent_type in ("vet_escalation",):
+            cta.append({"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"})
+        disclaimer = "Informasi ini bersifat informatif."
+    
+    return {"text": text, "suggestions": suggestions, "cta": cta, "disclaimer": disclaimer}

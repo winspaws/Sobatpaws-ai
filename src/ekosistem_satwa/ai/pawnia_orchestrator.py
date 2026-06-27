@@ -685,10 +685,10 @@ Respond with ONLY the category name, nothing else."""
 
     def _get_llm(self):
         """Lazy init LLM client."""
-        if self.llm_client is None:
+        if self.llm is None:
             from .llm import LLMClient
-            self.llm_client = LLMClient()
-        return self.llm_client
+            self.llm = LLMClient()
+        return self.llm
 
     def _dynamic_response(self, agent_type: str, pet_name: str,
                           user_text: str = "", context: Optional[dict] = None,
