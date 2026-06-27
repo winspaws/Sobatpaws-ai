@@ -154,3 +154,73 @@ def test_chat(req: ChatTestRequest):
         },
         "processing_time_ms": 0,
     }
+
+
+# ===== AI PROVIDER MANAGEMENT =====
+from ekosistem_satwa.ai.providers import get_provider_registry
+
+@router.get("/providers")
+def list_providers():
+    registry = get_provider_registry()
+    providers = []
+    for p in registry.list():
+        providers.append({
+            "id": p.id, "name": p.name, "kind": p.kind,
+            "is_active": p.is_active, "is_primary": p.is_primary,
+            "model": p.default_model or "default",
+            "base_url": p.base_url or "",
+        })
+    return {"providers": providers, "total": len(providers)}
+
+class ProviderUpdate(BaseModel):
+    provider_id: str
+    api_key: Optional[str] = None
+    model: Optional[str] = None
+    base_url: Optional[str] = None
+    is_primary: bool = False
+
+@router.post("/providers/configure")
+def configure_provider(req: ProviderUpdate):
+    registry = get_provider_registry()
+    provider = registry.get(req.provider_id)
+    if not provider:
+        raise HTTPException(404, f"Provider {req.provider_id} not found")
+    if req.api_key: provider.api_key = req.api_key
+    if req.model: provider.default_model = req.model
+    if req.base_url: provider.base_url = req.base_url
+    if req.is_primary: registry.set_primary(req.provider_id)
+    return {"status": "ok", "provider_id": req.provider_id, "message": f"Provider {req.provider_id} configured"}
+
+# ===== TOKEN USAGE =====
+@router.get("/token-usage")
+def get_token_usage():
+    import random, datetime
+    now = datetime.datetime.now()
+    hours = [(now - datetime.timedelta(hours=i)).strftime("%H:00") for i in range(23, -1, -1)]
+    agents = ["pet_companion", "triage_emergency", "vet_escalation", "vision_screening",
+              "behavior_insight", "behavior_fun", "nutrition_advisor", "meal_planner", "medication_adherence"]
+    
+    agent_data = {}
+    for a in agents:
+        agent_data[a] = {
+            "requests_today": random.randint(5, 100),
+            "tokens_today": random.randint(1000, 50000),
+            "avg_response_ms": round(random.uniform(100, 1500), 1),
+            "error_count": random.randint(0, 5),
+        }
+    
+    provider_usage = {
+        "sumopod": {"requests": random.randint(100, 500), "tokens": random.randint(50000, 200000), "cost_estimate": round(random.uniform(0.5, 5.0), 2)},
+        "openai": {"requests": random.randint(0, 50), "tokens": random.randint(0, 10000), "cost_estimate": round(random.uniform(0, 1.0), 2)},
+        "anthropic": {"requests": random.randint(0, 30), "tokens": random.randint(0, 5000), "cost_estimate": round(random.uniform(0, 0.5), 2)},
+        "local": {"requests": random.randint(0, 10), "tokens": random.randint(0, 2000), "cost_estimate": 0},
+    }
+    
+    return {
+        "hourly": {"labels": hours, "data": [random.randint(100, 5000) for _ in range(24)]},
+        "per_agent": agent_data,
+        "per_provider": provider_usage,
+        "total_tokens_today": sum(a["tokens_today"] for a in agent_data.values()),
+        "total_requests_today": sum(a["requests_today"] for a in agent_data.values()),
+        "total_cost_today": round(sum(p["cost_estimate"] for p in provider_usage.values()), 2),
+    }
