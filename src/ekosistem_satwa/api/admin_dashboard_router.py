@@ -165,10 +165,10 @@ def list_providers():
     providers = []
     for p in registry.list_providers():
         providers.append({
-            "id": p.id, "name": p.name, "kind": p.kind,
-            "is_active": p.is_active, "is_primary": p.is_primary,
-            "model": p.default_model or "default",
-            "base_url": p.base_url or "",
+            "id": p["id"], "name": p["name"], "kind": p["kind"],
+            "is_active": p["is_active"], "is_primary": p["is_primary"],
+            "model": p["default_model"] or "default",
+            "base_url": p["base_url"] or "",
         })
     return {"providers": providers, "total": len(providers)}
 
