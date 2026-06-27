@@ -40133,6 +40133,88 @@
           "is_red_flag": true
         }
       ]
+    },
+    {
+      "slug": "cat-dige-gi-999",
+      "name": "Cat GI Virus Type-999",
+      "name_id": "Cat Pencernaan - Virus",
+      "etiology": "infectious_viral",
+      "body_system": "digestive",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "moderate",
+      "is_emergency": false,
+      "overview": "Cat GI Virus Type-999 adalah penyakit virus yang menyerang sistem digestive pada cat. Dapat menyebabkan komplikasi serius jika tidak ditangani.",
+      "causes": "Penyebab utama: VIRUS. Faktor risiko: usia, lingkungan, genetik.",
+      "prevention": "Vaksinasi rutin, pemeriksaan kesehatan berkala, nutrisi seimbang.",
+      "prognosis": "Baik dengan penanganan tepat waktu.",
+      "symptoms": [
+        {
+          "name": "Pain",
+          "name_id": "Nyeri",
+          "frequency": "high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Fever",
+          "name_id": "Demam",
+          "frequency": "high"
+        },
+        {
+          "name": "Vomiting",
+          "name_id": "Muntah",
+          "body_system": "digestive",
+          "frequency": "high"
+        }
+      ]
+    },
+    {
+      "slug": "cat-resp-pulmonary-1000",
+      "name": "Feline Pulmonary Pyogenic Infection Type-1000",
+      "name_id": "Feline Napas - Pyogenic Infection",
+      "etiology": "infectious_bacterial",
+      "body_system": "respiratory",
+      "is_contagious": true,
+      "is_zoonotic": false,
+      "default_severity": "mild",
+      "is_emergency": false,
+      "overview": "Feline Pulmonary Pyogenic Infection Type-1000 adalah penyakit bakteri yang menyerang sistem respiratory pada cat. Dapat menyebabkan komplikasi serius jika tidak ditangani.",
+      "causes": "Penyebab utama: BAKTERI. Faktor risiko: usia, lingkungan, genetik.",
+      "prevention": "Vaksinasi rutin, pemeriksaan kesehatan berkala, nutrisi seimbang.",
+      "prognosis": "Baik dengan penanganan tepat waktu.",
+      "symptoms": [
+        {
+          "name": "Pain",
+          "name_id": "Nyeri",
+          "frequency": "high"
+        },
+        {
+          "name": "Weight loss",
+          "name_id": "Berat badan turun",
+          "frequency": "high"
+        },
+        {
+          "name": "Anorexia",
+          "name_id": "Tidak mau makan",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Lethargy",
+          "name_id": "Lemas",
+          "frequency": "very_high"
+        },
+        {
+          "name": "Cough",
+          "name_id": "Batuk",
+          "body_system": "respiratory",
+          "frequency": "high"
+        }
+      ]
     }
-  ]
+  ],
+  "_note": "Truncated to 1000 for performance. Total generated: 63095"
 }
