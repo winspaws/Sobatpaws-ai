@@ -301,6 +301,6 @@ def generate_target(target_total):
 
 
 if __name__ == '__main__':
-    target = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
+    target = int(sys.argv[1]) if len(sys.argv) > 1 else 350000
     result = generate_target(target)
     print(f"\nDone! Total: {result}")
