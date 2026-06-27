@@ -17,41 +17,24 @@ DATA_DIR = os.environ.get('DATA_DIR', '/app/data')
 # =============================================================================
 @router.get("/stats")
 def get_overall_stats():
-    """Ringkasan statistik sistem."""
-    # KB stats
-    kb_stats = {"total_species": 0, "total_diseases": 0, "total_breeds": 177, "total_symptoms": 207}
-    clinical_dir = os.path.join(DATA_DIR, 'clinical')
-    if os.path.exists(clinical_dir):
-        species_list = []
-        total_d = 0
-        for f in glob.glob(os.path.join(clinical_dir, 'diseases_*.json')):
-            try:
-                data = json.load(open(f))
-                species = data.get("category_slug", "?")
-                count = len(data.get('diseases', []))
-                species_list.append({"slug": species, "disease_count": count})
-                total_d += count
-            except: pass
-        kb_stats["species_list"] = species_list
-        kb_stats["total_diseases"] = total_d
-        kb_stats["total_species"] = len(species_list)
-    
-    return {
-        "status": "ok",
-        "timestamp": datetime.datetime.now().isoformat(),
-        "knowledge_base": kb_stats,
-        "agents": [
-            {"name": "pet_companion", "status": "active", "type": "companion"},
-            {"name": "triage_emergency", "status": "active", "type": "emergency"},
-            {"name": "vet_escalation", "status": "active", "type": "escalation"},
-            {"name": "vision_screening", "status": "active", "type": "vision"},
-            {"name": "behavior_insight", "status": "active", "type": "behavior"},
-            {"name": "behavior_fun", "status": "active", "type": "entertainment"},
-            {"name": "nutrition_advisor", "status": "active", "type": "nutrition"},
-            {"name": "meal_planner", "status": "active", "type": "meal"},
-            {"name": "medication_adherence", "status": "active", "type": "medication"},
-        ]
-    }
+    """Ringkasan statistik sistem (cached via load_knowledge_base lru_cache)."""
+    from ekosistem_satwa.data_loader import load_knowledge_base
+    kb = load_knowledge_base()
+    cats = kb.stats()
+    cats["timestamp"] = datetime.datetime.utcnow().isoformat()
+    cats["status"] = "ok"
+    cats["agents"] = [
+        {"name": "pet_companion", "status": "active", "type": "companion"},
+        {"name": "triage_emergency", "status": "active", "type": "emergency"},
+        {"name": "vet_escalation", "status": "active", "type": "escalation"},
+        {"name": "vision_screening", "status": "active", "type": "vision"},
+        {"name": "behavior_insight", "status": "active", "type": "behavior"},
+        {"name": "behavior_fun", "status": "active", "type": "entertainment"},
+        {"name": "nutrition_advisor", "status": "active", "type": "nutrition"},
+        {"name": "meal_planner", "status": "active", "type": "meal"},
+        {"name": "medication_adherence", "status": "active", "type": "medication"},
+    ]
+    return cats
 
 # =============================================================================
 # 2. AI METRICS
@@ -82,48 +65,33 @@ def get_ai_metrics():
 # =============================================================================
 @router.get("/kb/diseases")
 def list_diseases(species: Optional[str] = None, search: Optional[str] = None, limit: int = Query(50, le=200)):
-    """List diseases dengan filter species dan search (cached)."""
-    from functools import lru_cache
-    
-    @lru_cache(maxsize=1)
-    def _load_all():
-        """Load all diseases once and cache."""
-        try:
-            clinical_dir = os.path.join(DATA_DIR, 'clinical')
-            all_diseases = []
-            files = sorted(glob.glob(os.path.join(clinical_dir, 'diseases_*.json')))
-            for f in files:
-                try:
-                    raw = open(f, 'rb').read()
-                    data = __import__('orjson').loads(raw)
-                except Exception:
-                    data = json.load(open(f))
-                cat_slug = data.get("category_slug", "")
-                for d in data.get('diseases', []):
-                    all_diseases.append({
-                        "slug": d["slug"],
-                        "name": d.get("name", ""),
-                        "name_id": d.get("name_id", ""),
-                        "species": cat_slug,
-                        "severity": d.get("default_severity", ""),
-                        "emergency": d.get("is_emergency", False),
-                        "contagious": d.get("is_contagious", False),
-                        "body_system": d.get("body_system", ""),
-                        "etiology": d.get("etiology", ""),
-                    })
-            all_diseases.sort(key=lambda x: x["name"])
-            return all_diseases
-        except Exception as exc:
-            return []
-    
-    all_d = _load_all()
-    filtered = all_d
-    if species:
-        filtered = [d for d in filtered if d["species"] == species]
-    if search:
-        s = search.lower()
-        filtered = [d for d in filtered if s in d["name"].lower() or s in d["name_id"].lower()]
-    return {"total": len(filtered), "diseases": filtered[:limit]}
+    """List diseases dengan filter species dan search (cached via lru_cache on load_knowledge_base)."""
+    from ekosistem_satwa.data_loader import load_knowledge_base
+    try:
+        kb = load_knowledge_base()
+        all_diseases = []
+        for cat_slug, spec in kb.species.items():
+            for d in spec.get("diseases", []):
+                all_diseases.append({
+                    "slug": d.get("slug", ""),
+                    "name": d.get("name", ""),
+                    "name_id": d.get("name_id", ""),
+                    "species": cat_slug,
+                    "severity": d.get("default_severity", ""),
+                    "emergency": d.get("is_emergency", False),
+                    "contagious": d.get("is_contagious", False),
+                    "body_system": d.get("body_system", ""),
+                    "etiology": d.get("etiology", ""),
+                })
+        all_diseases.sort(key=lambda x: x["name"])
+        if species:
+            all_diseases = [d for d in all_diseases if d["species"] == species]
+        if search:
+            s = search.lower()
+            all_diseases = [d for d in all_diseases if s in d["name"].lower() or s in d["name_id"].lower()]
+        return {"total": len(all_diseases), "diseases": all_diseases[:limit]}
+    except Exception as exc:
+        return {"total": 0, "diseases": [], "error": str(exc)}
 
 # =============================================================================
 # 4. LEARNING LOOP

@@ -221,6 +221,7 @@ def _load_diseases() -> list[dict]:
     return diseases
 
 
+@__import__('functools').lru_cache(maxsize=1)
 def load_knowledge_base() -> KnowledgeBase:
     """Muat seluruh data master menjadi satu KnowledgeBase."""
     categories = _read_json(DATA_DIR / "categories.json")["categories"]
