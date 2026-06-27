@@ -22,7 +22,7 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -802,4 +802,16 @@ def download_excel(filename: str) -> FileResponse:
 
 # Mount static files AFTER all API routers
 if _WEB_DIR.exists():
-    app.mount("/web", StaticFiles(directory=str(_WEB_DIR), html=True), name="web")
+    pass
+
+@app.get("/admin", response_class=HTMLResponse, include_in_schema=False)
+def admin_panel():
+    fp = Path("/app/web/admin.html")
+    return HTMLResponse(fp.read_text() if fp.exists() else "<h1>Not found</h1>")
+
+@app.get("/admin/{path:path}", response_class=HTMLResponse, include_in_schema=False)
+def admin_path(path: str):
+    fp = Path("/app/web/admin.html")
+    return HTMLResponse(fp.read_text() if fp.exists() else "<h1>Not found</h1>")
+
+app.mount("/web", StaticFiles(directory=str(_WEB_DIR), html=True), name="web")
