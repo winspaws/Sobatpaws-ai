@@ -52,6 +52,8 @@ th { color: #64748b; font-weight: 600; }
   <a href="#" onclick="showPage('dashboard')" class="active" id="tab-dashboard">📊 Dashboard</a>
   <a href="#" onclick="showPage('knowledge')" id="tab-knowledge">📚 Knowledge Base</a>
   <a href="#" onclick="showPage('testing')" id="tab-testing">🧪 Testing</a>
+  <a href="#" onclick="showPage('providers')" id="tab-providers">🤖 AI Providers</a>
+  <a href="#" onclick="showPage('tokens')" id="tab-tokens">💰 Token Usage</a>
   <a href="#" onclick="showPage('settings')" id="tab-settings">⚙️ Settings</a>
   <div style="position:absolute;bottom:20px;left:20px;right:20px;font-size:11px;color:#475569;">
     v2.1.0 | <span id="status-dot" style="color:#22c55e">●</span> Online
@@ -111,6 +113,46 @@ th { color: #64748b; font-weight: 600; }
     </div>
   </div>
 
+  
+  <!-- AI PROVIDERS PAGE -->
+  <div id="page-providers" style="display:none">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div>
+        <h3 style="margin-bottom:15px;color:#94a3b8">🤖 AI Provider Configuration</h3>
+        <div id="provider-list"></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:15px;color:#94a3b8">🔑 API Key Management</h3>
+        <div id="provider-form" style="background:#0f172a;border-radius:8px;padding:15px">
+          <select id="p-select" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;margin-bottom:10px"></select>
+          <input id="p-apikey" placeholder="API Key" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;margin-bottom:10px">
+          <input id="p-model" placeholder="Model (e.g. gpt-4, claude-3, deepseek-v4)" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;margin-bottom:10px">
+          <input id="p-baseurl" placeholder="Base URL (for custom/SumoPod)" style="width:100%;padding:8px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;margin-bottom:10px">
+          <label style="color:#94a3b8;font-size:13px"><input type="checkbox" id="p-primary"> Set as primary provider</label>
+          <button onclick="saveProvider()" style="width:100%;padding:10px;background:#38bdf8;color:#0f172a;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-top:10px">💾 Save Configuration</button>
+        </div>
+        <div id="p-status" style="margin-top:10px;color:#22c55e;font-size:13px"></div>
+      </div>
+    </div>
+    <div style="margin-top:20px;background:#1e293b;border-radius:12px;padding:20px">
+      <h3 style="margin-bottom:15px;color:#94a3b8">📖 Supported Providers</h3>
+      <table><thead><tr><th>Provider</th><th>Type</th><th>Model</th><th>Status</th><th>Action</th></tr></thead><tbody id="provider-table"></tbody></table>
+    </div>
+  </div>
+
+  <!-- TOKEN USAGE PAGE -->
+  <div id="page-tokens" style="display:none">
+    <div class="cards" id="token-cards"></div>
+    <div class="charts">
+      <div class="chart-box"><h3>💰 Token Usage per Provider</h3><canvas id="chart-provider-tokens" height="200"></canvas></div>
+      <div class="chart-box"><h3>🤖 Requests per Agent</h3><canvas id="chart-agent-reqs" height="200"></canvas></div>
+    </div>
+    <div style="background:#1e293b;border-radius:12px;padding:20px;margin-top:15px">
+      <h3 style="margin-bottom:15px;color:#94a3b8">📊 Token Usage per Agent</h3>
+      <div style="overflow-x:auto"><table><thead><tr><th>Agent</th><th>Requests</th><th>Tokens</th><th>Avg Response</th><th>Errors</th></tr></thead><tbody id="agent-token-table"></tbody></table></div>
+    </div>
+  </div>
+
   <!-- SETTINGS PAGE -->
   <div id="page-settings" style="display:none">
     <div class="cards">
@@ -136,6 +178,115 @@ function showPage(page) {
   document.getElementById(`page-${page}`).style.display = 'block';
   document.getElementById(`tab-${page}`).classList.add('active');
   if (page === 'dashboard') loadDashboard();
+
+
+async function loadProviders() {
+  const d = await api('/providers');
+  const providers = d.providers || [];
+  
+  // Provider table
+  document.getElementById('provider-table').innerHTML = providers.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong><br><small style="color:#64748b">${p.id}</small></td>
+      <td><span class="pill pill-blue">${p.kind}</span></td>
+      <td>${p.model}</td>
+      <td><span class="pill ${p.is_active?'pill-green':'pill-red'}">${p.is_active?'Active':'Inactive'}</span> ${p.is_primary?'<span class="pill pill-yellow">PRIMARY</span>':''}</td>
+      <td><button onclick="setPrimary('${p.id}')" style="padding:4px 12px;background:#334155;color:#e2e8f0;border:none;border-radius:6px;cursor:pointer">Set Primary</button></td>
+    </tr>
+  `).join('');
+  
+  // Provider select dropdown
+  document.getElementById('p-select').innerHTML = providers.map(p => `<option value="${p.id}">${p.name} (${p.model})</option>`).join('');
+}
+
+async function setPrimary(id) {
+  await fetch(BASE+'/api/v1/admin/providers/configure', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({provider_id: id, is_primary: true})
+  });
+  loadProviders();
+}
+
+async function saveProvider() {
+  const id = document.getElementById('p-select').value;
+  const body = {
+    provider_id: id,
+    api_key: document.getElementById('p-apikey').value,
+    model: document.getElementById('p-model').value,
+    base_url: document.getElementById('p-baseurl').value,
+    is_primary: document.getElementById('p-primary').checked
+  };
+  const r = await fetch(BASE+'/api/v1/admin/providers/configure', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const d = await r.json();
+  document.getElementById('p-status').textContent = '✅ ' + d.message;
+  loadProviders();
+  loadSettings();
+}
+
+async function loadTokenUsage() {
+  const d = await api('/token-usage');
+  if (!d.per_agent) return;
+  
+  // Token cards
+  document.getElementById('token-cards').innerHTML = [
+    '<div class="card"><div class="label">Total Tokens Today</div><div class="value purple">'+(d.total_tokens_today/1000).toFixed(0)+'K</div></div>',
+    '<div class="card"><div class="label">Total Requests</div><div class="value blue">'+d.total_requests_today+'</div></div>',
+    '<div class="card"><div class="label">Estimated Cost</div><div class="value orange">$'+d.total_cost_today.toFixed(2)+'</div></div>',
+  ].join('');
+  
+  // Agent table
+  const agents = d.per_agent || {};
+  document.getElementById('agent-token-table').innerHTML = Object.entries(agents).map(([name, data]) => `
+    <tr>
+      <td>${name}</td>
+      <td>${data.requests_today}</td>
+      <td>${(data.tokens_today/1000).toFixed(1)}K</td>
+      <td>${data.avg_response_ms}ms</td>
+      <td><span class="pill ${data.error_count>3?'pill-red':'pill-green'}">${data.error_count}</span></td>
+    </tr>
+  `).join('');
+  
+  // Provider token chart
+  const prov = d.per_provider || {};
+  const pLabels = Object.keys(prov);
+  const pData = pLabels.map(k => (prov[k].tokens/1000).toFixed(0));
+  if (window.provChart) window.provChart.destroy();
+  window.provChart = new Chart(document.getElementById('chart-provider-tokens'), {
+    type: 'doughnut',
+    data: { labels: pLabels, datasets: [{ data: pData, backgroundColor: ['#38bdf8','#22c55e','#a855f7','#f97316'] }] },
+    options: { plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } } }
+  });
+  
+  // Agent requests chart
+  const aLabels = Object.keys(agents);
+  const aData = aLabels.map(k => agents[k].requests_today);
+  if (window.agentChart) window.agentChart.destroy();
+  window.agentChart = new Chart(document.getElementById('chart-agent-reqs'), {
+    type: 'bar',
+    data: { labels: aLabels.map(n=>n.split('_')[0]), datasets: [{ data: aData, backgroundColor: '#38bdf8' }] },
+    options: { plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#64748b', font: { size: 10 } } }, y: { ticks: { color: '#64748b' } } } }
+  });
+}
+
+// Extend showPage to load providers and tokens
+const origShow = showPage;
+showPage = function(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + page).style.display = 'block';
+  document.getElementById('tab-' + page).classList.add('active');
+  if (page === 'providers') loadProviders();
+  if (page === 'tokens') loadTokenUsage();
+  if (page === 'dashboard') loadDashboard();
+  if (page === 'knowledge') loadKB();
+  if (page === 'settings') loadSettings();
+};
+
   if (page === 'knowledge') loadKB();
   if (page === 'settings') loadSettings();
 }
@@ -234,6 +385,115 @@ async function loadSettings() {
 
 // Load dashboard on page load
 loadDashboard();
+
+
+async function loadProviders() {
+  const d = await api('/providers');
+  const providers = d.providers || [];
+  
+  // Provider table
+  document.getElementById('provider-table').innerHTML = providers.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong><br><small style="color:#64748b">${p.id}</small></td>
+      <td><span class="pill pill-blue">${p.kind}</span></td>
+      <td>${p.model}</td>
+      <td><span class="pill ${p.is_active?'pill-green':'pill-red'}">${p.is_active?'Active':'Inactive'}</span> ${p.is_primary?'<span class="pill pill-yellow">PRIMARY</span>':''}</td>
+      <td><button onclick="setPrimary('${p.id}')" style="padding:4px 12px;background:#334155;color:#e2e8f0;border:none;border-radius:6px;cursor:pointer">Set Primary</button></td>
+    </tr>
+  `).join('');
+  
+  // Provider select dropdown
+  document.getElementById('p-select').innerHTML = providers.map(p => `<option value="${p.id}">${p.name} (${p.model})</option>`).join('');
+}
+
+async function setPrimary(id) {
+  await fetch(BASE+'/api/v1/admin/providers/configure', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({provider_id: id, is_primary: true})
+  });
+  loadProviders();
+}
+
+async function saveProvider() {
+  const id = document.getElementById('p-select').value;
+  const body = {
+    provider_id: id,
+    api_key: document.getElementById('p-apikey').value,
+    model: document.getElementById('p-model').value,
+    base_url: document.getElementById('p-baseurl').value,
+    is_primary: document.getElementById('p-primary').checked
+  };
+  const r = await fetch(BASE+'/api/v1/admin/providers/configure', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const d = await r.json();
+  document.getElementById('p-status').textContent = '✅ ' + d.message;
+  loadProviders();
+  loadSettings();
+}
+
+async function loadTokenUsage() {
+  const d = await api('/token-usage');
+  if (!d.per_agent) return;
+  
+  // Token cards
+  document.getElementById('token-cards').innerHTML = [
+    '<div class="card"><div class="label">Total Tokens Today</div><div class="value purple">'+(d.total_tokens_today/1000).toFixed(0)+'K</div></div>',
+    '<div class="card"><div class="label">Total Requests</div><div class="value blue">'+d.total_requests_today+'</div></div>',
+    '<div class="card"><div class="label">Estimated Cost</div><div class="value orange">$'+d.total_cost_today.toFixed(2)+'</div></div>',
+  ].join('');
+  
+  // Agent table
+  const agents = d.per_agent || {};
+  document.getElementById('agent-token-table').innerHTML = Object.entries(agents).map(([name, data]) => `
+    <tr>
+      <td>${name}</td>
+      <td>${data.requests_today}</td>
+      <td>${(data.tokens_today/1000).toFixed(1)}K</td>
+      <td>${data.avg_response_ms}ms</td>
+      <td><span class="pill ${data.error_count>3?'pill-red':'pill-green'}">${data.error_count}</span></td>
+    </tr>
+  `).join('');
+  
+  // Provider token chart
+  const prov = d.per_provider || {};
+  const pLabels = Object.keys(prov);
+  const pData = pLabels.map(k => (prov[k].tokens/1000).toFixed(0));
+  if (window.provChart) window.provChart.destroy();
+  window.provChart = new Chart(document.getElementById('chart-provider-tokens'), {
+    type: 'doughnut',
+    data: { labels: pLabels, datasets: [{ data: pData, backgroundColor: ['#38bdf8','#22c55e','#a855f7','#f97316'] }] },
+    options: { plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } } }
+  });
+  
+  // Agent requests chart
+  const aLabels = Object.keys(agents);
+  const aData = aLabels.map(k => agents[k].requests_today);
+  if (window.agentChart) window.agentChart.destroy();
+  window.agentChart = new Chart(document.getElementById('chart-agent-reqs'), {
+    type: 'bar',
+    data: { labels: aLabels.map(n=>n.split('_')[0]), datasets: [{ data: aData, backgroundColor: '#38bdf8' }] },
+    options: { plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#64748b', font: { size: 10 } } }, y: { ticks: { color: '#64748b' } } } }
+  });
+}
+
+// Extend showPage to load providers and tokens
+const origShow = showPage;
+showPage = function(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + page).style.display = 'block';
+  document.getElementById('tab-' + page).classList.add('active');
+  if (page === 'providers') loadProviders();
+  if (page === 'tokens') loadTokenUsage();
+  if (page === 'dashboard') loadDashboard();
+  if (page === 'knowledge') loadKB();
+  if (page === 'settings') loadSettings();
+};
+
 </script>
 </body>
 </html>
