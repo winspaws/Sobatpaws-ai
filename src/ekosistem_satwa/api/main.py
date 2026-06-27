@@ -140,7 +140,13 @@ class AckResponse(BaseModel):
 @app.get("/health")
 def health() -> dict:
     """Health check - lightweight, fast. Don't trigger full initialization."""
-    return {"status": "ok", "version": "0.3.0"}
+    from ..ai.llm import LLMClient
+    try:
+        llm = LLMClient()
+        llm_ok = llm.available
+    except Exception:
+        llm_ok = False
+    return {"status": "ok", "version": "0.3.0", "llm_available": llm_ok}
 
 @app.get("/health/full")
 def health_full() -> dict:
