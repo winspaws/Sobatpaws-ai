@@ -163,7 +163,7 @@ from ekosistem_satwa.ai.providers import get_provider_registry
 def list_providers():
     registry = get_provider_registry()
     providers = []
-    for p in registry.list():
+    for p in registry.list_providers():
         providers.append({
             "id": p.id, "name": p.name, "kind": p.kind,
             "is_active": p.is_active, "is_primary": p.is_primary,
