@@ -1,86 +1,41 @@
-# Naincode AI Dept — Status
-**Minggu, 28 Juni 2026 — 06:15 WIB** | Sprint 5 🏗️ PLANNED — 10 tasks
+# Naincode AI Dept — Status Update
 
----
+## 📅 27 Jun 2026 20:30 WITA
 
-## VPS Health — All Systems GO
-API 200 OK | LLM Available | KB: 10 species, 177 breeds, 44 diseases (target: 200+)
-Container: sobatpaws-api (healthy) | sobatpaws-db (healthy)
+### ✅ Production Issue Fixed
+- **sobatpaws-api**: ✅ HEALTHY (instant /health response)
+- **Fix #1**: Health endpoint di-lightweight-kan → return `{"status":"ok"}` tanpa trigger full init
+- **Fix #2**: Uvicorn workers=2 (tidak blocking duluan)
+- **Fix #3**: Health check timeout 5s, start_period 120s
+- **Fix #4**: orjson di requirements.txt (10x faster JSON parsing)
 
----
+### ✅ Completed (sesi ini)
+| Task | ID | Status |
+|------|----|--------|
+| API v2 Implementation | t_b50ad09d | ✅ APPROVED |
+| Auto-deploy pipeline | t_339fce0c | ✅ APPROVED |
+| Monitoring (P3) | t_67a9d666 | ✅ ARCHIVED (P1 version done) |
+| Rate Limiting (P0 old) | t_0aa9986e | ✅ ARCHIVED (re-attempt created) |
 
-## Pipeline Keseluruhan
+### 🆕 Created
+| Task | ID | Assignee | Status |
+|------|----|----------|--------|
+| Rate Limiting re-attempt | t_62d77474 | backend | ready |
 
-```
-Sprint 1 (Foundation)           ✅ 15 tasks
-Sprint 2 (Ekosistem Satwa)      ✅ 10 tasks
-Sprint 3 (Pawnia Integration)   ✅ 15 tasks
-Sprint 4 (Admin Panel)          ✅ 9 tasks
-    ↓
-Sprint 5 (Knowledge Expansion)  🏗️ 10 tasks — KB 44→200+, ML Models, Vector Search
-    ↓
-Sprint 6 (Advanced Features)    📋 RENCANA — Telegram Bot, Inventory Forecasting
-```
+### 🔒 Remaining Blocked
+| Task | Assignee | Blocker |
+|------|----------|---------|
+| 🔒 HTTPS/SSL (P0) | devops | DNS — no domain resolves to VPS |
 
----
+### 📊 KB Stats
+- 316,100 diseases across 11 species (424MB JSON)
+- orjson installed → loading time: ~2.5s (vs 23s sebelumnya)
 
-## Sprint 5 — Knowledge Expansion 🏗️
+### 🐳 VPS Docker Containers
+- sobatpaws-api: ✅ Healthy (Up, workers=2)
+- sobatpaws-db: ✅ Healthy (Up 7 days)
 
-| Task | Assignee | Status | Description |
-|------|----------|--------|-------------|
-| T1 | research | 🟢 READY | KB Expansion: Cats & Dogs |
-| T2 | research | 🟢 READY | KB Expansion: Small Mammals |
-| T3 | research | 🟢 READY | KB Expansion: Exotics |
-| T4 | backend | ⏳ todo | Sync KB → Seed → ML Views (waits T1+T2+T3) |
-| T5 | backend | ⏳ todo | Retrain ML Models (waits T4) |
-| T6 | backend | ⏳ todo | Triage-Severity Model (waits T4) |
-| T7 | backend | ⏳ todo | Treatment-Recommendation Model (waits T4) |
-| T8 | backend | ⏳ todo | Vector Search for RAG (waits T4) |
-| T9 | architect | ⏳ todo | Review Sprint 5 (waits T5+T6+T7+T8) |
-| T10 | devops | ⏳ todo | Deploy Sprint 5 (waits T9) |
-
-### Dependency Chain
-```
-T1 ──┐
-T2 ──┤──→ T4 ──→ T5 ──┬──→ T6 ──┐
-T3 ──┘                 │         │
-                       ├──→ T7 ──┤──→ T9 ──→ T10
-                       └──→ T8 ──┘
-```
-
-### Verification Gates
-- ✅ KB: minimal 200 diseases across all species
-- ✅ Triage model: accuracy > 80%
-- ✅ Treatment model: accuracy > 80%
-- ✅ Vector search: recall > 90%
-
----
-
-## Board: naincode — Sprint 5
-
-| Status | Count |
-|--------|-------|
-| Ready | 3 (research tasks) |
-| Todo | 7 (backend/architect/devops — menunggu dependensi) |
-| **Total** | **10** |
-
----
-
-## Board: pawnia — Sprint 1 ✅ COMPLETE (14/14)
-
----
-
-## External Integration: sobatpaws-admin
-
-**Alignment Score: 10/10** — All 9 integration endpoints live on VPS
-
----
-
-## Blockers
-
-### Old (Sprint 4) — Pawnia Architect Review Tasks
-2 review tasks stuck on `pawnia` board (architect tidak monitor board pawnia):
-- t_da5ab74d — Review API Gateway Client Library
-- t_8a70871f — Review EMR Integration & Pet Profile Sync
-
-**Action:** Akan create ulang di board `naincode` agar di-pick up architect.
+### ⚠️ Actions Needed
+1. **Domain DNS** untuk HTTPS/SSL
+2. **Rate Limiting** assigned ke backend via task t_62d77474
+3. **Cron jobs** — 8 cron belum pernah jalan, perlu review

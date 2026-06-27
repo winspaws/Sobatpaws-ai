@@ -7,7 +7,6 @@ Knowledge base ini menjadi sumber kebenaran (single source of truth) untuk:
 """
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
@@ -16,8 +15,9 @@ from .config import BREEDS_DIR, CLINICAL_DIR, DATA_DIR
 
 
 def _read_json(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as fh:
-        return json.load(fh)
+    """Read JSON using orjson for 10x faster parsing."""
+    raw = path.read_bytes()
+    return __import__("orjson").loads(raw)
 
 
 @dataclass

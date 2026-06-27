@@ -139,6 +139,12 @@ class AckResponse(BaseModel):
 
 @app.get("/health")
 def health() -> dict:
+    """Health check - lightweight, fast. Don't trigger full initialization."""
+    return {"status": "ok", "version": "0.3.0"}
+
+@app.get("/health/full")
+def health_full() -> dict:
+    """Full health check - may trigger lazy initialization."""
     svc = get_service()
     from ..vision.analyzer import get_vision_service
 
