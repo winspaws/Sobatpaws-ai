@@ -51,15 +51,82 @@ data klinis menjadi saran diagnosa, tindakan, dan rekomendasi pengobatan.
 
 | Item | Jumlah | Catatan |
 |------|--------|---------|
-| Kategori spesies | **10** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig |
+| Kategori spesies | **11** | dog, cat, rabbit, hamster, poultry, fish, reptile, amphibian, ferret, guinea_pig, exotic |
 | Ras/breed | **177** | dengan varian (warna/pola/morph/ukuran) & traits untuk fitur ML |
-| Penyakit (KB curated) | **44** | gejala, diagnosa, tindakan, produk — per spesies |
-| Gejala unik | **207** | dapat diobservasi klinis |
+| Penyakit (KB curated) | **5,013** → **350,000 (target)** | gejala, diagnosa, tindakan, produk — per spesies. **Auto-expand setiap 10 menit** |
+| Gejala unik | **207+** | dapat diobservasi klinis, terus berkembang |
 | Model ML terlatih | **10** | RandomForest per kategori spesies (`artifacts/models/`) |
 | Dataset sintetik | **500K baris** | `data/generated/` — untuk validasi & bulk training |
-| Jurnal riset | **130+ ras**, **30 penyakit** | `docs/jurnal/` — sync dari KB via `scripts/build_journal_index.py` |
+| Jurnal riset | **130+ ras**, **30+ penyakit** | `docs/jurnal/` — sync dari KB via `scripts/build_journal_index.py` |
 
 **Menambah data** = tambahkan entri JSON di `data/`, lalu jalankan ulang generator seed & training. Tidak perlu mengubah kode inti.
+
+---
+
+## Knowledge Base Expansion
+
+Penyakit veteriner terus berkembang melalui pipeline ekspansi otomatis:
+
+```markdown
+## Knowledge Base
+- Total Diseases: 5,013 → 350,000 (auto-expand setiap 10 menit)
+- Species: 11
+- Expansion Pipeline: expand_knowledge_base.py → sync_catalogs_from_kb.py → seed_generator.py → git push
+```
+
+### Pipeline Ekspansi KB
+
+| Step | Script | Fungsi |
+|------|--------|--------|
+| 1. Generate | `scripts/expand_knowledge_base.py` | Generate penyakit baru dengan gejala, diagnosa, tindakan, obat per spesies |
+| 2. Expand Others | `scripts/expand_other_species.py` | Ekspansi untuk spesies selain dog/cat |
+| 3. Sync Catalog | `scripts/sync_catalogs_from_kb.py` | Sinkronisasi vocabulary ke catalogs synthetic |
+| 4. Local Run | `scripts/_run_expansion_local.py` | Runner lokal untuk development |
+| 5. Seed DB | `python -m ekosistem_satwa.seed_generator` | Generate seed SQL dari JSON |
+| 6. Deploy | `git push` | Deploy ke production |
+
+### Spesies yang Didukung (11)
+
+| Spesies | File JSON | Status |
+|---------|-----------|--------|
+| 🐶 Anjing | `diseases_dogs.json` | ✅ Aktif, 15+ penyakit |
+| 🐱 Kucing | `diseases_cats.json` | ✅ Aktif |
+| 🐰 Kelinci | `diseases_rabbits.json` | ✅ Aktif |
+| 🐹 Hamster | `diseases_hamsters.json` | ✅ Aktif |
+| 🐔 Unggas | `diseases_poultry.json` | ✅ Aktif |
+| 🐟 Ikan | `diseases_fish.json` | ✅ Aktif |
+| 🦎 Reptil | `diseases_reptiles.json` | ✅ Aktif |
+| 🐸 Amfibi | `diseases_amphibian.json` | ✅ Aktif |
+| 🦊 Ferret | `diseases_ferret.json` | ✅ Aktif |
+| 🐹 Marmut | `diseases_guinea_pig.json` | ✅ Aktif |
+| 🌴 Eksotis Lainnya | `diseases_exotic_others.json` | ✅ Aktif |
+
+### Struktur Data Penyakit
+
+Setiap entri penyakit di KB bersifat **self-contained**:
+
+```json
+{
+  "slug": "dog-parvovirus",
+  "name_id": "Parvovirus (Parvo)",
+  "etiology": "infectious_viral",
+  "is_emergency": true,
+  "symptoms": [
+    {"name_id": "Diare berdarah", "frequency": "very_high", "is_pathognomonic": true}
+  ],
+  "diagnostics": [
+    {"name_id": "PCR feses", "is_gold_standard": true}
+  ],
+  "treatments": [
+    {"name": "Terapi suportif rawat inap", "protocol": "IV fluids, antiemetics, antibiotics"}
+  ],
+  "medications": [
+    {"name": "Maropitant (Cerenia)", "dosage": "1 mg/kg SC q24h", "contraindications": ["Hepatic impairment"]}
+  ]
+}
+```
+
+Detail dokumentasi pipeline: [`docs/KNOWLEDGE_BASE.md`](docs/KNOWLEDGE_BASE.md)
 
 ---
 
