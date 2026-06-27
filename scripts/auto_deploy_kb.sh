@@ -26,6 +26,6 @@ echo "[$(date)] Deploy done" >> /tmp/kb_expansion.log
 # 5. Git commit & push
 git add data/clinical/ scripts/
 git commit -m "kb: Auto-expansion - $(date +%Y-%m-%d_%H:%M) - $COUNT diseases" 2>/dev/null || true
-git push origin main 2>/dev/null || echo "Push failed (DNS?), will retry later"
+bash scripts/git_push.sh "kb: Auto-expansion"
 
 echo "[$(date)] === Complete: $COUNT diseases ===" >> /tmp/kb_expansion.log
