@@ -217,6 +217,9 @@ class PawniaOrchestrator:
         self.memory = memory_service
         self.knowledge = knowledge_service
         self.emr = emr_service
+        if llm_client is None:
+            from .llm import LLMClient
+            llm_client = LLMClient()
         self.llm = llm_client
         logger.info("🧠 Pawnia Orchestrator initialized")
 
