@@ -27,6 +27,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .admin_router import router as admin_router
+from .admin_dashboard_router import router as admin_dashboard_router
 from .agent_router import router as agent_router
 from .ai_gateway_router import router as ai_gateway_router
 from .auth import require_admin, require_vet
@@ -84,6 +85,7 @@ _WEB_DIR = Path(__file__).resolve().parents[3] / "web"
 app.include_router(integration_router)
 app.include_router(platform_router)
 app.include_router(admin_router)
+app.include_router(admin_dashboard_router)
 app.include_router(agent_router)
 app.include_router(vision_router)
 app.include_router(memory_router)
