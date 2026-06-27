@@ -1,44 +1,39 @@
-# Ekosistem Satwa — Status Dashboard
+# Project Status — Ekosistem Satwa
 
-> Last updated: 2026-06-27 10:45 WIB
+## Current Status: 27 Jun 2026
 
-## Sprint Progress
+### 🟢 Production
+- **API**: ✅ Healthy (sobatpaws-api, workers=1)
+- **DB**: ✅ Healthy (sobatpaws-db, PostgreSQL, 8 days uptime)
+- **VPS**: ✅ 43.129.56.221, 35% disk, 56% RAM
+- **LLM**: ✅ Available (SumoPod deepseek-v4-pro primary)
 
-| Sprint | Status | Tasks |
-|--------|:------:|:-----:|
-| Sprint 1-5 | ✅ 100% | Foundation, Rebranding, Pawnia, Admin, KB |
-| Sprint 6 | ✅ 100% | Monitoring, API v2, Forecasting, Telegram, Rate Limiting |
+### 📊 Knowledge Base
+- **316,100** diseases across 11 species
+- **177** breeds, **437** symptoms
+- **424MB** JSON files (cached via lru_cache, cold ~20s → warm <1s)
 
-## Knowledge Base
+### 🤖 Pawnia AI Orchestrator
+- 9 specialist agents aktif
+- Multi-turn conversation support
+- Risk classification (low/medium/severe/critical)
+- Intent detection + agent routing
 
-| Metrik | Value |
-|--------|:-----:|
-| **Total Active Diseases** | 11,000 (1,000/species) |
-| **Total Generated** | 315,496 |
-| **Target** | 350,000 diseases |
-| **Expansion** | Auto setiap 10 menit via cron |
-| **Species** | 11 |
+### 🔧 Recent Optimizations
+- orjson for 10x faster JSON parsing
+- lru_cache on load_knowledge_base (load once)
+- Health endpoint lightweight + llm_available
+- Admin dashboard multi-turn testing chat
+- Disk cleanup: 79% → 35% (-25GB)
 
-## AI Providers
+### 🔒 Remaining Blockers
+- HTTPS/SSL — no domain DNS pointing to VPS
+- Rate Limiting — task created, pending backend
 
-| Provider | Type | Status |
-|----------|:----:|:------:|
-| OpenAI | openai | ✅ Active |
-| Anthropic Claude | anthropic | ✅ Active |
-| SumoPod AI | custom | ✅ Active (deepseek-v4-flash) |
-| Qwen (Alibaba) | custom | ✅ Active (qwen-max) |
-| Local LLM | local_llm | ✅ Active (llama3.2) |
-
-## Admin Dashboard
-
-- URL: `http://43.129.56.221:8080/admin`
-- Pages: Dashboard, KB, Testing, Settings, AI Providers, Token Usage
-
-## Services
-
-| Service | Status | Port |
-|---------|:------:|:----:|
-| API | ✅ Healthy | :8080 |
-| Database | ✅ Healthy | :5432 |
-| Monitoring | ✅ Active | Grafana + Prometheus |
-| KB Expansion | ✅ Every 10min | Cron |
+### 📦 Tech Stack
+- **Runtime**: Python 3.11, FastAPI, Uvicorn
+- **AI**: SumoPod (deepseek-v4-pro), Ollama (llama3.2 fallback)
+- **ML**: scikit-learn, pandas, numpy
+- **Vector Search**: ChromaDB
+- **DB**: PostgreSQL (sobatpaws-db)
+- **Deployment**: Docker, Docker Compose

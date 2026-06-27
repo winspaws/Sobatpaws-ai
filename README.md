@@ -2,7 +2,7 @@
 
 **Backend AI Services** untuk dokter hewan — REST API, ML inference, multi-agent AI Orchestrator, dan ekosistem smart veterinary yang diintegrasikan oleh aplikasi eksternal (Android, iOS, Web, App Vet pihak ketiga).
 
-**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `v2.1.0`
+**Repo:** [github.com/winspaws/Sobatpaws-ai](https://github.com/winspaws/Sobatpaws-ai) · **API version:** `v2.2.0`
 
 > ⚠️ Ekosistem Satwa **bukan aplikasi full-stack**. Kami menyediakan backend API + AI services.
 > Aplikasi frontend (mobile/web) dikembangkan oleh tim aplikasi eksternal yang mengintegrasikan
@@ -637,7 +637,40 @@ python3 scripts/build_journal_index.py
 
 ---
 
-## 8. Deployment (Production)
+## 8. Konfigurasi Provider AI
+
+Ekosistem Satwa mendukung multiple AI provider dengan failover chain.
+
+### Provider yang Didukung
+
+| Provider | Type | Model Default | API Key |
+|----------|------|---------------|---------|
+| **SumoPod** 🏆 | custom | `deepseek-v4-pro` | `SUMOPOD_AI_API_KEY` |
+| **Local** (Ollama) | local_llm | `llama3.2` | - (Ollama default) |
+
+### Konfigurasi via providers.json
+
+File `artifacts/ai/providers.json` mengatur provider aktif:
+
+```json
+{
+  "providers": [
+    {"id": "sumopod", "kind": "custom", "base_url": "https://ai.sumopod.com/v1",
+     "default_model": "deepseek-v4-pro", "is_primary": true},
+    {"id": "local", "kind": "local_llm", "base_url": "http://host.docker.internal:11434/v1",
+     "default_model": "llama3.2", "is_primary": false}
+  ]
+}
+```
+
+### Priority & Fallback
+1. **SumoPod** (primary) — deepseek-v4-pro untuk semua request AI
+2. **Ollama local** (fallback) — llama3.2 jika SumoPod unreachable
+
+### Menambah Provider Baru
+Via Admin Dashboard → tab **🤖 AI Providers** → klik **Add Provider**.
+
+## 9. Deployment (Production)
 
 ### Architecture
 
@@ -780,4 +813,4 @@ Baca selengkapnya: [`PAWNIA.md`](PAWNIA.md)
 
 ---
 
-*Ekosistem Satwa v2.1.0 - Naincode AI Dept - 2026 | Sprint 4 ✅ Admin Panel Integration | Sprint 5 🚀 Knowledge Expansion*
+*Ekosistem Satwa v2.2.0 - Naincode AI Dept - 2026 | Sprint 4 ✅ Admin Panel Integration | Sprint 5 🚀 Knowledge Expansion*
