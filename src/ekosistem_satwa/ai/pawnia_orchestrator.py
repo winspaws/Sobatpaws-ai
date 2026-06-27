@@ -155,6 +155,15 @@ INTENT_PATTERNS: dict[IntentCategory, list[str]] = {
         "agresif", "galak", "takut", "cemas", "stress", "stres",
         "pincang", "lemas", "lesu", "gelisah", "merusak", "ngegong",
         "aggressive", "anxious", "limping", "restless", "destructive",
+        "pikun", "bingung", "linglung", "lupa", "tersesat", "tua",
+        "kompulsif", "obsesif", "berputar", "ngejar ekor", "jilat",
+        "phobia", "fobia", "petir", "kembang api", "takut suara",
+        "separasi", "ditinggal", "sendirian", "merusak",
+        "pica", "makan batu", "makan plastik", "makan tanah",
+        "kencing", "buang air", "spraying", "nyemprot",
+        "vokalisasi", "gonggong", "meong", "melolong",
+        "stereotip", "berputar kandang", "cabut bulu",
+        "play agresi", "gigit main", "bite inhibition",
     ],
     IntentCategory.BEHAVIOR_FUN: [
         "mood", "suasana hati", "translater", "translator", "terjemah",
@@ -754,30 +763,96 @@ Respond with ONLY the category name, nothing else."""
         }
 
     def _response_behavior_insight(self, pet_name: str, text: str) -> dict[str, Any]:
-        """🧠 Behavior insight — clinical behavior analysis."""
-        return {
-            "text": (
-                f"Saya turut prihatin dengan kondisi {pet_name}. "
-                "Perubahan perilaku bisa menjadi tanda adanya masalah kesehatan "
-                "atau lingkungan.\n\n"
-                "Untuk analisis yang lebih akurat, boleh saya tahu:\n"
-                "1. Sudah berapa lama perubahan ini terjadi?\n"
-                "2. Apakah ada perubahan lingkungan (rumah baru, hewan baru)?\n"
-                "3. Apakah ada gejala fisik lain yang menyertai?"
-            ),
-            "suggestions": [
-                "Jelaskan lebih detail perubahan perilaku",
-                "Konsultasi dengan dokter hewan",
-            ],
-            "cta": [
-                {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
-            ],
-            "disclaimer": (
-                "Analisis perilaku ini bersifat informatif. "
-                "Untuk perubahan perilaku mendadak atau disertai gejala fisik, "
-                "segera konsultasi dengan dokter hewan."
-            ),
-        }
+        """🧠 Behavior insight — clinical behavior analysis dengan veterinary behavioral medicine."""
+        # Analisis behavioral menggunakan module behavioral_medicine
+        from .behavioral_medicine import analyze_behavior
+        
+        # Parse symptoms from text
+        common_symptoms = ["merusak", "gonggong", "takut", "gelisah", "agresif", 
+                          "pincang", "jilat", "berputar", "kencing", "vokalisasi"]
+        mentioned = [s for s in common_symptoms if s in text.lower()]
+        
+        analysis = analyze_behavior("dog", mentioned, text)
+        primary = analysis.get("primary_condition")
+        
+        if primary:
+            name = primary["name"]
+            desc = primary["description"]
+            treatments = primary["treatment"][:3]
+            red_flags = primary.get("red_flags", [])
+            requires_vet = primary.get("vet_required", False)
+            dangerous = primary.get("dangerous", False)
+            
+            # Build treatment text
+            tx_text = "\n".join([f"{i+1}. {t['label']}: {t['desc']}" for i, t in enumerate(treatments)])
+            
+            # Build red flag warning
+            rf_warning = ""
+            if red_flags:
+                rf_warning = "\n\n⚠️ **Tanda bahaya yang perlu diwaspadai:**\n" + "\n".join([f"• {rf}" for rf in red_flags])
+            
+            urgency = "\n\n🚨 **SEGERA ke dokter hewan!** Ini kondisi yang membutuhkan penanganan profesional." if dangerous else                       ("\n\n🩺 **Disarankan konsultasi ke dokter hewan** untuk penanganan lebih lanjut." if requires_vet else "")
+            
+            return {
+                "text": (
+                    f"🧠 **Analisis Perilaku {pet_name}**\n\n"
+                    f"Berdasarkan gejala yang Anda sampaikan, {pet_name} mungkin mengalami **{name}**.\n\n"
+                    f"_{desc}_\n\n"
+                    f"**Rekomendasi Penanganan:**\n{tx_text}"
+                    f"{rf_warning}"
+                    f"{urgency}"
+                ),
+                "suggestions": [
+                    t["label"] for t in treatments[:3]
+                ] + ([
+                    "🩺 Booking dokter hewan",
+                    "📞 Konsultasi darurat",
+                ] if requires_vet else [
+                    "🏥 Cari klinik terdekat",
+                    "📖 Baca artikel terkait",
+                ]),
+                "cta": [
+                    {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
+                    {"type": "booking", "label": "🏥 Booking Klinik", "endpoint": "/api/v1/clinics/book"},
+                ] if requires_vet else [],
+                "disclaimer": (
+                    "Analisis perilaku ini berdasarkan gejala yang Anda sampaikan "
+
+                    "dan bersifat informatif. Diagnosis pasti hanya dapat diberikan "
+
+                    "oleh dokter hewan melalui pemeriksaan langsung. "
+
+                    "UNTUK KONDISI DARURAT, segera bawa ke klinik hewan terdekat." if dangerous else
+                    "Analisis perilaku ini bersifat informatif. "
+
+                    "Untuk perubahan perilaku mendadak atau disertai gejala fisik, "
+
+                    "segera konsultasi dengan dokter hewan."
+                ),
+                "behavioral_analysis": analysis,
+            }
+        else:
+            # Fallback to basic response
+            return {
+                "text": (
+                    f"🧠 **Analisis Perilaku {pet_name}**\n\n"
+                    f"Terima kasih sudah memperhatikan perubahan perilaku {pet_name}. "
+
+                    "Untuk analisis yang lebih akurat, boleh saya tahu:\n"
+                    "1. Sudah berapa lama perubahan ini terjadi?\n"
+                    "2. Apakah ada perubahan lingkungan (rumah baru, hewan baru)?\n"
+                    "3. Apakah ada gejala fisik lain yang menyertai?\n\n"
+                    "Atau jelaskan lebih detail berikut gejalanya, dan saya akan bantu analisis."
+                ),
+                "suggestions": [
+                    "Jelaskan lebih detail perubahan perilaku",
+                    "Konsultasi dengan dokter hewan",
+                ],
+                "cta": [
+                    {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
+                ],
+                "disclaimer": "Analisis perilaku ini bersifat informatif.",
+            }
 
     def _response_behavior_fun(self, pet_name: str) -> dict[str, Any]:
         """🎭 Behavior fun — AI Pet Translator / mood check."""
