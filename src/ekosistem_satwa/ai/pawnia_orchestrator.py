@@ -682,301 +682,174 @@ Respond with ONLY the category name, nothing else."""
         else:  # COMPANION (default)
             return self._response_companion(pet_name, text, context)
 
-    def _response_emergency(
-        self, pet_name: str, risk: RiskAssessment, text: str
-    ) -> dict[str, Any]:
-        """🚨 Emergency response — calm, clear, actionable."""
-        first_aid_tips = [
-            "1. Jaga agar tetap tenang dan hangat",
-            "2. Jangan berikan makanan atau minuman",
-            "3. Jangan memasukkan apapun ke mulut",
-            "4. Catat durasi dan gejala untuk dilaporkan ke dokter",
-            "5. Segera bawa ke klinik hewan terdekat",
-        ]
 
-        return {
-            "text": (
-                f"🚨 {pet_name} memerlukan penanganan medis segera.\n\n"
-                "Tetap tenang. Berikut langkah pertolongan pertama:\n"
-                + "\n".join(first_aid_tips)
-            ),
-            "suggestions": first_aid_tips,
-            "cta": [
-                {"type": "emergency", "label": "Cari Klinik Terdekat", "endpoint": "/api/v1/clinics/nearby"},
-                {"type": "teleconsult", "label": "Hubungi Dokter Darurat", "endpoint": "/api/v1/teleconsult/emergency"},
-            ],
-            "disclaimer": (
-                "⚠️ INI KONDISI DARURAT. Segera cari pertolongan dokter hewan. "
-                "Jangan tunda penanganan medis profesional."
-            ),
-            "red_flags": risk.red_flags,
-        }
+    def _get_llm(self):
+        """Lazy init LLM client."""
+        if self.llm_client is None:
+            from .llm import LLMClient
+            self.llm_client = LLMClient()
+        return self.llm_client
+
+    def _dynamic_response(self, agent_type: str, pet_name: str,
+                          user_text: str = "", context: Optional[dict] = None,
+                          risk: Optional["RiskAssessment"] = None) -> dict:
+        """Generate dynamic response via LLM, with template fallback."""
+        context = context or {}
+        llm = self._get_llm()
+        
+        from .response_generator import generate_response
+        response = generate_response(
+            agent_type=agent_type,
+            pet_name=pet_name,
+            user_text=user_text or "",
+            context=context,
+            llm_client=llm if llm.available else None,
+        )
+        
+        # Pastikan field wajib ada
+        response.setdefault("text", "")
+        response.setdefault("suggestions", [])
+        response.setdefault("cta", [])
+        response.setdefault("disclaimer", "")
+        
+        return response
+
+    def _response_emergency(
+        self, pet_name: str, risk: "RiskAssessment", text: str
+    ) -> dict[str, Any]:
+        """🚨 Emergency — dynamic + structured first aid."""
+        resp = self._dynamic_response("triage_emergency", pet_name, text)
+        
+        if not resp["text"]:
+            tips = [
+                "1. Jaga agar tetap tenang dan hangat",
+                "2. Jangan berikan makanan atau minuman",
+                "3. Catat durasi dan gejala untuk dilaporkan",
+                "4. Segera bawa ke klinik hewan terdekat",
+            ]
+            resp["text"] = f"🚨 {pet_name} memerlukan penanganan medis segera.\n\nTetap tenang. Langkah pertolongan pertama:\n" + "\n".join(tips)
+            resp["suggestions"] = tips
+        
+        resp["cta"] = [
+            {"type": "emergency", "label": "Cari Klinik Terdekat", "endpoint": "/api/v1/clinics/nearby"},
+            {"type": "teleconsult", "label": "Hubungi Dokter Darurat", "endpoint": "/api/v1/teleconsult/emergency"},
+        ]
+        resp["red_flags"] = risk.red_flags if risk else []
+        resp["disclaimer"] = "⚠️ INI KONDISI DARURAT. Segera cari pertolongan dokter hewan profesional."
+        return resp
 
     def _response_vet_escalation(
-        self, pet_name: str, risk: RiskAssessment, confidence: float
+        self, pet_name: str, risk: "RiskAssessment", confidence: float
     ) -> dict[str, Any]:
-        """🩺 Vet escalation — suggest teleconsultation."""
-        reason = (
-            "gejala yang Anda sampaikan memerlukan pemeriksaan langsung oleh dokter"
-            if risk.level in (RiskLevel.HIGH, RiskLevel.MEDIUM)
-            else "informasi yang tersedia belum cukup untuk analisis yang akurat"
-        )
-
-        return {
-            "text": (
-                f"Hai! Terima kasih sudah memperhatikan {pet_name} dengan baik. 🙏\n\n"
-                f"Demi keamanan {pet_name}, saya sarankan untuk berkonsultasi "
-                f"dengan dokter hewan karena {reason}.\n\n"
-                "Saya sudah menyiapkan ringkasan informasi untuk dokter agar "
-                "tidak perlu menjelaskan dari awal lagi."
-            ),
-            "suggestions": ["Konsultasi dengan dokter hewan", "Booking klinik terdekat"],
-            "cta": [
-                {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
-                {"type": "booking", "label": "🏥 Booking Klinik", "endpoint": "/api/v1/clinics/book"},
-            ],
-            "disclaimer": (
-                "Saran AI bersifat pendukung keputusan klinis. "
-                "Diagnosa akhir adalah tanggung jawab dokter hewan berlisensi."
-            ),
-        }
+        """🩺 Vet escalation — suggest consultation with context."""
+        resp = self._dynamic_response("vet_escalation", pet_name, "")
+        
+        if not resp["text"]:
+            reason = "gejala yang Anda sampaikan memerlukan pemeriksaan langsung oleh dokter" if risk.level in ("high","medium") else "informasi yang tersedia belum cukup untuk analisis yang akurat"
+            resp["text"] = f"Demi keamanan {pet_name}, saya sarankan konsultasi dengan dokter hewan karena {reason}."
+        
+        resp.setdefault("cta", []).extend([
+            {"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"},
+            {"type": "booking", "label": "🏥 Booking Klinik", "endpoint": "/api/v1/clinics/book"},
+        ])
+        resp["disclaimer"] = "Saran AI bersifat pendukung keputusan klinis. Diagnosa akhir oleh dokter hewan berlisensi."
+        return resp
 
     def _response_vision(self, pet_name: str) -> dict[str, Any]:
-        """👁️ Vision screening — request image upload."""
+        """👁️ Vision — request image upload."""
         return {
-            "text": (
-                f"Baik, saya siap menganalisis kondisi {pet_name} melalui gambar! 📸\n\n"
-                "Untuk hasil terbaik, mohon foto dengan:\n"
-                "1. Pencahayaan yang cukup\n"
-                "2. Fokus pada area yang dikeluhkan\n"
-                "3. Ambil dari beberapa sudut jika perlu\n\n"
-                "Silakan upload gambar melalui AI Camera."
-            ),
+            "text": f"Baik, saya siap menganalisis kondisi {pet_name} melalui gambar! 📸\n\nUntuk hasil terbaik:\n1. Pencahayaan cukup\n2. Fokus area yang dikeluhkan\n3. Ambil dari beberapa sudut\n\nSilakan upload gambar.",
             "suggestions": ["Buka AI Camera", "Upload dari galeri"],
-            "cta": [
-                {"type": "camera", "label": "📸 Buka AI Camera", "endpoint": "/api/v1/vision/analyze/upload"},
-            ],
-            "disclaimer": (
-                "Analisis AI bersifat screening awal dan bukan diagnosis medis. "
-                "Hasil ini perlu diverifikasi oleh dokter hewan."
-            ),
+            "cta": [{"type": "camera", "label": "📸 Buka AI Camera", "endpoint": "/api/v1/vision/analyze/upload"}],
+            "disclaimer": "Analisis AI bersifat screening awal, bukan diagnosis medis.",
         }
 
     def _response_behavior_insight(self, pet_name: str, text: str) -> dict[str, Any]:
-        """🧠 Behavior insight — clinical behavior analysis dengan veterinary behavioral medicine."""
-        # Analisis behavioral menggunakan module behavioral_medicine
+        """🧠 Behavior insight — dynamic analysis + behavioral_medicine reference."""
+        # Gunakan behavioral_medicine untuk analisis berbasis pengetahuan
         from .behavioral_medicine import analyze_behavior
         
-        # Parse symptoms from text
-        common_symptoms = ["merusak", "gonggong", "takut", "gelisah", "agresif", 
-                          "pincang", "jilat", "berputar", "kencing", "vokalisasi"]
-        mentioned = [s for s in common_symptoms if s in text.lower()]
-        
+        common = ["merusak","gonggong","takut","gelisah","agresif","pincang","jilat","berputar","kencing","vokalisasi","makan","stress","cemas"]
+        mentioned = [s for s in common if s in text.lower()]
         analysis = analyze_behavior("dog", mentioned, text)
         primary = analysis.get("primary_condition")
         
-        if primary:
+        # Generate LLM response dengan konteks analisis
+        context = {"proprietary": {"behavior_analysis": analysis}}
+        resp = self._dynamic_response("behavior_insight", pet_name, text, context)
+        
+        if primary and not resp["text"]:
             name = primary["name"]
-            desc = primary["description"]
-            treatments = primary["treatment"][:3]
-            red_flags = primary.get("red_flags", [])
-            requires_vet = primary.get("vet_required", False)
-            dangerous = primary.get("dangerous", False)
-            
-            # Build treatment text
-            tx_text = "\n".join([f"{i+1}. {t['label']}: {t['desc']}" for i, t in enumerate(treatments)])
-            
-            # Build red flag warning
-            rf_warning = ""
-            if red_flags:
-                rf_warning = "\n\n⚠️ **Tanda bahaya yang perlu diwaspadai:**\n" + "\n".join([f"• {rf}" for rf in red_flags])
-            
-            urgency = "\n\n🚨 **SEGERA ke dokter hewan!** Ini kondisi yang membutuhkan penanganan profesional." if dangerous else                       ("\n\n🩺 **Disarankan konsultasi ke dokter hewan** untuk penanganan lebih lanjut." if requires_vet else "")
-            
-            return {
-                "text": (
-                    f"🧠 **Analisis Perilaku {pet_name}**\n\n"
-                    f"Berdasarkan gejala yang Anda sampaikan, {pet_name} mungkin mengalami **{name}**.\n\n"
-                    f"_{desc}_\n\n"
-                    f"**Rekomendasi Penanganan:**\n{tx_text}"
-                    f"{rf_warning}"
-                    f"{urgency}"
-                ),
-                "suggestions": [
-                    t["label"] for t in treatments[:3]
-                ] + ([
-                    "🩺 Booking dokter hewan",
-                    "📞 Konsultasi darurat",
-                ] if requires_vet else [
-                    "🏥 Cari klinik terdekat",
-                    "📖 Baca artikel terkait",
-                ]),
-                "cta": [
-                    {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
-                    {"type": "booking", "label": "🏥 Booking Klinik", "endpoint": "/api/v1/clinics/book"},
-                ] if requires_vet else [],
-                "disclaimer": (
-                    "Analisis perilaku ini berdasarkan gejala yang Anda sampaikan "
-
-                    "dan bersifat informatif. Diagnosis pasti hanya dapat diberikan "
-
-                    "oleh dokter hewan melalui pemeriksaan langsung. "
-
-                    "UNTUK KONDISI DARURAT, segera bawa ke klinik hewan terdekat." if dangerous else
-                    "Analisis perilaku ini bersifat informatif. "
-
-                    "Untuk perubahan perilaku mendadak atau disertai gejala fisik, "
-
-                    "segera konsultasi dengan dokter hewan."
-                ),
-                "behavioral_analysis": analysis,
-            }
-        else:
-            # Fallback to basic response
-            return {
-                "text": (
-                    f"🧠 **Analisis Perilaku {pet_name}**\n\n"
-                    f"Terima kasih sudah memperhatikan perubahan perilaku {pet_name}. "
-
-                    "Untuk analisis yang lebih akurat, boleh saya tahu:\n"
-                    "1. Sudah berapa lama perubahan ini terjadi?\n"
-                    "2. Apakah ada perubahan lingkungan (rumah baru, hewan baru)?\n"
-                    "3. Apakah ada gejala fisik lain yang menyertai?\n\n"
-                    "Atau jelaskan lebih detail berikut gejalanya, dan saya akan bantu analisis."
-                ),
-                "suggestions": [
-                    "Jelaskan lebih detail perubahan perilaku",
-                    "Konsultasi dengan dokter hewan",
-                ],
-                "cta": [
-                    {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
-                ],
-                "disclaimer": "Analisis perilaku ini bersifat informatif.",
-            }
+            treatments_text = "\n".join([f"{i+1}. {t['label']}" for i, t in enumerate(primary.get("treatment",[])[:3])])
+            resp["text"] = f"🧠 Analisis: {pet_name} mungkin mengalami **{name}**.\n\n{primary['description']}\n\nRekomendasi:\n{treatments_text}"
+        
+        resp.setdefault("cta", []).extend([
+            {"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"},
+        ])
+        resp.setdefault("disclaimer", "Analisis perilaku bersifat informatif. Diagnosis oleh dokter hewan.")
+        resp["behavioral_analysis"] = analysis
+        return resp
 
     def _response_behavior_fun(self, pet_name: str) -> dict[str, Any]:
-        """🎭 Behavior fun — AI Pet Translator / mood check."""
+        """🎭 Behavior fun — entertainment."""
         return {
-            "text": (
-                f"Haha, {pet_name} pasti lucu sekali! 🐾\n\n"
-                "Fitur AI Pet Translator akan segera hadir! Nanti kamu bisa:\n"
-                "• Merekam suara hewan untuk tahu 'mood' mereka\n"
-                "• Upload video ekspresi untuk diterjemahkan\n"
-                "• Tahu apakah mereka sedang senang, lapar, atau minta jalan-jalan\n\n"
-                "Pantau terus ya! 🎉"
-            ),
+            "text": f"Haha, {pet_name} pasti lucu sekali! 🐾\n\nFitur Pet Translator akan segera hadir! Nanti kamu bisa:\n• Merekam suara hewan\n• Upload video ekspresi\n• Tahu mood mereka\n\nPantau terus ya! 🎉",
             "suggestions": ["Coba fitur lainnya", "Kembali ke menu utama"],
-            "cta": [],
-            "disclaimer": "",
+            "cta": [], "disclaimer": "",
         }
 
     def _response_nutrition(
         self, pet_name: str, text: str, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """🥗 Nutrition advisor — diet, allergies, supplements."""
-        return {
-            "text": (
-                f"Tentu! Saya bantu cari informasi nutrisi terbaik untuk {pet_name}. 🥗\n\n"
-                "Berdasarkan informasi yang ada, beberapa hal yang perlu diperhatikan:\n"
-                "• Pilih makanan sesuai spesies, usia, dan kondisi kesehatan\n"
-                "• Perhatikan kandungan protein, lemak, dan serat\n"
-                "• Hindari makanan yang mengandung alergen jika ada riwayat alergi\n\n"
-                "Mau saya bantu rekomendasikan produk makanan yang sesuai?"
-            ),
-            "suggestions": [
-                "Rekomendasi produk makanan",
-                "Info diet untuk kondisi khusus",
-                "Konsultasi dengan dokter hewan",
-            ],
-            "cta": [
-                {"type": "marketplace", "label": "🛒 Lihat Rekomendasi Produk", "endpoint": "/api/v1/recommendations"},
-                {"type": "teleconsult", "label": "💬 Konsultasi dengan Dokter", "endpoint": "/api/v1/teleconsult"},
-            ],
-            "disclaimer": (
-                "Rekomendasi nutrisi bersifat informatif. "
-                "Konsultasikan dengan dokter hewan untuk kebutuhan diet spesifik."
-            ),
-        }
+        """🥗 Nutrition — dynamic advice."""
+        resp = self._dynamic_response("nutrition_advisor", pet_name, text, context)
+        if not resp["text"]:
+            resp["text"] = f"Tentu! Bantu cari nutrisi terbaik untuk {pet_name}. 🥗\n\nBeberapa hal yang perlu diperhatikan:\n• Pilih makanan sesuai spesies, usia, dan kondisi\n• Perhatikan protein, lemak, dan serat\n• Hindari alergen jika ada riwayat alergi"
+        resp.setdefault("cta", []).extend([
+            {"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"},
+        ])
+        resp.setdefault("disclaimer", "Rekomendasi nutrisi bersifat informatif. Konsultasi dengan dokter hewan untuk diet spesifik.")
+        return resp
 
     def _response_meal_planner(
         self, pet_name: str, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """📋 Meal planner — schedule, portions, calories."""
+        """📋 Meal planner — interactive."""
         return {
-            "text": (
-                f"Saya bantu buatkan jadwal makan untuk {pet_name}! 📋\n\n"
-                "Untuk kalkulasi yang akurat, saya perlu informasi:\n"
-                "1. Berat badan saat ini (kg)\n"
-                "2. Jenis makanan yang diberikan (kering/basah/campuran)\n"
-                "3. Frekuensi makan saat ini\n"
-                "4. Apakah ada kondisi medis tertentu?\n\n"
-                "Bisa share informasinya?"
-            ),
-            "suggestions": [
-                "Isi profil berat badan",
-                "Lihat rekomendasi produk makanan",
-            ],
-            "cta": [
-                {"type": "marketplace", "label": "🛒 Beli Makanan", "endpoint": "/api/v1/recommendations"},
-            ],
+            "text": f"Saya bantu buatkan jadwal makan untuk {pet_name}! 📋\n\nUntuk kalkulasi akurat, perlu info:\n1. Berat badan (kg)\n2. Jenis makanan (kering/basah/campuran)\n3. Frekuensi makan saat ini\n4. Kondisi medis tertentu?",
+            "suggestions": ["Isi profil berat badan", "Lihat rekomendasi produk"],
+            "cta": [{"type": "action", "label": "🛒 Beli Makanan", "endpoint": "/api/v1/recommendations"}],
             "disclaimer": "",
         }
 
     def _response_medication(
         self, pet_name: str, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """💊 Medication adherence — vaccines, meds, reminders."""
+        """💊 Medication — reminders."""
         return {
-            "text": (
-                f"Saya bantu cek jadwal pengobatan {pet_name}! 💊\n\n"
-                "Fitur Smart Reminder akan membantu:\n"
-                "• Pengingat jadwal vaksinasi (H-7 dan H-1)\n"
-                "• Pengingat obat harian\n"
-                "• Riwayat pengobatan lengkap\n"
-                "• Notifikasi stok obat menipis\n\n"
-                "Mau saya cek jadwal yang akan datang?"
-            ),
-            "suggestions": [
-                "Cek jadwal vaksin",
-                "Cek jadwal obat",
-                "Buat pengingat baru",
-            ],
-            "cta": [
-                {"type": "reminder", "label": "⏰ Cek Jadwal", "endpoint": "/api/v1/reminders"},
-            ],
-            "disclaimer": (
-                "Pengingat ini bersifat informatif. "
-                "Selalu ikuti petunjuk dokter hewan untuk jadwal pengobatan."
-            ),
+            "text": f"Saya bantu cek jadwal pengobatan {pet_name}! 💊\n\nSmart Reminder membantu:\n• Pengingat vaksinasi (H-7 dan H-1)\n• Pengingat obat harian\n• Riwayat pengobatan\nMau saya cek jadwal?",
+            "suggestions": ["Cek jadwal vaksin", "Cek jadwal obat", "Buat pengingat baru"],
+            "cta": [{"type": "reminder", "label": "⏰ Cek Jadwal", "endpoint": "/api/v1/reminders"}],
+            "disclaimer": "Pengingat bersifat informatif. Ikuti petunjuk dokter hewan.",
         }
 
     def _response_companion(
         self, pet_name: str, text: str, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """🐾 Default companion — greeting, general chat, navigation."""
-        return {
-            "text": (
-                f"Halo! Ada yang bisa Pawnia bantu untuk {pet_name} hari ini? 🐾\n\n"
-                "Saya bisa membantu:\n"
-                "🏥 Analisis gejala kesehatan\n"
-                "📸 Screening kondisi melalui foto\n"
-                "🥗 Rekomendasi nutrisi & makanan\n"
-                "💊 Pengingat obat & vaksin\n"
-                "🧠 Analisis perilaku\n"
-                "🏥 Booking konsultasi dokter\n\n"
-                "Ada yang ingin ditanyakan?"
-            ),
-            "suggestions": [
-                "Cek kesehatan {pet_name}",
-                "Rekomendasi makanan",
-                "Jadwal vaksin",
-                "Konsultasi dokter",
-            ],
-            "cta": [
-                {"type": "chat", "label": "💬 Mulai Konsultasi", "endpoint": "/api/v1/ai/chat"},
-            ],
-            "disclaimer": "",
-        }
+        """🐾 Companion — dynamic greeting."""
+        resp = self._dynamic_response("pet_companion", pet_name, text, context)
+        if not resp["text"]:
+            resp["text"] = f"Halo! Ada yang bisa Pawnia bantu untuk {pet_name} hari ini? 🐾\n\nSaya bisa:\n• Analisis gejala kesehatan\n• Screening via foto\n• Rekomendasi nutrisi\n• Pengingat obat & vaksin\n• Analisis perilaku\n• Booking dokter"
+        resp.setdefault("suggestions", [
+            "Cek kesehatan " + pet_name,
+            "Rekomendasi makanan",
+            "Jadwal vaksin",
+            "Konsultasi dokter",
+        ])
+        resp.setdefault("cta", [{"type": "chat", "label": "💬 Mulai Konsultasi", "endpoint": "/api/v1/ai/chat"}])
+        resp.setdefault("disclaimer", "")
+        return resp
+
 
 
 # =============================================================================
