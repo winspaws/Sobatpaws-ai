@@ -59,7 +59,7 @@ class ChatResponse(BaseModel):
     risk_score: int
     risk_level: str
     response: dict[str, Any]
-    context_used: dict[str, bool]
+    context_used: dict[str, Any]
     escalated: bool = False
     conversation_id: str
 
@@ -74,6 +74,7 @@ class PawniaStatusResponse(BaseModel):
     knowledge_available: bool
     llm_available: bool
     agents: list[str]
+    token_efficiency: dict | None = None
 
 
 # =============================================================================
@@ -180,14 +181,36 @@ def pawnia_status(
     """Get Pawnia AI Companion system status."""
     llm_available = pawnia.llm is not None and pawnia.llm.available if hasattr(pawnia, 'llm') else False
 
+    from ..ai.telemetry import get_telemetry
+    from ..ai.token_policy import llm_credentials_ready, skip_reasons_summary
+    from ..config import AISettings
+
+    tel = get_telemetry().summary(limit_recent=5)
+    ready, cred = llm_credentials_ready()
+    s = AISettings()
     return PawniaStatusResponse(
         status="ok",
         version="1.0.0",
         pawnia_available=True,
         memory_available=pawnia.memory is not None,
         knowledge_available=pawnia.knowledge is not None,
-        llm_available=llm_available,
+        llm_available=llm_available and ready,
         agents=[a.value for a in AgentType],
+        token_efficiency={
+            "mode": s.augmentation_mode,
+            "max_tokens": s.max_tokens,
+            "pawnia_max_tokens": s.pawnia_max_tokens,
+            "credentials_ready": ready,
+            "credentials_reason": cred,
+            "today_tokens": tel.get("today_tokens"),
+            "today_cost_usd": tel.get("today_cost_usd"),
+            "skipped": tel.get("skipped"),
+            "llm_calls": tel.get("llm_calls"),
+            "cache_hit_rate": tel.get("cache_hit_rate"),
+            "daily_budget": tel.get("daily_budget"),
+            "daily_budget_remaining": tel.get("daily_budget_remaining"),
+            "skip_reasons": skip_reasons_summary(tel.get("recent") or []),
+        },
     )
 
 

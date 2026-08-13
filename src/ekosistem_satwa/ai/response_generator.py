@@ -1,99 +1,29 @@
+"""Respons Pawnia — template dulu, LLM hanya jika token_policy mengizinkan.
+
+Prompt disingkat sengaja agar hemat token SumoPod.
 """
-Dynamic Response Generator — LLM-powered contextual responses untuk Pawnia agents.
-Menggantikan template statis dengan respons dinamis yang tetap sesuai safety rules.
-"""
-import json, logging
+from __future__ import annotations
+
+import logging
 from typing import Any, Optional
+
 from .llm import LLMClient
+from .telemetry import get_telemetry
+from .token_policy import compact_pet_context, should_use_llm_pawnia, token_budget_for
 
 logger = logging.getLogger("ekosistem_satwa.ai.response_generator")
 
-# =============================================================================
-# AGENT SYSTEM PROMPTS — Persona + Rules + Output Format
-# =============================================================================
-
-AGENT_PROMPTS = {
-    "pet_companion": {
-        "role": "Asisten kesehatan hewan peliharaan yang ramah, hangat, dan informatif",
-        "rules": [
-            "Sapa dengan hangat, gunakan nama hewan jika diketahui",
-            "Respons harus kontekstual dengan pertanyaan pengguna",
-            "Jika ada gejala serius, arahkan ke dokter hewan",
-            "Gunakan Bahasa Indonesia yang alami, hindari template kaku",
-        ],
-    },
-    "triage_emergency": {
-        "role": "Dokter hewan darurat yang tenang, jelas, dan tegas",
-        "rules": [
-            "RESPON CEPAT DAN TEGAS — ini kondisi darurat",
-            "Beri 3-5 langkah pertolongan pertama yang jelas dan actionable",
-            "Jangan menenangkan berlebihan — urgency harus tersampaikan",
-            "Sertakan red flags spesifik berdasarkan gejala yang disebutkan",
-            "WAJIB: suruh segera ke klinik hewan terdekat",
-        ],
-    },
-    "vet_escalation": {
-        "role": "Asisten yang mendorong pengguna untuk konsultasi dengan dokter hewan",
-        "rules": [
-            "Jelaskan dengan empati MENGAPA perlu ke dokter berdasarkan gejala spesifik mereka",
-            "Beri ringkasan informasi yang bisa dibawa ke dokter",
-            "Jangan diagnosis — hanya jelaskan bahwa butuh pemeriksaan langsung",
-            "Respons harus natural, jangan seperti template 'demi keamanan' terus",
-        ],
-    },
-    "behavior_insight": {
-        "role": "Spesialis perilaku hewan yang analitis dan solutif",
-        "rules": [
-            "Analisis perilaku berdasarkan gejala yang disebutkan secara SPESIFIK",
-            "Gunakan pengetahuan dari behavioral_medicine.py untuk referensi",
-            "Beri rekomendasi bertahap yang actionable",
-            "Jika ada red flags, sampaikan dengan jelas tapi tidak menakut-nakuti",
-            "Bahasa alami seperti konsultan perilaku, bukan template copy-paste",
-        ],
-    },
-    "nutrition_advisor": {
-        "role": "Ahli nutrisi hewan yang praktis dan berbasis evidence",
-        "rules": [
-            "Analisis kebiasaan makan berdasarkan info pengguna",
-            "Rekomendasi harus konkret (bukan 'makanan sehat' tapi 'coba tambah pumpkin')",
-            "Tanyakan detail yang relevan jika info kurang",
-            "Peringatkan makanan berbahaya jika relevan",
-        ],
-    },
-    "meal_planner": {
-        "role": "Perencana diet hewan yang detail dan personal",
-        "rules": [
-            "Buat jadwal makan berdasarkan berat badan, usia, dan aktivitas",
-            "Kalkulasi kalori jika informasi memadai",
-            "Tawarkan variasi menu yang realistis",
-            "Sertakan jadwal minum air",
-        ],
-    },
-    "medication_adherence": {
-        "role": "Asisten kepatuhan pengobatan yang suportif",
-        "rules": [
-            "Ingatkan jadwal obat dengan cara yang membantu",
-            "Tanya kendala yang dihadapi (lupa, efek samping, susah kasih obat)",
-            "Beri tips praktis berdasarkan jenis obat dan spesies",
-            "Jangan pernah menyarankan perubahan dosis tanpa dokter",
-        ],
-    },
-}
-
-# =============================================================================
-# FALLBACK TEMPLATES — When LLM is unavailable
-# =============================================================================
-
-FALLBACK = {
-    "pet_companion": "Halo! Ada yang bisa Pawnia bantu untuk {pet_name} hari ini? 🐾",
-    "triage_emergency": "🚨 {pet_name} memerlukan penanganan medis segera. Tetap tenang. Segera bawa ke klinik hewan terdekat.",
-    "vet_escalation": "Berdasarkan info yang Anda sampaikan, {pet_name} sebaiknya diperiksa langsung oleh dokter hewan untuk penanganan yang tepat.",
-    "behavior_insight": "Terima kasih sudah memperhatikan perubahan perilaku {pet_name}. Bisa cerita lebih detail tentang apa yang terjadi?",
-    "behavior_fun": "Haha, {pet_name} pasti lucu sekali! 🐾",
-    "nutrition_advisor": "Mari lihat kebutuhan nutrisi {pet_name}! Apa yang biasanya {pet_name} makan?",
-    "meal_planner": "Ayo buat jadwal makan untuk {pet_name}! Berapa berat badan {pet_name} saat ini?",
-    "medication_adherence": "Halo! Ada yang bisa dibantu soal jadwal pengobatan {pet_name}?",
-    "vision_screening": "👁️ Foto {pet_name} sudah diterima. Mari saya analisis...",
+# Prompt super pendek per agent (hemat input token)
+_ROLE = {
+    "pet_companion": "Asisten vet ramah ID. Jangan diagnosis pasti.",
+    "triage_emergency": "Triage darurat. Tenang, langkah singkat, suruh ke klinik.",
+    "vet_escalation": "Dorong telekonsultasi. Empati, tanpa diagnosis pasti.",
+    "behavior_insight": "Spesialis perilaku hewan. Saran bertahap, red flag jika ada.",
+    "nutrition_advisor": "Ahli nutrisi hewan. Saran konkret, sebut alergen jika relevan.",
+    "meal_planner": "Perencana porsi makan hewan.",
+    "medication_adherence": "Pengingat obat/vaksin. Jangan ubah dosis.",
+    "behavior_fun": "Asisten fun pet translator, ringan.",
+    "vision_screening": "Screening foto. Disclaimer medis wajib.",
 }
 
 
@@ -104,37 +34,47 @@ def generate_response(
     context: Optional[dict] = None,
     llm_client: Optional[LLMClient] = None,
     required_structure: Optional[dict] = None,
+    *,
+    intent_confidence: float = 0.0,
+    risk_score: int = 0,
 ) -> dict:
-    """
-    Generate response dinamis menggunakan LLM, dengan fallback template.
-    
-    Returns dict dengan keys: text, suggestions, cta, disclaimer, (opsional: red_flags)
-    """
     context = context or {}
-    
-    # Try LLM first
-    if llm_client and llm_client.available:
-        import signal
-        try:
-            # Set 5-second timeout untuk LLM call
-            result = [None]
-            def _do():
-                try:
-                    result[0] = _generate_with_llm(agent_type, pet_name, user_text, context, llm_client)
-                except Exception as e:
-                    logger.warning(f"LLM failed for {agent_type}: {e}")
-            import threading
-            t = threading.Thread(target=_do, daemon=True)
-            t.start()
-            t.join(timeout=5)
-            if result[0] is not None:
-                return result[0]
-            logger.warning(f"LLM timed out for {agent_type}, using fallback")
-        except Exception as e:
-            logger.warning(f"LLM response failed for {agent_type}: {e}, using fallback")
-    
-    # Fallback ke template
-    return _generate_fallback(agent_type, pet_name, user_text, context)
+    decision = should_use_llm_pawnia(
+        agent_type=agent_type,
+        user_text=user_text,
+        intent_confidence=intent_confidence,
+        risk_score=risk_score,
+    )
+    telemetry = get_telemetry()
+
+    if not decision.use_llm or not llm_client or not llm_client.available:
+        if not decision.use_llm:
+            telemetry.record_skip(
+                "pawnia_chat",
+                decision.reason,
+                provider=getattr(llm_client, "provider", "") if llm_client else "",
+                model=getattr(llm_client, "model", "") if llm_client else "",
+            )
+        kb_resp = _try_kb_brief(agent_type, pet_name, user_text, context)
+        if kb_resp:
+            kb_resp.setdefault("token_reason", "kb_ml")
+            return kb_resp
+        fallback = _generate_fallback(agent_type, pet_name, user_text, context)
+        fallback["token_reason"] = decision.reason
+        return fallback
+
+    try:
+        result = _generate_with_llm(
+            agent_type, pet_name, user_text, context, llm_client, decision.max_tokens,
+        )
+        if result:
+            return result
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("LLM Pawnia gagal (%s): %s — fallback template", agent_type, exc)
+
+    fallback = _generate_fallback(agent_type, pet_name, user_text, context)
+    fallback["token_reason"] = "llm_failed"
+    return fallback
 
 
 def _generate_with_llm(
@@ -143,78 +83,55 @@ def _generate_with_llm(
     user_text: str,
     context: dict,
     llm: LLMClient,
-) -> dict:
-    """Generate response menggunakan LLM dengan structured output."""
-    
-    agent_info = AGENT_PROMPTS.get(agent_type, AGENT_PROMPTS["pet_companion"])
-    rules_text = "\n".join(f"- {r}" for r in agent_info["rules"])
-    
-    # Context info
-    species = context.get("proprietary", {}).get("species", "")
-    breed = context.get("proprietary", {}).get("breed", "")
-    age = context.get("proprietary", {}).get("age", "")
-    pet_context = f"Spesies: {species}, Ras: {breed}, Usia: {age}" if any([species, breed, age]) else "Informasi hewan terbatas"
-    
-    system_prompt = f"""Kamu adalah {agent_info["role"]} dalam platform Pawnia AI — asisten kesehatan hewan peliharaan Indonesia.
-
-ATURAN:
-{rules_text}
-
-PENTING:
-- RESPON DALAM BAHASA INDONESIA yang alami, hangat, dan kontekstual
-- Jangan gunakan template atau kalimat yang diulang-ulang
-- Sesuaikan gaya bicara dengan situasi (tenang untuk darurat, hangat untuk umum)
-- Gunakan emoji secukupnya, jangan berlebihan
-- Jangan menyebut dirimu "Pawnia" atau "AI" — kamu adalah asisten
-- Panjang respon: 50-200 kata, sesuai kebutuhan
-
-OUTPUT FORMAT (JSON):
-{{
-    "text": "Respon utama dalam Bahasa Indonesia yang natural dan kontekstual",
-    "suggestions": ["Saran 1", "Saran 2", "Saran 3"],
-    "cta_label": "Label tombol (jika perlu tindakan)",
-    "cta_endpoint": "Endpoint API (jika perlu)",
-    "has_disclaimer": true/false,
-    "custom_disclaimer": "Jika ada disclaimer khusus, atau kosongkan"
-}}"""
-
-    user_prompt = f"""Konteks hewan: {pet_context}
-Nama hewan: {pet_name}
-Pertanyaan pengguna: {user_text}"""
-
-    result = llm.chat_json(
-        system_prompt=system_prompt,
-        user_prompt=user_prompt,
-        operation=f"response_{agent_type}",
+    max_tokens: int,
+) -> dict | None:
+    role = _ROLE.get(agent_type, _ROLE["pet_companion"])
+    pet_line = compact_pet_context(context)
+    system = (
+        f"{role} Bahasa Indonesia. JSON saja. "
+        f'{{"text":"max 90 kata","suggestions":["..",".."],'
+        f'"cta_label":"","cta_endpoint":"","disclaimer":""}} '
+        "Tidak diagnosis pasti. Tidak dosis obat resep."
     )
-    
-    if result and isinstance(result, dict) and "text" in result:
-        # Build standard response structure
-        response = {
-            "text": result.get("text", ""),
-            "suggestions": result.get("suggestions", []),
-            "cta": [],
-            "disclaimer": "",
-        }
-        
-        # Add CTA if present
-        if result.get("cta_label") and result.get("cta_endpoint"):
-            response["cta"].append({
-                "type": "action",
-                "label": result["cta_label"],
-                "endpoint": result["cta_endpoint"],
-            })
-        
-        # Add disclaimer if flagged
-        if result.get("has_disclaimer", True):
-            response["disclaimer"] = result.get(
-                "custom_disclaimer",
-                "Informasi ini bersifat informatif dan bukan pengganti konsultasi dokter hewan."
-            )
-        
-        return response
-    
-    raise ValueError("LLM returned invalid response structure")
+    user = f"hewan:{pet_name}|{pet_line}\nuser:{(user_text or '')[:400]}"
+    result = llm.chat_json(
+        system,
+        user,
+        max_tokens=max_tokens or token_budget_for("pawnia_chat"),
+        operation=f"pawnia_{agent_type}",
+    )
+    if not isinstance(result, dict) or not result.get("text"):
+        return None
+    response = {
+        "text": str(result.get("text", "")).strip(),
+        "suggestions": list(result.get("suggestions") or [])[:3],
+        "cta": [],
+        "disclaimer": str(result.get("disclaimer") or ""),
+        "token_mode": "llm",
+    }
+    if result.get("cta_label") and result.get("cta_endpoint"):
+        response["cta"].append({
+            "type": "action",
+            "label": result["cta_label"],
+            "endpoint": result["cta_endpoint"],
+        })
+    if not response["disclaimer"] and agent_type not in ("behavior_fun",):
+        response["disclaimer"] = (
+            "Informasi bersifat pendukung, bukan pengganti dokter hewan."
+        )
+    return response
+
+
+def _try_kb_brief(agent_type: str, pet_name: str, user_text: str, context: dict) -> dict | None:
+    if agent_type not in ("pet_companion", "vet_escalation", "behavior_insight"):
+        return None
+    text = (user_text or "").strip()
+    if len(text) < 12:
+        return None
+    from .kb_brief import build_symptom_brief
+
+    pet_ctx = context.get("pet_context") or context.get("proprietary") or {}
+    return build_symptom_brief(text, pet_name=pet_name, pet_context=pet_ctx)
 
 
 def _generate_fallback(
@@ -223,60 +140,125 @@ def _generate_fallback(
     user_text: str,
     context: dict,
 ) -> dict:
-    """Fallback contextual — extracts key topics from user text for dynamic template."""
-    text_lower = user_text.lower()
-    
-    # Keyword-based contextual fallback
+    text_lower = (user_text or "").lower()
+
     if agent_type == "behavior_insight":
-        if "muntah" in text_lower or "diare" in text_lower:
-            intro = f"Hai, saya turut prihatin {pet_name} sedang mengalami masalah pencernaan."
-        elif "agresif" in text_lower or "galak" in text_lower:
-            intro = f"Saya paham pasti khawatir melihat {pet_name} jadi agresif."
-        elif "takut" in text_lower or "cemas" in text_lower:
-            intro = f"{pet_name}看来 sedang merasa cemas ya? Mari kita cari tahu penyebabnya."
-        elif "makan" in text_lower or "nafsu" in text_lower:
-            intro = f"{pet_name} sedang tidak nafsu makan? Ada beberapa hal yang bisa dicoba."
+        if any(k in text_lower for k in ("muntah", "diare")):
+            intro = f"Saya prihatin {pet_name} ada keluhan pencernaan."
+        elif any(k in text_lower for k in ("agresif", "galak")):
+            intro = f"Perubahan agresivitas {pet_name} perlu dicermati."
+        elif any(k in text_lower for k in ("takut", "cemas", "stres", "stress")):
+            intro = f"{pet_name} tampak cemas — kita cari pemicunya."
         else:
-            intro = f"Terima kasih sudah memperhatikan perubahan perilaku {pet_name}."
-        
-        text = f"{intro}\n\nBisa cerita lebih detail? Misalnya sejak kapan, seberapa sering, dan apa yang biasanya memicu perilaku ini?"
-        suggestions = ["Ceritakan lebih detail", "Konsultasi dengan dokter hewan"]
-        cta = [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}]
-        disclaimer = "Analisis perilaku bersifat informatif. Untuk gejala fisik, konsultasi dengan dokter hewan."
-    
-    elif agent_type == "pet_companion":
-        if "halo" in text_lower or "hai" in text_lower or "selamat" in text_lower:
-            text = f"Halo! Senang bertemu denganmu dan {pet_name}! 🐾\n\nAda yang bisa saya bantu hari ini? Saya bisa membantu:\n• Analisis gejala kesehatan\n• Rekomendasi nutrisi\n• Cek jadwal vaksin\n• Konsultasi dengan dokter"
-        elif "terima kasih" in text_lower or "makasih" in text_lower:
-            text = f"Sama-sama! Senang bisa membantu {pet_name} 🐾\n\nAda lagi yang ingin ditanyakan?"
+            intro = f"Perubahan perilaku {pet_name} sudah tercatat."
+        return {
+            "text": f"{intro}\n\nSejak kapan, seberapa sering, dan apa pemicunya?",
+            "suggestions": ["Ceritakan lebih detail", "Konsultasi dokter hewan"],
+            "cta": [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}],
+            "disclaimer": "Analisis perilaku bersifat informatif.",
+            "token_mode": "template",
+        }
+
+    if agent_type == "pet_companion":
+        if any(k in text_lower for k in ("halo", "hai", "hi ", "selamat")):
+            text = (
+                f"Halo! Senang bertemu denganmu dan {pet_name}! 🐾\n\n"
+                "Saya bisa bantu: gejala, nutrisi, vaksin, atau arahkan ke dokter."
+            )
+        elif any(k in text_lower for k in ("terima kasih", "makasih", "thanks")):
+            text = f"Sama-sama! Senang bisa membantu {pet_name}. Ada lagi?"
         else:
-            text = f"Halo! Ada yang bisa saya bantu untuk {pet_name} hari ini? 🐾"
-        suggestions = ["Cek kesehatan " + pet_name, "Rekomendasi makanan", "Konsultasi dokter"]
-        cta = [{"type": "chat", "label": "💬 Mulai Konsultasi", "endpoint": "/api/v1/ai/chat"}]
-        disclaimer = ""
-    
-    elif agent_type in ("triage_emergency",):
-        text = f"🚨 **Perhatian!** {pet_name} membutuhkan penanganan medis.\n\nTetap tenamg dan segera bawa ke klinik hewan terdekat. Jangan berikan makanan atau minuman."
-        suggestions = ["Cari klinik terdekat", "Hubungi dokter darurat"]
-        cta = [
-            {"type": "emergency", "label": "Cari Klinik", "endpoint": "/api/v1/clinics/nearby"},
-            {"type": "teleconsult", "label": "Hubungi Dokter", "endpoint": "/api/v1/teleconsult/emergency"},
-        ]
-        disclaimer = "⚠️ KONDISI DARURAT. Segera cari pertolongan medis profesional."
-    
-    elif agent_type == "nutrition_advisor":
-        text = f"Tentu! Bantu cari nutrisi terbaik untuk {pet_name}.\n\nApa yang biasanya {pet_name} makan sekarang? Apakah ada keluhan terkait makanan?"
-        suggestions = ["Rekomendasi produk", "Info diet khusus", "Konsultasi dokter"]
-        cta = [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}]
-        disclaimer = "Rekomendasi nutrisi bersifat informatif."
-    
-    else:
-        template = FALLBACK.get(agent_type, FALLBACK["pet_companion"])
-        text = template.format(pet_name=pet_name)
-        suggestions = ["Ceritakan lebih detail", "Konsultasi dengan dokter hewan"]
-        cta = []
-        if agent_type in ("vet_escalation",):
-            cta.append({"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"})
-        disclaimer = "Informasi ini bersifat informatif."
-    
-    return {"text": text, "suggestions": suggestions, "cta": cta, "disclaimer": disclaimer}
+            text = f"Halo! Ada yang bisa saya bantu untuk {pet_name} hari ini?"
+        return {
+            "text": text,
+            "suggestions": [f"Cek kesehatan {pet_name}", "Rekomendasi makanan", "Konsultasi dokter"],
+            "cta": [{"type": "chat", "label": "💬 Mulai Konsultasi", "endpoint": "/api/v1/ai/chat"}],
+            "disclaimer": "",
+            "token_mode": "template",
+        }
+
+    if agent_type == "triage_emergency":
+        return {
+            "text": (
+                f"🚨 Kondisi darurat terdeteksi pada {pet_name}. Tetap tenang.\n"
+                "1. Jauhkan dari benda berbahaya\n"
+                "2. Jangan masukkan apa pun ke mulut\n"
+                "3. Catat waktu gejala\n"
+                "4. Segera ke klinik hewan terdekat"
+            ),
+            "suggestions": ["Cari klinik terdekat", "Hubungi dokter darurat"],
+            "cta": [
+                {"type": "emergency", "label": "🏥 Cari Klinik", "endpoint": "/api/v1/clinics/nearby"},
+                {"type": "teleconsult", "label": "Hubungi Dokter", "endpoint": "/api/v1/teleconsult/emergency"},
+            ],
+            "disclaimer": "⚠️ Darurat. Segera cari pertolongan medis profesional.",
+            "token_mode": "template",
+        }
+
+    if agent_type == "nutrition_advisor":
+        allergy = ""
+        if "alergi" in text_lower or "allergy" in text_lower:
+            allergy = " Hindari alergen yang sudah diketahui (mis. ayam) sampai dikonfirmasi dokter."
+        return {
+            "text": (
+                f"Untuk nutrisi {pet_name}: sesuaikan spesies, usia, dan kondisi."
+                f"{allergy}\nApa yang biasanya dimakan sekarang?"
+            ),
+            "suggestions": ["Rekomendasi produk", "Diet khusus", "Konsultasi dokter"],
+            "cta": [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}],
+            "disclaimer": "Rekomendasi nutrisi bersifat informatif.",
+            "token_mode": "template",
+        }
+
+    if agent_type == "vet_escalation":
+        return {
+            "text": (
+                f"Berdasarkan keluhan {pet_name}, sebaiknya diperiksa dokter hewan "
+                "agar penanganan tepat. Saya bisa bantu siapkan ringkasan gejala."
+            ),
+            "suggestions": ["Booking telekonsultasi", "Cari klinik"],
+            "cta": [{"type": "teleconsult", "label": "💬 Konsultasi Dokter", "endpoint": "/api/v1/teleconsult"}],
+            "disclaimer": "Bukan diagnosis. Keputusan klinis oleh dokter hewan.",
+            "token_mode": "template",
+        }
+
+    if agent_type == "meal_planner":
+        return {
+            "text": (
+                f"Untuk jadwal makan {pet_name} saya butuh: berat badan (kg), "
+                "jenis pakan, frekuensi makan, dan kondisi medis."
+            ),
+            "suggestions": ["Isi berat badan", "Lihat produk pakan"],
+            "cta": [{"type": "action", "label": "🛒 Beli Makanan", "endpoint": "/api/v1/recommendations"}],
+            "disclaimer": "",
+            "token_mode": "template",
+        }
+
+    if agent_type == "medication_adherence":
+        return {
+            "text": (
+                f"Pengingat pengobatan {pet_name}: vaksin H-7/H-1, obat harian, "
+                "dan riwayat. Dosis hanya mengikuti instruksi dokter."
+            ),
+            "suggestions": ["Cek jadwal vaksin", "Buat pengingat"],
+            "cta": [{"type": "reminder", "label": "⏰ Cek Jadwal", "endpoint": "/api/v1/reminders"}],
+            "disclaimer": "Ikuti petunjuk dokter hewan.",
+            "token_mode": "template",
+        }
+
+    if agent_type == "vision_screening":
+        return {
+            "text": f"Foto {pet_name} bisa dianalisis. Unggah gambar yang jelas (cahaya cukup).",
+            "suggestions": ["Unggah foto", "Deskripsikan gejala"],
+            "cta": [{"type": "camera", "label": "📸 Buka AI Camera", "endpoint": "/api/v1/vision/analyze/upload"}],
+            "disclaimer": "Screening AI bukan diagnosis.",
+            "token_mode": "template",
+        }
+
+    return {
+        "text": f"Ada yang bisa Pawnia bantu untuk {pet_name} hari ini?",
+        "suggestions": ["Ceritakan lebih detail", "Konsultasi dokter"],
+        "cta": [],
+        "disclaimer": "Informasi bersifat informatif.",
+        "token_mode": "template",
+    }

@@ -28,7 +28,7 @@
 
 ### 🔒 Remaining Blockers
 - HTTPS/SSL — no domain DNS pointing to VPS
-- Rate Limiting — task created, pending backend
+- Rate limiting — ✅ in-process middleware (`RATE_LIMIT_PER_MINUTE`, default 120/IP)
 
 ### 📦 Tech Stack
 - **Runtime**: Python 3.11, FastAPI, Uvicorn

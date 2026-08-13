@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from ..config import AISettings, ARTIFACTS_DIR
+from .token_policy import skip_reasons_summary
 
 # Perkiraan USD per 1K token (input/output) — perkiraan kasar untuk monitoring
 COST_PER_1K: dict[str, dict[str, float]] = {
@@ -21,6 +22,10 @@ COST_PER_1K: dict[str, dict[str, float]] = {
     "gpt-4o": {"input": 0.0025, "output": 0.01},
     "claude-3-5-sonnet-latest": {"input": 0.003, "output": 0.015},
     "whisper-1": {"input": 0.006, "output": 0.0},
+    "deepseek-v4-flash": {"input": 0.00014, "output": 0.00028},
+    "deepseek-v4-pro": {"input": 0.00043, "output": 0.00087},
+    "kimi-k2.6": {"input": 0.00008, "output": 0.00035},
+    "gemini/gemini-2.0-flash-lite": {"input": 0.00007, "output": 0.00030},
 }
 
 LOG_PATH = ARTIFACTS_DIR / "learning" / "ai_requests.jsonl"
@@ -175,10 +180,13 @@ class AITelemetry:
             "daily_budget_remaining": max(budget - today_tokens, 0) if budget > 0 else None,
             "by_operation": by_operation,
             "recent": rows[-limit_recent:][::-1],
+            "skip_reasons": skip_reasons_summary(rows),
             "settings": {
                 "augmentation_mode": AISettings().augmentation_mode,
                 "max_tokens": AISettings().max_tokens,
+                "pawnia_max_tokens": getattr(AISettings(), "pawnia_max_tokens", None),
                 "cache_ttl_sec": AISettings().cache_ttl_sec,
+                "skip_llm_confidence": AISettings().skip_llm_confidence,
             },
         }
 

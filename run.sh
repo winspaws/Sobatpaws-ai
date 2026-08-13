@@ -12,10 +12,13 @@ PY=".venv/bin/python"
 
 export PYTHONPATH=src
 
-echo "🐾 Sobatpaws — menjalankan API + Dashboard"
-echo "   Dashboard : http://localhost:${PORT}/"
-echo "   API docs  : http://localhost:${PORT}/docs"
+echo "🐾 Ekosistem Satwa / Sobatpaws — menjalankan API + Dashboard"
+echo "   Dashboard      : http://localhost:${PORT}/"
+echo "   Admin          : http://localhost:${PORT}/admin.html"
+echo "   Telekonsultasi : http://localhost:${PORT}/telekonsultasi.html"
+echo "   Pawnia AI      : POST http://localhost:${PORT}/api/v1/ai/chat"
+echo "   API docs       : http://localhost:${PORT}/docs"
 echo "   (Ctrl+C untuk berhenti)"
 echo
 
-exec "$PY" -m uvicorn sobatpaws.api.main:app --host 0.0.0.0 --port "$PORT" --app-dir src
+exec "$PY" -m uvicorn ekosistem_satwa.api.main:app --host 0.0.0.0 --port "$PORT" --app-dir src

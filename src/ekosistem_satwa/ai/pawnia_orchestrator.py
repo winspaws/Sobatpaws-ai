@@ -102,7 +102,7 @@ class PawniaResponse:
     risk_score: int
     risk_level: str
     response: dict[str, Any]
-    context_used: dict[str, bool]
+    context_used: dict[str, Any]
     escalated: bool = False
     conversation_id: str = ""
 
@@ -142,6 +142,11 @@ SEVERITY_KEYWORDS = [
 # =============================================================================
 
 INTENT_PATTERNS: dict[IntentCategory, list[str]] = {
+    IntentCategory.SYMPTOM_DISCUSSION: [
+        "muntah", "diare", "batuk", "pilek", "demam", "gatal", "luka",
+        "lemah", "nafsu makan", "tidak mau makan", "gejala", "sakit",
+        "vomiting", "diarrhea", "cough", "fever", "itch", "wound",
+    ],
     IntentCategory.EMERGENCY: EMERGENCY_KEYWORDS,
     IntentCategory.VISION_REQUEST: [
         "foto", "gambar", "upload", "kamera", "fotokan", "potoin",
@@ -268,11 +273,15 @@ class PawniaOrchestrator:
         # Clamp confidence
         confidence = min(best_score, 1.0)
 
-        # If confidence is very low, try LLM-based detection
-        if confidence < 0.3 and self.llm and self.llm.available:
-            llm_intent = self._detect_intent_llm(text_lower)
-            if llm_intent:
-                return llm_intent
+        # LLM intent hanya jika keyword sangat ambigu (hemat token)
+        if confidence < 0.3 and self.llm and getattr(self.llm, "available", False):
+            from .token_policy import should_detect_intent_llm
+
+            intent_decision = should_detect_intent_llm(text, confidence)
+            if intent_decision.use_llm:
+                llm_intent = self._detect_intent_llm(text_lower)
+                if llm_intent:
+                    return llm_intent
 
         return IntentResult(
             intent=best_intent,
@@ -574,6 +583,12 @@ Respond with ONLY the category name, nothing else."""
             pet_id=pet_id,
             session_id=conv_id,
         )
+        if pet_context:
+            context["pet_context"] = pet_context
+            if not context.get("proprietary"):
+                context["proprietary"] = {
+                    k: v for k, v in pet_context.items() if v is not None
+                }
 
         # Step 4: Agent Routing
         routing = self.route_to_agent(
@@ -628,6 +643,8 @@ Respond with ONLY the category name, nothing else."""
                 "risk_classification": True,
                 "memory": bool(context["memory"]),
                 "proprietary": bool(context["proprietary"]),
+                "token_mode": response.get("token_mode", "template"),
+                "token_reason": response.get("token_reason", ""),
             },
             escalated=routing.should_escalate,
             conversation_id=conv_id,
@@ -653,10 +670,15 @@ Respond with ONLY the category name, nothing else."""
         agent = routing.primary_agent
         risk = routing.risk_assessment
 
-        # Get pet name from context
+        # Get pet name from context (EMR proprietary or pet_context from chat)
         pet_name = "Si Kecil"
         if context.get("proprietary"):
             pet_name = context["proprietary"].get("name", pet_name)
+        elif context.get("pet_context"):
+            pet_name = context["pet_context"].get("name", pet_name)
+
+        conf = float(routing.confidence or 0.0)
+        context["risk_score"] = int(getattr(risk, "score", 0) or 0) if risk else 0
 
         if agent == AgentType.EMERGENCY:
             return self._response_emergency(pet_name, risk, text)
@@ -668,13 +690,13 @@ Respond with ONLY the category name, nothing else."""
             return self._response_vision(pet_name)
 
         elif agent == AgentType.BEHAVIOR_INSIGHT:
-            return self._response_behavior_insight(pet_name, text)
+            return self._response_behavior_insight(pet_name, text, context, conf)
 
         elif agent == AgentType.BEHAVIOR_FUN:
             return self._response_behavior_fun(pet_name)
 
         elif agent == AgentType.NUTRITION:
-            return self._response_nutrition(pet_name, text, context)
+            return self._response_nutrition(pet_name, text, context, conf)
 
         elif agent == AgentType.MEAL_PLANNER:
             return self._response_meal_planner(pet_name, context)
@@ -683,7 +705,7 @@ Respond with ONLY the category name, nothing else."""
             return self._response_medication(pet_name, context)
 
         else:  # COMPANION (default)
-            return self._response_companion(pet_name, text, context)
+            return self._response_companion(pet_name, text, context, conf)
 
 
     def _get_llm(self):
@@ -695,33 +717,38 @@ Respond with ONLY the category name, nothing else."""
 
     def _dynamic_response(self, agent_type: str, pet_name: str,
                           user_text: str = "", context: Optional[dict] = None,
-                          risk: Optional["RiskAssessment"] = None) -> dict:
-        """Generate dynamic response via LLM, with template fallback."""
+                          risk: Optional["RiskAssessment"] = None,
+                          intent_confidence: float = 0.0) -> dict:
+        """Template-first; LLM hanya jika token_policy mengizinkan."""
         context = context or {}
         llm = self._get_llm()
-        
+        risk_score = int(getattr(risk, "score", 0) or 0) if risk else int(
+            (context.get("risk_score") or 0)
+        )
+
         from .response_generator import generate_response
         response = generate_response(
             agent_type=agent_type,
             pet_name=pet_name,
             user_text=user_text or "",
             context=context,
-            llm_client=llm if llm.available else None,
+            llm_client=llm if getattr(llm, "available", False) else None,
+            intent_confidence=intent_confidence,
+            risk_score=risk_score,
         )
-        
-        # Pastikan field wajib ada
         response.setdefault("text", "")
         response.setdefault("suggestions", [])
         response.setdefault("cta", [])
         response.setdefault("disclaimer", "")
-        
         return response
 
     def _response_emergency(
         self, pet_name: str, risk: "RiskAssessment", text: str
     ) -> dict[str, Any]:
         """🚨 Emergency — dynamic + structured first aid."""
-        resp = self._dynamic_response("triage_emergency", pet_name, text)
+        resp = self._dynamic_response(
+            "triage_emergency", pet_name, text, risk=risk, intent_confidence=0.95,
+        )
         
         if not resp["text"]:
             tips = [
@@ -745,7 +772,9 @@ Respond with ONLY the category name, nothing else."""
         self, pet_name: str, risk: "RiskAssessment", confidence: float
     ) -> dict[str, Any]:
         """🩺 Vet escalation — suggest consultation with context."""
-        resp = self._dynamic_response("vet_escalation", pet_name, "")
+        resp = self._dynamic_response(
+            "vet_escalation", pet_name, "", intent_confidence=confidence, risk=risk,
+        )
         
         if not resp["text"]:
             reason = "gejala yang Anda sampaikan memerlukan pemeriksaan langsung oleh dokter" if risk.level in ("high","medium") else "informasi yang tersedia belum cukup untuk analisis yang akurat"
@@ -767,7 +796,9 @@ Respond with ONLY the category name, nothing else."""
             "disclaimer": "Analisis AI bersifat screening awal, bukan diagnosis medis.",
         }
 
-    def _response_behavior_insight(self, pet_name: str, text: str) -> dict[str, Any]:
+    def _response_behavior_insight(
+        self, pet_name: str, text: str, context: dict[str, Any] | None = None, confidence: float = 0.0,
+    ) -> dict[str, Any]:
         """🧠 Behavior insight — dynamic analysis + behavioral_medicine reference."""
         # Gunakan behavioral_medicine untuk analisis berbasis pengetahuan
         from .behavioral_medicine import analyze_behavior
@@ -777,9 +808,15 @@ Respond with ONLY the category name, nothing else."""
         analysis = analyze_behavior("dog", mentioned, text)
         primary = analysis.get("primary_condition")
         
-        # Generate LLM response dengan konteks analisis
-        context = {"proprietary": {"behavior_analysis": analysis}}
-        resp = self._dynamic_response("behavior_insight", pet_name, text, context)
+        ctx = dict(context or {})
+        ctx.setdefault("proprietary", {})
+        if isinstance(ctx["proprietary"], dict):
+            ctx["proprietary"]["behavior_analysis"] = analysis
+        else:
+            ctx["proprietary"] = {"behavior_analysis": analysis}
+        resp = self._dynamic_response(
+            "behavior_insight", pet_name, text, ctx, intent_confidence=confidence,
+        )
         
         if primary and not resp["text"]:
             name = primary["name"]
@@ -802,10 +839,12 @@ Respond with ONLY the category name, nothing else."""
         }
 
     def _response_nutrition(
-        self, pet_name: str, text: str, context: dict[str, Any]
+        self, pet_name: str, text: str, context: dict[str, Any], confidence: float = 0.0,
     ) -> dict[str, Any]:
         """🥗 Nutrition — dynamic advice."""
-        resp = self._dynamic_response("nutrition_advisor", pet_name, text, context)
+        resp = self._dynamic_response(
+            "nutrition_advisor", pet_name, text, context, intent_confidence=confidence,
+        )
         if not resp["text"]:
             resp["text"] = f"Tentu! Bantu cari nutrisi terbaik untuk {pet_name}. 🥗\n\nBeberapa hal yang perlu diperhatikan:\n• Pilih makanan sesuai spesies, usia, dan kondisi\n• Perhatikan protein, lemak, dan serat\n• Hindari alergen jika ada riwayat alergi"
         resp.setdefault("cta", []).extend([
@@ -837,10 +876,12 @@ Respond with ONLY the category name, nothing else."""
         }
 
     def _response_companion(
-        self, pet_name: str, text: str, context: dict[str, Any]
+        self, pet_name: str, text: str, context: dict[str, Any], confidence: float = 0.0,
     ) -> dict[str, Any]:
-        """🐾 Companion — dynamic greeting."""
-        resp = self._dynamic_response("pet_companion", pet_name, text, context)
+        """🐾 Companion — template dulu, LLM hanya jika perlu."""
+        resp = self._dynamic_response(
+            "pet_companion", pet_name, text, context, intent_confidence=confidence,
+        )
         if not resp["text"]:
             resp["text"] = f"Halo! Ada yang bisa Pawnia bantu untuk {pet_name} hari ini? 🐾\n\nSaya bisa:\n• Analisis gejala kesehatan\n• Screening via foto\n• Rekomendasi nutrisi\n• Pengingat obat & vaksin\n• Analisis perilaku\n• Booking dokter"
         resp.setdefault("suggestions", [
@@ -871,6 +912,16 @@ def get_pawnia(
     """Get or create the Pawnia Orchestrator singleton."""
     global _pawnia_instance
     if _pawnia_instance is None:
+        if memory_service is None:
+            from .memory_store import get_memory_service
+            memory_service = get_memory_service()
+        if knowledge_service is None:
+            try:
+                from ..knowledge.rag import get_rag_service
+                knowledge_service = get_rag_service(auto_ingest=False)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Knowledge RAG unavailable: %s", exc)
+                knowledge_service = None
         _pawnia_instance = PawniaOrchestrator(
             memory_service=memory_service,
             knowledge_service=knowledge_service,

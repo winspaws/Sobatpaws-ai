@@ -30,7 +30,9 @@ from .admin_router import router as admin_router
 from .admin_dashboard_router import router as admin_dashboard_router
 from .agent_router import router as agent_router
 from .ai_gateway_router import router as ai_gateway_router
+from .app_manifest_router import router as app_manifest_router
 from .auth import require_admin, require_vet
+from .rate_limit import RateLimitMiddleware
 from .deps import ai_status, db_status, get_agent, get_service, ml_status
 from .integration_router import router as integration_router
 from .emr_router import router as emr_router
@@ -69,19 +71,31 @@ app = FastAPI(
 # Untuk production: set SOBATPAWS_CORS_ORIGINS=https://admin.sobatpaws.com,https://app.sobatpaws.com
 # Default development: localhost origins
 import os as _os
-_cors_origins_str = _os.getenv("SOBATPAWS_CORS_ORIGINS", "http://localhost:3000,http://localhost:3333,http://localhost:8080")
+_cors_origins_str = _os.getenv(
+    "SOBATPAWS_CORS_ORIGINS",
+    "http://localhost:3000,http://localhost:3333,http://localhost:8080,http://127.0.0.1:8000",
+)
 _cors_origins = [o.strip() for o in _cors_origins_str.split(",") if o.strip()]
 
+app.add_middleware(RateLimitMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "X-EkosistemSatwa-Key", "X-API-Key"],
+    allow_headers=[
+        "Authorization",
+        "Content-Type",
+        "X-EkosistemSatwa-Key",
+        "X-Sobatpaws-Key",
+        "X-API-Key",
+        "X-Consultation-ID",
+    ],
 )
 
 _WEB_DIR = Path(__file__).resolve().parents[3] / "web"
 
+app.include_router(app_manifest_router)
 app.include_router(integration_router)
 app.include_router(platform_router)
 app.include_router(admin_router)
