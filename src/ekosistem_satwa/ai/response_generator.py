@@ -137,6 +137,92 @@ def generate_response(
     return _generate_fallback(agent_type, pet_name, user_text, context)
 
 
+def _format_pet_context_for_prompt(context: dict) -> str:
+    """Format data pet dari DB menjadi section prompt yang informatif untuk LLM."""
+    prop = context.get("proprietary", {})
+    if not prop:
+        return "Informasi hewan terbatas — data medis belum tersedia."
+
+    parts: list[str] = []
+
+    # Identitas dasar
+    name = prop.get("name", "")
+    species = prop.get("species", "")
+    breed = prop.get("breed", "")
+    age = prop.get("age_years")
+    weight = prop.get("weight_kg")
+    sex = prop.get("sex", "")
+    neutered = prop.get("neutered")
+
+    identity = f"Nama: {name}" if name else ""
+    if species:
+        identity += f" | Spesies: {species}"
+    if breed:
+        identity += f" | Ras: {breed}"
+    if age is not None:
+        identity += f" | Umur: {age} tahun"
+    if weight:
+        identity += f" | Berat: {weight} kg"
+    if sex:
+        identity += f" | Kelamin: {sex}"
+    if neutered is not None:
+        identity += f" | Steril: {'Ya' if neutered else 'Tidak'}"
+    if identity:
+        parts.append(f"## Data Pasien\n{identity}")
+
+    # Alergi
+    allergies = prop.get("allergies") or []
+    if allergies:
+        parts.append(f"## Alergi (PENTING)\n⚠️ {', '.join(allergies)}")
+
+    # Kondisi kronis
+    chronic = prop.get("chronic_conditions") or []
+    if chronic:
+        parts.append(f"## Kondisi Kronis\n{', '.join(chronic)}")
+
+    # Obat aktif
+    meds = prop.get("active_medications") or []
+    if meds:
+        med_lines = []
+        for m in meds[:5]:
+            line = f"- {m.get('name', '?')}"
+            if m.get("dosage"):
+                line += f" ({m['dosage']}"
+                if m.get("frequency"):
+                    line += f", {m['frequency']}"
+                line += ")"
+            if m.get("route"):
+                line += f" via {m['route']}"
+            med_lines.append(line)
+        parts.append("## Obat Aktif Saat Ini\n" + "\n".join(med_lines))
+
+    # Riwayat kunjungan terakhir
+    visits = prop.get("recent_visits") or []
+    if visits:
+        visit_lines = []
+        for v in visits[:3]:
+            vdate = v.get("date", "?")
+            complaint = v.get("complaint", "-")
+            diagnosis = v.get("diagnosis", "-")
+            visit_lines.append(f"- [{vdate}] Keluhan: {complaint} → Diagnosis: {diagnosis}")
+        parts.append("## Riwayat Medis Terakhir\n" + "\n".join(visit_lines))
+
+    # Vaksinasi overdue
+    overdue = prop.get("overdue_vaccines") or []
+    if overdue:
+        parts.append(f"## Vaksin Overdue\n⚠️ {', '.join(overdue)}")
+
+    # Owner
+    user_ctx = context.get("user", {})
+    if user_ctx.get("name"):
+        parts.append(f"## Pemilik\nNama: {user_ctx['name']}")
+
+    if not parts:
+        return "Informasi hewan terbatas — data medis belum tersedia."
+
+    return "\n\n".join(parts)
+
+
 def _generate_with_llm(
     agent_type: str,
     pet_name: str,
@@ -145,16 +231,26 @@ def _generate_with_llm(
     llm: LLMClient,
 ) -> dict:
     """Generate response menggunakan LLM dengan structured output."""
-    
+
     agent_info = AGENT_PROMPTS.get(agent_type, AGENT_PROMPTS["pet_companion"])
     rules_text = "\n".join(f"- {r}" for r in agent_info["rules"])
-    
-    # Context info
+
+    # Build rich pet context dari data DB
+    pet_context_section = _format_pet_context_for_prompt(context)
+
+    # Safety warnings berdasarkan spesies
     species = context.get("proprietary", {}).get("species", "")
-    breed = context.get("proprietary", {}).get("breed", "")
-    age = context.get("proprietary", {}).get("age", "")
-    pet_context = f"Spesies: {species}, Ras: {breed}, Usia: {age}" if any([species, breed, age]) else "Informasi hewan terbatas"
-    
+    safety_section = ""
+    if species:
+        from .safety import collect_safety_warnings, check_contraindications_from_context
+        warnings = collect_safety_warnings(species)
+        context_warnings = check_contraindications_from_context(context.get("proprietary", {}))
+        all_warnings = warnings + context_warnings
+        if all_warnings:
+            safety_section = "\n\nPERINGATAN KESELAMATAN (WAJIB dipatuhi):\n" + "\n".join(
+                f"- {w}" for w in all_warnings
+            )
+
     system_prompt = f"""Kamu adalah {agent_info["role"]} dalam platform Pawnia AI — asisten kesehatan hewan peliharaan Indonesia.
 
 ATURAN:
@@ -167,6 +263,10 @@ PENTING:
 - Gunakan emoji secukupnya, jangan berlebihan
 - Jangan menyebut dirimu "Pawnia" atau "AI" — kamu adalah asisten
 - Panjang respon: 50-200 kata, sesuai kebutuhan
+- GUNAKAN data medis pasien di bawah untuk memberikan saran yang PERSONAL dan KONTEKSTUAL
+- Jika pasien punya alergi, JANGAN sarankan apapun yang mengandung alergen tersebut
+- Jika ada obat aktif, pertimbangkan potensi interaksi obat
+- Jika ada kondisi kronis, sesuaikan saran dengan kondisi tersebut{safety_section}
 
 OUTPUT FORMAT (JSON):
 {{
@@ -178,7 +278,8 @@ OUTPUT FORMAT (JSON):
     "custom_disclaimer": "Jika ada disclaimer khusus, atau kosongkan"
 }}"""
 
-    user_prompt = f"""Konteks hewan: {pet_context}
+    user_prompt = f"""{pet_context_section}
+
 Nama hewan: {pet_name}
 Pertanyaan pengguna: {user_text}"""
 

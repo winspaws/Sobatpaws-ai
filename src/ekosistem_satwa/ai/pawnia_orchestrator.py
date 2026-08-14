@@ -376,15 +376,28 @@ Respond with ONLY the category name, nothing else."""
             score += 15
             factors.append("Prolonged or worsening symptoms")
 
-        # Pet context factors
+        # Pet context factors (dari DB atau client)
         if pet_context:
             age = pet_context.get("age_years")
-            if age and (age < 0.5 or age > 12):
+            if age is not None and (age < 0.5 or age > 12):
                 score += 20
                 factors.append(f"Extreme age ({age} years)")
             if pet_context.get("chronic_conditions"):
+                conditions = pet_context["chronic_conditions"]
                 score += 10
-                factors.append("Has chronic conditions")
+                if isinstance(conditions, list):
+                    factors.append(f"Chronic conditions: {', '.join(conditions[:3])}")
+                else:
+                    factors.append("Has chronic conditions")
+            if pet_context.get("has_allergies"):
+                score += 5
+                factors.append("Has known allergies — check drug safety")
+            if pet_context.get("has_active_medications"):
+                score += 5
+                factors.append("Currently on medication — check interactions")
+            if pet_context.get("overdue_vaccines"):
+                score += 5
+                factors.append(f"Overdue vaccines: {', '.join(pet_context['overdue_vaccines'][:3])}")
 
         # Determine level
         if score >= 81:
@@ -495,16 +508,20 @@ Respond with ONLY the category name, nothing else."""
         user_id: int | None = None,
         pet_id: int | None = None,
         session_id: str | None = None,
+        pet_context_override: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Load consolidated context for AI Gateway Context Loader.
 
         Combines:
-        1. Proprietary Context (pet profile, EMR, inventory)
-        2. Memory Context (short-term + long-term)
-        3. Knowledge Base (RAG) — loaded on demand
+        1. Proprietary Context (pet profile, EMR dari database)
+        2. Client-provided pet_context (merge/override)
+        3. User Context (data pemilik hewan)
+        4. Memory Context (short-term + long-term)
+        5. Knowledge Base (RAG) — loaded on demand
         """
         context: dict[str, Any] = {
             "proprietary": {},
+            "user": {},
             "memory": {},
             "knowledge": [],
             "loaded_at": datetime.now(timezone.utc).isoformat(),
@@ -523,14 +540,30 @@ Respond with ONLY the category name, nothing else."""
             except Exception as exc:
                 logger.debug("Memory load failed: %s", exc)
 
-        # Load EMR/proprietary context
+        # Load EMR/proprietary context dari database
         if self.emr and pet_id:
             try:
                 pet_data = self.emr.get_pet_context(pet_id)
                 if pet_data:
                     context["proprietary"] = pet_data
             except Exception as exc:
-                logger.debug("EMR load failed: %s", exc)
+                logger.warning("EMR pet context load failed for pet %s: %s", pet_id, exc)
+
+        # Merge client-provided pet_context (override DB data jika ada)
+        if pet_context_override:
+            if context["proprietary"]:
+                context["proprietary"].update(pet_context_override)
+            else:
+                context["proprietary"] = pet_context_override
+
+        # Load user context
+        if self.emr and user_id:
+            try:
+                user_data = self.emr.get_user_context(user_id)
+                if user_data:
+                    context["user"] = user_data
+            except Exception as exc:
+                logger.debug("User context load failed for user %s: %s", user_id, exc)
 
         return context
 
@@ -564,16 +597,18 @@ Respond with ONLY the category name, nothing else."""
         intent = self.detect_intent(text, has_image=has_image)
         logger.info("Intent: %s (%.0f%%)", intent.intent.value, intent.confidence * 100)
 
-        # Step 2: Risk Classification
-        risk = self.classify_risk(text, intent, pet_context=pet_context)
-        logger.info("Risk: %s (%d)", risk.level.value, risk.score)
-
-        # Step 3: Context Loading
+        # Step 2+3: Context Loading (sebelum risk, agar risk bisa pakai data DB)
         context = self.load_context(
             user_id=user_id,
             pet_id=pet_id,
             session_id=conv_id,
+            pet_context_override=pet_context,
         )
+
+        # Step 2b: Risk Classification — pakai context yang sudah terisi dari DB
+        merged_pet_context = context.get("proprietary") or pet_context
+        risk = self.classify_risk(text, intent, pet_context=merged_pet_context)
+        logger.info("Risk: %s (%d)", risk.level.value, risk.score)
 
         # Step 4: Agent Routing
         routing = self.route_to_agent(
@@ -617,6 +652,18 @@ Respond with ONLY the category name, nothing else."""
         processing_time = (time.time() - start_time) * 1000
         logger.info("Pawnia processed in %.0fms", processing_time)
 
+        # Step 6b: Collect safety warnings dari data nyata
+        from .safety import check_contraindications_from_context
+        safety_warnings = check_contraindications_from_context(
+            context.get("proprietary", {}),
+        )
+        if safety_warnings:
+            response.setdefault("safety_warnings", safety_warnings)
+            logger.warning(
+                "Safety warnings for pet %s: %s",
+                pet_id, "; ".join(safety_warnings[:3]),
+            )
+
         return PawniaResponse(
             agent=routing.primary_agent,
             confidence=routing.confidence,
@@ -628,6 +675,7 @@ Respond with ONLY the category name, nothing else."""
                 "risk_classification": True,
                 "memory": bool(context["memory"]),
                 "proprietary": bool(context["proprietary"]),
+                "user": bool(context.get("user")),
             },
             escalated=routing.should_escalate,
             conversation_id=conv_id,
@@ -659,16 +707,16 @@ Respond with ONLY the category name, nothing else."""
             pet_name = context["proprietary"].get("name", pet_name)
 
         if agent == AgentType.EMERGENCY:
-            return self._response_emergency(pet_name, risk, text)
+            return self._response_emergency(pet_name, risk, text, context)
 
         elif agent == AgentType.VET_ESCALATION:
-            return self._response_vet_escalation(pet_name, risk, routing.confidence)
+            return self._response_vet_escalation(pet_name, risk, routing.confidence, context)
 
         elif agent == AgentType.VISION:
             return self._response_vision(pet_name)
 
         elif agent == AgentType.BEHAVIOR_INSIGHT:
-            return self._response_behavior_insight(pet_name, text)
+            return self._response_behavior_insight(pet_name, text, context)
 
         elif agent == AgentType.BEHAVIOR_FUN:
             return self._response_behavior_fun(pet_name)
@@ -718,10 +766,11 @@ Respond with ONLY the category name, nothing else."""
         return response
 
     def _response_emergency(
-        self, pet_name: str, risk: "RiskAssessment", text: str
+        self, pet_name: str, risk: "RiskAssessment", text: str,
+        context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """🚨 Emergency — dynamic + structured first aid."""
-        resp = self._dynamic_response("triage_emergency", pet_name, text)
+        resp = self._dynamic_response("triage_emergency", pet_name, text, context)
         
         if not resp["text"]:
             tips = [
@@ -742,10 +791,11 @@ Respond with ONLY the category name, nothing else."""
         return resp
 
     def _response_vet_escalation(
-        self, pet_name: str, risk: "RiskAssessment", confidence: float
+        self, pet_name: str, risk: "RiskAssessment", confidence: float,
+        context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """🩺 Vet escalation — suggest consultation with context."""
-        resp = self._dynamic_response("vet_escalation", pet_name, "")
+        resp = self._dynamic_response("vet_escalation", pet_name, "", context)
         
         if not resp["text"]:
             reason = "gejala yang Anda sampaikan memerlukan pemeriksaan langsung oleh dokter" if risk.level in ("high","medium") else "informasi yang tersedia belum cukup untuk analisis yang akurat"
@@ -767,19 +817,24 @@ Respond with ONLY the category name, nothing else."""
             "disclaimer": "Analisis AI bersifat screening awal, bukan diagnosis medis.",
         }
 
-    def _response_behavior_insight(self, pet_name: str, text: str) -> dict[str, Any]:
+    def _response_behavior_insight(
+        self, pet_name: str, text: str,
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """🧠 Behavior insight — dynamic analysis + behavioral_medicine reference."""
         # Gunakan behavioral_medicine untuk analisis berbasis pengetahuan
         from .behavioral_medicine import analyze_behavior
-        
+
+        species = (context or {}).get("proprietary", {}).get("species", "dog")
         common = ["merusak","gonggong","takut","gelisah","agresif","pincang","jilat","berputar","kencing","vokalisasi","makan","stress","cemas"]
         mentioned = [s for s in common if s in text.lower()]
-        analysis = analyze_behavior("dog", mentioned, text)
+        analysis = analyze_behavior(species, mentioned, text)
         primary = analysis.get("primary_condition")
-        
-        # Generate LLM response dengan konteks analisis
-        context = {"proprietary": {"behavior_analysis": analysis}}
-        resp = self._dynamic_response("behavior_insight", pet_name, text, context)
+
+        # Merge analisis ke context yang sudah ada
+        ctx = dict(context) if context else {}
+        ctx.setdefault("proprietary", {})["behavior_analysis"] = analysis
+        resp = self._dynamic_response("behavior_insight", pet_name, text, ctx)
         
         if primary and not resp["text"]:
             name = primary["name"]
@@ -828,12 +883,45 @@ Respond with ONLY the category name, nothing else."""
     def _response_medication(
         self, pet_name: str, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """💊 Medication — reminders."""
+        """💊 Medication — reminders with real data."""
+        prop = context.get("proprietary", {})
+        meds = prop.get("active_medications") or []
+        overdue = prop.get("overdue_vaccines") or []
+        vaccinations = prop.get("vaccinations") or []
+
+        parts: list[str] = [f"Saya bantu cek jadwal pengobatan {pet_name}! 💊"]
+
+        # Tampilkan obat aktif jika ada
+        if meds:
+            parts.append("\n**Obat Aktif Saat Ini:**")
+            for m in meds[:5]:
+                line = f"• {m.get('name', '?')} — {m.get('dosage', '?')}, {m.get('frequency', '?')}"
+                if m.get("instructions"):
+                    line += f" ({m['instructions']})"
+                parts.append(line)
+
+        # Peringatan vaksin overdue
+        if overdue:
+            parts.append(f"\n⚠️ **Vaksin Overdue:** {', '.join(overdue)}")
+            parts.append("Segera jadwalkan vaksinasi ulang!")
+
+        # Safety warnings
+        from .safety import check_contraindications_from_context
+        warnings = check_contraindications_from_context(prop)
+        if warnings:
+            parts.append("\n🚨 **Peringatan Keselamatan:**")
+            for w in warnings[:3]:
+                parts.append(f"• {w}")
+
+        if not meds and not overdue:
+            parts.append("\nSmart Reminder membantu:\n• Pengingat vaksinasi (H-7 dan H-1)\n• Pengingat obat harian\n• Riwayat pengobatan\nMau saya cek jadwal?")
+
         return {
-            "text": f"Saya bantu cek jadwal pengobatan {pet_name}! 💊\n\nSmart Reminder membantu:\n• Pengingat vaksinasi (H-7 dan H-1)\n• Pengingat obat harian\n• Riwayat pengobatan\nMau saya cek jadwal?",
+            "text": "\n".join(parts),
             "suggestions": ["Cek jadwal vaksin", "Cek jadwal obat", "Buat pengingat baru"],
             "cta": [{"type": "reminder", "label": "⏰ Cek Jadwal", "endpoint": "/api/v1/reminders"}],
             "disclaimer": "Pengingat bersifat informatif. Ikuti petunjuk dokter hewan.",
+            "safety_warnings": warnings if warnings else [],
         }
 
     def _response_companion(

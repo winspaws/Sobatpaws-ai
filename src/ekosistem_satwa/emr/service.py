@@ -287,6 +287,130 @@ class EMRService:
         session.flush()
         return med
 
+    # =========================================================================
+    #  PET CONTEXT AGGREGATION (untuk AI Gateway)
+    # =========================================================================
+
+    def get_pet_context(self, pet_id: int) -> Optional[Dict[str, Any]]:
+        """Agregasi data pet lengkap untuk Pawnia AI Orchestrator.
+
+        Menggabungkan: data dasar pet, profil medis, riwayat kunjungan
+        terakhir, obat aktif, dan vaksinasi dalam satu dict.
+        """
+        with self.session() as session:
+            pet = self.get_pet(session, pet_id)
+            if not pet:
+                return None
+
+            profile = self.get_pet_profile(session, pet_id)
+            emr_records, _ = self.list_emr_by_pet(session, pet_id, limit=10)
+            vaccinations, _ = self.list_vaccinations_by_pet(session, pet_id, limit=20)
+            medications, _ = self.list_medications_by_pet(
+                session, pet_id, active_only=True, limit=20,
+            )
+
+            # Hitung umur
+            age_years: Optional[float] = None
+            if pet.dob:
+                age_years = round((date.today() - pet.dob).days / 365.25, 1)
+
+            # Vaksin yang sudah overdue
+            today = date.today()
+            overdue_vaccines = [
+                v.vaccine_type for v in vaccinations
+                if v.next_due and v.next_due < today
+            ]
+
+            return {
+                # Identitas
+                "pet_id": pet.id,
+                "name": pet.name,
+                "species": pet.species,
+                "breed": pet.breed,
+                "age_years": age_years,
+                "weight_kg": pet.weight_kg,
+                "sex": pet.sex,
+                "neutered": pet.neutered,
+                "photo_url": pet.photo_url,
+
+                # Owner
+                "owner_name": pet.owner.name if pet.owner else None,
+                "owner_id": pet.user_id,
+
+                # Profil medis
+                "allergies": profile.allergies if profile else [],
+                "chronic_conditions": profile.chronic_conditions if profile else [],
+                "blood_type": profile.blood_type if profile else None,
+                "microchip": profile.microchip if profile else None,
+                "emergency_contact": profile.emergency_contact if profile else None,
+
+                # Riwayat medis terakhir (maks 5)
+                "recent_visits": [
+                    {
+                        "date": r.visit_date.date().isoformat() if r.visit_date else None,
+                        "type": r.visit_type,
+                        "complaint": r.chief_complaint,
+                        "diagnosis": r.diagnosis,
+                        "symptoms": r.symptoms or [],
+                        "is_urgent": r.is_urgent,
+                        "vet_name": r.vet_name,
+                        "follow_up": r.follow_up_date.isoformat() if r.follow_up_date else None,
+                    }
+                    for r in emr_records[:5]
+                ],
+
+                # Obat aktif
+                "active_medications": [
+                    {
+                        "name": m.medication_name,
+                        "generic_name": m.generic_name,
+                        "category": m.category,
+                        "dosage": m.dosage,
+                        "frequency": m.frequency,
+                        "route": m.route,
+                        "start_date": m.start_date.isoformat() if m.start_date else None,
+                        "end_date": m.end_date.isoformat() if m.end_date else None,
+                        "instructions": m.instructions,
+                        "is_chronic": m.is_chronic,
+                        "contraindications": m.contraindications,
+                    }
+                    for m in medications
+                ],
+
+                # Vaksinasi
+                "vaccinations": [
+                    {
+                        "type": v.vaccine_type,
+                        "brand": v.vaccine_brand,
+                        "date": v.date_administered.isoformat() if v.date_administered else None,
+                        "next_due": v.next_due.isoformat() if v.next_due else None,
+                        "adverse_reaction": v.adverse_reaction,
+                    }
+                    for v in vaccinations[:10]
+                ],
+
+                # Flags
+                "has_allergies": bool(profile and profile.allergies),
+                "has_chronic_conditions": bool(profile and profile.chronic_conditions),
+                "has_active_medications": len(medications) > 0,
+                "overdue_vaccines": overdue_vaccines,
+            }
+
+    def get_user_context(self, user_id: int) -> Optional[Dict[str, Any]]:
+        """Load data pemilik hewan untuk personalisasi komunikasi AI."""
+        with self.session() as session:
+            user = self.get_user(session, user_id)
+            if not user:
+                return None
+            return {
+                "user_id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "phone": user.phone,
+                "role": user.role,
+                "preferences": user.preferences or {},
+            }
+
     def update_medication(
         self, session: Session, med_id: int, **kwargs: Any,
     ) -> Optional[Medication]:
