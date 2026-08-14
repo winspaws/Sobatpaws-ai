@@ -37,10 +37,18 @@ class ProviderConfig:
     config_json: dict[str, Any] = field(default_factory=dict)
 
     def available(self) -> bool:
+        from .token_policy import is_placeholder_key
+
         if self.kind in (KIND_OPENAI, KIND_ANTHROPIC):
-            return bool(self.api_key)
+            return bool(self.api_key) and not is_placeholder_key(self.api_key)
         if self.kind in (KIND_LOCAL, KIND_CUSTOM, KIND_AZURE):
-            return bool(self.base_url or self.api_key)
+            if not (self.base_url or self.api_key):
+                return False
+            # SumoPod / remote OpenAI-compatible butuh kunci nyata
+            url = (self.base_url or "").lower()
+            if "sumopod" in url or "openai.com" in url:
+                return not is_placeholder_key(self.api_key)
+            return True
         return False
 
 

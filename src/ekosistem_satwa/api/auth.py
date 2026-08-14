@@ -107,18 +107,19 @@ class ClientRole(str, Enum):
 
 
 def _keys() -> tuple[str, str]:
-    return (
-        os.getenv("EKOSISTEM_SATWA_VET_API_KEY", "").strip(),
-        os.getenv("EKOSISTEM_SATWA_ADMIN_API_KEY", "").strip(),
-    )
+    from ..config import ADMIN_API_KEY, VET_API_KEY
+    return VET_API_KEY, ADMIN_API_KEY
 
 
 def extract_api_key(
     x_ekosistem_satwa_key: str | None = Header(None, alias="X-EkosistemSatwa-Key"),
+    x_sobatpaws_key: str | None = Header(None, alias="X-Sobatpaws-Key"),
     authorization: str | None = Header(None),
 ) -> str | None:
     if x_ekosistem_satwa_key:
         return x_ekosistem_satwa_key.strip()
+    if x_sobatpaws_key:
+        return x_sobatpaws_key.strip()
     if authorization and authorization.lower().startswith("bearer "):
         return authorization[7:].strip()
     return None
@@ -144,18 +145,19 @@ def auth_status() -> dict:
         "vet_key_configured": bool(vet_key),
         "admin_key_configured": bool(admin_key),
         "header": "X-EkosistemSatwa-Key",
-        "alt_header": "Authorization: Bearer <token>",
+        "alt_headers": ["X-Sobatpaws-Key", "Authorization: Bearer <token>"],
         "jwt_enabled": True,
     }
 
 
 def require_vet(
     x_ekosistem_satwa_key: str | None = Header(None, alias="X-EkosistemSatwa-Key"),
+    x_sobatpaws_key: str | None = Header(None, alias="X-Sobatpaws-Key"),
     authorization: str | None = Header(None),
 ) -> ClientRole:
-    """Wajib kunci vet bila EKOSISTEM_SATWA_VET_API_KEY diset."""
+    """Wajib kunci vet bila VET_API_KEY diset."""
     vet_key, _ = _keys()
-    key = extract_api_key(x_ekosistem_satwa_key, authorization)
+    key = extract_api_key(x_ekosistem_satwa_key, x_sobatpaws_key, authorization)
     role = resolve_role(key)
     if vet_key and role not in (ClientRole.vet, ClientRole.admin):
         raise HTTPException(401, "API key vet/admin diperlukan (header X-EkosistemSatwa-Key).")
@@ -164,11 +166,12 @@ def require_vet(
 
 def require_admin(
     x_ekosistem_satwa_key: str | None = Header(None, alias="X-EkosistemSatwa-Key"),
+    x_sobatpaws_key: str | None = Header(None, alias="X-Sobatpaws-Key"),
     authorization: str | None = Header(None),
 ) -> ClientRole:
-    """Wajib kunci admin bila EKOSISTEM_SATWA_ADMIN_API_KEY diset."""
+    """Wajib kunci admin bila ADMIN_API_KEY diset."""
     _, admin_key = _keys()
-    key = extract_api_key(x_ekosistem_satwa_key, authorization)
+    key = extract_api_key(x_ekosistem_satwa_key, x_sobatpaws_key, authorization)
     role = resolve_role(key)
     if admin_key and role != ClientRole.admin:
         raise HTTPException(403, "API key admin diperlukan untuk endpoint ini.")
@@ -178,6 +181,7 @@ def require_admin(
 def optional_client(request: Request) -> dict:
     key = extract_api_key(
         request.headers.get("X-EkosistemSatwa-Key"),
+        request.headers.get("X-Sobatpaws-Key"),
         request.headers.get("Authorization"),
     )
     role = resolve_role(key)

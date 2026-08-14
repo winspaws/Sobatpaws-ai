@@ -17,7 +17,12 @@ class LLMCache:
         self._lock = threading.Lock()
 
     def _key(self, provider: str, model: str, operation: str, *parts: str) -> str:
-        raw = "|".join([provider, model, operation, *parts])
+        norm = []
+        for p in parts:
+            t = (p or "").strip().lower()
+            t = " ".join(t.split())
+            norm.append(t[:800])
+        raw = "|".join([provider, model, operation, *norm])
         return hashlib.sha256(raw.encode()).hexdigest()
 
     def get(self, provider: str, model: str, operation: str, *parts: str) -> Any | None:

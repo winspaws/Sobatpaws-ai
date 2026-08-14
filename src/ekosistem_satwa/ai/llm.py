@@ -56,15 +56,12 @@ class LLMClient:
 
     @property
     def available(self) -> bool:
+        from .token_policy import llm_credentials_ready
+
         if self._provider_cfg:
             return self._provider_cfg.available()
-        if self.provider == "openai":
-            return bool(self.s.openai_api_key)
-        if self.provider == "anthropic":
-            return bool(self.s.anthropic_api_key)
-        if self.provider == "local":
-            return bool(self.s.local_llm_base_url)
-        return False
+        ready, _ = llm_credentials_ready(self.s)
+        return ready
 
     def chat_json(
         self,
@@ -122,6 +119,50 @@ class LLMClient:
         ))
         return parsed
 
+    def generate(
+        self,
+        prompt: str,
+        *,
+        max_tokens: int = 32,
+        temperature: float | None = None,
+        operation: str = "generate",
+    ) -> str:
+        """Panggilan teks pendek (intent, klasifikasi) — cache + budget."""
+        if not self.available:
+            return ""
+        system = "Jawab singkat. Tanpa penjelasan."
+        cached = self.cache.get(self.provider, self.model, operation, system, prompt)
+        if cached is not None:
+            self.telemetry.record_cache_hit(
+                operation, provider=self.provider, model=self.model,
+            )
+            return str(cached)
+        ok, reason = self.telemetry.can_spend(max_tokens)
+        if not ok:
+            self.telemetry.record_skip(
+                operation, reason or "budget", provider=self.provider, model=self.model,
+            )
+            return ""
+        with timed_call() as t:
+            try:
+                raw, usage = self._openai_compatible_chat(
+                    system, prompt, max_tokens, use_json=False,
+                )
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("LLM generate gagal (%s): %s", self.provider, exc)
+                return ""
+        text = (raw or "").strip()
+        if text:
+            self.cache.set(self.provider, self.model, operation, text, system, prompt)
+        pt = usage.get("prompt_tokens", 0)
+        ct = usage.get("completion_tokens", 0)
+        self.telemetry.record(LLMUsageRecord(
+            operation=operation, provider=self.provider, model=self.model,
+            prompt_tokens=pt, completion_tokens=ct, total_tokens=pt + ct,
+            cost_usd=estimate_cost(self.model, pt, ct), latency_ms=t.latency_ms,
+        ))
+        return text
+
     def _dispatch_chat(self, system: str, user: str, max_tokens: int) -> tuple[str, dict]:
         cfg = self._provider_cfg
         kind = cfg.kind if cfg else self.provider
@@ -145,12 +186,13 @@ class LLMClient:
         model = self.model
 
         client = OpenAI(api_key=api_key, base_url=base_url.rstrip("/"))
+        sys_content = system if not use_json else system + "\nJawab JSON valid saja."
         kwargs: dict[str, Any] = {
             "model": model,
             "temperature": self.s.temperature,
             "max_tokens": max_tokens,
             "messages": [
-                {"role": "system", "content": system + "\nJawab JSON valid saja."},
+                {"role": "system", "content": sys_content},
                 {"role": "user", "content": user},
             ],
         }

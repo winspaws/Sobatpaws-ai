@@ -42,7 +42,12 @@ class SuggestionEngine:
         self.llm = llm or LLMClient()
 
     def suggest(
-        self, context: ConsultationContext, intake: IntakeResult, top_k: int = 5
+        self,
+        context: ConsultationContext,
+        intake: IntakeResult,
+        top_k: int = 5,
+        *,
+        use_llm: bool = True,
     ) -> AISuggestion:
         symptoms = intake.symptom_name_ids()
         category = context.category_slug
@@ -85,8 +90,9 @@ class SuggestionEngine:
             references=self._references(top_slugs),
         )
 
-        # 3) augmentasi LLM (opsional)
-        self._augment_with_llm(context, intake, suggestion)
+        # 3) augmentasi LLM (opsional — skip untuk jalur hemat token / KB brief)
+        if use_llm:
+            self._augment_with_llm(context, intake, suggestion)
         if not suggestion.summary:
             suggestion.summary = self._rule_based_summary(intake, suggestion)
         if not suggestion.follow_up_questions:
@@ -322,7 +328,7 @@ class SuggestionEngine:
         )
         data = self._chat_with_fallback(
             system, user,
-            max_tokens=min(AISettings().max_tokens, 600),
+            max_tokens=min(AISettings().max_tokens, 280),
             operation="augmentation",
             org_id=context.org_id,
         )
